@@ -51,6 +51,106 @@ function togglePortalMode() {
   }
 }
 
+// --- 1.5 Student & Parent Login Modal & Auth State ---
+const loginModal = document.getElementById('loginModal');
+let currentLoginType = 'student'; // 'student' or 'parent'
+
+function openLoginModal() {
+  if (loginModal) loginModal.classList.remove('hidden');
+}
+
+function closeLoginModal() {
+  if (loginModal) loginModal.classList.add('hidden');
+}
+
+if (loginModal) {
+  loginModal.addEventListener('click', (e) => {
+    if (e.target === loginModal) closeLoginModal();
+  });
+}
+
+function switchLoginType(type) {
+  currentLoginType = type;
+  const tabStudent = document.getElementById('loginTabStudent');
+  const tabParent = document.getElementById('loginTabParent');
+  const idLabel = document.getElementById('loginIdLabel');
+  const idInput = document.getElementById('loginIdentifier');
+
+  if (type === 'student') {
+    if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl bg-white text-logo-blue shadow-xs transition";
+    if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl text-slate-500 hover:text-slate-800 transition";
+    if (idLabel) idLabel.textContent = "رقم هاتف الطالب / كود الدخول *";
+    if (idInput) idInput.placeholder = "مثال: 01080285458 أو STU-2026";
+  } else {
+    if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl bg-white text-logo-orange shadow-xs transition";
+    if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl text-slate-500 hover:text-slate-800 transition";
+    if (idLabel) idLabel.textContent = "رقم هاتف ولي الأمر المسجل *";
+    if (idInput) idInput.placeholder = "مثال: 01080285458";
+  }
+}
+
+function handleStudentLoginSubmit(e) {
+  e.preventDefault();
+  const id = document.getElementById('loginIdentifier').value.trim();
+  const pass = document.getElementById('loginPassword').value.trim();
+
+  if (!id || !pass) {
+    alert('يرجى إدخال اسم المستخدم وكلمة المرور.');
+    return;
+  }
+
+  // Set logged-in state
+  const userName = currentLoginType === 'student' ? 'يوسف أحمد (طالب)' : 'ولي أمر الطالب (يوسف)';
+  sessionStorage.setItem('araby_student_user', userName);
+  closeLoginModal();
+  updateAuthHeader();
+  showSection('dashboard');
+  alert(`أهلاً بك يا ${userName}! تم تسجيل الدخول بنجاح إلى منصتك التعليمية.`);
+}
+
+function handleQuickDemoLogin() {
+  sessionStorage.setItem('araby_student_user', 'يوسف أحمد (طالب)');
+  closeLoginModal();
+  updateAuthHeader();
+  showSection('dashboard');
+}
+
+function handleStudentLogout() {
+  sessionStorage.removeItem('araby_student_user');
+  updateAuthHeader();
+  showSection('landing');
+}
+
+function updateAuthHeader() {
+  const user = sessionStorage.getItem('araby_student_user');
+  const loginBtn = document.getElementById('headerLoginBtn');
+  const userChip = document.getElementById('headerUserChip');
+  const userNameEl = document.getElementById('headerUserName');
+
+  if (user) {
+    if (loginBtn) loginBtn.classList.add('hidden');
+    if (userChip) {
+      userChip.classList.remove('hidden');
+      userChip.classList.add('flex');
+    }
+    if (userNameEl) userNameEl.textContent = user;
+  } else {
+    if (loginBtn) loginBtn.classList.remove('hidden');
+    if (userChip) {
+      userChip.classList.add('hidden');
+      userChip.classList.remove('flex');
+    }
+  }
+}
+
+// Global Secret Admin Shortcut: Ctrl + Shift + A
+window.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+    e.preventDefault();
+    handleAdminButtonClick();
+  }
+});
+
 // --- 2. Interactive Calligraphy Canvas ---
 const canvas = document.getElementById('calligraphyCanvas');
 let ctx = null;
@@ -1095,6 +1195,7 @@ document.addEventListener('visibilitychange', () => {
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+  updateAuthHeader();
   updateAdminUI();
   checkUrlHash();
   renderAdminCourses();
