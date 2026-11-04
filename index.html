@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Araby Online Academy | أكاديمية عربي أونلاين</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+
+  <!-- Google Fonts: Cairo, Tajawal, Aref Ruqaa -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            logo: {
+              orange: '#F97316',    // Block "A"
+              orangeLight: '#FFF7ED',
+              red: '#EF4444',       // Block "R"
+              redLight: '#FEF2F2',
+              green: '#10B981',     // Block "A"
+              greenLight: '#ECFDF5',
+              blue: '#3B82F6',      // Block "B"
+              blueLight: '#EFF6FF',
+              purple: '#A855F7',    // Block "Y"
+              purpleLight: '#FAF5FF',
+              yellow: '#FBBF24',    // Toy Yellow
+              yellowLight: '#FFFBEB',
+              navy: '#1E293B',
+            }
+          },
+          fontFamily: {
+            sans: ['Cairo', 'Tajawal', 'sans-serif'],
+            calligraphy: ['Aref Ruqaa', 'Cairo', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#FAF9F5] text-slate-800 font-sans antialiased selection:bg-logo-orangeLight selection:text-logo-orange">
+
+  <!-- Top Cheerful Mini Ribbon (Inspired by Logo's 5 Blocks) -->
+  <div class="h-1.5 w-full flex">
+    <div class="flex-1 bg-logo-orange"></div>
+    <div class="flex-1 bg-logo-red"></div>
+    <div class="flex-1 bg-logo-green"></div>
+    <div class="flex-1 bg-logo-blue"></div>
+    <div class="flex-1 bg-logo-purple"></div>
+    <div class="flex-1 bg-logo-yellow"></div>
+  </div>
+
+  <!-- ==================== SPECIAL OFFER BANNER (MONTH-LONG CALLIGRAPHY GIFT) ==================== -->
+  <div class="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white py-2.5 px-4 shadow-sm relative z-40 border-b border-purple-500/30">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+      <div class="flex items-center gap-2.5 flex-1 min-w-[280px]">
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-xs animate-bounce shadow-xs whitespace-nowrap">
+          🎁 عرض خاص لمدة شهر
+        </span>
+        <p class="font-bold leading-tight text-white/95">
+          احجز أي كورس دراسي أو قرآني واحصل على <span class="text-amber-300 font-extrabold underline decoration-amber-400 underline-offset-2">"كورس تحسين الخط العربي بالقلم العادي" هدية مجانية 100%</span> ✍️! لأن هدفنا طلاب محبين للغة العربية ومتميزين في جمال الكتابة بالخط العربي.
+        </p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="openPaymentModal()" class="px-3.5 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition shadow-xs flex items-center gap-1.5 whitespace-nowrap">
+          <span>احجز الكورس واستلم الهدية 🎁</span>
+          <i class="fa-solid fa-arrow-left text-[10px]"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-amber-100 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo & Title -->
+        <a href="#" onclick="showSection('landing')" class="flex items-center gap-3 group">
+          <div class="w-13 h-13 bg-white rounded-2xl border-2 border-amber-200 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
+            <img src="assets/logo.png" alt="Araby Online Academy Logo" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-black text-xl text-slate-900 tracking-tight">عربي أونلاين</span>
+              <span dir="ltr" class="inline-flex flex-row items-center gap-0.5 px-2 py-0.5 rounded-lg bg-amber-50 text-[10px] font-black border border-amber-200 font-sans tracking-normal select-none">
+                <span class="text-logo-orange font-black">A</span>
+                <span class="text-logo-red font-black">R</span>
+                <span class="text-logo-green font-black">A</span>
+                <span class="text-logo-blue font-black">B</span>
+                <span class="text-logo-purple font-black">Y</span>
+              </span>
+            </div>
+            <p dir="ltr" class="text-[10px] text-logo-blue font-extrabold tracking-wider">ARABY ONLINE ACADEMY</p>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-7 text-sm font-bold text-slate-600">
+          <a href="#" onclick="showSection('landing')" class="text-logo-orange hover:text-logo-orange transition">الرئيسية</a>
+          <a href="#services" onclick="showSection('landing')" class="hover:text-logo-orange transition">خدماتنا التعليمية (6)</a>
+          <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-logo-purple transition flex items-center gap-1">
+            <span class="text-logo-purple">✍️</span>
+            <span>سبورة الخط</span>
+          </a>
+          <a href="#about" onclick="showSection('landing')" class="hover:text-logo-blue transition">لماذا نحن؟</a>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <!-- Student Portal Switcher -->
+          <button onclick="togglePortalMode()" id="portalToggleBtn" class="px-3 py-2 rounded-xl bg-blue-50 text-logo-blue border border-blue-200 hover:bg-blue-100 font-extrabold text-xs sm:text-sm flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span id="portalToggleText">لوحة الطالب</span>
+          </button>
+
+          <!-- Admin Portal Button -->
+          <button onclick="handleAdminButtonClick()" class="px-3 py-2 rounded-xl bg-purple-50 text-logo-purple border border-purple-200 hover:bg-purple-100 font-black text-xs sm:text-sm flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-lock"></i>
+            <span>لوحة الإدارة</span>
+          </button>
+
+          <!-- Free Trial Button -->
+          <button onclick="openBookingModal()" class="hidden lg:inline-flex px-3 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 font-bold text-xs transition">
+            🎁 حصة مجانية
+          </button>
+
+          <!-- Payment / Direct Booking CTA -->
+          <button onclick="openPaymentModal()" class="px-3.5 py-2 rounded-xl bg-logo-orange text-white hover:bg-orange-600 font-black text-xs sm:text-sm shadow-xs transition flex items-center gap-1.5">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>حجز الكورسات</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN LANDING VIEW ==================== -->
+  <main id="landingView" class="block">
+
+    <!-- HERO SECTION -->
+    <section class="py-12 md:py-16 bg-white border-b border-amber-100 relative overflow-hidden">
+      <div class="absolute top-0 right-10 w-64 h-64 bg-amber-100/40 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute bottom-0 left-10 w-64 h-64 bg-blue-100/30 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center space-y-5 relative z-10">
+        
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-xs font-bold text-slate-700">
+          <span class="w-2.5 h-2.5 rounded-full bg-logo-green animate-pulse"></span>
+          <span>أكاديمية تفاعلية مبهجة لطلاب المرحلة الابتدائية والإعدادية</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 leading-snug">
+          تعلّم <span class="text-logo-orange">اللغة العربية</span> و<span class="text-logo-blue">منهج لغتي</span><br>
+          و<span class="text-logo-green">القرآن الكريم</span> وفنون <span class="text-logo-purple">الخط العربي</span> 🎨
+        </h1>
+
+        <p class="text-base text-slate-600 font-medium max-w-2xl mx-auto leading-relaxed">
+          نجمع بين بهجة التعلّم والمنهجية المدرسية المعتمدة للمناهج المصرية والسعودية، مع برامج التأسيس الشامل والنحو من الصفر، ومنظومة تعليمية متكاملة لكل طالب لمتابعة مقرراته ودروسه وبوابة دفع آمنة ومحمية.
+        </p>
+
+        <!-- Actions -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button onclick="openBookingModal()" class="px-6 py-3.5 rounded-2xl bg-logo-green hover:bg-emerald-600 text-white font-black text-sm sm:text-base shadow-xs transition flex items-center gap-2">
+            <i class="fa-solid fa-gift"></i>
+            <span>احجز حصة تجريبية مجانية (بدون دفع)</span>
+          </button>
+
+          <button onclick="openPaymentModal()" class="px-6 py-3.5 rounded-2xl bg-logo-orange hover:bg-orange-600 text-white font-black text-sm sm:text-base shadow-xs transition flex items-center gap-2">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>الاشتراك وحجز الكورسات المدفوعة</span>
+          </button>
+
+          <button onclick="showSection('dashboard')" class="px-5 py-3.5 rounded-2xl bg-blue-50 text-logo-blue hover:bg-blue-100 border border-blue-200 font-extrabold text-sm sm:text-base transition flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>لوحة الطالب والمقررات الدراسية</span>
+          </button>
+        </div>
+
+        <!-- Month-Long Special Offer Card in Hero -->
+        <div class="mt-6 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-purple-50 via-amber-50 to-orange-50 border-2 border-purple-200/90 shadow-sm text-right relative overflow-hidden">
+          <div class="absolute -top-10 -left-10 w-32 h-32 bg-purple-200/40 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+            <div class="flex items-center gap-3.5">
+              <div class="w-13 h-13 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 text-white flex items-center justify-center text-2xl shadow-md shrink-0">
+                ✍️
+              </div>
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="px-2.5 py-0.5 rounded-lg bg-purple-600 text-white text-[11px] font-black">
+                    عرض الشهر الحصري 🎁
+                  </span>
+                  <span class="text-xs text-purple-700 font-bold">صالح لمدة شهر كامل</span>
+                </div>
+                <h3 class="text-base sm:text-lg font-black text-slate-900 leading-snug">
+                  احجز أي كورس دراسي واحصل على <span class="text-purple-700 font-extrabold underline decoration-amber-400">"كورس تحسين الخط العربي" هدية مجانية 100%!</span>
+                </h3>
+                <p class="text-xs text-slate-600 font-medium mt-1">
+                  لأن الخط الجميل عنوان الطالب المتميز؛ هدفنا طلاب محبين للغة العربية ومتميزين في جمال الكتابة بالخط العربي.
+                </p>
+              </div>
+            </div>
+            <button onclick="openPaymentModal()" class="w-full sm:w-auto px-5 py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-black shadow-sm transition flex items-center justify-center gap-2 shrink-0">
+              <i class="fa-solid fa-gift"></i>
+              <span>احجز الكورس واستلم الهدية 🎁</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CORE SERVICES SECTION -->
+    <section id="services" class="py-14 bg-[#FAF9F5]">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <div class="flex items-center justify-center gap-1.5 mb-2.5">
+            <span class="w-3 h-3 rounded-md bg-logo-orange"></span>
+            <span class="w-3 h-3 rounded-md bg-logo-red"></span>
+            <span class="w-3 h-3 rounded-md bg-logo-green"></span>
+            <span class="w-3 h-3 rounded-md bg-logo-blue"></span>
+            <span class="w-3 h-3 rounded-md bg-logo-purple"></span>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
+            خدماتنا الأكاديمية الـ 6
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">
+            كل خدمة مصممة بعناية فائقة وتناسب المرحلة العمرية للطالب:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          
+          <!-- SERVICE 1: Egyptian Curriculum -->
+          <div class="bg-white rounded-3xl border-2 border-orange-100 hover:border-logo-orange shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+            <!-- Cover Poster Image -->
+            <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+              <img id="landingCourseImg_c1" src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=700&auto=format&fit=crop&q=80" alt="شرح منهج اللغة العربية" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 text-xs font-black text-orange-900 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-xl border border-orange-200 shadow-xs flex items-center gap-1">
+                <span>🇪🇬 المنهج المصري</span>
+              </span>
+              <span class="absolute top-3 left-3 text-[11px] font-black text-purple-900 bg-purple-100/95 backdrop-blur-xs px-2 py-0.5 rounded-lg border border-purple-300 shadow-xs flex items-center gap-1">
+                <span>🎁 + الخط مجاناً</span>
+              </span>
+              <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-logo-orange/90 backdrop-blur-xs px-2.5 py-1 rounded-xl shadow-xs">
+                300 ج / 70 ر.س
+              </span>
+            </div>
+
+            <div class="p-6 pt-4 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-base font-black text-slate-900 mb-1 group-hover:text-logo-orange transition">شرح منهج اللغة العربية</h3>
+                <p class="text-xs text-logo-orange font-bold mb-2">المرحلة الابتدائية والإعدادية (المنهج الوزاري)</p>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  نصوص، قراءة متحررة، تعبير كتابي، قصة، وتربية دينية إسلامية، مع تدريبات امتحانات المحافظات وبنوك الأسئلة.
+                </p>
+                <div class="mt-2 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-purple-600"></i>
+                  <span>يشمل هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
+                </div>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-slate-100">
+                <button onclick="openPaymentModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="w-full py-2.5 rounded-xl bg-logo-orange text-white text-xs font-black hover:bg-orange-600 transition flex items-center justify-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>حجز واشتراك الكورس الآن</span>
+                </button>
+                <button onclick="openBookingModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="w-full py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  حجز حصة تجريبية مجانية 🎁
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SERVICE 2: Saudi Curriculum (Lughati) -->
+          <div class="bg-white rounded-3xl border-2 border-emerald-100 hover:border-logo-green shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+            <!-- Cover Poster Image -->
+            <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+              <img id="landingCourseImg_c2" src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=700&auto=format&fit=crop&q=80" alt="شرح منهج لغتي" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 text-xs font-black text-emerald-900 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-xl border border-emerald-200 shadow-xs flex items-center gap-1">
+                <span>🇸🇦 المنهج السعودي</span>
+              </span>
+              <span class="absolute top-3 left-3 text-[11px] font-black text-purple-900 bg-purple-100/95 backdrop-blur-xs px-2 py-0.5 rounded-lg border border-purple-300 shadow-xs flex items-center gap-1">
+                <span>🎁 + الخط مجاناً</span>
+              </span>
+              <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-logo-green/90 backdrop-blur-xs px-2.5 py-1 rounded-xl shadow-xs">
+                350 ج / 90 ر.س
+              </span>
+            </div>
+
+            <div class="p-6 pt-4 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-base font-black text-slate-900 mb-1 group-hover:text-logo-green transition">شرح منهج لغتي</h3>
+                <p class="text-xs text-logo-green font-bold mb-2">لغتي الجميلة والخالدة والدراسات الإسلامية</p>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  شرح دقيق وفق معايير وزارة التعليم السعودية، مع حل تدريبات منصة مدرستي والاستعداد لاختبارات نافس والمعيارية.
+                </p>
+                <div class="mt-2 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-purple-600"></i>
+                  <span>يشمل هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
+                </div>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-slate-100">
+                <button onclick="openPaymentModal('2. شرح منهج لغتي (المنهج السعودي)')" class="w-full py-2.5 rounded-xl bg-logo-green text-white text-xs font-black hover:bg-emerald-700 transition flex items-center justify-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>حجز واشتراك الكورس الآن</span>
+                </button>
+                <button onclick="openBookingModal('2. شرح منهج لغتي (المنهج السعودي)')" class="w-full py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  حجز حصة تجريبية مجانية 🎁
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SERVICE 3: Comprehensive Foundation -->
+          <div class="bg-white rounded-3xl border-2 border-amber-200 hover:border-amber-400 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+            <!-- Cover Poster Image -->
+            <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+              <img id="landingCourseImg_c3" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&auto=format&fit=crop&q=80" alt="كورس تأسيس القراءة والكتابة" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 text-xs font-black text-amber-900 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-xl border border-amber-300 shadow-xs flex items-center gap-1">
+                <span>تأسيس مرن 🌱</span>
+              </span>
+              <span class="absolute top-3 left-3 text-[11px] font-black text-purple-900 bg-purple-100/95 backdrop-blur-xs px-2 py-0.5 rounded-lg border border-purple-300 shadow-xs flex items-center gap-1">
+                <span>🎁 + الخط مجاناً</span>
+              </span>
+              <span class="absolute bottom-2.5 left-3 text-xs font-black text-slate-900 bg-amber-400 backdrop-blur-xs px-2.5 py-1 rounded-xl shadow-xs">
+                400 ج / 110 ر.س
+              </span>
+            </div>
+
+            <div class="p-6 pt-4 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-base font-black text-slate-900 mb-1 group-hover:text-amber-700 transition">كورسات التأسيس الشامل</h3>
+                <p class="text-xs text-amber-800 font-bold mb-2">تعليم القراءة والكتابة والإملاء من الصفر</p>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  خطة مرنة للتخلص من الضعف الإملائي والقرائي؛ إتقان الحركات والمدود، التنوين والشدة، وقواعد كتابة الهمزات والتاءات.
+                </p>
+                <div class="mt-2 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-purple-600"></i>
+                  <span>يشمل هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
+                </div>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-slate-100">
+                <button onclick="openPaymentModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="w-full py-2.5 rounded-xl bg-amber-500 text-slate-900 text-xs font-black hover:bg-amber-600 transition flex items-center justify-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>حجز واشتراك الكورس الآن</span>
+                </button>
+                <button onclick="openBookingModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="w-full py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  حجز تقييم مستوى مجاني 🎁
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SERVICE 4: Grammar (Nahw) -->
+          <div class="bg-white rounded-3xl border-2 border-blue-100 hover:border-logo-blue shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+            <!-- Cover Poster Image -->
+            <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+              <img id="landingCourseImg_c4" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=700&auto=format&fit=crop&q=80" alt="كورس النحو من الصفر إلى الاحتراف" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 text-xs font-black text-blue-900 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-xl border border-blue-200 shadow-xs flex items-center gap-1">
+                <span>📐 قواعد وإعراب</span>
+              </span>
+              <span class="absolute top-3 left-3 text-[11px] font-black text-purple-900 bg-purple-100/95 backdrop-blur-xs px-2 py-0.5 rounded-lg border border-purple-300 shadow-xs flex items-center gap-1">
+                <span>🎁 + الخط مجاناً</span>
+              </span>
+              <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-logo-blue/90 backdrop-blur-xs px-2.5 py-1 rounded-xl shadow-xs">
+                350 ج / 95 ر.س
+              </span>
+            </div>
+
+            <div class="p-6 pt-4 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-base font-black text-slate-900 mb-1 group-hover:text-logo-blue transition">كورسات النحو من الصفر للاحتراف</h3>
+                <p class="text-xs text-logo-blue font-bold mb-2">تيسير مفاتيح الإعراب السهل بالخرائط الذهنية</p>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  فهم أركان الجملة، المبتدأ والخبر، الأفعال، المنصوبات، والمجرورات بأسلوب تدريبي تفاعلي يزيل خوف النحو تماماً.
+                </p>
+                <div class="mt-2 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-purple-600"></i>
+                  <span>يشمل هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
+                </div>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-slate-100">
+                <button onclick="openPaymentModal('4. كورس النحو من الصفر إلى الاحتراف')" class="w-full py-2.5 rounded-xl bg-logo-blue text-white text-xs font-black hover:bg-blue-700 transition flex items-center justify-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>حجز واشتراك الكورس الآن</span>
+                </button>
+                <button onclick="openBookingModal('4. كورس النحو من الصفر إلى الاحتراف')" class="w-full py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  حجز حصة تجريبية مجانية 🎁
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SERVICE 5: Quran -->
+          <div class="bg-white rounded-3xl border-2 border-red-100 hover:border-logo-red shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+            <!-- Cover Poster Image -->
+            <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+              <img id="landingCourseImg_c5" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=700&auto=format&fit=crop&q=80" alt="تحفيظ القرآن الكريم وتجويده" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 text-xs font-black text-red-900 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-xl border border-red-200 shadow-xs flex items-center gap-1">
+                <span>🕌 نور القرآن</span>
+              </span>
+              <span class="absolute top-3 left-3 text-[11px] font-black text-purple-900 bg-purple-100/95 backdrop-blur-xs px-2 py-0.5 rounded-lg border border-purple-300 shadow-xs flex items-center gap-1">
+                <span>🎁 + الخط مجاناً</span>
+              </span>
+              <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-logo-red/90 backdrop-blur-xs px-2.5 py-1 rounded-xl shadow-xs">
+                300 ج / 80 ر.س
+              </span>
+            </div>
+
+            <div class="p-6 pt-4 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-base font-black text-slate-900 mb-1 group-hover:text-logo-red transition">تحفيظ القرآن الكريم وتجويده</h3>
+                <p class="text-xs text-logo-red font-bold mb-2">حلقات فردية ومجموعات صغيرة للأطفال</p>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  حفظ متقن وضبط مخارج الحروف وأحكام التجويد وتفسير قصص الآيات وغرس الآداب النبوية بإشراف معلمين مجازين.
+                </p>
+                <div class="mt-2 text-[11px] font-bold text-purple-700 bg-purple-50 px-2 py-1 rounded-lg border border-purple-200 flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-purple-600"></i>
+                  <span>يشمل هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
+                </div>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-slate-100">
+                <button onclick="openPaymentModal('5. تحفيظ القرآن الكريم وتجويده')" class="w-full py-2.5 rounded-xl bg-logo-red text-white text-xs font-black hover:bg-red-600 transition flex items-center justify-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>حجز واشتراك الحلقة الآن</span>
+                </button>
+                <button onclick="openBookingModal('5. تحفيظ القرآن الكريم وتجويده')" class="w-full py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  حجز جلسة تلاوة مجانية 🎁
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SERVICE 6: Calligraphy -->
+          <div class="bg-white rounded-3xl border-2 border-purple-200 hover:border-purple-500 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group overflow-hidden">
+            <!-- Cover Poster Image -->
+            <div class="relative w-full h-44 bg-slate-100 overflow-hidden">
+              <img id="landingCourseImg_c6" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=700&auto=format&fit=crop&q=80" alt="كورس تحسين الخط العربي" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+              <span class="absolute top-3 right-3 text-xs font-black text-purple-900 bg-white/95 backdrop-blur-xs px-2.5 py-1 rounded-xl border border-purple-200 shadow-xs flex items-center gap-1">
+                <span>✍️ فنون الخط العربي</span>
+              </span>
+              <span class="absolute top-3 left-3 text-[11px] font-black text-white bg-purple-600/95 backdrop-blur-xs px-2.5 py-0.5 rounded-lg border border-purple-400 shadow-xs flex items-center gap-1">
+                <span>🎁 هدية عرض الشهر!</span>
+              </span>
+              <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-logo-purple/90 backdrop-blur-xs px-2.5 py-1 rounded-xl shadow-xs">
+                350 ج / 90 ر.س
+              </span>
+            </div>
+
+            <div class="p-6 pt-4 flex-1 flex flex-col justify-between space-y-4">
+              <div>
+                <h3 class="text-base font-black text-slate-900 mb-1 group-hover:text-logo-purple transition">كورسات تحسين الخط العربي</h3>
+                <p class="text-xs text-logo-purple font-bold mb-2">بالقلم العادي وفنون الرقعة والنسخ</p>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  علاج الخط الرديء وغير المقروء في الامتحانات؛ تدريب عملي على مسكة القلم وتناسق الحروف مع تصحيح فردي أسبوعي.
+                </p>
+                <div class="mt-2 text-[11px] font-bold text-purple-900 bg-purple-100 px-2.5 py-1 rounded-lg border border-purple-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-gift text-purple-600"></i>
+                  <span>متاح مجاناً كهدية 100% مع أي كورس تشترك فيه هذا الشهر!</span>
+                </div>
+              </div>
+              <div class="space-y-2 pt-3 border-t border-slate-100">
+                <button onclick="openPaymentModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="w-full py-2.5 rounded-xl bg-logo-purple text-white text-xs font-black hover:bg-purple-700 transition flex items-center justify-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-credit-card"></i>
+                  <span>حجز واشتراك الكورس الآن</span>
+                </button>
+                <button onclick="openBookingModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="w-full py-2 rounded-xl bg-slate-50 text-slate-600 text-xs font-bold hover:bg-slate-100 transition">
+                  حجز ورشة تجريبية مجانية 🎁
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALLIGRAPHY CANVAS -->
+    <section id="calligraphy" class="py-14 bg-white border-t border-b border-amber-100">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-lg mx-auto mb-7">
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-purple-50 text-logo-purple border border-purple-200 mb-2 inline-block">
+            تجربة تفاعلية مباشرة ✍️
+          </span>
+          <h2 class="text-2xl font-black text-slate-900 mb-1">
+            سبورة تدريب الخط العربي
+          </h2>
+          <p class="text-xs text-slate-500">
+            جرّب كتابة وتتبع الحروف بألوان أقلام مستوحاة من شعار الأكاديمية:
+          </p>
+        </div>
+
+        <div class="bg-[#FAF9F5] p-4 sm:p-5 rounded-3xl border-2 border-amber-200/70 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-amber-200/60">
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-slate-500">اختر حرف التدريب:</span>
+              <div class="flex items-center gap-1.5">
+                <button onclick="setTraceLetter('ج')" class="trace-btn active px-3 py-1 rounded-xl bg-white border border-slate-200 font-bold text-sm text-slate-700">ج</button>
+                <button onclick="setTraceLetter('س')" class="trace-btn px-3 py-1 rounded-xl bg-white border border-slate-200 font-bold text-sm text-slate-700">س</button>
+                <button onclick="setTraceLetter('ع')" class="trace-btn px-3 py-1 rounded-xl bg-white border border-slate-200 font-bold text-sm text-slate-700">ع</button>
+                <button onclick="setTraceLetter('لا')" class="trace-btn px-3 py-1 rounded-xl bg-white border border-slate-200 font-bold text-sm text-slate-700">لا</button>
+                <button onclick="setTraceLetter('')" class="trace-btn px-3 py-1 rounded-xl bg-white border border-slate-200 font-bold text-xs text-slate-700">صفحة بيضاء</button>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5">
+                <button onclick="setBrushColor('#1E293B')" class="color-dot w-6 h-6 rounded-full bg-slate-800 ring-2 ring-offset-2 ring-slate-800" title="كحلي الأكاديمية"></button>
+                <button onclick="setBrushColor('#F97316')" class="color-dot w-6 h-6 rounded-full bg-logo-orange" title="برتقالي اللوجو"></button>
+                <button onclick="setBrushColor('#EF4444')" class="color-dot w-6 h-6 rounded-full bg-logo-red" title="أحمر اللوجو"></button>
+                <button onclick="setBrushColor('#10B981')" class="color-dot w-6 h-6 rounded-full bg-logo-green" title="أخضر اللوجو"></button>
+                <button onclick="setBrushColor('#3B82F6')" class="color-dot w-6 h-6 rounded-full bg-logo-blue" title="أزرق اللوجو"></button>
+                <button onclick="setBrushColor('#A855F7')" class="color-dot w-6 h-6 rounded-full bg-logo-purple" title="بنفسجي اللوجو"></button>
+              </div>
+
+              <div class="h-4 w-px bg-slate-300"></div>
+
+              <button onclick="clearCanvas()" class="text-xs text-slate-600 hover:text-rose-600 font-bold flex items-center gap-1 px-2 py-1 rounded hover:bg-white transition">
+                <i class="fa-solid fa-eraser"></i>
+                <span>مسح</span>
+              </button>
+
+              <button onclick="downloadDrawing()" class="text-xs bg-white border border-slate-200 text-slate-700 hover:text-emerald-700 font-bold flex items-center gap-1.5 px-3 py-1.5 rounded-xl shadow-xs transition">
+                <i class="fa-solid fa-download text-emerald-600"></i>
+                <span>حفظ اللوحة</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="relative bg-white rounded-2xl border-2 border-dashed border-amber-200 overflow-hidden cursor-crosshair h-64 sm:h-72">
+            <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 border-b-2 border-red-200/50 pointer-events-none"></div>
+            <div class="absolute inset-x-0 top-1/4 border-b border-dashed border-blue-100 pointer-events-none"></div>
+            <div class="absolute inset-x-0 bottom-1/4 border-b border-dashed border-blue-100 pointer-events-none"></div>
+
+            <div id="canvasGuideText" class="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-slate-200 font-calligraphy text-8xl md:text-9xl">
+              ج
+            </div>
+
+            <canvas id="calligraphyCanvas" class="w-full h-full block touch-none"></canvas>
+          </div>
+
+          <!-- Special Offer Callout Under Blackboard -->
+          <div class="mt-3.5 p-3 sm:p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-indigo-50 to-amber-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl shrink-0">🎁</span>
+              <div>
+                <span class="font-black text-purple-900 block sm:inline">عرض الشهر الحصري:</span>
+                <span class="font-medium text-purple-950"> كورس تحسين الخط العربي بالقلم العادي متاح كهدية مجانية 100% مع أي كورس تشترك فيه الآن!</span>
+              </div>
+            </div>
+            <button onclick="openPaymentModal()" class="w-full sm:w-auto px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs transition shadow-xs whitespace-nowrap shrink-0 flex items-center justify-center gap-1.5">
+              <span>احجز الكورس واستلم الهدية</span>
+              <i class="fa-solid fa-gift"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT / WHY US -->
+    <section id="about" class="py-14 bg-[#FAF9F5]">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <h2 class="text-2xl font-black text-slate-900 mb-2">
+            لماذا يختار أولياء الأمور عربي أونلاين؟
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">تجربة تعليمية تجمع بين البهجة والنتائج الملموسة والأمان</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="bg-white p-5 rounded-3xl border-2 border-orange-100 shadow-xs">
+            <div class="w-11 h-11 rounded-2xl bg-orange-100 text-logo-orange flex items-center justify-center text-xl font-bold mb-3 shadow-xs">
+              👨‍🏫
+            </div>
+            <h3 class="font-bold text-sm text-slate-900 mb-1.5">معلمون متخصصون وتربويون</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              فريق تربوي يمتلك الصبر والمحبة في الشرح والتعامل النفسي الإيجابي مع الأطفال في مصر والخليج.
+            </p>
+          </div>
+
+          <div class="bg-white p-5 rounded-3xl border-2 border-blue-100 shadow-xs">
+            <div class="w-11 h-11 rounded-2xl bg-blue-100 text-logo-blue flex items-center justify-center text-xl font-bold mb-3 shadow-xs">
+              👥
+            </div>
+            <h3 class="font-bold text-sm text-slate-900 mb-1.5">مجموعات صغيرة واهتمام فردي</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              يحصل كل طالب على وقته الكامل في القراءة والإعراب والتصحيح الصوتي والإملائي المباشر.
+            </p>
+          </div>
+
+          <div class="bg-white p-5 rounded-3xl border-2 border-emerald-100 shadow-xs">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-logo-green flex items-center justify-center text-xl font-bold mb-3 shadow-xs">
+              🔒
+            </div>
+            <h3 class="font-bold text-sm text-slate-900 mb-1.5">نظام دفع موثوق ومحمي</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              طرق دفع متعددة وسهلة (فودافون كاش، إنستاباي، مدى، بطاقات بنكية) مع تدقيق أمني لمنع التحويلات الوهمية.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== STUDENT DASHBOARD VIEW (لوحة الطالب الأكاديمية الاحترافية) ==================== -->
+  <section id="studentDashboardView" class="hidden min-h-screen bg-[#F8F9FA] py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
+      
+      <!-- Top Action Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-xs">
+        <div class="flex items-center gap-3 flex-wrap">
+          <button onclick="showSection('landing')" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>العودة للرئيسية</span>
+          </button>
+          <span class="text-slate-300 hidden sm:inline">|</span>
+          <span class="text-xs font-bold text-slate-500">معاينة الطالب:</span>
+          <button onclick="setDashboardProfile('ahmed')" id="btn-profile-ahmed" class="profile-chip active text-xs font-bold px-3 py-1.5 rounded-xl transition">
+            🇪🇬 أحمد (المنهج المصري والنحو)
+          </button>
+          <button onclick="setDashboardProfile('sarah')" id="btn-profile-sarah" class="profile-chip text-xs font-bold px-3 py-1.5 rounded-xl transition">
+            🇸🇦 سارة (منهج لغتي والتأسيس)
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="openPaymentModal()" class="px-3.5 py-2 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs transition flex items-center gap-1.5 shadow-xs">
+            <i class="fa-solid fa-plus-circle"></i>
+            <span>حجز كورس إضافي</span>
+          </button>
+          <button onclick="handleAdminButtonClick()" class="px-3.5 py-2 rounded-xl bg-purple-50 text-logo-purple border border-purple-200 hover:bg-purple-100 font-black text-xs flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>لوحة تحكم الإدارة</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Hero Welcome Card -->
+      <div class="relative overflow-hidden rounded-4xl bg-gradient-to-l from-orange-50 via-amber-50 to-white p-6 sm:p-8 border-2 border-amber-200 shadow-xs">
+        <div class="absolute -top-10 -left-10 w-48 h-48 bg-orange-100/50 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-blue-100/40 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex items-start sm:items-center gap-4">
+            <div class="relative shrink-0">
+              <div class="w-18 h-18 sm:w-20 sm:h-20 rounded-3xl bg-gradient-to-tr from-logo-orange to-logo-yellow text-white flex items-center justify-center text-3xl font-black shadow-md border-4 border-white">
+                <span id="dashAvatar">أ</span>
+              </div>
+              <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center" title="متصل الآن"></span>
+            </div>
+
+            <div class="space-y-1">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h2 class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  مرحباً بك مجدداً يا <span id="dashName">أحمد محمود حسنين</span> 🎓
+                </h2>
+                <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-black border border-amber-300">
+                  طالب متميز ⭐
+                </span>
+              </div>
+              <p id="dashGrade" class="text-xs sm:text-sm text-slate-500 font-semibold">
+                الصف الخامس الابتدائي • المنهج المصري وكورس النحو من الصفر إلى الاحتراف
+              </p>
+              <div class="pt-1 flex items-center gap-4 text-xs font-bold text-slate-600 flex-wrap">
+                <span class="flex items-center gap-1.5 text-logo-green">
+                  <i class="fa-solid fa-circle-check"></i>
+                  <span>الحساب نشط ومفعل</span>
+                </span>
+                <span class="text-slate-300">•</span>
+                <span class="flex items-center gap-1.5 text-logo-blue">
+                  <i class="fa-solid fa-video"></i>
+                  <span id="dashNextClassTitle">الحصة القادمة: اليوم 6:00 مساءً</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="shrink-0 flex sm:flex-col items-center sm:items-end justify-between gap-2 border-t sm:border-t-0 sm:border-r border-amber-200/60 pt-4 sm:pt-0 sm:pr-6">
+            <div class="text-right">
+              <span class="text-[11px] font-bold text-slate-400 block">المشرف الأكاديمي المباشر:</span>
+              <strong class="text-xs font-black text-slate-800">أ/ محمود عبد الرحمن</strong>
+            </div>
+            <a href="https://wa.me/201080285458" target="_blank" class="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              <span>محادثة المشرف</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Quick KPI Analytics Metrics -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Metric 1: General Progress -->
+        <div class="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400">التقدم الإجمالي</span>
+            <div class="w-8 h-8 rounded-xl bg-orange-50 text-logo-orange flex items-center justify-center font-bold text-xs">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-slate-900">82%</span>
+            <span class="text-[11px] font-bold text-logo-green">+12% هذا الشهر</span>
+          </div>
+          <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+            <div id="dashLevelBar" class="h-full bg-gradient-to-r from-logo-orange to-logo-yellow rounded-full" style="width: 82%"></div>
+          </div>
+        </div>
+
+        <!-- Metric 2: Study Hours -->
+        <div class="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400">الساعات التعليمية</span>
+            <div class="w-8 h-8 rounded-xl bg-blue-50 text-logo-blue flex items-center justify-center font-bold text-xs">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-slate-900">34</span>
+            <span class="text-xs font-bold text-slate-500">ساعة تدريبية</span>
+          </div>
+          <span class="text-[11px] text-slate-400 block font-semibold">28 درساً مكتملاً</span>
+        </div>
+
+        <!-- Metric 3: Stars & Rewards -->
+        <div class="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400">رصيد التميز</span>
+            <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center font-bold text-xs">
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="dashXP" class="text-2xl font-black text-amber-500">1,850 ⭐</span>
+          </div>
+          <span class="text-[11px] font-bold text-amber-700 block">المركز الأول بالمجموعة 🥇</span>
+        </div>
+
+        <!-- Metric 4: Attendance & Tasks -->
+        <div class="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-400">نسبة الالتزام والواجبات</span>
+            <div class="w-8 h-8 rounded-xl bg-emerald-50 text-logo-green flex items-center justify-center font-bold text-xs">
+              <i class="fa-solid fa-award"></i>
+            </div>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-black text-logo-green">98%</span>
+            <span class="text-[11px] font-bold text-slate-400">ممتاز</span>
+          </div>
+          <span class="text-[11px] text-slate-400 block font-semibold">تم تسليم جميع التطبيقات</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs for Student Portal -->
+      <div class="bg-white p-2 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-2 overflow-x-auto">
+        <button onclick="switchPortalTab('partitions')" id="portal-tab-partitions" class="portal-tab active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-black flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-book-open text-logo-orange"></i>
+          <span>مقرراتي ومناهجي الدراسية</span>
+        </button>
+        <button onclick="switchPortalTab('schedule')" id="portal-tab-schedule" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-video text-logo-blue"></i>
+          <span>الحصص المباشرة والجدول الأسبوعي</span>
+        </button>
+        <button onclick="switchPortalTab('homework')" id="portal-tab-homework" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-clipboard-check text-logo-green"></i>
+          <span>بنك الواجبات والتطبيقات</span>
+        </button>
+        <button onclick="switchPortalTab('certificate')" id="portal-tab-certificate" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-certificate text-amber-500"></i>
+          <span>سجل الإنجاز والشهادة</span>
+        </button>
+      </div>
+
+      <!-- ==================== TAB 1: MY COURSES & TRACKS ==================== -->
+      <div id="portal-view-partitions" class="portal-view space-y-4">
+        
+        <div class="flex items-center justify-between text-xs text-slate-500 font-bold px-1">
+          <span>المقررات الدراسية النشطة للطالب (3 مقررات ومسارات مفعلة ✅)</span>
+          <span class="text-logo-orange font-bold">حماية البث والعلامة المائية مفعلة 🛡️</span>
+        </div>
+
+        <!-- COURSE 1: Egyptian Arabic Curriculum -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:border-orange-200 transition">
+          <div class="p-5 bg-gradient-to-l from-orange-50/70 via-white to-white border-b border-orange-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-orange-100 text-logo-orange flex items-center justify-center font-black text-xl shadow-xs shrink-0">
+                🇪🇬
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-black text-base text-slate-900">مقرر: منهج اللغة العربية (الصف الخامس الابتدائي)</h4>
+                  <span class="px-2 py-0.5 rounded-lg bg-emerald-50 text-logo-green text-[10px] font-black border border-emerald-200">
+                    مفعّل ومشترك ✅
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">تم إنجاز 8 دروس من أصل 12 • شامل مذكرات التلخيص وأوراق التدريبات والامتحانات</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="text-right">
+                <span class="text-[10px] font-bold text-slate-400 block">نسبة الإنجاز بالمقرر:</span>
+                <span class="text-sm font-black text-logo-orange">67% مكتمل</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="divide-y divide-slate-100 text-xs font-semibold">
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-logo-green flex items-center justify-center text-xs shrink-0">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+                <div>
+                  <span class="font-black text-slate-800 text-xs sm:text-sm block">الدرس 1: علامات إعراب الفاعل والمفعول به بالتفصيل</span>
+                  <span class="text-[11px] text-slate-400">فيديو مسجل بجودة HD (38 دقيقة) • مذكرة تلخيص القواعد PDF</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 mr-11 sm:mr-0">
+                <button onclick="openSecureVideoPlayer('الدرس 1: علامات إعراب الفاعل والمفعول به', 'مقرر اللغة العربية')" class="px-3.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-logo-orange font-bold text-xs transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-play text-[10px]"></i>
+                  <span>مشاهدة الدرس 🔒</span>
+                </button>
+                <button onclick="alert('جاري تحميل مذكرة الدرس بصيغة PDF...')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="تحميل مذكرة PDF">
+                  <i class="fa-solid fa-download"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition bg-orange-50/20">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-orange-100 text-logo-orange flex items-center justify-center text-xs shrink-0 animate-pulse">
+                  <i class="fa-solid fa-play"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-black text-slate-900 text-xs sm:text-sm block">الدرس 2: إعراب جمع المذكر السالم وجمع المؤنث السالم</span>
+                    <span class="px-2 py-0.5 rounded-full bg-orange-100 text-logo-orange text-[10px] font-bold">الدرس الحالي ▶️</span>
+                  </div>
+                  <span class="text-[11px] text-slate-400">فيديو مسجل بجودة HD (42 دقيقة) • تدريبات تفاعلية وواجب الدرس</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 mr-11 sm:mr-0">
+                <button onclick="openSecureVideoPlayer('الدرس 2: إعراب جمع المذكر السالم والمؤنث السالم', 'مقرر اللغة العربية')" class="px-4 py-2 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs transition flex items-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-play text-[10px]"></i>
+                  <span>مشاهدة الآن 🔒</span>
+                </button>
+                <button onclick="alert('جاري تحميل ورقة عمل الدرس بصيغة PDF...')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="تحميل ورقة العمل">
+                  <i class="fa-solid fa-file-pdf text-rose-500"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center text-xs shrink-0">
+                  <i class="fa-solid fa-lock"></i>
+                </div>
+                <div>
+                  <span class="font-bold text-slate-700 text-xs sm:text-sm block">الدرس 3: كان وأخواتها وتطبيقات الجملة الاسمية</span>
+                  <span class="text-[11px] text-slate-400">فيديو مسجل بجودة HD (45 دقيقة) • متاح للمشاهدة فور إكمال الدرس الحالي</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 mr-11 sm:mr-0">
+                <button onclick="openSecureVideoPlayer('الدرس 3: كان وأخواتها وتطبيقات الجملة الاسمية', 'مقرر اللغة العربية')" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-play text-[10px]"></i>
+                  <span>مشاهدة الدرس 🔒</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COURSE 2: Nahw Course -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:border-blue-200 transition">
+          <div class="p-5 bg-gradient-to-l from-blue-50/70 via-white to-white border-b border-blue-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-blue-100 text-logo-blue flex items-center justify-center font-black text-xl shadow-xs shrink-0">
+                📐
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-black text-base text-slate-900">مقرر: كورس النحو من الصفر إلى الاحتراف</h4>
+                  <span class="px-2 py-0.5 rounded-lg bg-emerald-50 text-logo-green text-[10px] font-black border border-emerald-200">
+                    مفعّل ومشترك ✅
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">تم إنجاز 6 محاضرات من أصل 8 • إتقان مفاتيح الإعراب والخرائط الذهنية</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="text-right">
+                <span class="text-[10px] font-bold text-slate-400 block">نسبة الإنجاز بالمقرر:</span>
+                <span class="text-sm font-black text-logo-blue">75% مكتمل</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="divide-y divide-slate-100 text-xs font-semibold">
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-blue-100 text-logo-blue flex items-center justify-center text-xs shrink-0">
+                  <i class="fa-solid fa-circle-play"></i>
+                </div>
+                <div>
+                  <span class="font-black text-slate-800 text-xs sm:text-sm block">المحاضرة 4: مفاتيح إعراب المبتدأ والخبر وأنواع الخبر</span>
+                  <span class="text-[11px] text-slate-400">شرح تطبيقي بالخرائط الذهنية (40 دقيقة) • اختبار فوري</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 mr-11 sm:mr-0">
+                <button onclick="openSecureVideoPlayer('المحاضرة 4: مفاتيح إعراب المبتدأ والخبر', 'كورس النحو من الصفر')" class="px-4 py-2 rounded-xl bg-blue-50 text-logo-blue hover:bg-blue-100 font-bold text-xs transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-play text-[10px]"></i>
+                  <span>مشاهدة المحاضرة 🔒</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COURSE 3: Foundation Course -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:border-amber-200 transition">
+          <div class="p-5 bg-gradient-to-l from-amber-50/70 via-white to-white border-b border-amber-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center font-black text-xl shadow-xs shrink-0">
+                🌱
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-black text-base text-slate-900">مقرر: كورس التأسيس الشامل والإملاء المرن</h4>
+                  <span class="px-2 py-0.5 rounded-lg bg-emerald-50 text-logo-green text-[10px] font-black border border-emerald-200">
+                    مفعّل ومشترك ✅
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">علاج الهمزات والتاءات المربوطة والمفتوحة والمدود • مستوى متقدم</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="text-right">
+                <span class="text-[10px] font-bold text-slate-400 block">نسبة الإنجاز بالمقرر:</span>
+                <span class="text-sm font-black text-amber-600">90% مكتمل</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-semibold">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs shrink-0">
+                <i class="fa-solid fa-pencil"></i>
+              </div>
+              <div>
+                <span class="font-black text-slate-800 text-xs sm:text-sm block">درس الإملاء: همزة الوصل والقطع ورسم الهمزات المتوسطة</span>
+                <span class="text-[11px] text-slate-400">ورقة تدريب مرنة مع قائمة الكلمات الأكثر شيوعاً في الأخطاء</span>
+              </div>
+            </div>
+            <button onclick="openSecureVideoPlayer('درس الإملاء: همزة الوصل والقطع', 'كورس التأسيس والإملاء')" class="px-4 py-2 rounded-xl bg-amber-50 text-amber-800 hover:bg-amber-100 font-bold text-xs transition flex items-center gap-1.5 mr-11 sm:mr-0">
+              <i class="fa-solid fa-play text-[10px]"></i>
+              <span>مشاهدة الدرس 🔒</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 2: SCHEDULE & LIVE CLASSES ==================== -->
+      <div id="portal-view-schedule" class="portal-view hidden space-y-4">
+        
+        <!-- Live Now Banner -->
+        <div class="bg-gradient-to-r from-orange-500 via-amber-500 to-logo-orange p-6 rounded-3xl text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-xs font-black">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>الحصة التفاعلية المباشرة اليوم</span>
+            </div>
+            <h4 class="text-lg sm:text-xl font-black mt-2">كورس النحو: إعراب جمع المذكر والمؤنث وتطبيقات الإعراب</h4>
+            <p class="text-xs text-white/90">المعلم: أ/ محمود عبد الرحمن • اليوم الساعة 6:00 مساءً بتوقيت مصر (7:00 م مكة)</p>
+          </div>
+          <button onclick="alert('جاري توجيهك الآن إلى قاعة الزوم التفاعلية المشفرة...')" class="px-6 py-3 rounded-2xl bg-white text-logo-orange hover:bg-orange-50 font-black text-xs sm:text-sm transition shadow-lg shrink-0 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-video"></i>
+            <span>دخول القاعة (Zoom HD) 🚀</span>
+          </button>
+        </div>
+
+        <!-- Weekly Timetable Table -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+            <h5 class="font-black text-sm text-slate-900">الجدول الأسبوعي للحصص والمحاضرات</h5>
+            <span class="text-xs font-bold text-slate-400">3 حصص أسبوعياً</span>
+          </div>
+
+          <div class="divide-y divide-slate-100 text-xs">
+            <div class="p-4 flex items-center justify-between hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-16 py-1 text-center rounded-xl bg-orange-50 text-logo-orange font-black text-xs border border-orange-200">السبت</span>
+                <div>
+                  <strong class="font-bold text-slate-800 block">شرح مقرر اللغة العربية (المنهج المدرسي)</strong>
+                  <span class="text-slate-400 text-[11px]">أ/ محمود عبد الرحمن • مدة الحصة: 60 دقيقة</span>
+                </div>
+              </div>
+              <span class="font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-xl">6:00 م</span>
+            </div>
+
+            <div class="p-4 flex items-center justify-between hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-16 py-1 text-center rounded-xl bg-blue-50 text-logo-blue font-black text-xs border border-blue-200">الإثنين</span>
+                <div>
+                  <strong class="font-bold text-slate-800 block">كورس النحو من الصفر إلى الاحتراف</strong>
+                  <span class="text-slate-400 text-[11px]">أ/ محمود عبد الرحمن • مدة الحصة: 75 دقيقة</span>
+                </div>
+              </div>
+              <span class="font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-xl">6:00 م</span>
+            </div>
+
+            <div class="p-4 flex items-center justify-between hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-16 py-1 text-center rounded-xl bg-amber-50 text-amber-800 font-black text-xs border border-amber-200">الأربعاء</span>
+                <div>
+                  <strong class="font-bold text-slate-800 block">كورس التأسيس الشامل وتطبيقات الإملاء</strong>
+                  <span class="text-slate-400 text-[11px]">أ/ محمود عبد الرحمن • مدة الحصة: 60 دقيقة</span>
+                </div>
+              </div>
+              <span class="font-black text-slate-700 bg-slate-100 px-3 py-1 rounded-xl">6:00 م</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 3: HOMEWORK & ASSIGNMENTS ==================== -->
+      <div id="portal-view-homework" class="portal-view hidden space-y-4">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Homework 1 -->
+          <div class="bg-white p-5 rounded-3xl border border-slate-200 shadow-xs space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-black px-2.5 py-1 rounded-lg bg-emerald-50 text-logo-green border border-emerald-200">
+                تم التصحيح والتقييم: 10 / 10 🌟
+              </span>
+              <span class="text-[11px] font-bold text-slate-400">تطبيق النحو رقم 4</span>
+            </div>
+            <h5 class="font-black text-sm text-slate-900 leading-snug">إعراب قطعة النحو وتعيين الفاعل والمفعول به وعلامات الإعراب</h5>
+            <div class="bg-emerald-50/60 p-3 rounded-2xl border border-emerald-100 text-xs text-emerald-900 space-y-1">
+              <strong class="font-bold block text-emerald-800">ملاحظات المعلم:</strong>
+              <p class="text-[11px] leading-relaxed">"إعراب نموذجي وممتاز يا أحمد، خطك منظم جداً والتزام رائع بضبط الحركات والعلامات الإعرابية."</p>
+            </div>
+          </div>
+
+          <!-- Homework 2 -->
+          <div class="bg-white p-5 rounded-3xl border-2 border-orange-200 shadow-xs space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-black px-2.5 py-1 rounded-lg bg-orange-100 text-logo-orange">
+                مطلوب التسليم غداً ⏰
+              </span>
+              <span class="text-[11px] font-bold text-slate-400">تطبيق الإملاء رقم 2</span>
+            </div>
+            <h5 class="font-black text-sm text-slate-900 leading-snug">كتابة 15 كلمة تشتمل على همزات متوسطة على الواو والياء والسطر</h5>
+            <p class="text-xs text-slate-500">قم بحل التدريب في كشكول الواجب وتصويره أو حفظه PDF ورفعه هنا للمراجعة.</p>
+            <button onclick="triggerUploadHomework('تطبيق الإملاء رقم 2')" class="w-full py-2.5 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs transition shadow-xs flex items-center justify-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>رفع ملف الحل الآن (PDF / صورة)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB 4: ACCREDITED CERTIFICATE ==================== -->
+      <div id="portal-view-certificate" class="portal-view hidden space-y-4">
+        
+        <div class="flex items-center justify-between px-1">
+          <span class="text-xs font-bold text-slate-500">الشهادات المعتمدة الممنوحة للطالب بعد إتمام الاختبارات:</span>
+          <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-black text-xs transition flex items-center gap-1.5 shadow-xs">
+            <i class="fa-solid fa-print"></i>
+            <span>طباعة أو تحميل الشهادة PDF</span>
+          </button>
+        </div>
+
+        <div id="printableCertificate" class="bg-white p-8 sm:p-10 rounded-4xl border-4 border-amber-300 shadow-lg text-center space-y-4 relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-100 rounded-full blur-xl pointer-events-none"></div>
+          
+          <div class="flex items-center justify-center gap-3 mb-2">
+            <div class="w-12 h-12 bg-white border border-slate-200 rounded-2xl p-1.5 shadow-xs">
+              <img src="assets/logo.png" alt="Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="text-right">
+              <h6 class="font-black text-sm text-slate-800">أكاديمية عربي أونلاين</h6>
+              <p dir="ltr" class="text-[10px] text-logo-blue font-bold">ARABY ONLINE ACADEMY</p>
+            </div>
+          </div>
+
+          <h4 class="text-2xl sm:text-3xl font-black text-amber-900 font-calligraphy pt-2 tracking-wide">
+            شهادة تفوق وتميز أكاديمي 🌟
+          </h4>
+          
+          <p class="text-xs sm:text-sm text-slate-600">تشهد إدارة الأكاديمية بأن الطالب النجيب:</p>
+          
+          <div class="my-2">
+            <h3 id="certStudentName" class="text-xl sm:text-2xl font-black text-logo-orange py-2 px-6 inline-block bg-orange-50 rounded-2xl border-2 border-orange-200 shadow-xs">
+              أحمد محمود حسنين
+            </h3>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-600 max-w-lg mx-auto leading-relaxed">
+            قد أتم بنجاح وتفوق دورات ومسارات <strong class="text-slate-800">اللغة العربية وكورس النحو من الصفر إلى الاحتراف</strong> بمعدل امتياز <strong class="text-logo-green font-bold">98%</strong> مع استيفاء كافة الاختبارات والتطبيقات العملية.
+          </p>
+
+          <div class="pt-6 mt-6 border-t border-slate-100 grid grid-cols-3 gap-2 text-xs text-slate-500 font-semibold items-center">
+            <div>
+              <span class="block text-slate-400 text-[10px]">تاريخ المنح:</span>
+              <strong class="text-slate-700">نوفمبر 2026</strong>
+            </div>
+            <div>
+              <span class="inline-block px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-black text-xs shadow-xs">
+                ختم الأكاديمية المعتمد 🏅
+              </span>
+            </div>
+            <div>
+              <span class="block text-slate-400 text-[10px]">المشرف الأكاديمي:</span>
+              <strong class="text-slate-700">أ/ محمود عبد الرحمن</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== DEDICATED ADMIN CONTROL PANEL VIEW (صفحة الإدارة وتغيير الباسورد) ==================== -->
+  <section id="adminDashboardView" class="hidden min-h-screen bg-[#FAF9F5] py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-6">
+      
+      <!-- Admin Top Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-3xl border-2 border-purple-200 shadow-xs">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-purple-100 text-logo-purple flex items-center justify-center text-lg font-black shadow-xs">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <div>
+            <h3 class="font-black text-base text-slate-900">لوحة تحكم الإدارة (Admin Panel)</h3>
+            <p class="text-[11px] text-slate-500">مرحباً بكِ في لوحة التحكم المركزية لأكاديمية عربي أونلاين</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button onclick="handleAdminLogout()" class="px-3.5 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>الخروج من لوحة الإدارة</span>
+          </button>
+
+          <button onclick="handleAdminLogout()" class="px-3.5 py-1.5 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 font-bold text-xs transition flex items-center gap-1.5">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Admin Panel Tabs -->
+      <div class="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
+        <button onclick="switchAdminTab('security')" id="admin-tab-security" class="admin-tab active px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-solid fa-key text-logo-purple"></i>
+          <span>إعدادات الحساب وتغيير كلمة المرور</span>
+        </button>
+        <button onclick="switchAdminTab('courses')" id="admin-tab-courses" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-solid fa-folder-plus text-logo-orange"></i>
+          <span>إدارة وإضافة الكورسات والصور</span>
+        </button>
+        <button onclick="switchAdminTab('watermark')" id="admin-tab-watermark" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-solid fa-shield-halved text-logo-blue"></i>
+          <span>العلامة المائية وقفل تسريب الفيديوهات 🔒</span>
+        </button>
+        <button onclick="switchAdminTab('payments')" id="admin-tab-payments" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-solid fa-shield-virus text-logo-red"></i>
+          <span>مراجعة طلبات الدفع والتحويلات</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: ADMIN ACCOUNT & SECURITY SETTINGS (تغيير الايميل والباسورد) -->
+      <div id="admin-view-security" class="admin-view space-y-5">
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          <!-- Card 1: Change Email -->
+          <div class="bg-white p-6 rounded-3xl border-2 border-purple-100 shadow-xs space-y-4">
+            <div class="flex items-center gap-2.5 pb-2 border-b border-slate-100">
+              <div class="w-8 h-8 rounded-xl bg-purple-100 text-logo-purple flex items-center justify-center font-bold text-sm">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div>
+                <h4 class="font-black text-sm text-slate-900">تغيير البريد الإلكتروني للمدير</h4>
+                <p class="text-[11px] text-slate-400">البريد المستخدم لتسجيل الدخول كأدمن</p>
+              </div>
+            </div>
+
+            <!-- Current Email Display (Masked for Security) -->
+            <div class="bg-purple-50/60 p-3 rounded-2xl border border-purple-100 flex items-center justify-between text-xs">
+              <span class="text-slate-500 font-bold">البريد المسجل حالياً:</span>
+              <strong id="displayCurrentAdminEmail" class="text-logo-purple font-mono font-bold" dir="ltr">ad••••@••••.com</strong>
+            </div>
+
+            <form onsubmit="handleAdminEmailChange(event)" class="space-y-3 text-xs font-semibold">
+              <div>
+                <label class="block text-slate-700 mb-1">البريد الإلكتروني الجديد *</label>
+                <input type="email" id="newAdminEmailInput" required placeholder="مثال: principal@arabyonline.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-purple text-xs" dir="ltr">
+              </div>
+
+              <div>
+                <label class="block text-slate-700 mb-1">تأكيد كلمة المرور الحالية لتطبيق التغيير *</label>
+                <input type="password" id="confirmPassForEmailInput" required placeholder="أدخل كلمة المرور الحالية" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-purple text-xs" dir="ltr">
+              </div>
+
+              <button type="submit" class="w-full py-2.5 rounded-xl bg-logo-purple hover:bg-purple-700 text-white font-bold text-xs transition shadow-xs">
+                حفظ البريد الإلكتروني الجديد 💾
+              </button>
+            </form>
+          </div>
+
+          <!-- Card 2: Change Password -->
+          <div class="bg-white p-6 rounded-3xl border-2 border-amber-100 shadow-xs space-y-4">
+            <div class="flex items-center gap-2.5 pb-2 border-b border-slate-100">
+              <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-sm">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <div>
+                <h4 class="font-black text-sm text-slate-900">تغيير كلمة المرور (Password)</h4>
+                <p class="text-[11px] text-slate-400">احرصي على اختيار كلمة مرور قوية</p>
+              </div>
+            </div>
+
+            <form onsubmit="handleAdminPasswordChange(event)" class="space-y-3 text-xs font-semibold">
+              <div>
+                <label class="block text-slate-700 mb-1">كلمة المرور الحالية *</label>
+                <input type="password" id="currentAdminPassInput" required placeholder="كلمة المرور القديمة" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs" dir="ltr">
+              </div>
+
+              <div>
+                <label class="block text-slate-700 mb-1">كلمة المرور الجديدة *</label>
+                <input type="password" id="newAdminPassInput" required minlength="6" placeholder="على الأقل 6 خانات" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs" dir="ltr">
+              </div>
+
+              <div>
+                <label class="block text-slate-700 mb-1">تأكيد كلمة المرور الجديدة *</label>
+                <input type="password" id="confirmNewAdminPassInput" required minlength="6" placeholder="أعد كتابة كلمة المرور الجديدة" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs" dir="ltr">
+              </div>
+
+              <button type="submit" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-900 font-black text-xs transition shadow-xs">
+                تحديث كلمة المرور وحفظها 🔒
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- Security Note -->
+        <div class="bg-blue-50/70 p-4 rounded-3xl border border-blue-200 text-xs text-blue-900 space-y-1">
+          <p class="font-bold flex items-center gap-1.5">
+            <i class="fa-solid fa-shield-halved text-logo-blue"></i>
+            <span>ملاحظة أمنية:</span>
+          </p>
+          <p class="text-[11px] text-slate-600">
+            يتم حفظ البريد وكلمة المرور الجديدة بشكل فوري ومستمر في متصفحك. عند تسجيل الدخول القادم كأدمن، استخدمي بياناتك المحدثة مباشرة.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: COURSE & LESSONS MANAGEMENT (إضافة وتعديل الكورسات والصور) -->
+      <div id="admin-view-courses" class="admin-view hidden space-y-4">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div>
+              <h4 class="font-black text-sm text-slate-900">إدارة المقررات والمناهج الدراسية</h4>
+              <p class="text-[11px] text-slate-400">إضافة كورسات جديدة، رفع وتعديل صور الأغلفة، والتحكم بالأسعار والدروس</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="openAddCourseModal()" class="px-4 py-2 rounded-xl bg-logo-orange text-white font-black text-xs hover:bg-orange-600 transition flex items-center gap-1.5 shadow-xs">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span>➕ إضافة كورس جديد مع صورة</span>
+              </button>
+              <button onclick="openCourseUploadModal()" class="px-3.5 py-2 rounded-xl bg-purple-50 text-logo-purple border border-purple-200 hover:bg-purple-100 font-bold text-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-video"></i>
+                <span>رفع درس للمقرر</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Courses Dynamic Grid -->
+          <div id="adminCoursesListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: WATERMARK & ANTI-SCREEN-RECORDING (العلامة المائية وقفل تسريب الفيديوهات) -->
+      <div id="admin-view-watermark" class="admin-view hidden space-y-4">
+        <div class="bg-white p-6 rounded-3xl border-2 border-blue-100 shadow-xs space-y-5">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2.5">
+              <div class="w-10 h-10 rounded-2xl bg-blue-100 text-logo-blue flex items-center justify-center text-lg font-black shadow-xs">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div>
+                <h4 class="font-black text-sm text-slate-900">العلامة المائية الذكية ونظام منع تسريب الفيديوهات (Anti-Leak DRM)</h4>
+                <p class="text-[11px] text-slate-500">حماية الفيديوهات من التسجيل وقفل الشاشة فوراً عند محاولة التقاط أو تصوير الشاشة</p>
+              </div>
+            </div>
+            <button onclick="simulateScreenRecordingDetection()" class="px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>🚨 تجربة قفل الشاشة عند التسجيل الآن</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Settings Form -->
+            <form onsubmit="saveWatermarkSettings(event)" class="space-y-4 text-xs font-semibold">
+              <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <label class="flex items-center gap-2 cursor-pointer font-bold text-slate-800">
+                  <input type="checkbox" id="watermarkEnabledToggle" checked class="w-4 h-4 text-logo-blue rounded">
+                  <span>تفعيل العلامة المائية الذكية المتحركة على كل الفيديوهات</span>
+                </label>
+                <p class="text-[11px] text-slate-500 leading-relaxed pr-6">
+                  تتحرك العلامة المائية تلقائياً وتطفو بشكل عشوائي فوق الفيديو طوال وقت المشاهدة، وتظهر بيانات الطالب لمنع اقتصاص أو قص الفيديو.
+                </p>
+              </div>
+
+              <div>
+                <label class="block text-slate-700 mb-1">صيغة نص العلامة المائية *</label>
+                <input type="text" id="watermarkCustomTextInput" value="عربي أونلاين • الطالب: {student} • هاتف: {phone}" placeholder="عربي أونلاين • الطالب: {student} • هاتف: {phone}" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-blue text-xs font-mono">
+                <span class="text-[10px] text-slate-400 block mt-1">المتغيرات المتاحة: <code>{student}</code> اسم الطالب، <code>{phone}</code> رقم الهاتف، <code>{date}</code> تاريخ اليوم.</span>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="text-slate-700">مستوى وضوح / شفافية العلامة المائية:</label>
+                  <span id="watermarkOpacityValText" class="font-bold text-logo-blue">35%</span>
+                </div>
+                <input type="range" id="watermarkOpacityRange" min="15" max="80" value="35" oninput="updateWatermarkLivePreview()" class="w-full accent-blue-600 cursor-pointer">
+              </div>
+
+              <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 space-y-2">
+                <label class="flex items-center gap-2 cursor-pointer font-black text-amber-900">
+                  <input type="checkbox" id="antiRecordingAutoLockToggle" checked class="w-4 h-4 text-amber-600 rounded">
+                  <span>⛔ قفل الشاشة فوراً عند اكتشاف تسجيل أو تصوير الشاشة (PrtScn / Win+Shift+S / برامج التسجيل)</span>
+                </label>
+                <p class="text-[11px] text-amber-800 leading-relaxed pr-6">
+                  عند ضغط الطالب على زر PrintScreen أو اختصارات تصوير الشاشة، أو محاولة تشغيل برامج التسجيل وفقدان تركيز الشاشة، تتحول الشاشة فوراً لشاشة سوداء ويتم إيقاف وتشويش الفيديو مع إرسال تنبيه أمني.
+                </p>
+              </div>
+
+              <button type="submit" class="w-full py-2.5 rounded-xl bg-logo-blue hover:bg-blue-700 text-white font-bold text-xs transition shadow-xs flex items-center justify-center gap-2">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>حفظ إعدادات العلامة المائية وحماية التسريب</span>
+              </button>
+            </form>
+
+            <!-- Live Preview -->
+            <div class="space-y-2">
+              <span class="text-xs font-bold text-slate-700 block">معاينة حية لشكل العلامة المائية على الفيديو:</span>
+              <div class="relative w-full h-64 bg-slate-900 rounded-3xl overflow-hidden border-2 border-slate-700 flex items-center justify-center text-center p-4 shadow-inner">
+                <!-- Background mock video graphics -->
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 flex flex-col items-center justify-center text-slate-400 pointer-events-none select-none">
+                  <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-2xl text-white mb-2">
+                    <i class="fa-solid fa-play"></i>
+                  </div>
+                  <span class="text-xs font-bold text-slate-300">محاضرة تفاعلية: النحو من الصفر</span>
+                  <span class="text-[10px] text-slate-500 mt-1">مشغل فيديو عربي أونلاين الآمن</span>
+                </div>
+
+                <!-- Live Floating Bouncing Watermark -->
+                <div id="liveWatermarkBadge" class="floating-watermark bg-black/40 backdrop-blur-xs text-white px-3 py-1 rounded-xl text-[11px] font-bold border border-white/20 select-none pointer-events-none" style="opacity: 0.35;">
+                  عربي أونلاين • الطالب: أحمد محمود • 01080285458
+                </div>
+
+                <!-- Bottom live player bar mock -->
+                <div class="absolute bottom-3 left-4 right-4 h-2 bg-white/20 rounded-full overflow-hidden">
+                  <div class="w-2/5 h-full bg-logo-orange"></div>
+                </div>
+              </div>
+              <p class="text-[10px] text-slate-400 text-center">تتحرك العلامة المائية تلقائياً وتطفو بشكل عشوائي فوق الفيديو لمنع التقاط الشاشة أو تغطيتها.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: PAYMENT VERIFICATION -->
+      <div id="admin-view-payments" class="admin-view hidden space-y-4">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+              <h4 class="font-black text-sm text-slate-900">تدقيق ومراجعة إيصالات الدفع</h4>
+              <p class="text-[11px] text-slate-400">مراجعة التحويلات على فودافون كاش / إنستاباي (01080285458)</p>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-logo-green text-xs font-bold border border-emerald-200">
+              نظام الحماية من الإيصالات الفيك مفعل 🛡️
+            </span>
+          </div>
+
+          <div class="bg-rose-50 rounded-2xl p-4 border border-rose-200 text-xs text-rose-900 space-y-2">
+            <p class="font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
+              <span>قاعدة الأمان المعتمدة في الأكاديمية:</span>
+            </p>
+            <p class="leading-relaxed">
+              إذا وصلك إشعار أو رسالة بإيصال مزيف، يتم الرفض فوراً وتظل الكورسات مقفلة برمز (🔒) وتظهر للطالب رسالة: <strong>"خطأ في عملية الدفع"</strong>.
+            </p>
+            <button onclick="simulateFakeReceiptDetection()" class="px-3.5 py-1.5 rounded-xl bg-rose-600 text-white font-bold text-xs hover:bg-rose-700 transition">
+              تجربة إظهار رسالة "خطأ في عملية الدفع" للطالب الآن
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== ADMIN LOGIN MODAL (بوابة تسجيل دخول الإدارة) ==================== -->
+  <div id="adminLoginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-4xl max-w-sm w-full p-6 sm:p-7 border-2 border-purple-200 shadow-2xl relative animate-fadeIn text-center space-y-4">
+      
+      <button onclick="closeAdminLoginModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="w-14 h-14 mx-auto rounded-2xl bg-purple-100 text-logo-purple flex items-center justify-center text-2xl font-black shadow-xs">
+        <i class="fa-solid fa-user-lock"></i>
+      </div>
+
+      <div>
+        <h3 class="text-lg font-black text-slate-900">تسجيل دخول الإدارة (Admin Login)</h3>
+        <p class="text-xs text-slate-500 mt-1">أدخلي البريد الإلكتروني وكلمة المرور الخاصة بكِ للدخول</p>
+      </div>
+
+      <form onsubmit="handleAdminLoginSubmit(event)" class="space-y-3 text-xs font-semibold text-right">
+        <div>
+          <label class="block text-slate-700 mb-1">البريد الإلكتروني *</label>
+          <input type="email" id="loginAdminEmail" required placeholder="name@domain.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-purple text-xs" dir="ltr">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">كلمة المرور *</label>
+          <input type="password" id="loginAdminPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-purple text-xs" dir="ltr">
+        </div>
+
+        <div id="loginErrorMessage" class="hidden text-rose-600 text-[11px] font-bold text-center bg-rose-50 p-2 rounded-xl border border-rose-200">
+          خطأ: البريد الإلكتروني أو كلمة المرور غير صحيحة!
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-2xl bg-logo-purple hover:bg-purple-700 text-white font-black text-xs sm:text-sm transition shadow-xs flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span>دخول إلى لوحة الإدارة</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-white border-t border-amber-100 py-10 text-slate-600 text-xs">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-100">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white rounded-xl border border-slate-200 p-1 flex items-center justify-center">
+            <img src="assets/logo.png" alt="Logo" class="w-full h-full object-contain">
+          </div>
+          <div>
+            <h4 class="font-bold text-sm text-slate-900">أكاديمية عربي أونلاين</h4>
+            <p class="text-[11px] text-slate-400">لغة عربية • منهج لغتي • تأسيس • نحو • قرآن • خط عربي</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4 font-bold">
+          <button onclick="openAdminLoginModal()" class="text-logo-purple hover:underline flex items-center gap-1">
+            <i class="fa-solid fa-lock"></i>
+            <span>تسجيل دخول الإدارة</span>
+          </button>
+          <span>•</span>
+          <div class="flex items-center gap-1.5">
+            <i class="fa-solid fa-phone text-logo-orange"></i>
+            <a href="tel:01080285458" class="text-slate-800 hover:text-logo-orange transition" dir="ltr">01080285458</a>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <i class="fa-brands fa-whatsapp text-logo-green text-base"></i>
+            <a href="https://wa.me/201080285458" target="_blank" class="text-logo-green hover:underline" dir="ltr">01080285458</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-slate-400 gap-2">
+        <p>جميع الحقوق محفوظة © 2026 لأكاديمية عربي أونلاين</p>
+        <p>بوابة تحكم الإدارة الآمنة لحفظ وتعديل بيانات الدخول</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== FREE TRIAL MODAL ==================== -->
+  <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-4xl max-w-md w-full p-6 border-2 border-amber-200 shadow-xl relative animate-fadeIn">
+      
+      <button onclick="closeBookingModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="text-center mb-4">
+        <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-logo-green text-xs font-bold border border-emerald-200 mb-2">
+          مجانية 100% بدون أي رسوم 🎁
+        </span>
+        <h3 class="text-xl font-black text-slate-900">حجز حصة تجريبية مجانية</h3>
+        <p class="text-xs text-slate-500 mt-1">جرّب الحصة الأولى وتعرف على المعلم مجاناً قبل الاشتراك</p>
+      </div>
+
+      <!-- Month-Long Offer Note in Free Trial Modal -->
+      <div class="bg-purple-50 border border-purple-200 rounded-2xl p-2.5 mb-3 text-[11px] text-purple-900 flex items-center gap-2 font-medium">
+        <span class="text-lg shrink-0">🎁</span>
+        <span><strong>مفاجأة عرض الشهر:</strong> عند تثبيت اشتراكك بعد الحصة التجريبية، ستحصل تلقائياً على كورس تحسين الخط العربي هدية مجانية 100%!</span>
+      </div>
+
+      <form onsubmit="handleBookingForm(event)" class="space-y-3.5 text-xs font-semibold">
+        <div>
+          <label class="block text-slate-700 mb-1">اسم الطالب أو الطالبة *</label>
+          <input type="text" id="modalStudentName" required placeholder="مثال: يوسف أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-orange text-xs">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">المرحلة والصف الدراسي *</label>
+          <select id="modalStudentGrade" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-orange text-xs bg-white font-medium">
+            <option value="">-- اختر الصف الدراسي للطالب --</option>
+            <optgroup label="🌱 مرحلة رياض الأطفال والتأسيس المبكر">
+              <option value="مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)">مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)</option>
+            </optgroup>
+            <optgroup label="🎒 المرحلة الابتدائية (الصفوف منفصلة)">
+              <option value="الصف الأول الابتدائي">الصف الأول الابتدائي</option>
+              <option value="الصف الثاني الابتدائي">الصف الثاني الابتدائي</option>
+              <option value="الصف الثالث الابتدائي">الصف الثالث الابتدائي</option>
+              <option value="الصف الرابع الابتدائي">الصف الرابع الابتدائي</option>
+              <option value="الصف الخامس الابتدائي">الصف الخامس الابتدائي</option>
+              <option value="الصف السادس الابتدائي">الصف السادس الابتدائي</option>
+            </optgroup>
+            <optgroup label="📖 المرحلة الإعدادية / المتوسطة (الصفوف منفصلة)">
+              <option value="الصف الأول الإعدادي (الأول المتوسط)">الصف الأول الإعدادي (الأول المتوسط)</option>
+              <option value="الصف الثاني الإعدادي (الثاني المتوسط)">الصف الثاني الإعدادي (الثاني المتوسط)</option>
+              <option value="الصف الثالث الإعدادي (الثالث المتوسط)">الصف الثالث الإعدادي (الثالث المتوسط)</option>
+            </optgroup>
+            <optgroup label="⭐ دورات حرة وتأسيس عام">
+              <option value="دورة حرة عامة (مناسب لكافة المراحل والأعمار)">دورة حرة عامة (مناسب لكافة المراحل والأعمار)</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">اختر الكورس للحصة المجانية *</label>
+          <select id="modalCurriculum" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-orange text-xs bg-white font-medium">
+            <option value="">-- اختر الحصة التجريبية أو الدورة --</option>
+            <optgroup label="🌟 الحصص والدورات الأكثر طلباً (تجريبية مجانية 100%)">
+              <option value="5. تحفيظ القرآن الكريم وتجويده">🕌 تحفيظ القرآن الكريم وأحكام التجويد (حصة تجريبية مجانية)</option>
+              <option value="4. كورس النحو من الصفر إلى الاحتراف">📐 كورس النحو من الصفر إلى الاحتراف (حصة تجريبية مجانية)</option>
+              <option value="3. كورس تأسيس القراءة والكتابة والإملاء">🌱 كورس تأسيس القراءة والكتابة والإملاء (جلسة تقييم مجانية)</option>
+            </optgroup>
+            <optgroup label="📚 المناهج الدراسية الرسمية">
+              <option value="1. شرح منهج اللغة العربية (المنهج المصري)">🇪🇬 منهج اللغة العربية للمرحلة الابتدائية والإعدادية (المنهج المصري)</option>
+              <option value="2. شرح منهج لغتي (المنهج السعودي)">🇸🇦 منهج لغتي الجميلة والخالدة (المنهج السعودي)</option>
+            </optgroup>
+            <optgroup label="✍️ دورات تحسين الخط العربي">
+              <option value="6. كورس تحسين الخط العربي بالقلم العادي">✍️ كورس تحسين الخط العربي بالقلم العادي</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">رقم هاتف ولي الأمر (واتساب) *</label>
+          <input type="tel" id="modalParentPhone" required placeholder="01080285458" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-orange text-xs" dir="ltr">
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-logo-green hover:bg-emerald-700 text-white font-black text-xs sm:text-sm transition mt-2 shadow-xs">
+          تأكيد حجز الحصة التجريبية المجانية 🎁
+        </button>
+
+        <p class="text-[11px] text-center text-slate-400 font-medium">
+          أو تواصل فوراً عبر الواتساب على: <strong class="text-logo-green font-bold" dir="ltr">01080285458</strong>
+        </p>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==================== PAYMENT GATEWAY MODAL ==================== -->
+  <div id="paymentModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-4xl max-w-lg w-full p-6 sm:p-7 border-2 border-amber-200 shadow-2xl relative animate-fadeIn max-h-[92vh] overflow-y-auto">
+      
+      <button onclick="closePaymentModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="text-center mb-5">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-100 text-logo-orange flex items-center justify-center text-xl font-bold mb-2 shadow-xs">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h3 class="text-xl font-black text-slate-900">بوابة الدفع وتأكيد الحجز</h3>
+        <p class="text-xs text-slate-500 mt-0.5">يتم تدقيق التحويل الفعلي ومطابقته قبل تفعيل وفتح الكورس</p>
+      </div>
+
+      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3 text-[11px] text-rose-800 space-y-1 mb-4">
+        <div class="flex items-center gap-1.5 font-bold text-rose-900">
+          <i class="fa-solid fa-shield-virus text-sm"></i>
+          <span>تنبيه أمني هام بشأن إيصالات التحويل:</span>
+        </div>
+        <p class="leading-relaxed">
+          لن يتم فتح أو تفعيل أي كورس إلا بعد التأكد من وصول المبلغ الفعلي لحساب الأكاديمية. أي إيصال وهمي أو معدل (فيك) سيتم رفضه فوراً مع ظهور رسالة <strong>"خطأ في عملية الدفع"</strong> وإلغاء الطلب نهائياً.
+        </p>
+      </div>
+
+      <form onsubmit="handlePaymentSubmit(event)" class="space-y-4 text-xs font-semibold">
+        
+        <div>
+          <label class="block text-slate-700 mb-1">اختر الكورس المطلوب حجزه *</label>
+          <select id="payCourseSelect" onchange="updateCoursePrice()" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-orange text-xs bg-white">
+            <option value="1. شرح منهج اللغة العربية (المنهج المصري)" data-price-eg="300 جنيه شهرياً" data-price-sa="70 ريال شهرياً">1. 🇪🇬 منهج اللغة العربية (مصر)</option>
+            <option value="2. شرح منهج لغتي (المنهج السعودي)" data-price-eg="350 جنيه شهرياً" data-price-sa="90 ريال شهرياً">2. 🇸🇦 منهج لغتي السعودي</option>
+            <option value="3. كورس تأسيس القراءة والكتابة والإملاء" data-price-eg="400 جنيه للدورة" data-price-sa="110 ريال للدورة">3. 🌱 كورس التأسيس والإملاء الشامل</option>
+            <option value="4. كورس النحو من الصفر إلى الاحتراف" data-price-eg="350 جنيه للدورة" data-price-sa="95 ريال للدورة">4. 📐 كورس النحو من الصفر للاحتراف</option>
+            <option value="5. تحفيظ القرآن الكريم وتجويده" data-price-eg="300 جنيه شهرياً" data-price-sa="80 ريال شهرياً">5. 🕌 تحفيظ القرآن الكريم وتجويده</option>
+            <option value="6. كورس تحسين الخط العربي بالقلم العادي" data-price-eg="350 جنيه للدورة" data-price-sa="90 ريال للدورة">6. ✍️ كورس تحسين الخط العربي</option>
+          </select>
+        </div>
+
+        <div class="bg-orange-50/70 p-3 rounded-2xl border border-orange-200 flex items-center justify-between">
+          <span class="text-slate-700 font-bold">قيمة الاشتراك المقررة:</span>
+          <span id="displayPriceTag" class="text-sm font-black text-logo-orange">300 جنيه (أو 70 ريال)</span>
+        </div>
+
+        <!-- Month-Long Special Offer Bonus Box -->
+        <div class="bg-gradient-to-r from-purple-50 via-indigo-50 to-amber-50 border-2 border-purple-200 rounded-2xl p-3.5 flex items-start gap-3 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xl shrink-0 shadow-xs">
+            🎁
+          </div>
+          <div class="text-[11px] leading-relaxed">
+            <div class="flex items-center gap-2 mb-0.5">
+              <span class="font-black text-purple-900 text-xs">هدية عرض الشهر المجانية (مشمولة مع طلبك):</span>
+              <span class="px-2 py-0.5 rounded-md bg-amber-400 text-slate-950 font-black text-[10px]">بقيمة 350 ج / 90 ر.س مجاناً</span>
+            </div>
+            <p class="text-purple-950 font-semibold">
+              بمناسبة عرض الشهر، ستحصل تلقائياً على <strong>"كورس تحسين الخط العربي بالقلم العادي" هدية مجانية 100%</strong> مع هذا الاشتراك! هدفنا تميز طلابنا في جمال وفنون الخط العربي.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 mb-1">اسم الطالب *</label>
+            <input type="text" id="payStudentName" required placeholder="اسم الطالب" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+          </div>
+          <div>
+            <label class="block text-slate-700 mb-1">الصف الدراسي للطالب *</label>
+            <select id="payStudentGrade" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white font-medium">
+              <option value="">اختر الصف...</option>
+              <optgroup label="🌱 مرحلة رياض الأطفال والتأسيس المبكر">
+                <option value="مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)">مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)</option>
+              </optgroup>
+              <optgroup label="🎒 المرحلة الابتدائية (الصفوف منفصلة)">
+                <option value="الصف الأول الابتدائي">الصف الأول الابتدائي</option>
+                <option value="الصف الثاني الابتدائي">الصف الثاني الابتدائي</option>
+                <option value="الصف الثالث الابتدائي">الصف الثالث الابتدائي</option>
+                <option value="الصف الرابع الابتدائي">الصف الرابع الابتدائي</option>
+                <option value="الصف الخامس الابتدائي">الصف الخامس الابتدائي</option>
+                <option value="الصف السادس الابتدائي">الصف السادس الابتدائي</option>
+              </optgroup>
+              <optgroup label="📖 المرحلة الإعدادية / المتوسطة (الصفوف منفصلة)">
+                <option value="الصف الأول الإعدادي (الأول المتوسط)">الصف الأول الإعدادي (الأول المتوسط)</option>
+                <option value="الصف الثاني الإعدادي (الثاني المتوسط)">الصف الثاني الإعدادي (الثاني المتوسط)</option>
+                <option value="الصف الثالث الإعدادي (الثالث المتوسط)">الصف الثالث الإعدادي (الثالث المتوسط)</option>
+              </optgroup>
+              <optgroup label="⭐ دورات حرة وتأسيس عام">
+                <option value="دورة حرة عامة (مناسب لكافة المراحل والأعمار)">دورة حرة عامة (مناسب لكافة المراحل والأعمار)</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">رقم هاتف / واتساب ولي الأمر *</label>
+          <input type="tel" id="payParentPhone" required placeholder="01080285458" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" dir="ltr">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1.5">طريقة التحويل أو الدفع المستخدمة *</label>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center text-xs">
+            <label class="cursor-pointer border border-slate-200 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-logo-orange bg-slate-50 has-[:checked]:bg-orange-50 has-[:checked]:border-logo-orange has-[:checked]:text-logo-orange">
+              <input type="radio" name="payMethod" value="فودافون كاش / إنستاباي" checked class="hidden">
+              <i class="fa-solid fa-mobile-screen text-base text-logo-green"></i>
+              <span class="font-bold">فودافون كاش / إنستاباي</span>
+              <span class="text-[10px] text-slate-400">01080285458</span>
+            </label>
+
+            <label class="cursor-pointer border border-slate-200 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-logo-orange bg-slate-50 has-[:checked]:bg-orange-50 has-[:checked]:border-logo-orange has-[:checked]:text-logo-orange">
+              <input type="radio" name="payMethod" value="مدى / بطاقة بنكية" class="hidden">
+              <i class="fa-solid fa-credit-card text-base text-logo-blue"></i>
+              <span class="font-bold">مدى / فيزا / ماستركارد</span>
+              <span class="text-[10px] text-slate-400">دفع إلكتروني فوري</span>
+            </label>
+
+            <label class="cursor-pointer border border-slate-200 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-logo-orange bg-slate-50 has-[:checked]:bg-orange-50 has-[:checked]:border-logo-orange has-[:checked]:text-logo-orange">
+              <input type="radio" name="payMethod" value="تحويل بنكي مباشر" class="hidden">
+              <i class="fa-solid fa-building-columns text-base text-amber-600"></i>
+              <span class="font-bold">تحويل بنكي</span>
+              <span class="text-[10px] text-slate-400">مصر / السعودية</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">صورة إيصال التحويل البنكي أو المحفظة *</label>
+          <input type="file" id="payReceiptFile" required accept="image/*,.pdf" class="w-full text-xs text-slate-500 file:mr-0 file:ml-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+          <span class="text-[10px] text-slate-400 block mt-1">يجب أن يكون الإيصال واضحاً ومطابقاً للمبلغ وتاريخ اليوم.</span>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-2xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs sm:text-sm transition shadow-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-lock"></i>
+          <span>إرسال طلب الحجز للتدقيق والتحقق</span>
+        </button>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==================== PAYMENT REJECTION / ERROR MODAL ==================== -->
+  <div id="paymentErrorModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-4xl max-w-md w-full p-6 sm:p-7 border-2 border-rose-300 shadow-2xl relative animate-fadeIn text-center space-y-4">
+      
+      <div class="w-16 h-16 mx-auto rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-3xl font-black">
+        <i class="fa-solid fa-circle-xmark"></i>
+      </div>
+
+      <div class="space-y-1">
+        <h3 class="text-xl font-black text-rose-600">خطأ في عملية الدفع ⛔</h3>
+        <p class="text-xs font-bold text-slate-700">لم يتم تأكيد وصول التحويل لحساب الأكاديمية!</p>
+      </div>
+
+      <div class="bg-rose-50 rounded-2xl p-4 border border-rose-200 text-right text-xs text-rose-900 leading-relaxed space-y-2">
+        <p class="font-bold flex items-center gap-1.5">
+          <i class="fa-solid fa-triangle-exclamation text-rose-600"></i>
+          <span>أسباب عدم فتح وتفعيل الكورس:</span>
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-slate-700 text-[11px]">
+          <li>الإيصال المرفق غير مطابق أو لم يظهر في كشف حساب المحفظة / الحساب البنكي.</li>
+          <li>تم اكتشاف صورة غير واضحة أو غير معتمدة أو تم تعديلها.</li>
+          <li><strong>الأمان:</strong> لن يتم فتح وتفعيل الكورس نهائياً إلا بعد مراجعة المشرف المالي والمطابقة البنكية.</li>
+        </ul>
+      </div>
+
+      <p class="text-xs text-slate-500 font-medium">
+        إذا كنت قد حولت بالفعل وتأكدت من خصم المبلغ، يرجى مراجعة إدارة الأكاديمية مباشرة عبر الواتساب على الرقم:  
+        <strong class="text-logo-green font-bold block mt-1" dir="ltr">01080285458</strong>
+      </p>
+
+      <div class="pt-2 flex items-center justify-center gap-3">
+        <button onclick="closePaymentErrorModal()" class="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          إغلاق
+        </button>
+        <a href="https://wa.me/201080285458?text=السلام%20عليكم%2C%20ظهرت%20لي%20رسالة%20خطأ%20في%20عملية%20الدفع%20وأريد%20التحقق%20من%20التحويل" target="_blank" class="px-5 py-2.5 rounded-xl bg-logo-green hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-xs">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>مراجعة الإدارة عبر الواتساب</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TEACHER / ADMIN COURSE UPLOAD MODAL ==================== -->
+  <div id="courseUploadModal" class="fixed inset-0 z-50 hidden bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-4xl max-w-md w-full p-6 border-2 border-amber-200 shadow-xl relative animate-fadeIn max-h-[90vh] overflow-y-auto">
+      
+      <button onclick="closeCourseUploadModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="text-center mb-5">
+        <div class="w-10 h-10 mx-auto rounded-xl bg-purple-100 text-logo-purple flex items-center justify-center text-lg font-bold mb-2">
+          <i class="fa-solid fa-folder-plus"></i>
+        </div>
+        <h3 class="text-lg font-black text-slate-900">رفع ونشر درس تعليمي جديد</h3>
+        <p class="text-xs text-slate-500">خاص بإدارة الأكاديمية والمعلمين لإضافة محتوى للمقررات الدراسية</p>
+      </div>
+
+      <form onsubmit="handleCourseUploadSubmit(event)" class="space-y-3 text-xs font-semibold">
+        <div>
+          <label class="block text-slate-700 mb-1">اختر المقرر / المسار الدراسي *</label>
+          <select id="uploadPartitionSelect" required class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-xs">
+            <option value="المنهج المصري">🇪🇬 مسار المنهج المصري</option>
+            <option value="منهج لغتي السعودي">🇸🇦 مسار منهج لغتي السعودي</option>
+            <option value="كورس التأسيس والإملاء">🌱 مسار كورس التأسيس والإملاء</option>
+            <option value="كورس النحو من الصفر">📐 مسار كورس النحو من الصفر</option>
+            <option value="تحفيظ القرآن الكريم">🕌 مسار تحفيظ القرآن الكريم</option>
+            <option value="كورس الخط العربي">✍️ مسار كورس الخط العربي</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">عنوان الدرس أو المحاضرة *</label>
+          <input type="text" id="uploadLessonTitle" required placeholder="مثال: الدرس 3: إعراب المفعول لأجله مع التطبيقات" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube / Vimeo / Zoom Replay) *</label>
+          <input type="url" id="uploadVideoUrl" required placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" dir="ltr">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">ملف المذكرة أو الواجب (PDF / Word)</label>
+          <input type="file" id="uploadPdfFile" accept=".pdf,.doc,.docx" class="w-full text-xs text-slate-500 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-50 file:text-logo-purple hover:file:bg-purple-100">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">ملاحظات المعلم وتوجيهات للطلاب</label>
+          <textarea id="uploadNotes" rows="2" placeholder="ملاحظات حول المذاكرة والواجب..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-xl bg-logo-purple hover:bg-purple-700 text-white font-bold text-xs transition shadow-xs">
+          حفظ ونشر الدرس في لوحة الطالب فوراً 🚀
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  
+
+
+  <!-- ==================== ADD / EDIT COURSE MODAL WITH IMAGE UPLOAD ==================== -->
+  <div id="courseFormModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-4xl max-w-lg w-full p-6 sm:p-7 border-2 border-amber-200 shadow-2xl relative animate-fadeIn max-h-[92vh] overflow-y-auto">
+      
+      <button onclick="closeCourseFormModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="text-center mb-5">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-100 text-logo-orange flex items-center justify-center text-xl font-black mb-2 shadow-xs">
+          <i class="fa-solid fa-book-bookmark"></i>
+        </div>
+        <h3 id="courseFormModalTitle" class="text-xl font-black text-slate-900">إضافة كورس جديد</h3>
+        <p class="text-xs text-slate-500 mt-0.5">رفع وتحديث بيانات الكورس مع صورة الغلاف وإعدادات الحماية</p>
+      </div>
+
+      <form onsubmit="handleCourseFormSubmit(event)" class="space-y-3.5 text-xs font-semibold">
+        <input type="hidden" id="courseFormId" value="">
+
+        <div>
+          <label class="block text-slate-700 mb-1">اسم الكورس أو المسار *</label>
+          <input type="text" id="courseFormTitle" required placeholder="مثال: شرح منهج اللغة العربية للصف الخامس" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-logo-orange text-xs">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 mb-1">المسار التعليمي التابع له *</label>
+            <select id="courseFormPartition" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white text-xs">
+              <option value="المنهج المصري">🇪🇬 مسار المنهج المصري</option>
+              <option value="منهج لغتي السعودي">🇸🇦 مسار منهج لغتي السعودي</option>
+              <option value="كورس التأسيس والإملاء">🌱 مسار كورس التأسيس والإملاء</option>
+              <option value="كورس النحو من الصفر">📐 مسار كورس النحو من الصفر</option>
+              <option value="تحفيظ القرآن الكريم">🕌 مسار تحفيظ القرآن الكريم</option>
+              <option value="كورس الخط العربي">✍️ مسار كورس الخط العربي</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-slate-700 mb-1">المرحلة والصف الدراسي *</label>
+            <input type="text" id="courseFormGrade" required placeholder="مثال: الصف الخامس الابتدائي" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-700 mb-1">سعر الكورس (مصر) *</label>
+            <input type="text" id="courseFormPriceEg" required placeholder="300 جنيه شهرياً" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+          </div>
+          <div>
+            <label class="block text-slate-700 mb-1">سعر الكورس (السعودية) *</label>
+            <input type="text" id="courseFormPriceSa" required placeholder="75 ريال شهرياً" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs">
+          </div>
+        </div>
+
+        <!-- Course Image Upload with Real-time Preview -->
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+          <label class="block text-slate-800 font-bold">صورة أو بوستر غلاف الكورس *</label>
+          <input type="file" id="courseFormImageFile" accept="image/*" onchange="handleCourseImageUpload(event)" class="w-full text-xs text-slate-500 file:mr-0 file:ml-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-100 file:text-logo-orange hover:file:bg-orange-200">
+          <input type="hidden" id="courseFormImageBase64" value="">
+
+          <div id="courseImagePreviewBox" class="relative w-full h-32 rounded-2xl bg-white border-2 border-dashed border-amber-200 overflow-hidden flex items-center justify-center">
+            <img id="courseFormImagePreview" src="" alt="معاينة صورة الكورس" class="w-full h-full object-cover hidden">
+            <div id="courseImagePlaceholder" class="text-center text-slate-400 p-2">
+              <i class="fa-regular fa-image text-2xl mb-1 block text-amber-400"></i>
+              <span class="text-[11px]">ارفعي صورة الغلاف (PNG / JPG) لتظهر كبوستر للكورس</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-3 rounded-2xl bg-blue-50 border border-blue-200 flex items-center gap-2">
+          <input type="checkbox" id="courseFormWatermark" checked class="w-4 h-4 text-logo-blue rounded">
+          <label for="courseFormWatermark" class="text-slate-800 font-bold cursor-pointer">
+            تفعيل العلامة المائية الذكية وقفل الشاشة ضد التسجيل لهذا الكورس 🛡️
+          </label>
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">وصف موجز للكورس</label>
+          <textarea id="courseFormDescription" rows="2" placeholder="محتوى المنهج وأهداف الدورة التدريبية..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs"></textarea>
+        </div>
+
+        <button type="submit" id="courseFormSubmitBtn" class="w-full py-3 rounded-2xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs sm:text-sm transition shadow-xs flex items-center justify-center gap-2">
+          <i class="fa-solid fa-check"></i>
+          <span>حفظ وتثبيت الكورس في المنصة 💾</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==================== SECURE VIDEO PLAYER MODAL WITH WATERMARK ==================== -->
+  <div id="secureVideoPlayerModal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 select-none">
+    <div class="bg-slate-900 rounded-4xl max-w-4xl w-full border-2 border-slate-700 shadow-2xl relative overflow-hidden flex flex-col max-h-[95vh]">
+      
+      <!-- Video Header -->
+      <div class="p-4 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between text-white">
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-1 rounded-xl bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[10px] font-black flex items-center gap-1">
+            <i class="fa-solid fa-lock"></i>
+            <span>محمي من التسجيل (DRM)</span>
+          </span>
+          <div>
+            <h4 id="playerLessonTitle" class="font-black text-sm text-slate-100">الدرس 1: علامات إعراب الفاعل والمفعول به</h4>
+            <p id="playerCoursePartition" class="text-[11px] text-slate-400">مسار المنهج المصري • أكاديمية عربي أونلاين</p>
+          </div>
+        </div>
+
+        <button onclick="closeSecureVideoPlayer()" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Player Screen Container with Dynamic Bouncing Watermark -->
+      <div id="videoScreenContainer" class="relative w-full aspect-video bg-black flex items-center justify-center overflow-hidden group select-none">
+        
+        <!-- Background Simulated High Quality Video Scene -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-slate-950 via-slate-900 to-indigo-950 flex flex-col items-center justify-center text-center p-6">
+          <div class="w-20 h-20 rounded-3xl bg-logo-orange/20 border-2 border-logo-orange text-logo-orange flex items-center justify-center text-3xl mb-3 shadow-lg group-hover:scale-105 transition-transform">
+            <i class="fa-solid fa-play"></i>
+          </div>
+          <h3 class="text-white font-black text-base sm:text-lg">شرح الدرس التفاعلي بجودة HD</h3>
+          <p class="text-xs text-slate-400 mt-1">مشغل فيديو عربي أونلاين الآمن المزود بحماية البث والعلامة المائية الديناميكية</p>
+        </div>
+
+        <!-- DYNAMIC FLOATING BOUNCING WATERMARK OVER VIDEO -->
+        <div id="playerWatermarkBadge" class="floating-watermark bg-black/50 backdrop-blur-xs text-white/90 px-3.5 py-1.5 rounded-2xl text-xs font-bold border border-white/20 select-none pointer-events-none shadow-lg">
+          عربي أونلاين • الطالب: أحمد محمود • 01080285458
+        </div>
+
+        <!-- Video Player Controls Bar -->
+        <div class="absolute bottom-0 inset-x-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-between text-white text-xs">
+          <div class="flex items-center gap-3">
+            <button class="text-white hover:text-logo-orange transition"><i class="fa-solid fa-pause text-base"></i></button>
+            <span class="text-[11px] text-slate-300 font-mono">14:20 / 38:00</span>
+          </div>
+          <div class="w-1/2 h-1.5 bg-slate-700 rounded-full overflow-hidden mx-4">
+            <div class="w-2/5 h-full bg-logo-orange"></div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>مراقب ومحمي</span>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== SCREEN RECORDING / CAPTURE DEFENSE LOCK OVERLAY ==================== -->
+  <div id="screenRecordingLockModal" class="fixed inset-0 z-[9999999] hidden bg-slate-950 text-white flex items-center justify-center p-6 text-center animate-fadeIn select-none">
+    <div class="max-w-md w-full p-8 rounded-4xl bg-slate-900 border-2 border-rose-500 shadow-2xl space-y-5">
+      
+      <div class="w-20 h-20 mx-auto rounded-3xl bg-rose-500/20 text-rose-500 border-2 border-rose-500/40 flex items-center justify-center text-4xl animate-pulse">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-xl font-black text-rose-500">⛔ تم رصد محاولة تسجيل أو تصوير الشاشة!</h2>
+        <p class="text-xs font-bold text-slate-300 leading-relaxed">
+          تم قفل الشاشة فوراً وإيقاف وتشويش الفيديو لحماية حقوق الملكية الفكرية لأكاديمية عربي أونلاين.
+        </p>
+      </div>
+
+      <div class="bg-rose-950/60 p-4 rounded-2xl border border-rose-800 text-[11px] text-rose-200 text-right space-y-1.5 leading-relaxed">
+        <p class="font-bold flex items-center gap-1.5 text-white">
+          <i class="fa-solid fa-shield-virus text-rose-400"></i>
+          <span>تفاصيل الحظر الأمني:</span>
+        </p>
+        <ul class="list-disc list-inside space-y-1 text-slate-300">
+          <li>تم اكتشاف ضغط زر تصوير الشاشة (PrintScreen) أو فتح برنامج تسجيل خارجي.</li>
+          <li>تم إرفاق العلامة المائية المشفرة بالهاتف والاسم ورقم الجلسة.</li>
+          <li>تمنع الأكاديمية تسريب أو تداول أي مادة تعليمية خارج المنصة.</li>
+        </ul>
+      </div>
+
+      <button onclick="dismissScreenRecordingLock()" class="w-full py-3 rounded-2xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs sm:text-sm transition shadow-lg flex items-center justify-center gap-2">
+        <i class="fa-solid fa-lock-open"></i>
+        <span>فهمت التنبيه وأتعهد بعدم تصوير الشاشة (فك القفل)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>
