@@ -665,10 +665,6 @@
             <i class="fa-solid fa-plus-circle"></i>
             <span>حجز كورس إضافي</span>
           </button>
-          <button onclick="handleAdminButtonClick()" class="px-3.5 py-2 rounded-xl bg-purple-50 text-logo-purple border border-purple-200 hover:bg-purple-100 font-black text-xs flex items-center gap-1.5 transition">
-            <i class="fa-solid fa-user-shield"></i>
-            <span>لوحة تحكم الإدارة</span>
-          </button>
         </div>
       </div>
 
@@ -1505,16 +1501,12 @@
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-4 font-bold">
-          <button onclick="openAdminLoginModal()" class="text-logo-purple hover:underline flex items-center gap-1">
-            <i class="fa-solid fa-lock"></i>
-            <span>تسجيل دخول الإدارة</span>
-          </button>
-          <span>•</span>
+        <div class="flex flex-wrap items-center gap-4 font-bold text-xs">
           <div class="flex items-center gap-1.5">
             <i class="fa-solid fa-phone text-logo-orange"></i>
             <a href="tel:01080285458" class="text-slate-800 hover:text-logo-orange transition" dir="ltr">01080285458</a>
           </div>
+          <span>•</span>
           <div class="flex items-center gap-1.5">
             <i class="fa-brands fa-whatsapp text-logo-green text-base"></i>
             <a href="https://wa.me/201080285458" target="_blank" class="text-logo-green hover:underline" dir="ltr">01080285458</a>
@@ -1525,12 +1517,7 @@
 
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-slate-400 gap-2 text-xs">
         <p>جميع الحقوق محفوظة © 2026 لأكاديمية عربي أونلاين • منصة تعليمية تفاعلية مبهجة 🌟</p>
-        <div class="flex items-center gap-2 text-slate-400">
-          <span class="text-[11px]">تعليم متميز • متابعة فردية مستمرة</span>
-          <button onclick="handleAdminButtonClick()" class="opacity-20 hover:opacity-100 transition text-[10px] p-1 text-slate-400 hover:text-purple-600" title="بوابة الإدارة (مغلقة)" aria-label="بوابة الإدارة">
-            <i class="fa-solid fa-lock"></i>
-          </button>
-        </div>
+        <span class="text-[11px]">تعليم متميز • متابعة فردية مستمرة</span>
       </div>
     </div>
   </footer>
@@ -1602,14 +1589,6 @@
           <span>تجربة الدخول الفوري لطالب (حساب تجريبي)</span>
         </button>
       </form>
-
-      <!-- Discreet Admin Gateway Link at Bottom -->
-      <div class="mt-4 pt-3.5 border-t border-slate-100 text-center">
-        <button onclick="closeLoginModal(); handleAdminButtonClick();" class="text-[11px] text-slate-400 hover:text-purple-600 font-semibold transition flex items-center justify-center gap-1.5 mx-auto">
-          <i class="fa-solid fa-shield-halved text-[10px]"></i>
-          <span>بوابة الإدارة وهيئة التدريس 🔒</span>
-        </button>
-      </div>
 
     </div>
   </div>
