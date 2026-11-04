@@ -51,7 +51,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#0B0F17] text-slate-100 font-sans antialiased selection:bg-orange-500/30 selection:text-orange-300">
+<body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-orange-500/20 selection:text-orange-700">
 
   <!-- Top Cheerful Mini Ribbon (Inspired by Logo's 5 Blocks) -->
   <div class="h-1.5 w-full flex opacity-90">
@@ -64,18 +64,18 @@
   </div>
 
   <!-- ==================== SPECIAL OFFER TOP RIBBON ==================== -->
-  <div class="bg-gradient-to-r from-purple-950 via-[#161226] to-slate-950 text-white py-2 px-4 shadow-sm relative z-40 border-b border-purple-500/20">
+  <div class="bg-gradient-to-r from-purple-700 via-indigo-600 to-blue-600 text-white py-2 px-4 shadow-xs relative z-40">
     <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
       <div class="flex items-center gap-2.5 flex-1 min-w-[280px]">
-        <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 font-black text-[11px] animate-pulse whitespace-nowrap">
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-300 text-slate-900 font-black text-[11px] animate-pulse whitespace-nowrap shadow-xs">
           🎁 عرض الشهر الحصري
         </span>
-        <p class="font-semibold text-slate-200">
-          احجز أي كورس دراسي أو قرآني واحصل على <span class="text-amber-300 font-extrabold underline decoration-amber-400 underline-offset-2">"كورس تحسين الخط العربي بالقلم العادي" هدية مجانية 100%</span> ✍️!
+        <p class="font-semibold text-white">
+          احجز أي كورس دراسي أو قرآني واحصل على <span class="text-amber-200 font-black underline decoration-amber-300 underline-offset-2">"كورس تحسين الخط العربي بالقلم العادي" هدية مجانية 100%</span> ✍️!
         </p>
       </div>
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="openPaymentModal()" class="px-3 py-1 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs transition shadow-xs flex items-center gap-1.5 whitespace-nowrap">
+        <button onclick="openPaymentModal()" class="px-3.5 py-1 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition shadow-xs flex items-center gap-1.5 whitespace-nowrap">
           <span>احجز واستلم الهدية 🎁</span>
           <i class="fa-solid fa-arrow-left text-[10px]"></i>
         </button>
@@ -83,20 +83,20 @@
     </div>
   </div>
 
-  <!-- ==================== CREATIVE DARK HEADER ==================== -->
-  <header class="sticky top-0 z-40 bg-[#0B0F17]/90 backdrop-blur-md border-b border-slate-800/80 shadow-lg">
+  <!-- ==================== MODERN CLEAN HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-20">
         
         <!-- Logo & Title -->
         <a href="#" onclick="showSection('landing')" class="flex items-center gap-3 group">
-          <div class="w-12 h-12 bg-[#141824] rounded-2xl border border-slate-700/80 p-1 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-200">
+          <div class="w-12 h-12 bg-white rounded-2xl border border-slate-200 p-1 flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200">
             <img src="assets/logo.png" alt="Araby Online Academy Logo" class="w-full h-full object-contain">
           </div>
           <div>
             <div class="flex items-center gap-1.5">
-              <span class="font-black text-xl text-white tracking-tight">عربي أونلاين</span>
-              <span dir="ltr" class="inline-flex flex-row items-center gap-0.5 px-2 py-0.5 rounded-md bg-slate-800/80 text-[10px] font-black border border-slate-700 font-sans tracking-normal select-none">
+              <span class="font-black text-xl text-slate-900 tracking-tight">عربي أونلاين</span>
+              <span dir="ltr" class="inline-flex flex-row items-center gap-0.5 px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-black border border-slate-200 font-sans tracking-normal select-none">
                 <span class="text-logo-orange font-black">A</span>
                 <span class="text-logo-red font-black">R</span>
                 <span class="text-logo-green font-black">A</span>
@@ -104,57 +104,57 @@
                 <span class="text-logo-purple font-black">Y</span>
               </span>
             </div>
-            <p dir="ltr" class="text-[10px] text-orange-400 font-bold tracking-wider">ARABY ONLINE ACADEMY</p>
+            <p dir="ltr" class="text-[10px] text-orange-600 font-bold tracking-wider">ARABY ONLINE ACADEMY</p>
           </div>
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-7 text-xs font-bold text-slate-300">
-          <a href="#" onclick="showSection('landing')" class="text-emerald-400 flex items-center gap-1.5 hover:text-emerald-300 transition">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <nav class="hidden md:flex items-center gap-7 text-xs font-bold text-slate-700">
+          <a href="#" onclick="showSection('landing')" class="text-orange-600 flex items-center gap-1.5 hover:text-orange-700 transition">
+            <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
             <span>الرئيسية</span>
           </a>
-          <a href="#services" onclick="showSection('landing')" class="hover:text-white transition">الكورسات الـ 6</a>
-          <a href="#skills" onclick="showSection('landing')" class="hover:text-white transition">المسارات التعليمية</a>
-          <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-purple-400 transition flex items-center gap-1">
+          <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition">الكورسات الـ 6</a>
+          <a href="#skills" onclick="showSection('landing')" class="hover:text-orange-600 transition">المسارات التعليمية</a>
+          <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1">
             <span>سبورة الخط ✍️</span>
           </a>
-          <a href="#about" onclick="showSection('landing')" class="hover:text-white transition">فلسفتنا</a>
+          <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition">عن الأكاديمية</a>
         </nav>
 
         <!-- Actions -->
         <div class="flex items-center gap-2.5">
           <!-- Student Portal Switcher -->
-          <button onclick="togglePortalMode()" id="portalToggleBtn" class="px-3 py-1.5 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs flex items-center gap-1.5 transition">
-            <i class="fa-solid fa-graduation-cap text-orange-400"></i>
+          <button onclick="togglePortalMode()" id="portalToggleBtn" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
+            <i class="fa-solid fa-graduation-cap text-orange-500"></i>
             <span id="portalToggleText">لوحة الطالب</span>
           </button>
 
           <!-- Free Trial Button -->
-          <button onclick="openBookingModal()" class="hidden lg:inline-flex btn-neon-lime px-3.5 py-1.5 text-xs font-black">
+          <button onclick="openBookingModal()" class="hidden lg:inline-flex btn-brand-green px-3.5 py-1.5 text-xs font-bold rounded-full">
             🎁 حصة مجانية
           </button>
 
           <!-- Sleek Login Button -->
-          <button onclick="openLoginModal()" id="headerLoginBtn" class="btn-dark-pill px-3.5 py-1.5 text-xs font-bold">
-            <i class="fa-solid fa-arrow-right-to-bracket text-xs text-purple-400"></i>
+          <button onclick="openLoginModal()" id="headerLoginBtn" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition">
+            <i class="fa-solid fa-arrow-right-to-bracket text-xs text-amber-300"></i>
             <span>تسجيل الدخول</span>
           </button>
 
           <!-- Logged-in User Chip (Hidden initially, shown upon student login) -->
-          <div id="headerUserChip" class="hidden items-center gap-2 bg-emerald-950/60 border border-emerald-500/40 px-3 py-1.5 rounded-full shadow-xs">
-            <div class="w-5 h-5 rounded-full bg-emerald-500 text-slate-950 flex items-center justify-center text-[10px] font-black">
+          <div id="headerUserChip" class="hidden items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full shadow-xs">
+            <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">
               🎓
             </div>
-            <span id="headerUserName" class="text-xs font-black text-emerald-200">يوسف أحمد</span>
-            <button onclick="showSection('dashboard')" class="text-xs text-orange-400 hover:underline font-bold mr-1">مقرراتي</button>
-            <button onclick="handleStudentLogout()" class="text-xs text-rose-400 hover:text-rose-300 font-bold mr-1" title="تسجيل خروج">
+            <span id="headerUserName" class="text-xs font-black text-emerald-800">يوسف أحمد</span>
+            <button onclick="showSection('dashboard')" class="text-xs text-orange-600 hover:underline font-bold mr-1">مقرراتي</button>
+            <button onclick="handleStudentLogout()" class="text-xs text-rose-500 hover:text-rose-600 font-bold mr-1" title="تسجيل خروج">
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
 
           <!-- Direct Payment CTA -->
-          <button onclick="openPaymentModal()" class="btn-neon-orange px-4 py-2 text-xs font-black">
+          <button onclick="openPaymentModal()" class="btn-brand-orange px-4 py-2 text-xs font-bold rounded-full">
             <i class="fa-solid fa-credit-card"></i>
             <span>حجز الكورسات</span>
           </button>
@@ -167,13 +167,9 @@
   <!-- ==================== MAIN LANDING VIEW ==================== -->
   <main id="landingView" class="block">
 
-    <!-- HERO SECTION (DARK COMIC / CREATOR STYLE - INSPIRED BY DIKSHANT) -->
-    <section class="py-12 md:py-20 relative overflow-hidden">
-      <!-- Glow Color Splashes -->
-      <div class="splash-purple top-10 right-0"></div>
-      <div class="splash-blue top-40 left-0"></div>
-      <div class="splash-orange -bottom-10 right-1/3"></div>
-
+    <!-- HERO SECTION (BRIGHT CHEERFUL & MODERN CREATIVE STYLE) -->
+    <section class="py-12 md:py-20 relative overflow-hidden bg-gradient-to-b from-amber-50/40 via-white to-slate-50 border-b border-slate-200/60">
+      
       <div class="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -185,117 +181,111 @@
             <div>
               <div class="speech-bubble">
                 <i class="fa-solid fa-rocket text-amber-300"></i>
-                <span>Let's create something awesome! • يلا نصنع بطل جديد!</span>
+                <span>يلا نصنع بطل جديد في لغتنا الجميلة! 🚀</span>
               </div>
             </div>
 
             <!-- Greeting & Crown -->
             <div class="space-y-1">
-              <div class="flex items-center gap-2 text-slate-400 text-base font-bold">
-                <span>Hey, welcome to</span>
+              <div class="flex items-center gap-2 text-slate-500 text-base font-bold">
+                <span>أهلاً بكم في صرح التميز</span>
                 <span class="doodle-crown">👑</span>
               </div>
 
               <!-- Main Hero Title -->
-              <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-none">
-                عربي <span class="squiggly-underline text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-400">أونلاين</span>
+              <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 tracking-tight leading-none">
+                عربي <span class="squiggly-underline text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500">أونلاين</span>
               </h1>
             </div>
 
             <!-- Subtitle Tagline -->
-            <p class="text-sm sm:text-base text-slate-300 font-medium max-w-xl leading-relaxed">
-              منصة تعليمية تفاعلية تجمع بين بهجة الرسم والقصص المصورة والمنهجية المدرسية المعتمدة للمناهج المصرية والسعودية، مع برامج التأسيس الشامل والنحو من الصفر، وتحفيظ القرآن وفنون الخط العربي.
+            <p class="text-sm sm:text-base text-slate-600 font-medium max-w-xl leading-relaxed">
+              منصة تعليمية تفاعلية مبهجة تجمع بين متعة التعلم والمنهجية المدرسية المعتمدة للمناهج المصرية والسعودية، مع برامج التأسيس الشامل والنحو من الصفر، وتحفيظ القرآن وفنون الخط العربي.
             </p>
 
             <!-- Pill Badges Strip -->
             <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
-              <span class="tag-highlight">
-                <i class="fa-solid fa-graduation-cap"></i>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 font-bold border border-orange-200">
+                <i class="fa-solid fa-graduation-cap text-orange-600"></i>
                 <span>مناهج مصر والسعودية</span>
               </span>
-              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300 text-xs font-bold">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                 <span>140+ طالب متفاعل الآن</span>
               </span>
-              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-amber-300 text-xs font-bold">
+              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
                 <span>⭐ 4.9/5 تقييم أولياء الأمور</span>
               </span>
             </div>
 
             <!-- Buttons -->
             <div class="flex flex-wrap items-center gap-4 pt-3">
-              <button onclick="openBookingModal()" class="btn-neon-lime text-sm sm:text-base font-black px-6 py-3.5">
+              <button onclick="openBookingModal()" class="btn-brand-green text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
                 <i class="fa-solid fa-play text-xs"></i>
                 <span>احجز حصة تجريبية مجانية 🎁</span>
               </button>
 
-              <a href="#services" class="btn-dark-pill text-sm sm:text-base font-bold px-6 py-3.5">
+              <a href="#services" class="btn-pill-subtle text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
                 <span>تصفح الكورسات الـ 6</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-orange-400"></i>
+                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-orange-500"></i>
               </a>
 
-              <button onclick="openPaymentModal()" class="btn-neon-orange text-sm sm:text-base font-black px-6 py-3.5">
+              <button onclick="openPaymentModal()" class="btn-brand-orange text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>الاشتراك المباشر</span>
               </button>
             </div>
 
             <!-- Scroll Down Indicator -->
-            <div class="pt-4 flex items-center gap-2 text-xs font-bold text-slate-500">
-              <i class="fa-solid fa-arrow-down animate-bounce text-orange-400"></i>
+            <div class="pt-4 flex items-center gap-2 text-xs font-bold text-slate-400">
+              <i class="fa-solid fa-arrow-down animate-bounce text-orange-500"></i>
               <span>اكتشف باقات الكورسات وسبورة الخط بالأسفل</span>
             </div>
 
           </div>
 
-          <!-- LEFT COLUMN: Creator Mascot & Graphic Bento Card (matching Dikshant's top-right illustration) -->
+          <!-- LEFT COLUMN: Mascot Bento Card Featuring Robot Mascot Photo -->
           <div class="lg:col-span-5 relative">
-            <div class="dark-card p-6 border-2 border-slate-700/80 relative overflow-hidden bg-gradient-to-b from-[#181D2B] via-[#141824] to-[#0F131E]">
+            <div class="modern-card p-6 bg-white border border-slate-200 shadow-xl relative overflow-hidden">
               
-              <!-- Background Graphic Glow -->
-              <div class="absolute -top-12 -left-12 w-48 h-48 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
-              <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
-              <!-- Mascot Visual -->
+              <!-- Mascot Visual Featuring Uploaded Robot Image -->
               <div class="relative z-10 text-center">
-                <!-- Illustrated Student / Mascot -->
                 <div class="relative inline-block mx-auto mb-4">
-                  <div class="w-48 h-48 sm:w-56 sm:h-56 mx-auto rounded-3xl overflow-hidden border-2 border-slate-600/80 shadow-2xl bg-gradient-to-tr from-purple-900/60 via-slate-800 to-indigo-950 flex items-center justify-center relative">
-                    <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=600&auto=format&fit=crop&q=80" alt="Araby Online Learning" class="w-full h-full object-cover opacity-90 hover:scale-105 transition-transform duration-300">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-transparent to-transparent"></div>
+                  <div class="w-56 h-56 sm:w-64 sm:h-64 mx-auto rounded-3xl overflow-hidden border-4 border-amber-100 shadow-xl bg-amber-50 flex items-center justify-center relative group">
+                    <img src="assets/robot-mascot.jpg" alt="بطل عربي أونلاين - الروبوت التعليمي المبهج" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                     <span class="absolute top-3 right-3 text-2xl filter drop-shadow">👑</span>
-                    <span class="absolute bottom-3 left-3 text-xs font-black text-amber-300 bg-black/70 px-2.5 py-1 rounded-xl border border-amber-400/40">
-                      تعلم تفاعلي ممتع 🎨
+                    <span class="absolute bottom-3 left-3 text-xs font-black text-white bg-slate-900/80 px-2.5 py-1 rounded-xl shadow-md">
+                      ARABY ON LINE 🤖
                     </span>
                   </div>
 
-                  <!-- Floating Comic Stickers -->
-                  <div class="absolute -top-3 -right-3 bg-purple-600 text-white p-2 rounded-2xl shadow-lg border border-purple-400 rotate-6 text-sm">
+                  <!-- Floating Stickers -->
+                  <div class="absolute -top-3 -right-3 bg-purple-600 text-white font-bold px-3 py-1 rounded-2xl shadow-lg rotate-6 text-xs border-2 border-white">
                     ✨ إتقان وشغف
                   </div>
-                  <div class="absolute -bottom-3 -left-3 bg-emerald-500 text-slate-950 font-black px-3 py-1 rounded-2xl shadow-lg border border-emerald-300 -rotate-3 text-xs">
+                  <div class="absolute -bottom-3 -left-3 bg-emerald-500 text-white font-black px-3 py-1 rounded-2xl shadow-lg -rotate-3 text-xs border-2 border-white">
                     ⚡ فردي وتفاعلي
                   </div>
                 </div>
 
-                <h3 class="text-lg font-black text-white">رحلة التميز في اللغة العربية</h3>
-                <p class="text-xs text-slate-400 mt-1 max-w-xs mx-auto">
-                  حفظ متقن، فهم عميق، خط جميل، وثقة لا تتزعزع في الامتحانات والاختبارات المدرسية.
+                <h3 class="text-lg font-black text-slate-900">رحلة التميز في اللغة العربية</h3>
+                <p class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
+                  حفظ متقن، فهم عميق، خط جميل، وثقة لا تتزعزع في الاختبارات المدرسية.
                 </p>
 
                 <!-- Quick Stats Strip -->
-                <div class="grid grid-cols-3 gap-2 pt-4 mt-4 border-t border-slate-800 text-center">
-                  <div class="bg-[#0F131E] p-2.5 rounded-xl border border-slate-800">
-                    <strong class="text-orange-400 font-black text-base block">100%</strong>
-                    <span class="text-[10px] text-slate-400">تدريب مباشر</span>
+                <div class="grid grid-cols-3 gap-2 pt-4 mt-4 border-t border-slate-100 text-center">
+                  <div class="bg-orange-50 p-2.5 rounded-2xl border border-orange-100">
+                    <strong class="text-orange-600 font-black text-base block">100%</strong>
+                    <span class="text-[10px] text-slate-600 font-semibold">تدريب مباشر</span>
                   </div>
-                  <div class="bg-[#0F131E] p-2.5 rounded-xl border border-slate-800">
-                    <strong class="text-emerald-400 font-black text-base block">6</strong>
-                    <span class="text-[10px] text-slate-400">كورسات متكاملة</span>
+                  <div class="bg-emerald-50 p-2.5 rounded-2xl border border-emerald-100">
+                    <strong class="text-emerald-600 font-black text-base block">6</strong>
+                    <span class="text-[10px] text-slate-600 font-semibold">كورسات متكاملة</span>
                   </div>
-                  <div class="bg-[#0F131E] p-2.5 rounded-xl border border-slate-800">
-                    <strong class="text-purple-400 font-black text-base block">🎁 مجاناً</strong>
-                    <span class="text-[10px] text-slate-400">كورس الخط</span>
+                  <div class="bg-purple-50 p-2.5 rounded-2xl border border-purple-100">
+                    <strong class="text-purple-600 font-black text-base block">🎁 مجاناً</strong>
+                    <span class="text-[10px] text-slate-600 font-semibold">كورس الخط</span>
                   </div>
                 </div>
 
@@ -306,35 +296,35 @@
 
         </div>
 
-        <!-- ==================== SHOWREEL CARD (MATCHING DIKSHANT'S SHOWREEL BANNER) ==================== -->
-        <div class="mt-12 dark-card p-6 sm:p-8 border-slate-700/80 bg-gradient-to-r from-[#17142A] via-[#141824] to-[#121927]">
+        <!-- ==================== SHOWREEL CARD (CALLIGRAPHY BONUS BANNER) ==================== -->
+        <div class="mt-12 modern-card p-6 sm:p-8 bg-gradient-to-r from-purple-50 via-white to-amber-50 border border-purple-200/80 shadow-md">
           <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
             
             <div class="md:col-span-5 space-y-3 text-right">
-              <div class="flex items-center gap-2 text-purple-400 text-xs font-black">
-                <i class="fa-regular fa-star text-amber-300"></i>
-                <span class="tracking-wider uppercase">SHOWREEL • عرض الشهر الحصري</span>
+              <div class="flex items-center gap-2 text-purple-700 text-xs font-black">
+                <i class="fa-regular fa-star text-amber-500"></i>
+                <span class="tracking-wider uppercase">عرض الشهر الحصري • GIFT SPECIAL</span>
               </div>
-              <h3 class="text-xl sm:text-2xl font-black text-white leading-tight">
+              <h3 class="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
                 كورس تحسين الخط العربي بالقلم العادي هدية مجانية 100%!
               </h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-600 leading-relaxed">
                 احجز أي كورس دراسي أو قرآني واستلم فوراً كورس الخط العربي مجاناً؛ تدريب عملي بالقلم العادي وفنون الرقعة والنسخ لتصحيح الخط الرديء.
               </p>
-              <button onclick="openPaymentModal()" class="text-xs font-black text-amber-400 hover:text-amber-300 flex items-center gap-2 pt-2 transition">
+              <button onclick="openPaymentModal()" class="text-xs font-black text-orange-600 hover:text-orange-700 flex items-center gap-2 pt-2 transition">
                 <span>احجز الكورس واستلم الهدية الآن</span>
                 <i class="fa-solid fa-circle-play text-sm"></i>
               </button>
             </div>
 
             <div class="md:col-span-7">
-              <div class="relative rounded-2xl overflow-hidden border border-slate-700/80 group aspect-video sm:aspect-[21/9] bg-black">
-                <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=900&auto=format&fit=crop&q=80" alt="Calligraphy Showreel Preview" class="w-full h-full object-cover opacity-75 group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="relative rounded-2xl overflow-hidden border border-slate-200 group aspect-video sm:aspect-[21/9] bg-slate-900 shadow-md">
+                <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=900&auto=format&fit=crop&q=80" alt="Calligraphy Showreel Preview" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 
                 <!-- Play Button Center Overlay -->
                 <div class="absolute inset-0 flex items-center justify-center">
-                  <a href="#calligraphy" class="w-14 h-14 rounded-full bg-orange-500/90 text-white flex items-center justify-center text-xl shadow-2xl hover:scale-110 transition-transform border-2 border-white/40">
+                  <a href="#calligraphy" class="w-14 h-14 rounded-full bg-orange-500 text-white flex items-center justify-center text-xl shadow-2xl hover:scale-110 transition-transform border-2 border-white">
                     <i class="fa-solid fa-play ml-0.5"></i>
                   </a>
                 </div>
@@ -344,7 +334,7 @@
                     <i class="fa-solid fa-pen-nib"></i>
                     <span>سبورة الخط العربي التفاعلية</span>
                   </span>
-                  <span class="text-[11px] text-slate-300 bg-black/60 px-2 py-0.5 rounded-md border border-slate-700">
+                  <span class="text-[11px] text-white bg-black/60 px-2 py-0.5 rounded-md border border-white/20">
                     تجربة حية ومباشرة
                   </span>
                 </div>
@@ -357,23 +347,23 @@
       </div>
     </section>
 
-    <!-- CORE SERVICES SECTION (FEATURED COURSES - MATCHING DIKSHANT'S FEATURED PROJECTS) -->
-    <section id="services" class="py-16 relative">
+    <!-- CORE SERVICES SECTION (FEATURED COURSES WITH OFFICIAL PHOTOS) -->
+    <section id="services" class="py-16 relative bg-white">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         
         <!-- Section Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-4 border-b border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-4 border-b border-slate-200">
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">FEATURED COURSES</h2>
-              <span class="text-orange-400 font-black text-2xl font-handwriting">〰️</span>
+              <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">الكورسات الـ 6 المعتمدة</h2>
+              <span class="text-orange-500 font-black text-2xl font-handwriting">〰️</span>
             </div>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
+            <p class="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
               خدماتنا الأكاديمية الـ 6 المعتمدة لطلاب الابتدائي والإعدادي مع هدية الشهر المجانية
             </p>
           </div>
 
-          <button onclick="openPaymentModal()" class="self-start sm:self-auto text-xs font-bold text-orange-400 hover:text-orange-300 flex items-center gap-1.5 transition">
+          <button onclick="openPaymentModal()" class="self-start sm:self-auto text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1.5 transition">
             <span>عرض كل تفاصيل الاشتراك</span>
             <i class="fa-solid fa-arrow-left"></i>
           </button>
@@ -383,20 +373,20 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
           <!-- COURSE 1: Egyptian Curriculum -->
-          <div class="dark-card group p-5 flex flex-col justify-between">
+          <div class="modern-card group p-5 flex flex-col justify-between">
             <div>
               <!-- Cover Poster Image with tags -->
-              <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
+              <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-100 mb-4 border border-slate-200">
                 <img id="landingCourseImg_c1" src="https://images.unsplash.com/photo-1544717305-2782549b5136?w=700&auto=format&fit=crop&q=80" alt="شرح منهج اللغة العربية" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                 
-                <span class="absolute top-3 right-3 text-[11px] font-black text-orange-200 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-orange-500/40 flex items-center gap-1">
+                <span class="absolute top-3 right-3 text-[11px] font-black text-white bg-orange-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
                   <span>🇪🇬 المنهج المصري</span>
                 </span>
-                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-200 bg-purple-950/80 backdrop-blur-md px-2 py-0.5 rounded-lg border border-purple-500/40">
+                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg border border-purple-200">
                   🎁 + الخط مجاناً
                 </span>
-                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-orange-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
+                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
                   300 ج / 70 ر.س
                 </span>
               </div>
@@ -404,275 +394,275 @@
               <!-- Header with title & corner arrow -->
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-white group-hover:text-orange-400 transition">شرح منهج اللغة العربية</h3>
-                  <p class="text-xs text-orange-400 font-bold">الابتدائي والإعدادي (المنهج الوزاري)</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-orange-600 transition">شرح منهج اللغة العربية</h3>
+                  <p class="text-xs text-orange-600 font-bold">الابتدائي والإعدادي (المنهج الوزاري)</p>
                 </div>
-                <div class="card-arrow-btn shrink-0">
+                <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed">
                 نصوص، قراءة متحررة، تعبير كتابي، قصة، وتربية دينية إسلامية، مع تدريبات امتحانات المحافظات وبنوك الأسئلة.
               </p>
 
-              <div class="mt-3 text-[11px] font-bold text-purple-300 bg-purple-950/50 px-2.5 py-1.5 rounded-xl border border-purple-800/60 flex items-center gap-1.5">
-                <i class="fa-solid fa-gift text-purple-400"></i>
+              <div class="mt-3 text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1.5 rounded-xl border border-purple-200 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift text-purple-600"></i>
                 <span>هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
               </div>
             </div>
 
-            <div class="space-y-2 pt-4 mt-4 border-t border-slate-800">
-              <button onclick="openPaymentModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="btn-neon-orange w-full py-2.5 text-xs font-black">
+            <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
+              <button onclick="openPaymentModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="btn-brand-orange w-full py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>حجز واشتراك الكورس الآن</span>
               </button>
-              <button onclick="openBookingModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="btn-dark-pill w-full py-2 text-xs font-bold text-slate-300 hover:text-white">
+              <button onclick="openBookingModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز حصة تجريبية مجانية 🎁
               </button>
             </div>
           </div>
 
           <!-- COURSE 2: Saudi Curriculum (Lughati) -->
-          <div class="dark-card group p-5 flex flex-col justify-between">
+          <div class="modern-card group p-5 flex flex-col justify-between">
             <div>
-              <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
+              <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-slate-100 mb-4 border border-slate-200">
                 <img id="landingCourseImg_c2" src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=700&auto=format&fit=crop&q=80" alt="شرح منهج لغتي" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                 
-                <span class="absolute top-3 right-3 text-[11px] font-black text-emerald-200 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-emerald-500/40 flex items-center gap-1">
+                <span class="absolute top-3 right-3 text-[11px] font-black text-white bg-emerald-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
                   <span>🇸🇦 المنهج السعودي</span>
                 </span>
-                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-200 bg-purple-950/80 backdrop-blur-md px-2 py-0.5 rounded-lg border border-purple-500/40">
+                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg border border-purple-200">
                   🎁 + الخط مجاناً
                 </span>
-                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-emerald-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
+                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
                   350 ج / 90 ر.س
                 </span>
               </div>
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-white group-hover:text-emerald-400 transition">شرح منهج لغتي</h3>
-                  <p class="text-xs text-emerald-400 font-bold">لغتي الجميلة والخالدة والدراسات الإسلامية</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-emerald-600 transition">شرح منهج لغتي</h3>
+                  <p class="text-xs text-emerald-600 font-bold">لغتي الجميلة والخالدة والدراسات الإسلامية</p>
                 </div>
-                <div class="card-arrow-btn shrink-0">
+                <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed">
                 شرح دقيق وفق معايير وزارة التعليم السعودية، مع تدريبات منصة مدرستي والاستعداد لاختبارات نافس والمعيارية.
               </p>
 
-              <div class="mt-3 text-[11px] font-bold text-purple-300 bg-purple-950/50 px-2.5 py-1.5 rounded-xl border border-purple-800/60 flex items-center gap-1.5">
-                <i class="fa-solid fa-gift text-purple-400"></i>
+              <div class="mt-3 text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1.5 rounded-xl border border-purple-200 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift text-purple-600"></i>
                 <span>هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
               </div>
             </div>
 
-            <div class="space-y-2 pt-4 mt-4 border-t border-slate-800">
-              <button onclick="openPaymentModal('2. شرح منهج لغتي (المنهج السعودي)')" class="w-full py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+            <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
+              <button onclick="openPaymentModal('2. شرح منهج لغتي (المنهج السعودي)')" class="btn-brand-green w-full py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>حجز واشتراك الكورس الآن</span>
               </button>
-              <button onclick="openBookingModal('2. شرح منهج لغتي (المنهج السعودي)')" class="btn-dark-pill w-full py-2 text-xs font-bold text-slate-300 hover:text-white">
+              <button onclick="openBookingModal('2. شرح منهج لغتي (المنهج السعودي)')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز حصة تجريبية مجانية 🎁
               </button>
             </div>
           </div>
 
-          <!-- COURSE 3: Comprehensive Foundation -->
-          <div class="dark-card group p-5 flex flex-col justify-between">
+          <!-- COURSE 3: Comprehensive Foundation (WITH UPLOADED ROBOT IMAGE) -->
+          <div class="modern-card group p-5 flex flex-col justify-between border-2 border-amber-300">
             <div>
-              <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
-                <img id="landingCourseImg_c3" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&auto=format&fit=crop&q=80" alt="كورس تأسيس القراءة والكتابة" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-amber-50 mb-4 border border-amber-200">
+                <img id="landingCourseImg_c3" src="assets/robot-mascot.jpg" alt="كورس تأسيس القراءة والكتابة والإملاء" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                 
-                <span class="absolute top-3 right-3 text-[11px] font-black text-amber-200 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-amber-500/40 flex items-center gap-1">
+                <span class="absolute top-3 right-3 text-[11px] font-black text-slate-900 bg-amber-300 px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
                   <span>تأسيس مرن 🌱</span>
                 </span>
-                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-200 bg-purple-950/80 backdrop-blur-md px-2 py-0.5 rounded-lg border border-purple-500/40">
+                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg border border-purple-200">
                   🎁 + الخط مجاناً
                 </span>
-                <span class="absolute bottom-2.5 left-3 text-xs font-black text-slate-950 bg-amber-400 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
+                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
                   400 ج / 110 ر.س
                 </span>
               </div>
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-white group-hover:text-amber-400 transition">كورسات التأسيس الشامل</h3>
-                  <p class="text-xs text-amber-400 font-bold">تعليم القراءة والكتابة والإملاء من الصفر</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-amber-600 transition">كورسات التأسيس الشامل</h3>
+                  <p class="text-xs text-amber-600 font-bold">تعليم القراءة والكتابة والإملاء من الصفر</p>
                 </div>
-                <div class="card-arrow-btn shrink-0">
+                <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed">
                 خطة مرنة للتخلص من الضعف الإملائي والقرائي؛ إتقان الحركات والمدود، التنوين والشدة، وقواعد كتابة الهمزات والتاءات.
               </p>
 
-              <div class="mt-3 text-[11px] font-bold text-purple-300 bg-purple-950/50 px-2.5 py-1.5 rounded-xl border border-purple-800/60 flex items-center gap-1.5">
-                <i class="fa-solid fa-gift text-purple-400"></i>
+              <div class="mt-3 text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1.5 rounded-xl border border-purple-200 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift text-purple-600"></i>
                 <span>هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
               </div>
             </div>
 
-            <div class="space-y-2 pt-4 mt-4 border-t border-slate-800">
-              <button onclick="openPaymentModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="w-full py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+            <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
+              <button onclick="openPaymentModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>حجز واشتراك الكورس الآن</span>
               </button>
-              <button onclick="openBookingModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="btn-dark-pill w-full py-2 text-xs font-bold text-slate-300 hover:text-white">
+              <button onclick="openBookingModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز تقييم مستوى مجاني 🎁
               </button>
             </div>
           </div>
 
-          <!-- COURSE 4: Grammar (Nahw) -->
-          <div class="dark-card group p-5 flex flex-col justify-between">
+          <!-- COURSE 4: Grammar (Nahw) (WITH UPLOADED TEACHER IMAGE) -->
+          <div class="modern-card group p-5 flex flex-col justify-between border-2 border-blue-300">
             <div>
-              <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
-                <img id="landingCourseImg_c4" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=700&auto=format&fit=crop&q=80" alt="كورس النحو من الصفر إلى الاحتراف" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-blue-50 mb-4 border border-blue-200">
+                <img id="landingCourseImg_c4" src="assets/teacher-nahw.jpg" alt="كورس النحو من الصفر إلى الاحتراف" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                 
-                <span class="absolute top-3 right-3 text-[11px] font-black text-blue-200 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-blue-500/40 flex items-center gap-1">
+                <span class="absolute top-3 right-3 text-[11px] font-black text-white bg-blue-600 px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
                   <span>📐 قواعد وإعراب</span>
                 </span>
-                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-200 bg-purple-950/80 backdrop-blur-md px-2 py-0.5 rounded-lg border border-purple-500/40">
+                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg border border-purple-200">
                   🎁 + الخط مجاناً
                 </span>
-                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-blue-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
+                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
                   350 ج / 95 ر.س
                 </span>
               </div>
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-white group-hover:text-blue-400 transition">النحو من الصفر للاحتراف</h3>
-                  <p class="text-xs text-blue-400 font-bold">تيسير مفاتيح الإعراب السهل بالخرائط الذهنية</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-blue-600 transition">النحو من الصفر للاحتراف</h3>
+                  <p class="text-xs text-blue-600 font-bold">تيسير مفاتيح الإعراب السهل بالخرائط الذهنية</p>
                 </div>
-                <div class="card-arrow-btn shrink-0">
+                <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed">
                 فهم أركان الجملة، المبتدأ والخبر، الأفعال، المنصوبات، والمجرورات بأسلوب تدريبي تفاعلي يزيل خوف النحو تماماً.
               </p>
 
-              <div class="mt-3 text-[11px] font-bold text-purple-300 bg-purple-950/50 px-2.5 py-1.5 rounded-xl border border-purple-800/60 flex items-center gap-1.5">
-                <i class="fa-solid fa-gift text-purple-400"></i>
+              <div class="mt-3 text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1.5 rounded-xl border border-purple-200 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift text-purple-600"></i>
                 <span>هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
               </div>
             </div>
 
-            <div class="space-y-2 pt-4 mt-4 border-t border-slate-800">
-              <button onclick="openPaymentModal('4. كورس النحو من الصفر إلى الاحتراف')" class="w-full py-2.5 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+            <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
+              <button onclick="openPaymentModal('4. كورس النحو من الصفر إلى الاحتراف')" class="btn-brand-blue w-full py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>حجز واشتراك الكورس الآن</span>
               </button>
-              <button onclick="openBookingModal('4. كورس النحو من الصفر إلى الاحتراف')" class="btn-dark-pill w-full py-2 text-xs font-bold text-slate-300 hover:text-white">
+              <button onclick="openBookingModal('4. كورس النحو من الصفر إلى الاحتراف')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز حصة تجريبية مجانية 🎁
               </button>
             </div>
           </div>
 
           <!-- COURSE 5: Quran -->
-          <div class="dark-card group p-5 flex flex-col justify-between">
+          <div class="modern-card group p-5 flex flex-col justify-between">
             <div>
-              <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
+              <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-rose-50 mb-4 border border-rose-200">
                 <img id="landingCourseImg_c5" src="https://images.unsplash.com/photo-1609599006353-e629aaabfeae?w=700&auto=format&fit=crop&q=80" alt="تحفيظ القرآن الكريم وتجويده" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                 
-                <span class="absolute top-3 right-3 text-[11px] font-black text-rose-200 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-rose-500/40 flex items-center gap-1">
+                <span class="absolute top-3 right-3 text-[11px] font-black text-white bg-rose-600 px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
                   <span>🕌 نور القرآن</span>
                 </span>
-                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-200 bg-purple-950/80 backdrop-blur-md px-2 py-0.5 rounded-lg border border-purple-500/40">
+                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg border border-purple-200">
                   🎁 + الخط مجاناً
                 </span>
-                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-rose-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
+                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
                   300 ج / 80 ر.س
                 </span>
               </div>
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-white group-hover:text-rose-400 transition">تحفيظ القرآن الكريم وتجويده</h3>
-                  <p class="text-xs text-rose-400 font-bold">حلقات فردية ومجموعات صغيرة للأطفال</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-rose-600 transition">تحفيظ القرآن الكريم وتجويده</h3>
+                  <p class="text-xs text-rose-600 font-bold">حلقات فردية ومجموعات صغيرة للأطفال</p>
                 </div>
-                <div class="card-arrow-btn shrink-0">
+                <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed">
                 حفظ متقن وضبط مخارج الحروف وأحكام التجويد وتفسير قصص الآيات وغرس الآداب النبوية بإشراف معلمين مجازين.
               </p>
 
-              <div class="mt-3 text-[11px] font-bold text-purple-300 bg-purple-950/50 px-2.5 py-1.5 rounded-xl border border-purple-800/60 flex items-center gap-1.5">
-                <i class="fa-solid fa-gift text-purple-400"></i>
+              <div class="mt-3 text-[11px] font-bold text-purple-700 bg-purple-50 px-2.5 py-1.5 rounded-xl border border-purple-200 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift text-purple-600"></i>
                 <span>هدية الشهر: كورس تحسين الخط مجاناً 100%!</span>
               </div>
             </div>
 
-            <div class="space-y-2 pt-4 mt-4 border-t border-slate-800">
-              <button onclick="openPaymentModal('5. تحفيظ القرآن الكريم وتجويده')" class="w-full py-2.5 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+            <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
+              <button onclick="openPaymentModal('5. تحفيظ القرآن الكريم وتجويده')" class="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>حجز واشتراك الحلقة الآن</span>
               </button>
-              <button onclick="openBookingModal('5. تحفيظ القرآن الكريم وتجويده')" class="btn-dark-pill w-full py-2 text-xs font-bold text-slate-300 hover:text-white">
+              <button onclick="openBookingModal('5. تحفيظ القرآن الكريم وتجويده')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز جلسة تلاوة مجانية 🎁
               </button>
             </div>
           </div>
 
           <!-- COURSE 6: Calligraphy -->
-          <div class="dark-card group p-5 flex flex-col justify-between border-purple-500/40">
+          <div class="modern-card group p-5 flex flex-col justify-between border-2 border-purple-300">
             <div>
-              <div class="relative w-full h-44 rounded-2xl overflow-hidden bg-slate-900 mb-4 border border-slate-800">
+              <div class="relative w-full h-48 rounded-2xl overflow-hidden bg-purple-50 mb-4 border border-purple-200">
                 <img id="landingCourseImg_c6" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=700&auto=format&fit=crop&q=80" alt="كورس تحسين الخط العربي" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
                 
-                <span class="absolute top-3 right-3 text-[11px] font-black text-purple-200 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-xl border border-purple-500/40 flex items-center gap-1">
+                <span class="absolute top-3 right-3 text-[11px] font-black text-white bg-purple-600 px-2.5 py-1 rounded-xl shadow-xs flex items-center gap-1">
                   <span>✍️ فنون الخط العربي</span>
                 </span>
-                <span class="absolute top-3 left-3 text-[11px] font-black text-slate-950 bg-amber-400 px-2 py-0.5 rounded-lg border border-amber-300">
+                <span class="absolute top-3 left-3 text-[11px] font-black text-slate-900 bg-amber-300 px-2 py-0.5 rounded-lg border border-amber-400">
                   🎁 هدية عرض الشهر!
                 </span>
-                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-purple-600/90 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
+                <span class="absolute bottom-2.5 left-3 text-xs font-black text-white bg-slate-900/80 backdrop-blur-md px-2.5 py-1 rounded-xl shadow-md">
                   350 ج / 90 ر.س
                 </span>
               </div>
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-white group-hover:text-purple-400 transition">تحسين الخط العربي بالقلم العادي</h3>
-                  <p class="text-xs text-purple-400 font-bold">بالقلم الجاف وفنون الرقعة والنسخ</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-purple-600 transition">تحسين الخط العربي بالقلم العادي</h3>
+                  <p class="text-xs text-purple-600 font-bold">بالقلم الجاف وفنون الرقعة والنسخ</p>
                 </div>
-                <div class="card-arrow-btn shrink-0">
+                <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-400 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed">
                 علاج الخط الرديء وغير المقروء في الامتحانات؛ تدريب عملي على مسكة القلم وتناسق الحروف مع تصحيح فردي أسبوعي.
               </p>
 
-              <div class="mt-3 text-[11px] font-bold text-amber-300 bg-amber-950/40 px-2.5 py-1.5 rounded-xl border border-amber-800/60 flex items-center gap-1.5">
-                <i class="fa-solid fa-gift text-amber-400"></i>
+              <div class="mt-3 text-[11px] font-bold text-amber-800 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-200 flex items-center gap-1.5">
+                <i class="fa-solid fa-gift text-amber-600"></i>
                 <span>متاح مجاناً 100% كهدية مع أي كورس تشترك فيه هذا الشهر!</span>
               </div>
             </div>
 
-            <div class="space-y-2 pt-4 mt-4 border-t border-slate-800">
-              <button onclick="openPaymentModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="w-full py-2.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
+            <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
+              <button onclick="openPaymentModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-credit-card"></i>
                 <span>حجز واشتراك الكورس الآن</span>
               </button>
-              <button onclick="openBookingModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="btn-dark-pill w-full py-2 text-xs font-bold text-slate-300 hover:text-white">
+              <button onclick="openBookingModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز ورشة تجريبية مجانية 🎁
               </button>
             </div>
@@ -683,66 +673,66 @@
       </div>
     </section>
 
-    <!-- ==================== SKILLS & TRACKS SECTION (MATCHING DIKSHANT'S SKILLS STRIP) ==================== -->
-    <section id="skills" class="py-12 border-t border-slate-800/80 relative">
+    <!-- ==================== SKILLS & TRACKS SECTION ==================== -->
+    <section id="skills" class="py-12 border-t border-slate-200 bg-slate-50 relative">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         
-        <div class="flex items-center justify-between mb-8 pb-3 border-b border-slate-800">
+        <div class="flex items-center justify-between mb-8 pb-3 border-b border-slate-200">
           <div class="flex items-center gap-2">
-            <h3 class="text-xl sm:text-2xl font-black text-white">SKILLS & TRACKS</h3>
-            <span class="text-purple-400 font-handwriting text-xl">〰️</span>
+            <h3 class="text-xl sm:text-2xl font-black text-slate-900">المسارات التأسيسية والأكاديمية</h3>
+            <span class="text-purple-600 font-handwriting text-xl">〰️</span>
           </div>
-          <span class="text-xs font-semibold text-slate-400">مسارات التفوق التأسيسي والأكاديمي</span>
+          <span class="text-xs font-semibold text-slate-500">مسارات التفوق التأسيسي والأكاديمي</span>
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           
-          <div class="skill-tile">
-            <div class="icon-box bg-orange-500/15 text-orange-400 border border-orange-500/30">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center hover:border-orange-300 hover:shadow-md transition">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl mb-2 font-bold">
               📖
             </div>
-            <strong class="text-xs font-black text-white">قراءة متحررة</strong>
-            <span class="text-[10px] text-slate-400">استيعاب وفهم</span>
+            <strong class="text-xs font-black text-slate-900 block">قراءة متحررة</strong>
+            <span class="text-[10px] text-slate-500">استيعاب وفهم</span>
           </div>
 
-          <div class="skill-tile">
-            <div class="icon-box bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center hover:border-emerald-300 hover:shadow-md transition">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-2 font-bold">
               ✍️
             </div>
-            <strong class="text-xs font-black text-white">إملاء وتأسيس</strong>
-            <span class="text-[10px] text-slate-400">قواعد الهمزات</span>
+            <strong class="text-xs font-black text-slate-900 block">إملاء وتأسيس</strong>
+            <span class="text-[10px] text-slate-500">قواعد الهمزات</span>
           </div>
 
-          <div class="skill-tile">
-            <div class="icon-box bg-blue-500/15 text-blue-400 border border-blue-500/30">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center hover:border-blue-300 hover:shadow-md transition">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-2 font-bold">
               📚
             </div>
-            <strong class="text-xs font-black text-white">مناهج وزارية</strong>
-            <span class="text-[10px] text-slate-400">مصر والسعودية</span>
+            <strong class="text-xs font-black text-slate-900 block">مناهج وزارية</strong>
+            <span class="text-[10px] text-slate-500">مصر والسعودية</span>
           </div>
 
-          <div class="skill-tile">
-            <div class="icon-box bg-indigo-500/15 text-indigo-400 border border-indigo-500/30">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center hover:border-indigo-300 hover:shadow-md transition">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl mb-2 font-bold">
               📐
             </div>
-            <strong class="text-xs font-black text-white">نحو وإعراب</strong>
-            <span class="text-[10px] text-slate-400">خرائط ذهنية</span>
+            <strong class="text-xs font-black text-slate-900 block">نحو وإعراب</strong>
+            <span class="text-[10px] text-slate-500">خرائط ذهنية</span>
           </div>
 
-          <div class="skill-tile">
-            <div class="icon-box bg-rose-500/15 text-rose-400 border border-rose-500/30">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center hover:border-rose-300 hover:shadow-md transition">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-xl mb-2 font-bold">
               🕌
             </div>
-            <strong class="text-xs font-black text-white">قرآن وتجويد</strong>
-            <span class="text-[10px] text-slate-400">حفظ وضبط</span>
+            <strong class="text-xs font-black text-slate-900 block">قرآن وتجويد</strong>
+            <span class="text-[10px] text-slate-500">حفظ وضبط</span>
           </div>
 
-          <div class="skill-tile">
-            <div class="icon-box bg-purple-500/15 text-purple-400 border border-purple-500/30">
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs text-center hover:border-purple-300 hover:shadow-md transition">
+            <div class="w-12 h-12 mx-auto rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-2 font-bold">
               🎨
             </div>
-            <strong class="text-xs font-black text-white">فنون الخط</strong>
-            <span class="text-[10px] text-slate-400">رقعة ونسخ</span>
+            <strong class="text-xs font-black text-slate-900 block">فنون الخط</strong>
+            <span class="text-[10px] text-slate-500">رقعة ونسخ</span>
           </div>
 
         </div>
@@ -750,20 +740,20 @@
       </div>
     </section>
 
-    <!-- ==================== ABOUT & PHILOSOPHY (MATCHING DIKSHANT'S SPLIT BENTO BOX) ==================== -->
-    <section id="about" class="py-14 border-t border-slate-800/80 relative">
+    <!-- ==================== ABOUT & PHILOSOPHY ==================== -->
+    <section id="about" class="py-14 border-t border-slate-200 bg-white relative">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           
-          <!-- LEFT: Neon Lime Comic Graphic Box (matching Dikshant's yellow/green graphic card) -->
-          <div class="lg:col-span-4 bg-[#A3E635] text-slate-950 p-6 sm:p-8 rounded-3xl flex flex-col justify-between shadow-xl relative overflow-hidden">
+          <!-- LEFT: Cheerful Lime Box -->
+          <div class="lg:col-span-4 bg-gradient-to-br from-lime-400 to-emerald-400 text-slate-950 p-6 sm:p-8 rounded-3xl flex flex-col justify-between shadow-lg relative overflow-hidden">
             <div class="space-y-2">
               <span class="doodle-crown text-3xl">👑</span>
               <h4 class="text-2xl sm:text-3xl font-black leading-tight tracking-tight">
                 إتقان • شغف • تأسيس يدوم
               </h4>
-              <p class="text-xs font-bold text-slate-800 tracking-wider uppercase pt-1">
+              <p class="text-xs font-black text-slate-900 tracking-wider uppercase pt-1">
                 FOCUS • DISCIPLINE • CONSISTENCY
               </p>
             </div>
@@ -776,50 +766,50 @@
             </div>
           </div>
 
-          <!-- RIGHT: Dark Sleek Bio & Details Card -->
-          <div class="lg:col-span-8 dark-card p-6 sm:p-8 flex flex-col justify-between border-slate-700/80">
+          <!-- RIGHT: Bio Card -->
+          <div class="lg:col-span-8 modern-card p-6 sm:p-8 flex flex-col justify-between border-slate-200">
             <div class="space-y-4">
-              <div class="flex items-center gap-2 text-orange-400 text-xs font-black">
+              <div class="flex items-center gap-2 text-orange-600 text-xs font-black">
                 <i class="fa-solid fa-sparkles"></i>
-                <span>ABOUT ARABY ONLINE • من نحن وفلسفتنا</span>
+                <span>من نحن وفلسفتنا التعليمية</span>
               </div>
 
-              <h3 class="text-xl sm:text-2xl font-black text-white">
+              <h3 class="text-xl sm:text-2xl font-black text-slate-900">
                 منصة تعليمية متخصصة تحت إشراف تربوي معتمد
               </h3>
 
-              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
                 يقود الأكاديمية <strong>أ/ محمود عبد الرحمن</strong> مع نخبة من معلمي ومعلمات اللغة العربية والقرآن الكريم المجازين؛ نؤمن بأن كل طالب يمتلك ذكاءً لغوياً فريداً، ومهمتنا هي تحويل رهبة النحو وصعوبة القراءة والإملاء إلى شغف وحب حقيقي وتفوق يظهر في الدرجات ودفاتر الواجب وجمال الخط.
               </p>
 
               <!-- Features Grid -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                <div class="flex items-center gap-2.5 text-slate-300">
-                  <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                <div class="flex items-center gap-2.5 text-slate-700 font-semibold">
+                  <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
                   <span>مجموعات فردية وصغيرة لضمان المشاركة</span>
                 </div>
-                <div class="flex items-center gap-2.5 text-slate-300">
-                  <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                <div class="flex items-center gap-2.5 text-slate-700 font-semibold">
+                  <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
                   <span>متابعة أسبوعية مفصلة مع ولي الأمر</span>
                 </div>
-                <div class="flex items-center gap-2.5 text-slate-300">
-                  <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                <div class="flex items-center gap-2.5 text-slate-700 font-semibold">
+                  <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
                   <span>شهادات تقدير معتمدة وجوائز للمتميزين</span>
                 </div>
-                <div class="flex items-center gap-2.5 text-slate-300">
-                  <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                <div class="flex items-center gap-2.5 text-slate-700 font-semibold">
+                  <i class="fa-solid fa-circle-check text-emerald-500 text-sm"></i>
                   <span>بوابة دفع مؤمنة تدعم مصر ودول الخليج</span>
                 </div>
               </div>
             </div>
 
-            <div class="pt-6 mt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-4">
-              <a href="https://wa.me/201080285458" target="_blank" class="btn-neon-orange text-xs font-black px-5 py-2.5">
+            <div class="pt-6 mt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4">
+              <a href="https://wa.me/201080285458" target="_blank" class="btn-brand-orange text-xs font-bold px-5 py-2.5 rounded-full flex items-center gap-2">
                 <i class="fa-brands fa-whatsapp text-sm"></i>
                 <span>تحدث مباشرة مع المشرف الأكاديمي (01080285458)</span>
               </a>
 
-              <span class="text-xs text-slate-400 font-bold">
+              <span class="text-xs text-slate-500 font-bold">
                 متاحون للرد والاستشارات التعليمية طوال الأسبوع
               </span>
             </div>
@@ -831,67 +821,67 @@
     </section>
 
     <!-- ==================== CALLIGRAPHY STUDIO (سبورة الخط العربي التفاعلية) ==================== -->
-    <section id="calligraphy" class="py-14 border-t border-slate-800/80 relative">
+    <section id="calligraphy" class="py-14 border-t border-slate-200 bg-slate-50 relative">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
         
         <div class="text-center max-w-lg mx-auto mb-8">
-          <span class="tag-highlight mb-2">
+          <span class="inline-block px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-black text-xs border border-purple-200 mb-2">
             تجربة تفاعلية مباشرة ✍️
           </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-white mb-2">
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
             سبورة تدريب وتتبع الخط العربي
           </h2>
-          <p class="text-xs text-slate-400">
+          <p class="text-xs text-slate-500">
             جرّب كتابة وتتبع الحروف بألوان أقلام مستوحاة من شعار الأكاديمية:
           </p>
         </div>
 
-        <div class="dark-card p-5 sm:p-6 border-slate-700/80 bg-[#121622]">
+        <div class="modern-card p-5 sm:p-6 bg-white border-slate-200 shadow-md">
           
           <!-- Toolbar -->
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-800">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100">
             <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-slate-400">حرف التدريب:</span>
+              <span class="text-xs font-bold text-slate-500">حرف التدريب:</span>
               <div class="flex items-center gap-1.5">
-                <button onclick="setTraceLetter('ج')" class="trace-btn-dark active">ج</button>
-                <button onclick="setTraceLetter('س')" class="trace-btn-dark">س</button>
-                <button onclick="setTraceLetter('ع')" class="trace-btn-dark">ع</button>
-                <button onclick="setTraceLetter('لا')" class="trace-btn-dark">لا</button>
-                <button onclick="setTraceLetter('')" class="trace-btn-dark text-xs">صفحة بيضاء</button>
+                <button onclick="setTraceLetter('ج')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">ج</button>
+                <button onclick="setTraceLetter('س')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">س</button>
+                <button onclick="setTraceLetter('ع')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">ع</button>
+                <button onclick="setTraceLetter('لا')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">لا</button>
+                <button onclick="setTraceLetter('')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition">صفحة بيضاء</button>
               </div>
             </div>
 
             <div class="flex items-center gap-3">
               <div class="flex items-center gap-1.5">
-                <button onclick="setBrushColor('#FFFFFF')" class="color-dot w-6 h-6 rounded-full bg-white ring-2 ring-offset-2 ring-white" title="أبيض ناصع"></button>
-                <button onclick="setBrushColor('#F97316')" class="color-dot w-6 h-6 rounded-full bg-logo-orange" title="برتقالي"></button>
-                <button onclick="setBrushColor('#EF4444')" class="color-dot w-6 h-6 rounded-full bg-logo-red" title="أحمر"></button>
-                <button onclick="setBrushColor('#10B981')" class="color-dot w-6 h-6 rounded-full bg-logo-green" title="أخضر"></button>
-                <button onclick="setBrushColor('#3B82F6')" class="color-dot w-6 h-6 rounded-full bg-logo-blue" title="أزرق"></button>
-                <button onclick="setBrushColor('#A855F7')" class="color-dot w-6 h-6 rounded-full bg-logo-purple" title="بنفسجي"></button>
+                <button onclick="setBrushColor('#FFFFFF')" class="w-6 h-6 rounded-full bg-slate-300 ring-2 ring-offset-2 ring-slate-400" title="أبيض ناصع"></button>
+                <button onclick="setBrushColor('#F97316')" class="w-6 h-6 rounded-full bg-logo-orange" title="برتقالي"></button>
+                <button onclick="setBrushColor('#EF4444')" class="w-6 h-6 rounded-full bg-logo-red" title="أحمر"></button>
+                <button onclick="setBrushColor('#10B981')" class="w-6 h-6 rounded-full bg-logo-green" title="أخضر"></button>
+                <button onclick="setBrushColor('#3B82F6')" class="w-6 h-6 rounded-full bg-logo-blue" title="أزرق"></button>
+                <button onclick="setBrushColor('#A855F7')" class="w-6 h-6 rounded-full bg-logo-purple" title="بنفسجي"></button>
               </div>
 
-              <div class="h-4 w-px bg-slate-700"></div>
+              <div class="h-4 w-px bg-slate-200"></div>
 
-              <button onclick="clearCanvas()" class="text-xs text-slate-400 hover:text-rose-400 font-bold flex items-center gap-1 px-2.5 py-1.5 rounded-xl hover:bg-slate-800 transition">
+              <button onclick="clearCanvas()" class="text-xs text-slate-500 hover:text-rose-600 font-bold flex items-center gap-1 px-2.5 py-1.5 rounded-xl hover:bg-slate-100 transition">
                 <i class="fa-solid fa-eraser"></i>
                 <span>مسح</span>
               </button>
 
-              <button onclick="downloadDrawing()" class="btn-dark-pill text-xs py-1.5 px-3">
-                <i class="fa-solid fa-download text-emerald-400"></i>
+              <button onclick="downloadDrawing()" class="btn-pill-subtle text-xs py-1.5 px-3 rounded-xl font-bold">
+                <i class="fa-solid fa-download text-emerald-600"></i>
                 <span>حفظ اللوحة</span>
               </button>
             </div>
           </div>
 
           <!-- Canvas Surface -->
-          <div class="relative bg-[#0A0D14] rounded-2xl border-2 border-dashed border-slate-700/80 overflow-hidden cursor-crosshair h-64 sm:h-72">
+          <div class="relative bg-slate-900 rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden cursor-crosshair h-64 sm:h-72">
             <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 border-b-2 border-red-500/20 pointer-events-none"></div>
             <div class="absolute inset-x-0 top-1/4 border-b border-dashed border-blue-500/15 pointer-events-none"></div>
             <div class="absolute inset-x-0 bottom-1/4 border-b border-dashed border-blue-500/15 pointer-events-none"></div>
 
-            <div id="canvasGuideText" class="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-slate-800 font-calligraphy text-8xl md:text-9xl">
+            <div id="canvasGuideText" class="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-slate-700 font-calligraphy text-8xl md:text-9xl">
               ج
             </div>
 
@@ -899,15 +889,15 @@
           </div>
 
           <!-- Bottom Gift Ribbon -->
-          <div class="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-purple-950/60 via-slate-900 to-indigo-950/60 border border-purple-800/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div class="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-white to-amber-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
             <div class="flex items-center gap-2.5">
               <span class="text-xl shrink-0">🎁</span>
               <div>
-                <span class="font-black text-amber-300 block sm:inline">عرض الشهر الحصري:</span>
-                <span class="text-slate-300"> كورس تحسين الخط العربي متاح كهدية مجانية 100% مع أي كورس تشترك فيه الآن!</span>
+                <span class="font-black text-purple-700 block sm:inline">عرض الشهر الحصري:</span>
+                <span class="text-slate-600"> كورس تحسين الخط العربي متاح كهدية مجانية 100% مع أي كورس تشترك فيه الآن!</span>
               </div>
             </div>
-            <button onclick="openPaymentModal()" class="btn-neon-orange px-4 py-2 text-xs font-black whitespace-nowrap shrink-0">
+            <button onclick="openPaymentModal()" class="btn-brand-orange px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap shrink-0">
               <span>احجز واستلم الهدية</span>
               <i class="fa-solid fa-arrow-left"></i>
             </button>
@@ -921,28 +911,28 @@
   </main>
 
   <!-- ==================== STUDENT DASHBOARD VIEW (لوحة الطالب الأكاديمية الاحترافية) ==================== -->
-  <section id="studentDashboardView" class="hidden min-h-screen bg-[#0B0F17] py-8 text-white">
+  <section id="studentDashboardView" class="hidden min-h-screen bg-slate-50 py-8 text-slate-900">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-6">
       
       <!-- Top Action Bar -->
-      <div class="flex flex-wrap items-center justify-between gap-4 dark-card bg-[#141824] p-4 border border-slate-700/80 shadow-md">
+      <div class="flex flex-wrap items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-slate-200 shadow-xs">
         <div class="flex items-center gap-3 flex-wrap">
-          <button onclick="showSection('landing')" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5">
+          <button onclick="showSection('landing')" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
             <i class="fa-solid fa-arrow-right"></i>
             <span>العودة للرئيسية</span>
           </button>
-          <span class="text-slate-600 hidden sm:inline">|</span>
-          <span class="text-xs font-bold text-slate-400">معاينة الطالب:</span>
-          <button onclick="setDashboardProfile('ahmed')" id="btn-profile-ahmed" class="profile-chip-dark active text-xs font-bold px-3 py-1.5 rounded-xl transition">
+          <span class="text-slate-300 hidden sm:inline">|</span>
+          <span class="text-xs font-bold text-slate-500">معاينة الطالب:</span>
+          <button onclick="setDashboardProfile('ahmed')" id="btn-profile-ahmed" class="profile-chip text-xs font-bold px-3 py-1.5 rounded-xl transition bg-orange-500 text-white shadow-xs">
             🇪🇬 أحمد (المنهج المصري والنحو)
           </button>
-          <button onclick="setDashboardProfile('sarah')" id="btn-profile-sarah" class="profile-chip-dark text-xs font-bold px-3 py-1.5 rounded-xl transition">
+          <button onclick="setDashboardProfile('sarah')" id="btn-profile-sarah" class="profile-chip text-xs font-bold px-3 py-1.5 rounded-xl transition bg-slate-100 hover:bg-slate-200 text-slate-700">
             🇸🇦 سارة (منهج لغتي والتأسيس)
           </button>
         </div>
 
         <div class="flex items-center gap-2">
-          <button onclick="openPaymentModal()" class="btn-neon-orange px-3.5 py-2 text-xs font-black">
+          <button onclick="openPaymentModal()" class="btn-brand-orange px-3.5 py-2 text-xs font-bold rounded-xl flex items-center gap-1.5">
             <i class="fa-solid fa-plus-circle"></i>
             <span>حجز كورس إضافي</span>
           </button>
@@ -950,9 +940,9 @@
       </div>
 
       <!-- Hero Welcome Card -->
-      <div class="relative overflow-hidden rounded-4xl dark-card bg-gradient-to-l from-[#181D2B] via-[#141824] to-[#0F131E] p-6 sm:p-8 border-2 border-slate-700/80 shadow-lg">
-        <div class="absolute -top-10 -left-10 w-48 h-48 bg-orange-500/15 rounded-full blur-2xl pointer-events-none"></div>
-        <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-purple-500/15 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="relative overflow-hidden rounded-4xl bg-gradient-to-l from-orange-50/70 via-amber-50/50 to-white p-6 sm:p-8 border border-amber-200/80 shadow-sm">
+        <div class="absolute -top-10 -left-10 w-48 h-48 bg-orange-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-purple-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div class="flex items-start sm:items-center gap-4">
@@ -1835,57 +1825,57 @@
   </footer>
 
   <!-- ==================== STUDENT & PARENT LOGIN MODAL ==================== -->
-  <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="dark-card max-w-md w-full p-6 sm:p-7 border-2 border-slate-700/80 shadow-2xl relative animate-fadeIn bg-[#141824]">
+  <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900">
       
-      <button onclick="closeLoginModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center transition">
+      <button onclick="closeLoginModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
       <div class="text-center mb-5">
-        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-600 text-white flex items-center justify-center text-2xl font-black mb-3 shadow-lg border border-purple-400/40">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-blue-600 text-white flex items-center justify-center text-2xl font-black mb-3 shadow-md">
           🎓
         </div>
-        <h3 class="text-xl font-black text-white">تسجيل الدخول إلى المنصة</h3>
-        <p class="text-xs text-slate-400 mt-1">متابعة المقررات، الحصص التفاعلية، والواجبات</p>
+        <h3 class="text-xl font-black text-slate-900">تسجيل الدخول إلى المنصة</h3>
+        <p class="text-xs text-slate-500 mt-1">متابعة المقررات، الحصص التفاعلية، والواجبات</p>
       </div>
 
       <!-- User Type Tabs -->
-      <div class="flex p-1 bg-[#0F131E] border border-slate-800 rounded-2xl mb-4 text-xs font-bold">
+      <div class="flex p-1 bg-slate-100 border border-slate-200 rounded-2xl mb-4 text-xs font-bold">
         <button type="button" onclick="switchLoginType('student')" id="loginTabStudent" class="flex-1 py-2 rounded-xl bg-purple-600 text-white shadow-xs transition">
           <i class="fa-solid fa-user-graduate ml-1"></i> حساب طالب
         </button>
-        <button type="button" onclick="switchLoginType('parent')" id="loginTabParent" class="flex-1 py-2 rounded-xl text-slate-400 hover:text-white transition">
+        <button type="button" onclick="switchLoginType('parent')" id="loginTabParent" class="flex-1 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition">
           <i class="fa-solid fa-hands-holding-child ml-1"></i> حساب ولي أمر
         </button>
       </div>
 
       <form onsubmit="handleStudentLoginSubmit(event)" class="space-y-3.5 text-xs font-semibold">
         <div>
-          <label class="block text-slate-300 mb-1" id="loginIdLabel">رقم هاتف الطالب / كود الدخول *</label>
+          <label class="block text-slate-700 mb-1" id="loginIdLabel">رقم هاتف الطالب / كود الدخول *</label>
           <div class="relative">
-            <input type="text" id="loginIdentifier" required placeholder="مثال: 01080285458 أو STU-2026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-purple-500 text-xs pr-9" dir="ltr">
-            <i class="fa-solid fa-user absolute right-3 top-3 text-slate-500"></i>
+            <input type="text" id="loginIdentifier" required placeholder="مثال: 01080285458 أو STU-2026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9" dir="ltr">
+            <i class="fa-solid fa-user absolute right-3 top-3 text-slate-400"></i>
           </div>
         </div>
 
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label class="block text-slate-300">كلمة المرور *</label>
-            <a href="https://wa.me/201080285458?text=السلام%20عليكم،%20نسيت%20كلمة%20المرور%20لحساب%20الطالب" target="_blank" class="text-[11px] text-purple-400 hover:underline font-bold">نسيت كلمة المرور؟</a>
+            <label class="block text-slate-700">كلمة المرور *</label>
+            <a href="https://wa.me/201080285458?text=السلام%20عليكم،%20نسيت%20كلمة%20المرور%20لحساب%20الطالب" target="_blank" class="text-[11px] text-purple-600 hover:underline font-bold">نسيت كلمة المرور؟</a>
           </div>
           <div class="relative">
-            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-purple-500 text-xs pr-9">
-            <i class="fa-solid fa-lock absolute right-3 top-3 text-slate-500"></i>
-            <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIconLogin')" class="absolute left-3 top-2.5 text-slate-500 hover:text-slate-300">
+            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9">
+            <i class="fa-solid fa-lock absolute right-3 top-3 text-slate-400"></i>
+            <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIconLogin')" class="absolute left-3 top-2.5 text-slate-400 hover:text-slate-600">
               <i id="eyeIconLogin" class="fa-solid fa-eye text-xs"></i>
             </button>
           </div>
         </div>
 
         <div class="flex items-center justify-between pt-1">
-          <label class="flex items-center gap-2 cursor-pointer text-[11px] text-slate-400 select-none">
-            <input type="checkbox" checked class="rounded bg-slate-800 border-slate-700 text-purple-600 focus:ring-0">
+          <label class="flex items-center gap-2 cursor-pointer text-[11px] text-slate-500 select-none">
+            <input type="checkbox" checked class="rounded border-slate-300 text-purple-600 focus:ring-0">
             <span>تذكر بيانات دخولي على هذا الجهاز</span>
           </label>
         </div>
@@ -1896,8 +1886,8 @@
         </button>
 
         <!-- Quick Demo Login Button -->
-        <button type="button" onclick="handleQuickDemoLogin()" class="w-full py-2.5 rounded-2xl bg-[#0F131E] hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 font-bold text-xs transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-bolt text-xs text-amber-300"></i>
+        <button type="button" onclick="handleQuickDemoLogin()" class="w-full py-2.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-bolt text-xs text-amber-500"></i>
           <span>تجربة الدخول الفوري لطالب (حساب تجريبي)</span>
         </button>
       </form>
@@ -1905,37 +1895,37 @@
     </div>
   </div>
 
-  <!-- ==================== FREE TRIAL MODAL (SLEEK DARK THEME) ==================== -->
-  <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="dark-card max-w-md w-full p-6 border-2 border-slate-700/80 shadow-2xl relative animate-fadeIn bg-[#141824]">
+  <!-- ==================== FREE TRIAL MODAL ==================== -->
+  <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900">
       
-      <button onclick="closeBookingModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center transition">
+      <button onclick="closeBookingModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
       <div class="text-center mb-4">
-        <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-400 text-xs font-black border border-emerald-500/30 mb-2">
+        <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black border border-emerald-200 mb-2">
           مجانية 100% بدون أي رسوم 🎁
         </span>
-        <h3 class="text-xl font-black text-white">حجز حصة تجريبية مجانية</h3>
-        <p class="text-xs text-slate-400 mt-1">جرّب الحصة الأولى وتعرف على المعلم مجاناً قبل الاشتراك</p>
+        <h3 class="text-xl font-black text-slate-900">حجز حصة تجريبية مجانية</h3>
+        <p class="text-xs text-slate-500 mt-1">جرّب الحصة الأولى وتعرف على المعلم مجاناً قبل الاشتراك</p>
       </div>
 
       <!-- Month-Long Offer Note in Free Trial Modal -->
-      <div class="bg-purple-950/50 border border-purple-800/60 rounded-2xl p-2.5 mb-3 text-[11px] text-purple-200 flex items-center gap-2 font-medium">
+      <div class="bg-purple-50 border border-purple-200 rounded-2xl p-2.5 mb-3 text-[11px] text-purple-800 flex items-center gap-2 font-medium">
         <span class="text-lg shrink-0">🎁</span>
         <span><strong>عرض الشهر:</strong> عند تثبيت اشتراكك بعد الحصة التجريبية، ستحصل تلقائياً على كورس تحسين الخط العربي هدية مجانية 100%!</span>
       </div>
 
       <form onsubmit="handleBookingForm(event)" class="space-y-3.5 text-xs font-semibold">
         <div>
-          <label class="block text-slate-300 mb-1">اسم الطالب أو الطالبة *</label>
-          <input type="text" id="modalStudentName" required placeholder="مثال: يوسف أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-orange-500 text-xs">
+          <label class="block text-slate-700 mb-1">اسم الطالب أو الطالبة *</label>
+          <input type="text" id="modalStudentName" required placeholder="مثال: يوسف أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs">
         </div>
 
         <div>
-          <label class="block text-slate-300 mb-1">المرحلة والصف الدراسي *</label>
-          <select id="modalStudentGrade" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-orange-500 text-xs font-medium">
+          <label class="block text-slate-700 mb-1">المرحلة والصف الدراسي *</label>
+          <select id="modalStudentGrade" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
             <option value="">-- اختر الصف الدراسي للطالب --</option>
             <optgroup label="🌱 مرحلة رياض الأطفال والتأسيس المبكر">
               <option value="مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)">مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)</option>
@@ -1960,8 +1950,8 @@
         </div>
 
         <div>
-          <label class="block text-slate-300 mb-1">اختر الكورس للحصة المجانية *</label>
-          <select id="modalCurriculum" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-orange-500 text-xs font-medium">
+          <label class="block text-slate-700 mb-1">اختر الكورس للحصة المجانية *</label>
+          <select id="modalCurriculum" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
             <option value="">-- اختر الحصة التجريبية أو الدورة --</option>
             <optgroup label="🌟 الحصص والدورات الأكثر طلباً (تجريبية مجانية 100%)">
               <option value="5. تحفيظ القرآن الكريم وتجويده">🕌 تحفيظ القرآن الكريم وأحكام التجويد (حصة تجريبية مجانية)</option>
@@ -1979,40 +1969,40 @@
         </div>
 
         <div>
-          <label class="block text-slate-300 mb-1">رقم هاتف ولي الأمر (واتساب) *</label>
-          <input type="tel" id="modalParentPhone" required placeholder="01080285458" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-orange-500 text-xs" dir="ltr">
+          <label class="block text-slate-700 mb-1">رقم هاتف ولي الأمر (واتساب) *</label>
+          <input type="tel" id="modalParentPhone" required placeholder="01080285458" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs" dir="ltr">
         </div>
 
-        <button type="submit" class="btn-neon-lime w-full py-3 text-xs sm:text-sm font-black mt-2">
+        <button type="submit" class="btn-brand-green w-full py-3 text-xs sm:text-sm font-black rounded-2xl mt-2">
           تأكيد حجز الحصة التجريبية المجانية 🎁
         </button>
 
-        <p class="text-[11px] text-center text-slate-400 font-medium">
-          أو تواصل فوراً عبر الواتساب على: <strong class="text-emerald-400 font-bold" dir="ltr">01080285458</strong>
+        <p class="text-[11px] text-center text-slate-500 font-medium">
+          أو تواصل فوراً عبر الواتساب على: <strong class="text-emerald-600 font-bold" dir="ltr">01080285458</strong>
         </p>
       </form>
 
     </div>
   </div>
 
-  <!-- ==================== PAYMENT GATEWAY MODAL (SLEEK DARK THEME) ==================== -->
-  <div id="paymentModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="dark-card max-w-lg w-full p-6 sm:p-7 border-2 border-slate-700/80 shadow-2xl relative animate-fadeIn max-h-[92vh] overflow-y-auto bg-[#141824] text-white">
+  <!-- ==================== PAYMENT GATEWAY MODAL ==================== -->
+  <div id="paymentModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 border border-slate-200 shadow-2xl relative animate-fadeIn max-h-[92vh] overflow-y-auto text-slate-900">
       
-      <button onclick="closePaymentModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 flex items-center justify-center transition">
+      <button onclick="closePaymentModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
       <div class="text-center mb-5">
-        <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-500/15 text-orange-400 border border-orange-500/30 flex items-center justify-center text-xl font-bold mb-2 shadow-xs">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold mb-2 shadow-xs">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
-        <h3 class="text-xl font-black text-white">بوابة الدفع وتأكيد الحجز</h3>
-        <p class="text-xs text-slate-400 mt-0.5">يتم تدقيق التحويل الفعلي ومطابقته قبل تفعيل وفتح الكورس</p>
+        <h3 class="text-xl font-black text-slate-900">بوابة الدفع وتأكيد الحجز</h3>
+        <p class="text-xs text-slate-500 mt-0.5">يتم تدقيق التحويل الفعلي ومطابقته قبل تفعيل وفتح الكورس</p>
       </div>
 
-      <div class="bg-rose-950/50 border border-rose-800/60 rounded-2xl p-3 text-[11px] text-rose-200 space-y-1 mb-4">
-        <div class="flex items-center gap-1.5 font-bold text-rose-300">
+      <div class="bg-rose-50 border border-rose-200 rounded-2xl p-3 text-[11px] text-rose-900 space-y-1 mb-4">
+        <div class="flex items-center gap-1.5 font-bold text-rose-700">
           <i class="fa-solid fa-shield-virus text-sm"></i>
           <span>تنبيه أمني هام بشأن إيصالات التحويل:</span>
         </div>
@@ -2024,8 +2014,8 @@
       <form onsubmit="handlePaymentSubmit(event)" class="space-y-4 text-xs font-semibold">
         
         <div>
-          <label class="block text-slate-300 mb-1">اختر الكورس المطلوب حجزه *</label>
-          <select id="payCourseSelect" onchange="updateCoursePrice()" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-700 bg-[#0F131E] text-white focus:outline-none focus:border-orange-500 text-xs">
+          <label class="block text-slate-700 mb-1">اختر الكورس المطلوب حجزه *</label>
+          <select id="payCourseSelect" onchange="updateCoursePrice()" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs">
             <option value="1. شرح منهج اللغة العربية (المنهج المصري)" data-price-eg="300 جنيه شهرياً" data-price-sa="70 ريال شهرياً">1. 🇪🇬 منهج اللغة العربية (مصر)</option>
             <option value="2. شرح منهج لغتي (المنهج السعودي)" data-price-eg="350 جنيه شهرياً" data-price-sa="90 ريال شهرياً">2. 🇸🇦 منهج لغتي السعودي</option>
             <option value="3. كورس تأسيس القراءة والكتابة والإملاء" data-price-eg="400 جنيه للدورة" data-price-sa="110 ريال للدورة">3. 🌱 كورس التأسيس والإملاء الشامل</option>
@@ -2035,22 +2025,22 @@
           </select>
         </div>
 
-        <div class="bg-[#0F131E] p-3 rounded-2xl border border-slate-700 flex items-center justify-between">
-          <span class="text-slate-300 font-bold">قيمة الاشتراك المقررة:</span>
-          <span id="displayPriceTag" class="text-sm font-black text-orange-400">300 جنيه (أو 70 ريال)</span>
+        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 flex items-center justify-between">
+          <span class="text-slate-700 font-bold">قيمة الاشتراك المقررة:</span>
+          <span id="displayPriceTag" class="text-sm font-black text-orange-600">300 جنيه (أو 70 ريال)</span>
         </div>
 
         <!-- Month-Long Special Offer Bonus Box -->
-        <div class="bg-gradient-to-r from-purple-950/60 via-[#181D2B] to-slate-900 border-2 border-purple-800/60 rounded-2xl p-3.5 flex items-start gap-3 shadow-md">
-          <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xl shrink-0 shadow-md">
+        <div class="bg-gradient-to-r from-purple-50 via-white to-amber-50 border-2 border-purple-200 rounded-2xl p-3.5 flex items-start gap-3 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center text-xl shrink-0 shadow-xs">
             🎁
           </div>
           <div class="text-[11px] leading-relaxed">
             <div class="flex items-center gap-2 mb-0.5">
-              <span class="font-black text-purple-300 text-xs">هدية عرض الشهر المجانية (مشمولة مع طلبك):</span>
+              <span class="font-black text-purple-700 text-xs">هدية عرض الشهر المجانية (مشمولة مع طلبك):</span>
               <span class="px-2 py-0.5 rounded-md bg-amber-400 text-slate-950 font-black text-[10px]">بقيمة 350 ج / 90 ر.س مجاناً</span>
             </div>
-            <p class="text-slate-300 font-medium">
+            <p class="text-slate-600 font-medium">
               بمناسبة عرض الشهر، ستحصل تلقائياً على <strong>"كورس تحسين الخط العربي بالقلم العادي" هدية مجانية 100%</strong> مع هذا الاشتراك!
             </p>
           </div>
@@ -2058,12 +2048,12 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-slate-300 mb-1">اسم الطالب *</label>
-            <input type="text" id="payStudentName" required placeholder="اسم الطالب" class="w-full px-3 py-2 rounded-xl border border-slate-700 bg-[#0F131E] text-white text-xs">
+            <label class="block text-slate-700 mb-1">اسم الطالب *</label>
+            <input type="text" id="payStudentName" required placeholder="اسم الطالب" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs">
           </div>
           <div>
-            <label class="block text-slate-300 mb-1">الصف الدراسي للطالب *</label>
-            <select id="payStudentGrade" required class="w-full px-3 py-2 rounded-xl border border-slate-700 text-xs bg-[#0F131E] text-white font-medium">
+            <label class="block text-slate-700 mb-1">الصف الدراسي للطالب *</label>
+            <select id="payStudentGrade" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white text-slate-900 font-medium">
               <option value="">اختر الصف...</option>
               <optgroup label="🌱 مرحلة رياض الأطفال والتأسيس المبكر">
                 <option value="مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)">مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)</option>
@@ -2089,43 +2079,43 @@
         </div>
 
         <div>
-          <label class="block text-slate-300 mb-1">رقم هاتف / واتساب ولي الأمر *</label>
-          <input type="tel" id="payParentPhone" required placeholder="01080285458" class="w-full px-3 py-2 rounded-xl border border-slate-700 bg-[#0F131E] text-white text-xs" dir="ltr">
+          <label class="block text-slate-700 mb-1">رقم هاتف / واتساب ولي الأمر *</label>
+          <input type="tel" id="payParentPhone" required placeholder="01080285458" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-900 text-xs" dir="ltr">
         </div>
 
         <div>
-          <label class="block text-slate-300 mb-1.5">طريقة التحويل أو الدفع المستخدمة *</label>
+          <label class="block text-slate-700 mb-1.5">طريقة التحويل أو الدفع المستخدمة *</label>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center text-xs">
-            <label class="cursor-pointer border border-slate-700 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-orange-500 bg-[#0F131E] has-[:checked]:bg-orange-950/40 has-[:checked]:border-orange-500 has-[:checked]:text-orange-400">
+            <label class="cursor-pointer border border-slate-300 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-orange-500 bg-slate-50 has-[:checked]:bg-orange-50 has-[:checked]:border-orange-500 has-[:checked]:text-orange-600">
               <input type="radio" name="payMethod" value="فودافون كاش / إنستاباي" checked class="hidden">
-              <i class="fa-solid fa-mobile-screen text-base text-emerald-400"></i>
+              <i class="fa-solid fa-mobile-screen text-base text-emerald-600"></i>
               <span class="font-bold">فودافون كاش / إنستاباي</span>
-              <span class="text-[10px] text-slate-400">01080285458</span>
+              <span class="text-[10px] text-slate-500">01080285458</span>
             </label>
 
-            <label class="cursor-pointer border border-slate-700 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-orange-500 bg-[#0F131E] has-[:checked]:bg-orange-950/40 has-[:checked]:border-orange-500 has-[:checked]:text-orange-400">
+            <label class="cursor-pointer border border-slate-300 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-orange-500 bg-slate-50 has-[:checked]:bg-orange-50 has-[:checked]:border-orange-500 has-[:checked]:text-orange-600">
               <input type="radio" name="payMethod" value="مدى / بطاقة بنكية" class="hidden">
-              <i class="fa-solid fa-credit-card text-base text-blue-400"></i>
+              <i class="fa-solid fa-credit-card text-base text-blue-600"></i>
               <span class="font-bold">مدى / فيزا / ماستركارد</span>
-              <span class="text-[10px] text-slate-400">دفع إلكتروني فوري</span>
+              <span class="text-[10px] text-slate-500">دفع إلكتروني فوري</span>
             </label>
 
-            <label class="cursor-pointer border border-slate-700 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-orange-500 bg-[#0F131E] has-[:checked]:bg-orange-950/40 has-[:checked]:border-orange-500 has-[:checked]:text-orange-400">
+            <label class="cursor-pointer border border-slate-300 rounded-2xl p-2.5 flex flex-col items-center gap-1 hover:border-orange-500 bg-slate-50 has-[:checked]:bg-orange-50 has-[:checked]:border-orange-500 has-[:checked]:text-orange-600">
               <input type="radio" name="payMethod" value="تحويل بنكي مباشر" class="hidden">
-              <i class="fa-solid fa-building-columns text-base text-amber-400"></i>
+              <i class="fa-solid fa-building-columns text-base text-amber-600"></i>
               <span class="font-bold">تحويل بنكي</span>
-              <span class="text-[10px] text-slate-400">مصر / السعودية</span>
+              <span class="text-[10px] text-slate-500">مصر / السعودية</span>
             </label>
           </div>
         </div>
 
         <div>
-          <label class="block text-slate-300 mb-1">صورة إيصال التحويل البنكي أو المحفظة *</label>
-          <input type="file" id="payReceiptFile" required accept="image/*,.pdf" class="w-full text-xs text-slate-400 file:mr-0 file:ml-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-800 file:text-slate-200 hover:file:bg-slate-700">
-          <span class="text-[10px] text-slate-400 block mt-1">يجب أن يكون الإيصال واضحاً ومطابقاً للمبلغ وتاريخ اليوم.</span>
+          <label class="block text-slate-700 mb-1">صورة إيصال التحويل البنكي أو المحفظة *</label>
+          <input type="file" id="payReceiptFile" required accept="image/*,.pdf" class="w-full text-xs text-slate-500 file:mr-0 file:ml-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+          <span class="text-[10px] text-slate-500 block mt-1">يجب أن يكون الإيصال واضحاً ومطابقاً للمبلغ وتاريخ اليوم.</span>
         </div>
 
-        <button type="submit" class="btn-neon-orange w-full py-3 text-xs sm:text-sm font-black">
+        <button type="submit" class="btn-brand-orange w-full py-3 text-xs sm:text-sm font-black rounded-2xl">
           <i class="fa-solid fa-lock"></i>
           <span>إرسال طلب الحجز للتدقيق والتحقق</span>
         </button>
