@@ -14,13 +14,79 @@ body {
   background-size: 22px 22px;
 }
 
-/* Cute Aesthetic Micro-Interactions & Cards */
-.aesthetic-card {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.2s ease;
+/* Cute Retro OS Window & Bento Aesthetic (Inspired by Neocities / Y2K Aesthetic) */
+.retro-window {
+  background: #ffffff;
+  border: 2px solid #fed7aa;
+  border-radius: 26px;
+  box-shadow: 4px 4px 0px #fde68a, 6px 6px 0px rgba(249, 115, 22, 0.12);
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.aesthetic-card:hover {
+.retro-window:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+  box-shadow: 6px 6px 0px #fde68a, 10px 10px 0px rgba(249, 115, 22, 0.18);
+  border-color: #f97316;
+}
+
+.window-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: linear-gradient(90deg, #fffbeb, #fef3c7);
+  border-bottom: 2px solid #fed7aa;
+  font-size: 11px;
+  font-weight: 800;
+  color: #78350f;
+  user-select: none;
+}
+
+.window-dots {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.window-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: inline-block;
+}
+
+/* 3D Tactile Cute Buttons */
+.btn-chunky {
+  position: relative;
+  transition: all 0.1s ease;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.14);
+}
+.btn-chunky:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.18);
+}
+.btn-chunky:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Cute Floating Stickers Animation */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
+}
+.sticker-float {
+  animation: floatGentle 4s ease-in-out infinite;
+  display: inline-block;
+}
+
+/* Cute Pastel Grid Background */
+.bg-pastel-grid {
+  background-color: #faf9f5;
+  background-image: 
+    linear-gradient(#f0e4d2 1px, transparent 1px),
+    linear-gradient(90deg, #f0e4d2 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 /* Candy Pill Badges */
