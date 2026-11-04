@@ -1,28 +1,29 @@
 /* ==========================================================================
-   ARABY ONLINE ACADEMY - CREATIVE DARK COMIC / STREET DOODLE THEME
-   Inspired by Dikshant Creative Studio & Logo Brand Palette
-   Brand Colors:
-     Orange: #F97316 | Red: #EF4444 | Green: #10B981 / #22C55E
-     Blue: #3B82F6   | Purple: #8B5CF6 / #A855F7 | Yellow: #FBBF24 / #FACC15
+   ARABY ONLINE ACADEMY - MODERN CREATIVE PLAYFUL STYLE
+   Preserving 100% of the Original Cheerful Brand Colors & Logo
+   Colors: Orange (#F97316), Red (#EF4444), Green (#10B981), Blue (#2563EB), Purple (#8B5CF6), Yellow (#F59E0B)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@700&family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap');
 
 :root {
-  --bg-main: #0B0F17;
-  --bg-card: #141824;
-  --bg-card-hover: #1A2030;
-  --bg-card-inner: #0F131E;
-  --border-card: #232A3B;
-  --border-card-hover: #3B82F6;
-  --text-main: #F8FAFC;
-  --text-muted: #94A3B8;
-  --neon-orange: #F97316;
-  --neon-red: #EF4444;
-  --neon-green: #10B981;
-  --neon-blue: #3B82F6;
-  --neon-purple: #8B5CF6;
-  --neon-yellow: #FACC15;
+  --color-orange: #F97316;
+  --color-orange-dark: #EA580C;
+  --color-red: #EF4444;
+  --color-red-dark: #DC2626;
+  --color-green: #10B981;
+  --color-green-dark: #059669;
+  --color-blue: #2563EB;
+  --color-blue-dark: #1D4ED8;
+  --color-purple: #8B5CF6;
+  --color-purple-dark: #7C3AED;
+  --color-yellow: #F59E0B;
+  --color-yellow-dark: #D97706;
+
+  --bg-body: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
 }
 
 html {
@@ -32,51 +33,46 @@ html {
 body {
   font-family: 'Cairo', 'Tajawal', sans-serif;
   color: var(--text-main);
-  background-color: var(--bg-main);
+  background-color: var(--bg-body);
   background-image: 
-    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    radial-gradient(rgba(249, 115, 22, 0.04) 1px, transparent 1px);
-  background-size: 32px 32px, 64px 64px;
+    radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.04) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.04) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 30%);
+  background-attachment: fixed;
   overflow-x: hidden;
 }
 
-/* ==================== DOODLE & COMIC ELEMENTS ==================== */
-.font-handwriting {
-  font-family: 'Tajawal', 'Cairo', cursive, sans-serif;
-}
-
-/* Comic Speech Bubble */
+/* ==================== CREATIVE STYLES & DOODLES ==================== */
 .speech-bubble {
   position: relative;
-  background: #3B82F6;
+  background: linear-gradient(135deg, #2563EB, #3B82F6);
   color: #FFFFFF;
-  border-radius: 20px;
-  padding: 8px 18px;
-  font-weight: 800;
-  font-size: 0.85rem;
+  border-radius: 9999px;
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
-  animation: floatSmall 3.5s ease-in-out infinite;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+  animation: floatGentle 3.5s ease-in-out infinite;
 }
 .speech-bubble::after {
   content: '';
   position: absolute;
-  bottom: -9px;
-  right: 24px;
-  border-width: 10px 10px 0;
+  bottom: -7px;
+  right: 28px;
+  border-width: 8px 8px 0;
   border-style: solid;
-  border-color: #3B82F6 transparent;
+  border-color: #2563EB transparent;
   display: block;
   width: 0;
 }
 
-/* Comic Crown Doodle */
 .doodle-crown {
   display: inline-block;
-  color: var(--neon-yellow);
-  font-size: 1.6rem;
+  color: var(--color-yellow);
+  font-size: 1.8rem;
   transform: rotate(-12deg);
   animation: wiggleCrown 4s ease-in-out infinite;
 }
@@ -86,9 +82,9 @@ body {
   50% { transform: rotate(-6deg) scale(1.1); }
 }
 
-@keyframes floatSmall {
+@keyframes floatGentle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+  50% { transform: translateY(-5px); }
 }
 
 /* Squiggly Underline */
@@ -99,269 +95,154 @@ body {
 .squiggly-underline::after {
   content: '';
   position: absolute;
+  bottom: -6px;
   left: 0;
   right: 0;
-  bottom: -6px;
-  height: 6px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M0,5 Q 12.5,0 25,5 T 50,5 T 75,5 T 100,5' fill='none' stroke='%23F97316' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-size: 80px 8px;
+  height: 8px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20' preserveAspectRatio='none'%3E%3Cpath d='M0,10 Q25,20 50,10 T100,10' fill='none' stroke='%23F97316' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: 50px 8px;
   background-repeat: repeat-x;
 }
 
-/* Dope Highlight Pill */
-.tag-highlight {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  border: 1.5px solid var(--neon-green);
-  color: var(--neon-green);
-  border-radius: 9999px;
-  padding: 3px 12px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  background: rgba(16, 185, 129, 0.1);
-}
-
-/* ==================== SLEEK DARK CARDS & SURFACES ==================== */
-.dark-card {
-  background: var(--bg-card);
-  border: 1.5px solid var(--border-card);
-  border-radius: 24px;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
+/* ==================== MODERN CARDS & BENTO ==================== */
+.modern-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  position: relative;
 }
 
-.dark-card:hover {
-  transform: translateY(-5px);
-  background: var(--bg-card-hover);
-  border-color: #475569;
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.6), 0 0 20px -5px rgba(249, 115, 22, 0.15);
+.modern-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 40px -12px rgba(15, 23, 42, 0.12);
+  border-color: rgba(249, 115, 22, 0.3);
 }
 
-/* Course Card Corner Arrow Button */
-.card-arrow-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: #1E2536;
-  color: #94A3B8;
+/* Corner Arrow Button */
+.corner-arrow-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  border: 1px solid #2B3448;
-}
-.dark-card:hover .card-arrow-btn {
-  background: var(--neon-orange);
-  color: #FFFFFF;
-  border-color: var(--neon-orange);
-  transform: rotate(45deg);
-}
-
-/* ==================== BUTTONS WITH DOPE POP ==================== */
-.btn-neon-orange {
-  background: var(--neon-orange);
-  color: #FFFFFF;
-  font-weight: 800;
-  border-radius: 9999px;
-  padding: 12px 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 18px rgba(249, 115, 22, 0.35);
-  transition: all 0.2s ease;
-}
-.btn-neon-orange:hover {
-  background: #EA580C;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(249, 115, 22, 0.5);
-}
-
-.btn-neon-lime {
-  background: #A3E635;
+  background: #F1F5F9;
   color: #0F172A;
-  font-weight: 900;
-  border-radius: 9999px;
-  padding: 12px 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 18px rgba(163, 230, 53, 0.35);
-  transition: all 0.2s ease;
-}
-.btn-neon-lime:hover {
-  background: #BEF264;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 24px rgba(163, 230, 53, 0.55);
-}
-
-.btn-dark-pill {
-  background: #141824;
-  color: #F8FAFC;
-  border: 1.5px solid #2B3448;
+  font-size: 1.1rem;
   font-weight: 700;
-  border-radius: 9999px;
-  padding: 11px 22px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-.btn-dark-pill:hover {
-  background: #1E2536;
-  border-color: #475569;
-  transform: translateY(-2px);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-/* ==================== VIBRANT COLOR SPLASH ACCENTS ==================== */
-.splash-purple {
-  position: absolute;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.22) 0%, transparent 70%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
-}
-.splash-blue {
-  position: absolute;
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.18) 0%, transparent 70%);
-  filter: blur(45px);
-  pointer-events: none;
-  z-index: 0;
-}
-.splash-orange {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.18) 0%, transparent 70%);
-  filter: blur(40px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ==================== SKILLS / TRACKS ICON TILES ==================== */
-.skill-tile {
-  background: #141824;
-  border: 1.5px solid #232A3B;
-  border-radius: 20px;
-  padding: 16px 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
-.skill-tile:hover {
-  transform: translateY(-4px);
-  border-color: #475569;
-  background: #1A2030;
-}
-.skill-tile .icon-box {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  font-weight: 900;
-  transition: transform 0.2s ease;
-}
-.skill-tile:hover .icon-box {
-  transform: scale(1.1);
-}
-
-/* ==================== CALLIGRAPHY & TOOLS ==================== */
-.font-calligraphy {
-  font-family: 'Aref Ruqaa', 'Cairo', serif;
-}
-
-.trace-btn-dark {
-  background: #141824;
-  border: 1.5px solid #2A3347;
-  color: #94A3B8;
-  font-weight: 700;
-  border-radius: 12px;
-  padding: 6px 14px;
-  transition: all 0.15s ease;
-}
-.trace-btn-dark:hover {
-  border-color: #F97316;
-  color: #F8FAFC;
-}
-.trace-btn-dark.active {
-  background: #F97316;
-  border-color: #F97316;
+.modern-card:hover .corner-arrow-btn {
+  background: var(--color-orange);
   color: #FFFFFF;
-  box-shadow: 0 2px 10px rgba(249, 115, 22, 0.4);
+  transform: scale(1.1) rotate(45deg);
 }
 
-/* Profile Chip */
-.profile-chip-dark {
-  background: #141824;
-  border: 1px solid #2A3347;
-  color: #94A3B8;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 12px;
-  transition: all 0.15s ease;
+/* Course Image Header */
+.course-card-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
-.profile-chip-dark.active {
-  background: #3B82F6;
-  border-color: #3B82F6;
+
+.modern-card:hover .course-card-image {
+  transform: scale(1.05);
+}
+
+/* Brand Button Gradients */
+.btn-brand-orange {
+  background: linear-gradient(135deg, #F97316 0%, #EA580C 100%);
   color: #FFFFFF;
+  box-shadow: 0 8px 20px -4px rgba(249, 115, 22, 0.4);
+  transition: all 0.25s ease;
+}
+.btn-brand-orange:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -4px rgba(249, 115, 22, 0.5);
 }
 
-/* Custom Scrollbar Dark */
+.btn-brand-blue {
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px -4px rgba(37, 99, 235, 0.35);
+  transition: all 0.25s ease;
+}
+.btn-brand-blue:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -4px rgba(37, 99, 235, 0.45);
+}
+
+.btn-brand-green {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px -4px rgba(16, 185, 129, 0.35);
+  transition: all 0.25s ease;
+}
+.btn-brand-green:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -4px rgba(16, 185, 129, 0.45);
+}
+
+.btn-pill-subtle {
+  background: #FFFFFF;
+  color: #334155;
+  border: 1px solid #E2E8F0;
+  transition: all 0.2s ease;
+}
+.btn-pill-subtle:hover {
+  background: #F8FAFC;
+  border-color: #CBD5E1;
+  color: #0F172A;
+}
+
+/* Calligraphy Blackboard */
+.calligraphy-canvas-wrapper {
+  background: #1E293B;
+  border: 4px solid #334155;
+  border-radius: 1.25rem;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.4);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0F17;
+  background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #232A3B;
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #F97316;
+  background: #94A3B8;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fadeIn {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Notification Toast */
+.toast-notice {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  animation: slideToast 0.3s ease;
 }
 
-/* Certificate Print */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  #printableCertificate, #printableCertificate * {
-    visibility: visible;
-  }
-  #printableCertificate {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
+@keyframes slideToast {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
