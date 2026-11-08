@@ -50,6 +50,9 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Supabase JS Client v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-orange-500/20 selection:text-orange-700">
 
@@ -1472,9 +1475,13 @@
           <i class="fa-solid fa-shield-halved text-logo-blue"></i>
           <span>العلامة المائية وقفل تسريب الفيديوهات 🔒</span>
         </button>
+        <button onclick="switchAdminTab('bookings')" id="admin-tab-bookings" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
+          <i class="fa-solid fa-calendar-check text-logo-green"></i>
+          <span>حجوزات الحصص التجريبية (Supabase)</span>
+        </button>
         <button onclick="switchAdminTab('payments')" id="admin-tab-payments" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-shield-virus text-logo-red"></i>
-          <span>مراجعة طلبات الدفع والتحويلات</span>
+          <i class="fa-solid fa-credit-card text-logo-red"></i>
+          <span>طلبات الدفع والاشتراك (Supabase)</span>
         </button>
       </div>
 
@@ -1685,17 +1692,89 @@
         </div>
       </div>
 
-      <!-- TAB 3: PAYMENT VERIFICATION -->
+      <!-- TAB 4: LIVE BOOKINGS (SUPABASE) -->
+      <div id="admin-view-bookings" class="admin-view hidden space-y-4">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div>
+              <h4 class="font-black text-sm text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-check text-logo-green"></i>
+                <span>حجوزات الحصص التجريبية المجانية (قاعدة بيانات Supabase)</span>
+              </h4>
+              <p class="text-[11px] text-slate-400">سجل الطلاب الذين طلبوا حجز حصة تجريبية مباشرة من الموقع</p>
+            </div>
+            <button onclick="loadAdminBookings()" class="px-3.5 py-1.5 rounded-xl bg-emerald-50 text-logo-green hover:bg-emerald-100 font-bold text-xs transition flex items-center gap-1.5 border border-emerald-200 shadow-xs">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>تحديث القائمة الآن</span>
+            </button>
+          </div>
+
+          <!-- Bookings Table Container -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead>
+                <tr class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                  <th class="p-3">#</th>
+                  <th class="p-3">اسم الطالب</th>
+                  <th class="p-3">الصف والمرحلة</th>
+                  <th class="p-3">الكورس المطلوب</th>
+                  <th class="p-3">رقم ولي الأمر</th>
+                  <th class="p-3">تاريخ ووقت الحجز</th>
+                </tr>
+              </thead>
+              <tbody id="adminBookingsTableBody" class="divide-y divide-slate-100">
+                <tr>
+                  <td colspan="6" class="p-4 text-center text-slate-400">جاري تحميل الحجوزات من قاعدة البيانات...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 5: PAYMENT VERIFICATION & SUPABASE PAYMENTS -->
       <div id="admin-view-payments" class="admin-view hidden space-y-4">
         <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
             <div>
-              <h4 class="font-black text-sm text-slate-900">تدقيق ومراجعة إيصالات الدفع</h4>
-              <p class="text-[11px] text-slate-400">مراجعة التحويلات على فودافون كاش / إنستاباي (01080285458)</p>
+              <h4 class="font-black text-sm text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-credit-card text-logo-red"></i>
+                <span>طلبات الاشتراك والمدفوعات (قاعدة بيانات Supabase)</span>
+              </h4>
+              <p class="text-[11px] text-slate-400">سجل طلبات التحويل على فودافون كاش / إنستاباي (01080285458)</p>
             </div>
-            <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-logo-green text-xs font-bold border border-emerald-200">
-              نظام الحماية من الإيصالات الفيك مفعل 🛡️
-            </span>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-lg bg-emerald-50 text-logo-green text-[11px] font-bold border border-emerald-200">
+                حماية الإيصالات مفعلة 🛡️
+              </span>
+              <button onclick="loadAdminPayments()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>تحديث</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Payments Table Container -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead>
+                <tr class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                  <th class="p-3">#</th>
+                  <th class="p-3">اسم الطالب</th>
+                  <th class="p-3">الكورس</th>
+                  <th class="p-3">المبلغ</th>
+                  <th class="p-3">طريقة الدفع</th>
+                  <th class="p-3">رقم ولي الأمر</th>
+                  <th class="p-3">اسم الإيصال المرفق</th>
+                  <th class="p-3">التاريخ</th>
+                </tr>
+              </thead>
+              <tbody id="adminPaymentsTableBody" class="divide-y divide-slate-100">
+                <tr>
+                  <td colspan="8" class="p-4 text-center text-slate-400">جاري تحميل المدفوعات من قاعدة البيانات...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
           <div class="bg-rose-50 rounded-2xl p-4 border border-rose-200 text-xs text-rose-900 space-y-2">
