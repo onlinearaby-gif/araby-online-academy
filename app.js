@@ -5,6 +5,22 @@
 
 const WHATSAPP_NUMBER = "201080285458";
 
+// --- Supabase Database Integration ---
+const SUPABASE_URL = "https://jzhhrmdbypiizoosreqj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_T_S0sR8he3jL99TMQkbu3w_ARmZ2upt";
+let supabaseClient = null;
+
+function getSupabase() {
+  if (!supabaseClient && window.supabase) {
+    try {
+      supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    } catch (err) {
+      console.warn("Supabase init error:", err);
+    }
+  }
+  return supabaseClient;
+}
+
 // --- 1. Section Switching (Landing vs Student Dashboard vs Admin Panel) ---
 let currentView = 'landing';
 
@@ -351,12 +367,28 @@ if (bookingModal) {
   });
 }
 
-function handleBookingForm(e) {
+async function handleBookingForm(e) {
   e.preventDefault();
   const name = document.getElementById('modalStudentName').value;
   const grade = document.getElementById('modalStudentGrade').value;
   const curriculum = document.getElementById('modalCurriculum').value;
   const phone = document.getElementById('modalParentPhone').value;
+
+  // Save directly to Supabase Database
+  const client = getSupabase();
+  if (client) {
+    try {
+      await client.from('bookings').insert([{
+        student_name: name,
+        student_grade: grade,
+        curriculum: curriculum,
+        parent_phone: phone,
+        status: 'new'
+      }]);
+    } catch (err) {
+      console.error("Error saving booking to Supabase:", err);
+    }
+  }
 
   const msg = 
 `السلام عليكم ورحمة الله وبركاته،
@@ -368,7 +400,7 @@ function handleBookingForm(e) {
 شكراً لكم!`;
 
   closeBookingModal();
-  alert(`تم تسجيل طلب الحصة المجانية بنجاح للطالب (${name})! جاري تحويلك إلى الواتساب لتأكيد الموعد المناسب.`);
+  alert(`تم تسجيل وحفظ طلب الحصة المجانية بنجاح للطالب (${name}) في قاعدة البيانات! جاري تحويلك إلى الواتساب لتأكيد الموعد المناسب.`);
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -465,6 +497,25 @@ function handlePaymentSubmit(e) {
     return;
   }
 
+  // Save payment application directly to Supabase Database
+  const client = getSupabase();
+  if (client) {
+    try {
+      await client.from('payments').insert([{
+        student_name: student,
+        student_grade: grade || 'غير محدد',
+        course_name: course,
+        price: price,
+        parent_phone: phone,
+        payment_method: method,
+        receipt_filename: file ? file.name : '',
+        status: 'pending_verification'
+      }]);
+    } catch (err) {
+      console.error("Error saving payment to Supabase:", err);
+    }
+  }
+
   // If passed initial structure check, it goes to Admin Verification state (NEVER auto-unlocked!)
   const msg = 
 `السلام عليكم ورحمة الله،
@@ -479,7 +530,7 @@ function handlePaymentSubmit(e) {
 📎 *مرفق صورة الإيصال للتحقق والمطابقة مع كشف الحساب قبل تفعيل الكورسات.*`;
 
   closePaymentModal();
-  alert(`تم إرسال بيانات التحويل للتدقيق والمطابقة.\n\n⚠️ تنبيه أمني: لن يتم تفعيل وفتح الكورس إلا بعد مطابقة الإيصال مع كشف حساب الأكاديمية (01080285458). إذا كان الإيصال غير مطابق ستظهر رسالة "خطأ في عملية الدفع".`);
+  alert(`تم إرسال بيانات التحويل وحفظها في قاعدة البيانات للتدقيق والمطابقة.\n\n⚠️ تنبيه أمني: لن يتم تفعيل وفتح الكورس إلا بعد مطابقة الإيصال مع كشف حساب الأكاديمية (01080285458). إذا كان الإيصال غير مطابق ستظهر رسالة "خطأ في عملية الدفع".`);
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -638,7 +689,7 @@ function handleAdminLogout() {
 }
 
 function switchAdminTab(tabKey) {
-  const tabs = ['security', 'courses', 'watermark', 'payments'];
+  const tabs = ['security', 'courses', 'watermark', 'bookings', 'payments'];
   tabs.forEach(t => {
     const btn = document.getElementById(`admin-tab-${t}`);
     const view = document.getElementById(`admin-view-${t}`);
@@ -655,6 +706,106 @@ function switchAdminTab(tabKey) {
     renderAdminCourses();
   } else if (tabKey === 'watermark') {
     loadWatermarkSettingsIntoUI();
+  } else if (tabKey === 'bookings') {
+    loadAdminBookings();
+  } else if (tabKey === 'payments') {
+    loadAdminPayments();
+  }
+}
+
+async function loadAdminBookings() {
+  const tbody = document.getElementById('adminBookingsTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري جلب الحجوزات من Supabase...</td></tr>`;
+
+  const client = getSupabase();
+  if (!client) {
+    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">تعذر الاتصال بقاعدة البيانات.</td></tr>`;
+    return;
+  }
+
+  try {
+    const { data, error } = await client
+      .from('bookings')
+      .select('*')
+      .order('id', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">لا توجد أي طلبات حجز مسجلة حتى الآن.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = data.map((b, idx) => {
+      const dateStr = b.created_at ? new Date(b.created_at).toLocaleString('ar-EG') : '-';
+      const cleanPhone = (b.parent_phone || '').replace(/[^0-9]/g, '');
+      return `
+        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+          <td class="p-3 font-bold text-slate-400">${data.length - idx}</td>
+          <td class="p-3 font-bold text-slate-900">${b.student_name || '-'}</td>
+          <td class="p-3 text-slate-600">${b.student_grade || '-'}</td>
+          <td class="p-3 text-logo-purple font-semibold">${b.curriculum || '-'}</td>
+          <td class="p-3 font-mono font-bold text-slate-800" dir="ltr">
+            <a href="https://wa.me/2${cleanPhone}" target="_blank" class="text-emerald-600 hover:underline">
+              ${b.parent_phone || '-'} <i class="fa-brands fa-whatsapp text-xs"></i>
+            </a>
+          </td>
+          <td class="p-3 text-slate-400 text-[11px]">${dateStr}</td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-rose-500">حدث خطأ أثناء تحميل الحجوزات: ${err.message}</td></tr>`;
+  }
+}
+
+async function loadAdminPayments() {
+  const tbody = document.getElementById('adminPaymentsTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري جلب المدفوعات من Supabase...</td></tr>`;
+
+  const client = getSupabase();
+  if (!client) {
+    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500">تعذر الاتصال بقاعدة البيانات.</td></tr>`;
+    return;
+  }
+
+  try {
+    const { data, error } = await client
+      .from('payments')
+      .select('*')
+      .order('id', { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">لا توجد أي طلبات دفع مسجلة حتى الآن.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = data.map((p, idx) => {
+      const dateStr = p.created_at ? new Date(p.created_at).toLocaleString('ar-EG') : '-';
+      const cleanPhone = (p.parent_phone || '').replace(/[^0-9]/g, '');
+      return `
+        <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+          <td class="p-3 font-bold text-slate-400">${data.length - idx}</td>
+          <td class="p-3 font-bold text-slate-900">${p.student_name || '-'}</td>
+          <td class="p-3 font-semibold text-logo-purple">${p.course_name || '-'}</td>
+          <td class="p-3 font-black text-logo-orange">${p.price || '-'}</td>
+          <td class="p-3 font-bold text-slate-600">${p.payment_method || '-'}</td>
+          <td class="p-3 font-mono font-bold text-slate-800" dir="ltr">
+            <a href="https://wa.me/2${cleanPhone}" target="_blank" class="text-emerald-600 hover:underline">
+              ${p.parent_phone || '-'} <i class="fa-brands fa-whatsapp text-xs"></i>
+            </a>
+          </td>
+          <td class="p-3 text-slate-500 text-[11px] font-mono truncate max-w-[120px]" title="${p.receipt_filename || ''}">${p.receipt_filename || 'لا يوجد'}</td>
+          <td class="p-3 text-slate-400 text-[11px]">${dateStr}</td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-rose-500">حدث خطأ أثناء تحميل المدفوعات: ${err.message}</td></tr>`;
   }
 }
 
