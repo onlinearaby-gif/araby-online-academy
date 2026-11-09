@@ -939,6 +939,10 @@
             <i class="fa-solid fa-plus-circle"></i>
             <span>حجز كورس إضافي</span>
           </button>
+          <button onclick="handleStudentLogout()" class="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1.5 border border-rose-200" title="تسجيل الخروج">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span class="hidden sm:inline">خروج</span>
+          </button>
         </div>
       </div>
 
@@ -1931,20 +1935,19 @@
 
       <form onsubmit="handleStudentLoginSubmit(event)" class="space-y-3.5 text-xs font-semibold">
         <div>
-          <label class="block text-slate-700 mb-1" id="loginIdLabel">رقم هاتف الطالب / كود الدخول *</label>
+          <label class="block text-slate-700 mb-1" id="loginIdLabel">اسم الطالب أو رقم ولي الأمر *</label>
           <div class="relative">
-            <input type="text" id="loginIdentifier" required placeholder="مثال: 01080285458 أو STU-2026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9" dir="ltr">
+            <input type="text" id="loginIdentifier" required placeholder="مثال: يوسف أحمد أو 01080285458" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9">
             <i class="fa-solid fa-user absolute right-3 top-3 text-slate-400"></i>
           </div>
         </div>
 
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label class="block text-slate-700">كلمة المرور *</label>
-            <a href="https://wa.me/201080285458?text=السلام%20عليكم،%20نسيت%20كلمة%20المرور%20لحساب%20الطالب" target="_blank" class="text-[11px] text-purple-600 hover:underline font-bold">نسيت كلمة المرور؟</a>
+            <label class="block text-slate-700">كلمة المرور / كود الطالب <span class="text-slate-400 font-normal">(اختياري للدخول السريع)</span></label>
           </div>
           <div class="relative">
-            <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9">
+            <input type="password" id="loginPassword" placeholder="•••••••• (أو اتركها فارغة للدخول المباشر)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9">
             <i class="fa-solid fa-lock absolute right-3 top-3 text-slate-400"></i>
             <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIconLogin')" class="absolute left-3 top-2.5 text-slate-400 hover:text-slate-600">
               <i id="eyeIconLogin" class="fa-solid fa-eye text-xs"></i>
@@ -1960,23 +1963,25 @@
         </div>
 
         <button type="submit" class="w-full py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs sm:text-sm transition shadow-md flex items-center justify-center gap-2">
-          <span>دخول المنصة التعليمية</span>
+          <span>دخول المنصة التعليمية 🎓</span>
           <i class="fa-solid fa-arrow-left text-xs"></i>
         </button>
 
-        <!-- Quick Demo Login Button -->
-        <button type="button" onclick="handleQuickDemoLogin()" class="w-full py-2.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-bolt text-xs text-amber-500"></i>
-          <span>تجربة الدخول الفوري لطالب (حساب تجريبي)</span>
-        </button>
+        <div class="pt-2 border-t border-slate-100 text-center space-y-2">
+          <p class="text-[11px] text-slate-500 font-medium">ليس لديك حساب بعد؟</p>
+          <button type="button" onclick="closeLoginModal(); openBookingModal();" class="w-full py-2.5 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold text-xs transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-gift text-xs text-amber-500"></i>
+            <span>تسجيل طالب جديد + حجز حصة تجريبية مجانية 🎁</span>
+          </button>
+        </div>
       </form>
 
     </div>
   </div>
 
-  <!-- ==================== FREE TRIAL MODAL ==================== -->
+  <!-- ==================== FREE TRIAL & STUDENT ENROLLMENT MODAL ==================== -->
   <div id="bookingModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900 max-h-[94vh] overflow-y-auto">
       
       <button onclick="closeBookingModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
         <i class="fa-solid fa-xmark text-sm"></i>
@@ -1984,80 +1989,134 @@
 
       <div class="text-center mb-4">
         <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-black border border-emerald-200 mb-2">
-          مجانية 100% بدون أي رسوم 🎁
+          🎁 حصة تجريبية مجانية 100% + تفعيل فوري للوحة الطالب
         </span>
-        <h3 class="text-xl font-black text-slate-900">حجز حصة تجريبية مجانية</h3>
-        <p class="text-xs text-slate-500 mt-1">جرّب الحصة الأولى وتعرف على المعلم مجاناً قبل الاشتراك</p>
+        <h3 class="text-xl font-black text-slate-900">حجز الحصة والدخول للوحة الطالب</h3>
+        <p class="text-xs text-slate-500 mt-1">سجّل بياناتك لتفعيل حسابك فوراً والبدء في متابعة المقررات والدروس</p>
       </div>
 
       <!-- Month-Long Offer Note in Free Trial Modal -->
       <div class="bg-purple-50 border border-purple-200 rounded-2xl p-2.5 mb-3 text-[11px] text-purple-800 flex items-center gap-2 font-medium">
         <span class="text-lg shrink-0">🎁</span>
-        <span><strong>عرض الشهر:</strong> عند تثبيت اشتراكك بعد الحصة التجريبية، ستحصل تلقائياً على كورس تحسين الخط العربي هدية مجانية 100%!</span>
+        <span><strong>عرض الشهر الحصري:</strong> كورس تحسين الخط العربي بالقلم العادي متاح كهدية مجانية 100% لجميع الطلاب المشتركين!</span>
       </div>
 
-      <form onsubmit="handleBookingForm(event)" class="space-y-3.5 text-xs font-semibold">
+      <form onsubmit="handleBookingForm(event)" class="space-y-3 text-xs font-semibold">
+        <!-- 1. اسم الطالب -->
         <div>
-          <label class="block text-slate-700 mb-1">اسم الطالب أو الطالبة *</label>
-          <input type="text" id="modalStudentName" required placeholder="مثال: يوسف أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs">
+          <label class="block text-slate-700 mb-1">اسم الطالب أو الطالبة <span class="text-rose-500 font-bold">*</span></label>
+          <div class="relative">
+            <input type="text" id="modalStudentName" required placeholder="مثال: يوسف أحمد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs pr-9">
+            <i class="fa-solid fa-user absolute right-3 top-3 text-slate-400"></i>
+          </div>
         </div>
 
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- 2. البريد الإلكتروني (اختياري) -->
+          <div>
+            <label class="block text-slate-700 mb-1">البريد الإلكتروني <span class="text-slate-400 font-normal">(اختياري)</span></label>
+            <div class="relative">
+              <input type="email" id="modalStudentEmail" placeholder="example@gmail.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs pr-9" dir="ltr">
+              <i class="fa-solid fa-envelope absolute right-3 top-3 text-slate-400"></i>
+            </div>
+          </div>
+
+          <!-- 3. رقم هاتف ولي الأمر (واتساب) -->
+          <div>
+            <label class="block text-slate-700 mb-1">رقم ولي الأمر (واتساب) <span class="text-rose-500 font-bold">*</span></label>
+            <div class="relative">
+              <input type="tel" id="modalParentPhone" required placeholder="مثال: 01080285458" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs pr-9" dir="ltr">
+              <i class="fa-brands fa-whatsapp absolute right-3 top-3 text-emerald-500"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <!-- 4. الدولة (اختياري مع إبراز الدول الأساسية) -->
+          <div>
+            <label class="block text-slate-700 mb-1">الدولة <span class="text-slate-400 font-normal">(اختياري)</span></label>
+            <select id="modalCountry" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
+              <option value="">-- اختر الدولة (اختياري) --</option>
+              <optgroup label="⭐ الدول الأكثر اشتراكاً">
+                <option value="🇸🇦 المملكة العربية السعودية">🇸🇦 المملكة العربية السعودية</option>
+                <option value="🇰🇼 دولة الكويت">🇰🇼 دولة الكويت</option>
+                <option value="🇦🇪 الإمارات العربية المتحدة">🇦🇪 الإمارات العربية المتحدة</option>
+                <option value="🇺🇸 الولايات المتحدة الأمريكية">🇺🇸 الولايات المتحدة الأمريكية</option>
+                <option value="🇩🇪 ألمانيا">🇩🇪 ألمانيا</option>
+                <option value="🇪🇬 جمهورية مصر العربية">🇪🇬 جمهورية مصر العربية</option>
+                <option value="🇶🇦 دولة قطر">🇶🇦 دولة قطر</option>
+                <option value="🇧🇭 مملكة البحرين">🇧🇭 مملكة البحرين</option>
+                <option value="🇴🇲 سلطنة عُمان">🇴🇲 سلطنة عُمان</option>
+              </optgroup>
+              <optgroup label="🌍 دول أخرى حول العالم">
+                <option value="🇬🇧 بريطانيا (المملكة المتحدة)">🇬🇧 بريطانيا (المملكة المتحدة)</option>
+                <option value="🇨🇦 كندا">🇨🇦 كندا</option>
+                <option value="🇯🇴 الأردن">🇯🇴 الأردن</option>
+                <option value="🇫🇷 فرنسا">🇫🇷 فرنسا</option>
+                <option value="🇹🇷 تركيا">🇹🇷 تركيا</option>
+                <option value="🇸🇪 السويد">🇸🇪 السويد</option>
+                <option value="🇮🇹 إيطاليا">🇮🇹 إيطاليا</option>
+                <option value="🇳🇱 هولندا">🇳🇱 هولندا</option>
+                <option value="🇦🇺 أستراليا">🇦🇺 أستراليا</option>
+                <option value="🇲🇦 المغرب">🇲🇦 المغرب</option>
+                <option value="🇩🇿 الجزائر">🇩🇿 الجزائر</option>
+                <option value="🇹🇳 تونس">🇹🇳 تونس</option>
+                <option value="🇱🇾 ليبيا">🇱🇾 ليبيا</option>
+                <option value="🇸🇩 السودان">🇸🇩 السودان</option>
+                <option value="🇾🇪 اليمن">🇾🇪 اليمن</option>
+                <option value="🇱🇧 لبنان">🇱🇧 لبنان</option>
+                <option value="🇸🇾 سوريا">🇸🇾 سوريا</option>
+                <option value="🇮🇶 العراق">🇮🇶 العراق</option>
+                <option value="🇵🇸 فلسطين">🇵🇸 فلسطين</option>
+                <option value="🌍 دولة أخرى">🌍 دولة أخرى</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <!-- 5. الصف الدراسي (من الأول الابتدائي إلى الثالث الإعدادي) -->
+          <div>
+            <label class="block text-slate-700 mb-1">الصف الدراسي <span class="text-rose-500 font-bold">*</span></label>
+            <select id="modalStudentGrade" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
+              <option value="">-- اختر الصف الدراسي --</option>
+              <optgroup label="🎒 المرحلة الابتدائية">
+                <option value="الصف الأول الابتدائي">الصف الأول الابتدائي</option>
+                <option value="الصف الثاني الابتدائي">الصف الثاني الابتدائي</option>
+                <option value="الصف الثالث الابتدائي">الصف الثالث الابتدائي</option>
+                <option value="الصف الرابع الابتدائي">الصف الرابع الابتدائي</option>
+                <option value="الصف الخامس الابتدائي">الصف الخامس الابتدائي</option>
+                <option value="الصف السادس الابتدائي">الصف السادس الابتدائي</option>
+              </optgroup>
+              <optgroup label="📖 المرحلة الإعدادية (المتوسطة)">
+                <option value="الصف الأول الإعدادي (الأول المتوسط)">الصف الأول الإعدادي (الأول المتوسط)</option>
+                <option value="الصف الثاني الإعدادي (الثاني المتوسط)">الصف الثاني الإعدادي (الثاني المتوسط)</option>
+                <option value="الصف الثالث الإعدادي (الثالث المتوسط)">الصف الثالث الإعدادي (الثالث المتوسط)</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <!-- 6. المادة أو القسم (اختياري) -->
         <div>
-          <label class="block text-slate-700 mb-1">المرحلة والصف الدراسي *</label>
-          <select id="modalStudentGrade" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
-            <option value="">-- اختر الصف الدراسي للطالب --</option>
-            <optgroup label="🌱 مرحلة رياض الأطفال والتأسيس المبكر">
-              <option value="مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)">مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)</option>
-            </optgroup>
-            <optgroup label="🎒 المرحلة الابتدائية (الصفوف منفصلة)">
-              <option value="الصف الأول الابتدائي">الصف الأول الابتدائي</option>
-              <option value="الصف الثاني الابتدائي">الصف الثاني الابتدائي</option>
-              <option value="الصف الثالث الابتدائي">الصف الثالث الابتدائي</option>
-              <option value="الصف الرابع الابتدائي">الصف الرابع الابتدائي</option>
-              <option value="الصف الخامس الابتدائي">الصف الخامس الابتدائي</option>
-              <option value="الصف السادس الابتدائي">الصف السادس الابتدائي</option>
-            </optgroup>
-            <optgroup label="📖 المرحلة الإعدادية / المتوسطة (الصفوف منفصلة)">
-              <option value="الصف الأول الإعدادي (الأول المتوسط)">الصف الأول الإعدادي (الأول المتوسط)</option>
-              <option value="الصف الثاني الإعدادي (الثاني المتوسط)">الصف الثاني الإعدادي (الثاني المتوسط)</option>
-              <option value="الصف الثالث الإعدادي (الثالث المتوسط)">الصف الثالث الإعدادي (الثالث المتوسط)</option>
-            </optgroup>
-            <optgroup label="⭐ دورات حرة وتأسيس عام">
-              <option value="دورة حرة عامة (مناسب لكافة المراحل والأعمار)">دورة حرة عامة (مناسب لكافة المراحل والأعمار)</option>
-            </optgroup>
+          <label class="block text-slate-700 mb-1">المادة أو القسم <span class="text-slate-400 font-normal">(اختياري)</span></label>
+          <select id="modalCurriculum" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
+            <option value="">-- اختر المادة أو الدورة (اختياري) --</option>
+            <option value="اللغة العربية (العام / الوزاري)">📚 اللغة العربية (النحو، القراءة، النصوص، الإملاء)</option>
+            <option value="منهج لغتي (المنهج السعودي)">🇸🇦 منهج لغتي الجميلة والخالدة (المنهج السعودي)</option>
+            <option value="تربية دينية إسلامية">📖 تربية دينية إسلامية</option>
+            <option value="دراسات إسلامية">🕋 دراسات إسلامية</option>
+            <option value="القرآن الكريم وأحكام التجويد">🕌 القرآن الكريم وأحكام التجويد</option>
+            <option value="كورس تحسين الخط العربي بالقلم العادي">✍️ كورس تحسين الخط العربي بالقلم العادي (عرض الشهر المجاني)</option>
           </select>
         </div>
 
-        <div>
-          <label class="block text-slate-700 mb-1">اختر الكورس للحصة المجانية *</label>
-          <select id="modalCurriculum" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs font-medium">
-            <option value="">-- اختر الحصة التجريبية أو الدورة --</option>
-            <optgroup label="🌟 الحصص والدورات الأكثر طلباً (تجريبية مجانية 100%)">
-              <option value="5. تحفيظ القرآن الكريم وتجويده">🕌 تحفيظ القرآن الكريم وأحكام التجويد (حصة تجريبية مجانية)</option>
-              <option value="4. كورس النحو من الصفر إلى الاحتراف">📐 كورس النحو من الصفر إلى الاحتراف (حصة تجريبية مجانية)</option>
-              <option value="3. كورس تأسيس القراءة والكتابة والإملاء">🌱 كورس تأسيس القراءة والكتابة والإملاء (جلسة تقييم مجانية)</option>
-            </optgroup>
-            <optgroup label="📚 المناهج الدراسية الرسمية">
-              <option value="1. شرح منهج اللغة العربية (المنهج المصري)">🇪🇬 منهج اللغة العربية للمرحلة الابتدائية والإعدادية (المنهج المصري)</option>
-              <option value="2. شرح منهج لغتي (المنهج السعودي)">🇸🇦 منهج لغتي الجميلة والخالدة (المنهج السعودي)</option>
-            </optgroup>
-            <optgroup label="✍️ دورات تحسين الخط العربي">
-              <option value="6. كورس تحسين الخط العربي بالقلم العادي">✍️ كورس تحسين الخط العربي بالقلم العادي</option>
-            </optgroup>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-slate-700 mb-1">رقم هاتف ولي الأمر (واتساب) *</label>
-          <input type="tel" id="modalParentPhone" required placeholder="01080285458" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs" dir="ltr">
-        </div>
-
-        <button type="submit" class="btn-brand-green w-full py-3 text-xs sm:text-sm font-black rounded-2xl mt-2">
-          تأكيد حجز الحصة التجريبية المجانية 🎁
+        <!-- Submit Button -->
+        <button type="submit" class="btn-brand-green w-full py-3.5 text-xs sm:text-sm font-black rounded-2xl mt-3 flex items-center justify-center gap-2 shadow-md hover:scale-[1.01] transition">
+          <i class="fa-solid fa-graduation-cap text-base"></i>
+          <span>تأكيد التسجيل والدخول الفوري للوحة الطالب 🚀</span>
         </button>
 
-        <p class="text-[11px] text-center text-slate-500 font-medium">
-          أو تواصل فوراً عبر الواتساب على: <strong class="text-emerald-600 font-bold" dir="ltr">01080285458</strong>
+        <p class="text-[11px] text-center text-slate-500 font-medium pt-1">
+          💡 بمجرد الضغط سيتم نقلك مباشرة إلى لوحة التحكم الخاصة بك لمتابعة الدروس والكورسات.
         </p>
       </form>
 
@@ -2134,10 +2193,7 @@
             <label class="block text-slate-700 mb-1">الصف الدراسي للطالب *</label>
             <select id="payStudentGrade" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white text-slate-900 font-medium">
               <option value="">اختر الصف...</option>
-              <optgroup label="🌱 مرحلة رياض الأطفال والتأسيس المبكر">
-                <option value="مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)">مرحلة رياض الأطفال والتأسيس المبكر (KG 1 - KG 2)</option>
-              </optgroup>
-              <optgroup label="🎒 المرحلة الابتدائية (الصفوف منفصلة)">
+              <optgroup label="🎒 المرحلة الابتدائية">
                 <option value="الصف الأول الابتدائي">الصف الأول الابتدائي</option>
                 <option value="الصف الثاني الابتدائي">الصف الثاني الابتدائي</option>
                 <option value="الصف الثالث الابتدائي">الصف الثالث الابتدائي</option>
@@ -2145,13 +2201,10 @@
                 <option value="الصف الخامس الابتدائي">الصف الخامس الابتدائي</option>
                 <option value="الصف السادس الابتدائي">الصف السادس الابتدائي</option>
               </optgroup>
-              <optgroup label="📖 المرحلة الإعدادية / المتوسطة (الصفوف منفصلة)">
+              <optgroup label="📖 المرحلة الإعدادية (المتوسطة)">
                 <option value="الصف الأول الإعدادي (الأول المتوسط)">الصف الأول الإعدادي (الأول المتوسط)</option>
                 <option value="الصف الثاني الإعدادي (الثاني المتوسط)">الصف الثاني الإعدادي (الثاني المتوسط)</option>
                 <option value="الصف الثالث الإعدادي (الثالث المتوسط)">الصف الثالث الإعدادي (الثالث المتوسط)</option>
-              </optgroup>
-              <optgroup label="⭐ دورات حرة وتأسيس عام">
-                <option value="دورة حرة عامة (مناسب لكافة المراحل والأعمار)">دورة حرة عامة (مناسب لكافة المراحل والأعمار)</option>
               </optgroup>
             </select>
           </div>
