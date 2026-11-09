@@ -61,7 +61,13 @@ function showSection(view) {
 
 function togglePortalMode() {
   if (currentView === 'landing') {
-    showSection('dashboard');
+    const savedStr = localStorage.getItem('araby_active_student') || sessionStorage.getItem('araby_student_user');
+    if (savedStr) {
+      showSection('dashboard');
+    } else {
+      // If not yet registered, open the booking & enrollment modal so they get their dashboard immediately!
+      openBookingModal();
+    }
   } else {
     showSection('landing');
   }
@@ -93,39 +99,93 @@ function switchLoginType(type) {
   const idInput = document.getElementById('loginIdentifier');
 
   if (type === 'student') {
-    if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl bg-white text-logo-blue shadow-xs transition";
-    if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl text-slate-500 hover:text-slate-800 transition";
-    if (idLabel) idLabel.textContent = "رقم هاتف الطالب / كود الدخول *";
-    if (idInput) idInput.placeholder = "مثال: 01080285458 أو STU-2026";
+    if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl bg-purple-600 text-white shadow-xs transition";
+    if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition";
+    if (idLabel) idLabel.textContent = "اسم الطالب أو رقم ولي الأمر *";
+    if (idInput) idInput.placeholder = "مثال: يوسف أحمد أو 01080285458";
   } else {
-    if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl bg-white text-logo-orange shadow-xs transition";
-    if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl text-slate-500 hover:text-slate-800 transition";
+    if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl bg-purple-600 text-white shadow-xs transition";
+    if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition";
     if (idLabel) idLabel.textContent = "رقم هاتف ولي الأمر المسجل *";
     if (idInput) idInput.placeholder = "مثال: 01080285458";
   }
 }
 
+function updateDashboardWithStudent(studentData) {
+  if (!studentData) return;
+  const avatarEl = document.getElementById('dashAvatar');
+  const nameEl = document.getElementById('dashName');
+  const gradeEl = document.getElementById('dashGrade');
+  const certNameEl = document.getElementById('certStudentName');
+  const nextClassEl = document.getElementById('dashNextClassTitle');
+
+  if (avatarEl) avatarEl.textContent = studentData.avatar || studentData.name.charAt(0) || 'ط';
+  if (nameEl) nameEl.textContent = studentData.name;
+  if (gradeEl) {
+    const countryPart = studentData.country && studentData.country !== 'غير محدد' ? ` • ${studentData.country}` : '';
+    const subjectPart = studentData.subject ? ` • ${studentData.subject}` : '';
+    gradeEl.textContent = `${studentData.grade}${countryPart}${subjectPart}`;
+  }
+  if (certNameEl) certNameEl.textContent = studentData.name;
+  if (nextClassEl && studentData.subject) {
+    nextClassEl.textContent = `الحصة القادمة: ${studentData.subject}`;
+  }
+}
+
 function handleStudentLoginSubmit(e) {
   e.preventDefault();
-  const id = document.getElementById('loginIdentifier').value.trim();
-  const pass = document.getElementById('loginPassword').value.trim();
+  const id = (document.getElementById('loginIdentifier').value || '').trim();
 
-  if (!id || !pass) {
-    alert('يرجى إدخال اسم المستخدم وكلمة المرور.');
+  if (!id) {
+    alert('يرجى إدخال اسم الطالب أو رقم الهاتف.');
     return;
   }
 
-  // Set logged-in state
-  const userName = currentLoginType === 'student' ? 'يوسف أحمد (طالب)' : 'ولي أمر الطالب (يوسف)';
-  sessionStorage.setItem('araby_student_user', userName);
+  // Retrieve saved profile or construct one
+  let studentData = null;
+  const savedStr = localStorage.getItem('araby_active_student');
+  if (savedStr) {
+    try {
+      studentData = JSON.parse(savedStr);
+    } catch (err) {}
+  }
+
+  if (!studentData || (studentData.name !== id && studentData.phone !== id)) {
+    studentData = {
+      name: isNaN(id) ? id : `طالب (${id})`,
+      email: id.includes('@') ? id : '',
+      phone: isNaN(id) ? '' : id,
+      country: '🇸🇦 المملكة العربية السعودية',
+      grade: 'الصف الخامس الابتدائي',
+      subject: 'اللغة العربية ومنهج لغتي',
+      avatar: (id.charAt(0) || 'ط').toUpperCase(),
+      joinedAt: new Date().toISOString()
+    };
+    localStorage.setItem('araby_active_student', JSON.stringify(studentData));
+  }
+
+  sessionStorage.setItem('araby_student_user', studentData.name);
+  updateDashboardWithStudent(studentData);
   closeLoginModal();
   updateAuthHeader();
   showSection('dashboard');
-  alert(`أهلاً بك يا ${userName}! تم تسجيل الدخول بنجاح إلى منصتك التعليمية.`);
+  alert(`أهلاً بك يا ${studentData.name}! 🎓 تم فتح لوحة الطالب بنجاح.`);
 }
 
 function handleQuickDemoLogin() {
-  sessionStorage.setItem('araby_student_user', 'يوسف أحمد (طالب)');
+  const demoStudent = {
+    name: 'يوسف أحمد',
+    email: 'youssef@example.com',
+    phone: '01080285458',
+    country: '🇪🇬 جمهورية مصر العربية',
+    grade: 'الصف الخامس الابتدائي',
+    subject: 'اللغة العربية وكورس النحو',
+    avatar: 'ي',
+    joinedAt: new Date().toISOString()
+  };
+  localStorage.setItem('araby_active_student', JSON.stringify(demoStudent));
+  sessionStorage.setItem('araby_student_user', demoStudent.name);
+  updateDashboardWithStudent(demoStudent);
   closeLoginModal();
   updateAuthHeader();
   showSection('dashboard');
@@ -133,8 +193,10 @@ function handleQuickDemoLogin() {
 
 function handleStudentLogout() {
   sessionStorage.removeItem('araby_student_user');
+  localStorage.removeItem('araby_active_student');
   updateAuthHeader();
   showSection('landing');
+  alert('تم تسجيل الخروج بنجاح من لوحة الطالب.');
 }
 
 function updateAuthHeader() {
@@ -369,20 +431,41 @@ if (bookingModal) {
 
 async function handleBookingForm(e) {
   e.preventDefault();
-  const name = document.getElementById('modalStudentName').value;
-  const grade = document.getElementById('modalStudentGrade').value;
-  const curriculum = document.getElementById('modalCurriculum').value;
-  const phone = document.getElementById('modalParentPhone').value;
+  const name = (document.getElementById('modalStudentName').value || '').trim();
+  const emailEl = document.getElementById('modalStudentEmail');
+  const email = emailEl ? emailEl.value.trim() : '';
+  const phone = (document.getElementById('modalParentPhone').value || '').trim();
+  const countryEl = document.getElementById('modalCountry');
+  const country = countryEl && countryEl.value ? countryEl.value : 'غير محدد';
+  const grade = (document.getElementById('modalStudentGrade').value || '').trim();
+  const currEl = document.getElementById('modalCurriculum');
+  const curriculum = currEl && currEl.value ? currEl.value : 'اللغة العربية والقرآن الكريم';
 
-  // Save directly to Supabase Database
+  // Construct structured Student Profile
+  const studentData = {
+    name: name,
+    email: email,
+    phone: phone,
+    country: country,
+    grade: grade,
+    subject: curriculum,
+    avatar: name.charAt(0) || 'ط',
+    joinedAt: new Date().toISOString()
+  };
+
+  // 1. Save locally for instant session persistence
+  localStorage.setItem('araby_active_student', JSON.stringify(studentData));
+  sessionStorage.setItem('araby_student_user', studentData.name);
+
+  // 2. Save directly to Supabase Database
   const client = getSupabase();
   if (client) {
     try {
       await client.from('bookings').insert([{
         student_name: name,
         student_grade: grade,
-        curriculum: curriculum,
-        parent_phone: phone,
+        curriculum: `${curriculum} (الدولة: ${country})`,
+        parent_phone: `${phone}${email ? ' | إيميل: ' + email : ''}`,
         status: 'new'
       }]);
     } catch (err) {
@@ -390,17 +473,27 @@ async function handleBookingForm(e) {
     }
   }
 
+  // 3. Immediately activate & update the Student Dashboard
+  updateDashboardWithStudent(studentData);
+  closeBookingModal();
+  updateAuthHeader();
+  showSection('dashboard');
+
+  // 4. Cheerful Confirmation Alert
+  alert(`🎉 مبروك يا ${name}!\nتم تسجيل بياناتك وتفعيل لوحة الطالب الخاصة بك بنجاح 🎓.\nالصف: ${grade}\nالمادة: ${curriculum}\nالدولة: ${country}`);
+
+  // 5. Open WhatsApp to confirm the appointment directly with academy admin/teacher
   const msg = 
 `السلام عليكم ورحمة الله وبركاته،
-أريد حجز *حصة تجريبية مجانية (بدون أي رسوم)* في *أكاديمية عربي أونلاين*:
+تم تسجيل حساب جديد وحجز *حصة تجريبية مجانية* في *أكاديمية عربي أونلاين*:
 👤 *اسم الطالب:* ${name}
-📚 *المرحلة والصف:* ${grade}
-🎯 *الكورس المطلوب:* ${curriculum}
+🎒 *الصف الدراسي:* ${grade}
+📚 *المادة / القسم:* ${curriculum}
+🌍 *الدولة:* ${country}
 📱 *رقم ولي الأمر:* ${phone}
+${email ? '📧 *البريد الإلكتروني:* ' + email + '\n' : ''}🎁 *عرض الشهر:* استلام كورس تحسين الخط العربي هدية مجانية 100%!
 شكراً لكم!`;
 
-  closeBookingModal();
-  alert(`تم تسجيل وحفظ طلب الحصة المجانية بنجاح للطالب (${name}) في قاعدة البيانات! جاري تحويلك إلى الواتساب لتأكيد الموعد المناسب.`);
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -1346,6 +1439,14 @@ document.addEventListener('visibilitychange', () => {
 
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+  // Restore student profile if exists
+  const savedStudent = localStorage.getItem('araby_active_student');
+  if (savedStudent) {
+    try {
+      updateDashboardWithStudent(JSON.parse(savedStudent));
+    } catch (e) {}
+  }
+
   updateAuthHeader();
   updateAdminUI();
   checkUrlHash();
