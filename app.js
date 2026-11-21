@@ -1775,14 +1775,31 @@ const DEFAULT_COURSES = [
     image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=600&auto=format&fit=crop&q=80",
     description: "تدريب عملي لتحسين خط اليد بالقلم الجاف والعادي، ومعرفة قواعد رسم الحروف وتنسيق الصفحة.",
     watermark: true
+  },
+  {
+    id: "c7",
+    title: "كورس اللغة العربية لغير الناطقين بها (Arabic for Non-Native Speakers)",
+    partition: "العربية لغير الناطقين بها",
+    grade: "كافة الأعمار • ثنائي اللغة (Bilingual)",
+    priceEg: "400 جنيه للدورة",
+    priceSa: "110 ريال / $30",
+    image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80",
+    description: "برنامج عالمي لأبناء الجاليات بأمريكا وأوروبا؛ نطق الحروف، محادثات يومية حية، وقراءة القرآن الكريم ونور البيان.",
+    watermark: true
   }
 ];
 
 function getCourses() {
   try {
     const raw = localStorage.getItem('araby_courses');
-    if (raw) return JSON.parse(raw);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed.some(c => c.id === 'c7')) return parsed;
+    }
   } catch (e) {}
+  localStorage.setItem('araby_courses', JSON.stringify(DEFAULT_COURSES));
+  return DEFAULT_COURSES;
+}
   return DEFAULT_COURSES;
 }
 
@@ -2160,8 +2177,271 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+// ==================== THEME (LIGHT / DARK MODE) ====================
+function getTheme() {
+  const saved = localStorage.getItem('araby_theme');
+  if (saved) return saved;
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function applyTheme(theme) {
+  const html = document.documentElement;
+  const icon = document.getElementById('themeToggleIcon');
+  if (theme === 'dark') {
+    html.classList.add('dark');
+    if (icon) {
+      icon.className = 'fa-solid fa-sun text-xs text-amber-400';
+    }
+  } else {
+    html.classList.remove('dark');
+    if (icon) {
+      icon.className = 'fa-solid fa-moon text-xs text-indigo-600';
+    }
+  }
+  localStorage.setItem('araby_theme', theme);
+}
+
+function toggleTheme() {
+  const current = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  const target = current === 'dark' ? 'light' : 'dark';
+  applyTheme(target);
+}
+
+// ==================== MULTILINGUAL & I18N SYSTEM ====================
+const I18N = {
+  ar: {
+    flag: '🇪🇬',
+    name: 'العربية',
+    dir: 'rtl',
+    nav_home: 'الرئيسية',
+    nav_courses: 'الكورسات المعتمدة',
+    nav_tracks: 'المسارات التعليمية',
+    nav_calligraphy: 'سبورة الخط ✍️',
+    nav_about: 'عن الأكاديمية',
+    nav_portal: 'لوحة الطالب',
+    nav_free_trial: '🎁 حصة مجانية',
+    nav_login: 'تسجيل الدخول',
+    nav_subscribe: 'حجز الكورسات',
+    top_ribbon_badge: '🎁 عرض الشهر الحصري',
+    top_ribbon_text: 'احجز أي كورس دراسي أو قرآني واحصل على "كورس تحسين الخط العربي بالقلم العادي" هدية مجانية 100% ✍️!',
+    top_ribbon_btn: 'احجز واستلم الهدية 🎁',
+    services_heading: 'الكورسات والمسارات المعتمدة',
+    services_subheading: 'برامجنا الأكاديمية المتخصصة في اللغة العربية، التربية الدينية، القرآن الكريم، واللغة العربية لغير الناطقين بها',
+    services_view_details: 'عرض كل تفاصيل الاشتراك',
+    c7_badge: '🌍 دولي • لغير الناطقين بها',
+    c7_title: 'كورس تعليم اللغة العربية لغير الناطقين بها',
+    c7_subtitle: 'Arabic for Non-Native Speakers • إشراف وتدريس مس فرح القاضي (خبرة 13 سنة)',
+    c7_desc: 'برنامج عالمي متكامل مصمم خصيصاً لأبناء الجاليات في أمريكا، بريطانيا، كندا، فرنسا، ألمانيا ودول العالم؛ يتضمن نطق الحروف الأبجدية ومخارج الأصوات، محادثات يومية حية (التعارف، المدرسة، العائلة)، قراءة القرآن الكريم ونور البيان، وتدريب ثنائي اللغة بالصوت والصورة.',
+    c7_feat1: 'مخارج الحروف ونور البيان',
+    c7_feat2: 'محادثات واقعية للمغتربين',
+    c7_feat3: 'معلمات مجازات لغات',
+    c7_enroll_btn: 'حجز واشتراك الكورس الآن ($30)',
+    c7_trial_btn: 'حجز حصة تجريبية دولية مجانية 🎁'
+  },
+  en: {
+    flag: '🇬🇧',
+    name: 'English',
+    dir: 'ltr',
+    nav_home: 'Home',
+    nav_courses: 'Our Courses',
+    nav_tracks: 'Academic Tracks',
+    nav_calligraphy: 'Calligraphy Board ✍️',
+    nav_about: 'About Us',
+    nav_portal: 'Student Portal',
+    nav_free_trial: '🎁 Free Trial',
+    nav_login: 'Sign In',
+    nav_subscribe: 'Enroll Now',
+    top_ribbon_badge: '🎁 Exclusive Monthly Offer',
+    top_ribbon_text: 'Enroll in any Arabic or Quran course and get the "Handwriting Improvement Course" 100% Free! ✍️',
+    top_ribbon_btn: 'Claim Your Gift 🎁',
+    services_heading: 'Accredited Courses & Programs',
+    services_subheading: 'Specialized programs in Arabic Language, Islamic Studies, Holy Quran, and Arabic for Non-Native Speakers',
+    services_view_details: 'View All Pricing & Details',
+    c7_badge: '🌍 Global • Non-Native Speakers',
+    c7_title: 'Arabic for Non-Native Speakers (Kids & Adults)',
+    c7_subtitle: 'Supervised & Taught by Miss Farah El-Kady (13 Years of Teaching Experience)',
+    c7_desc: 'A comprehensive global curriculum designed for families and expats in the US, UK, Canada, France, Germany & worldwide. Covers Arabic phonics, daily life conversations, Quranic Noor Al-Bayan reading, and interactive bilingual live sessions.',
+    c7_feat1: 'Phonics & Noor Al-Bayan',
+    c7_feat2: 'Daily Real-Life Dialogue',
+    c7_feat3: 'Certified Bilingual Tutors',
+    c7_enroll_btn: 'Enroll in This Course ($30 USD)',
+    c7_trial_btn: 'Book Free International Trial 🎁'
+  },
+  fr: {
+    flag: '🇫🇷',
+    name: 'Français',
+    dir: 'ltr',
+    nav_home: 'Accueil',
+    nav_courses: 'Nos Cours',
+    nav_tracks: 'Parcours Éducatifs',
+    nav_calligraphy: 'Calligraphie ✍️',
+    nav_about: 'À Propos',
+    nav_portal: 'Espace Étudiant',
+    nav_free_trial: '🎁 Essai Gratuit',
+    nav_login: 'Connexion',
+    nav_subscribe: 'S\'inscrire',
+    top_ribbon_badge: '🎁 Offre Spéciale du Mois',
+    top_ribbon_text: 'Inscrivez-vous à un cours et recevez le cours de calligraphie arabe 100% Gratuit! ✍️',
+    top_ribbon_btn: 'Obtenir le Cadeau 🎁',
+    services_heading: 'Programmes et Cours Agréés',
+    services_subheading: 'Programmes spécialisés en langue arabe, éducation islamique, Coran et arabe pour non-arabophones',
+    services_view_details: 'Voir les Tarifs & Détails',
+    c7_badge: '🌍 International • Non-Arabophones',
+    c7_title: 'L\'Arabe pour Non-Arabophones (Enfants & Adultes)',
+    c7_subtitle: 'Supervisé et enseigné par Miss Farah El-Kady (13 ans d\'expérience)',
+    c7_desc: 'Programme d\'apprentissage complet adapté aux résidents en France, Belgique, Canada et Europe: phonétique, conversations courantes, lecture du Coran et méthode Nour Al-Bayan.',
+    c7_feat1: 'Phonétique & Nour Al-Bayan',
+    c7_feat2: 'Conversations Quotidiennes',
+    c7_feat3: 'Professeures Bilingues Certifiées',
+    c7_enroll_btn: 'S\'inscrire à ce Cours (30$)',
+    c7_trial_btn: 'Réserver un Essai Gratuit 🎁'
+  },
+  de: {
+    flag: '🇩🇪',
+    name: 'Deutsch',
+    dir: 'ltr',
+    nav_home: 'Startseite',
+    nav_courses: 'Kurse',
+    nav_tracks: 'Bildungswege',
+    nav_calligraphy: 'Kalligraphie ✍️',
+    nav_about: 'Über uns',
+    nav_portal: 'Studentenportal',
+    nav_free_trial: '🎁 Gratisprobe',
+    nav_login: 'Anmelden',
+    nav_subscribe: 'Jetzt Buchen',
+    top_ribbon_badge: '🎁 Exklusives Monatsangebot',
+    top_ribbon_text: 'Buchen Sie einen Kurs und erhalten Sie den Arabisch-Kalligraphiekurs 100% Kostenlos! ✍️',
+    top_ribbon_btn: 'Geschenk Sichern 🎁',
+    services_heading: 'Akkreditierte Kurse & Programme',
+    services_subheading: 'Spezialisierte Programme in arabischer Sprache, islamischer Bildung, Koran und Arabisch für Nicht-Muttersprachler',
+    services_view_details: 'Alle Details anzeigen',
+    c7_badge: '🌍 Global • Nicht-Muttersprachler',
+    c7_title: 'Arabisch für Nicht-Muttersprachler (Kinder & Erwachsene)',
+    c7_subtitle: 'Geleitet von Miss Farah El-Kady (13 Jahre Unterrichtserfahrung)',
+    c7_desc: 'Internationaler Lehrplan für Familien in Deutschland, Österreich und der Schweiz: Aussprache der arabischen Buchstaben, Alltagskonversation, Quran-Lesen nach Noor Al-Bayan.',
+    c7_feat1: 'Phonetik & Noor Al-Bayan',
+    c7_feat2: 'Lebensnahe Dialoge',
+    c7_feat3: 'Zweisprachige Lehrkräfte',
+    c7_enroll_btn: 'Kurs Jetzt Buchen (30$)',
+    c7_trial_btn: 'Kostenlose Probestunde Buchen 🎁'
+  },
+  tr: {
+    flag: '🇹🇷',
+    name: 'Türkçe',
+    dir: 'ltr',
+    nav_home: 'Ana Sayfa',
+    nav_courses: 'Kurslarımız',
+    nav_tracks: 'Eğitim Parkurları',
+    nav_calligraphy: 'Hat Sanatı ✍️',
+    nav_about: 'Hakkımızda',
+    nav_portal: 'Öğrenci Paneli',
+    nav_free_trial: '🎁 Ücretsiz Deneme',
+    nav_login: 'Giriş Yap',
+    nav_subscribe: 'Kayıt Ol',
+    top_ribbon_badge: '🎁 Aylık Özel Kampanya',
+    top_ribbon_text: 'Herhangi bir kursa kaydolun, Arapça Hat Sanatı Kursunu %100 Ücretsiz hediye kazanın! ✍️',
+    top_ribbon_btn: 'Hediyeyi Al 🎁',
+    services_heading: 'Onaylı Kurslar ve Programlar',
+    services_subheading: 'Arapça, İslami İlimler, Kur\'an-ı Kerim ve Anadili Arapça Olmayanlar İçin Özel Eğitimler',
+    services_view_details: 'Tüm Detayları Gör',
+    c7_badge: '🌍 Uluslararası • Yabancılar İçin',
+    c7_title: 'Anadili Arapça Olmayanlar İçin Arapça (Çocuk & Yetişkin)',
+    c7_subtitle: 'Farah El-Kady Gözetiminde (13 Yıllık Öğretmenlik Tecrübesi)',
+    c7_desc: 'Gurbetçi ve yabancı öğrenciler için hazırlanmış kapsamlı program: Harflerin mahreçleri, günlük konuşmalar, Kur\'an-ı Kerim ve Nurul Beyan usulü okuma.',
+    c7_feat1: 'Harf Mahreçleri & Tecvid',
+    c7_feat2: 'Günlük Pratik Diyaloglar',
+    c7_feat3: 'Sertifikalı Çift Dilli Eğitmenler',
+    c7_enroll_btn: 'Kursa Kaydol ($30)',
+    c7_trial_btn: 'Ücretsiz Deneme Dersi Al 🎁'
+  },
+  id: {
+    flag: '🇮🇩',
+    name: 'Indonesia',
+    dir: 'ltr',
+    nav_home: 'Beranda',
+    nav_courses: 'Daftar Kursus',
+    nav_tracks: 'Jalur Belajar',
+    nav_calligraphy: 'Papan Kaligrafi ✍️',
+    nav_about: 'Tentang Kami',
+    nav_portal: 'Portal Santri',
+    nav_free_trial: '🎁 Uji Coba Gratis',
+    nav_login: 'Masuk',
+    nav_subscribe: 'Daftar Kursus',
+    top_ribbon_badge: '🎁 Promo Eksklusif Bulan Ini',
+    top_ribbon_text: 'Daftar kursus apa saja dan dapatkan Kursus Kaligrafi Arab 100% Gratis! ✍️',
+    top_ribbon_btn: 'Klaim Hadiah 🎁',
+    services_heading: 'Kursus & Program Terakreditasi',
+    services_subheading: 'Program khusus Bahasa Arab, Pendidikan Agama Islam, Al-Qur\'an, dan Bahasa Arab untuk Penutur Asing',
+    services_view_details: 'Lihat Detail Pendaftaran',
+    c7_badge: '🌍 Internasional • Penutur Asing',
+    c7_title: 'Bahasa Arab untuk Penutur Asing (Anak & Dewasa)',
+    c7_subtitle: 'Dibimbing oleh Miss Farah El-Kady (13 Tahun Pengalaman Mengajar)',
+    c7_desc: 'Kurikulum ramah penutur asing: melatih makharijul huruf, percakapan sehari-hari, membaca Al-Qur\'an metode Nurul Bayan dengan bimbingan bilingual.',
+    c7_feat1: 'Makharijul Huruf & Tajwid',
+    c7_feat2: 'Percakapan Sehari-hari',
+    c7_feat3: 'Tutor Bilingual Bersertifikat',
+    c7_enroll_btn: 'Daftar Kursus ($30)',
+    c7_trial_btn: 'Coba Gratis Sekarang 🎁'
+  }
+};
+
+function changeLanguage(lang) {
+  const dict = I18N[lang] || I18N['ar'];
+  localStorage.setItem('araby_lang', lang);
+  
+  document.documentElement.setAttribute('dir', dict.dir);
+  document.documentElement.setAttribute('lang', lang);
+
+  const flagEl = document.getElementById('currentLangFlag');
+  const labelEl = document.getElementById('currentLangLabel');
+  if (flagEl) flagEl.textContent = dict.flag;
+  if (labelEl) labelEl.textContent = dict.name;
+
+  Object.keys(I18N).forEach(k => {
+    const chk = document.getElementById(`check-${k}`);
+    if (chk) {
+      if (k === lang) chk.classList.remove('hidden');
+      else chk.classList.add('hidden');
+    }
+  });
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) {
+      el.textContent = dict[key];
+    }
+  });
+
+  const menu = document.getElementById('langDropdownMenu');
+  if (menu) menu.classList.add('hidden');
+}
+
+function toggleLangDropdown(e) {
+  if (e) e.stopPropagation();
+  const menu = document.getElementById('langDropdownMenu');
+  if (menu) menu.classList.toggle('hidden');
+}
+
+window.addEventListener('click', (e) => {
+  const menu = document.getElementById('langDropdownMenu');
+  const btn = document.getElementById('langSelectBtn');
+  if (menu && !menu.classList.contains('hidden')) {
+    if (btn && !btn.contains(e.target) && !menu.contains(e.target)) {
+      menu.classList.add('hidden');
+    }
+  }
+});
+
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+  // Apply saved Theme (Light/Dark)
+  const currentTheme = getTheme();
+  applyTheme(currentTheme);
+
+  // Apply saved Language
+  const currentLang = localStorage.getItem('araby_lang') || 'ar';
+  changeLanguage(currentLang);
+
   // Restore student profile if exists
   const savedStudent = localStorage.getItem('araby_active_student');
   if (savedStudent) {
