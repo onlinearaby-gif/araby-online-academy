@@ -20,6 +20,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -112,36 +113,76 @@
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-7 text-xs font-bold text-slate-700">
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-700">
           <a href="#" onclick="showSection('landing')" class="text-orange-600 flex items-center gap-1.5 hover:text-orange-700 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
-            <span>الرئيسية</span>
+            <span data-i18n="nav_home">الرئيسية</span>
           </a>
-          <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition">الكورسات الـ 6</a>
-          <a href="#skills" onclick="showSection('landing')" class="hover:text-orange-600 transition">المسارات التعليمية</a>
+          <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_courses">الكورسات المعتمدة</a>
+          <a href="#skills" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_tracks">المسارات التعليمية</a>
           <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1">
-            <span>سبورة الخط ✍️</span>
+            <span data-i18n="nav_calligraphy">سبورة الخط ✍️</span>
           </a>
-          <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition">عن الأكاديمية</a>
+          <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_about">عن الأكاديمية</a>
         </nav>
 
         <!-- Actions -->
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-2 sm:gap-2.5">
+          <!-- Dark / Light Mode Switcher -->
+          <button onclick="toggleTheme()" id="themeToggleBtn" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition border border-slate-200" title="تبديل الوضع الليلي / الفاتح">
+            <i id="themeToggleIcon" class="fa-solid fa-moon text-xs text-indigo-600"></i>
+          </button>
+
+          <!-- Multilingual Language Selector -->
+          <div class="relative">
+            <button onclick="toggleLangDropdown(event)" id="langSelectBtn" class="px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
+              <span id="currentLangFlag">🇪🇬</span>
+              <span id="currentLangLabel">العربية</span>
+              <i class="fa-solid fa-chevron-down text-[9px] text-slate-400"></i>
+            </button>
+            <div id="langDropdownMenu" class="hidden absolute top-full mt-2 left-0 sm:right-0 z-50 w-48 bg-white rounded-2xl shadow-xl border border-slate-200 py-1.5 text-xs font-bold divide-y divide-slate-100 animate-fadeIn">
+              <button onclick="changeLanguage('ar')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
+                <span>🇪🇬 العربية (AR)</span>
+                <i class="fa-solid fa-check text-emerald-500 text-[11px]" id="check-ar"></i>
+              </button>
+              <button onclick="changeLanguage('en')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
+                <span>🇬🇧 English (EN)</span>
+                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-en"></i>
+              </button>
+              <button onclick="changeLanguage('fr')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
+                <span>🇫🇷 Français (FR)</span>
+                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-fr"></i>
+              </button>
+              <button onclick="changeLanguage('de')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
+                <span>🇩🇪 Deutsch (DE)</span>
+                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-de"></i>
+              </button>
+              <button onclick="changeLanguage('tr')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
+                <span>🇹🇷 Türkçe (TR)</span>
+                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-tr"></i>
+              </button>
+              <button onclick="changeLanguage('id')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
+                <span>🇮🇩 Indonesia (ID)</span>
+                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-id"></i>
+              </button>
+            </div>
+          </div>
+
           <!-- Student Portal Switcher -->
-          <button onclick="togglePortalMode()" id="portalToggleBtn" class="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
+          <button onclick="togglePortalMode()" id="portalToggleBtn" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
             <i class="fa-solid fa-graduation-cap text-orange-500"></i>
-            <span id="portalToggleText">لوحة الطالب</span>
+            <span id="portalToggleText" data-i18n="nav_portal">لوحة الطالب</span>
           </button>
 
           <!-- Free Trial Button -->
           <button onclick="openBookingModal()" class="hidden lg:inline-flex btn-brand-green px-3.5 py-1.5 text-xs font-bold rounded-full">
-            🎁 حصة مجانية
+            <span data-i18n="nav_free_trial">🎁 حصة مجانية</span>
           </button>
 
           <!-- Sleek Login Button -->
           <button onclick="openLoginModal()" id="headerLoginBtn" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition">
             <i class="fa-solid fa-arrow-right-to-bracket text-xs text-amber-300"></i>
-            <span>تسجيل الدخول</span>
+            <span data-i18n="nav_login">تسجيل الدخول</span>
           </button>
 
           <!-- Logged-in User Chip (Hidden initially, shown upon student login) -->
@@ -157,9 +198,9 @@
           </div>
 
           <!-- Direct Payment CTA -->
-          <button onclick="openPaymentModal()" class="btn-brand-orange px-4 py-2 text-xs font-bold rounded-full">
+          <button onclick="openPaymentModal()" class="btn-brand-orange px-3.5 sm:px-4 py-2 text-xs font-bold rounded-full">
             <i class="fa-solid fa-credit-card"></i>
-            <span>حجز الكورسات</span>
+            <span data-i18n="nav_subscribe">حجز الكورسات</span>
           </button>
         </div>
 
@@ -362,16 +403,16 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-4 border-b border-slate-200">
           <div>
             <div class="flex items-center gap-2">
-              <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">الكورسات الـ 6 المعتمدة</h2>
+              <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight" data-i18n="services_heading">الكورسات والمسارات المعتمدة</h2>
               <span class="text-orange-500 font-black text-2xl font-handwriting">〰️</span>
             </div>
-            <p class="text-xs sm:text-sm text-slate-500 mt-1 font-medium">
-              خدماتنا الأكاديمية الـ 6 المعتمدة لطلاب الابتدائي والإعدادي مع هدية الشهر المجانية
+            <p class="text-xs sm:text-sm text-slate-500 mt-1 font-medium" data-i18n="services_subheading">
+              برامجنا الأكاديمية المتخصصة في اللغة العربية، التربية الدينية، القرآن الكريم، واللغة العربية لغير الناطقين بها
             </p>
           </div>
 
           <button onclick="openPaymentModal()" class="self-start sm:self-auto text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1.5 transition">
-            <span>عرض كل تفاصيل الاشتراك</span>
+            <span data-i18n="services_view_details">عرض كل تفاصيل الاشتراك</span>
             <i class="fa-solid fa-arrow-left"></i>
           </button>
         </div>
@@ -672,6 +713,84 @@
               <button onclick="openBookingModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
                 حجز ورشة تجريبية مجانية 🎁
               </button>
+            </div>
+          </div>
+
+          <!-- COURSE 7: Arabic for Non-Native Speakers (العربية لغير الناطقين بها) -->
+          <div class="modern-card group p-6 flex flex-col justify-between border-2 border-emerald-400 md:col-span-2 lg:col-span-3 bg-gradient-to-br from-emerald-50/60 via-white to-teal-50/40 shadow-md hover:border-emerald-500">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              
+              <!-- Thumb/Visual -->
+              <div class="md:col-span-5 relative w-full h-60 rounded-2xl overflow-hidden bg-slate-900 border border-emerald-200">
+                <img id="landingCourseImg_c7" src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&auto=format&fit=crop&q=80" alt="تعليم اللغة العربية لغير الناطقين بها" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-900/30 to-transparent"></div>
+                
+                <span class="absolute top-3 right-3 text-[11px] font-black text-white bg-emerald-600 px-3 py-1 rounded-xl shadow-xs flex items-center gap-1.5">
+                  <i class="fa-solid fa-globe"></i>
+                  <span data-i18n="c7_badge">🌍 دولي • لغير الناطقين بها</span>
+                </span>
+                <span class="absolute top-3 left-3 text-[11px] font-black text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-lg border border-purple-200">
+                  🎁 + الخط مجاناً
+                </span>
+                <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-white">
+                  <span class="text-xs font-black bg-slate-900/90 backdrop-blur-md px-3 py-1 rounded-xl shadow-md border border-white/10">
+                    400 ج / 110 ر.س ($30 USD)
+                  </span>
+                  <span class="text-[10px] font-bold text-emerald-300">
+                    Bilingual (EN / FR / DE / TR / ID)
+                  </span>
+                </div>
+              </div>
+
+              <!-- Details -->
+              <div class="md:col-span-7 space-y-3.5">
+                <div class="flex items-start justify-between gap-3">
+                  <div>
+                    <span class="inline-block px-3 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black mb-1 border border-emerald-200">
+                      GLOBAL ARABIC PROGRAM • للأطفال والكبار المغتربين
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-black text-slate-900 group-hover:text-emerald-600 transition" data-i18n="c7_title">
+                      كورس تعليم اللغة العربية لغير الناطقين بها
+                    </h3>
+                    <p class="text-xs text-emerald-700 font-bold mt-0.5" data-i18n="c7_subtitle">
+                      Arabic for Non-Native Speakers • إشراف وتدريس مس فرح القاضي (خبرة 13 سنة)
+                    </p>
+                  </div>
+                  <div class="corner-arrow-btn shrink-0">
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                  </div>
+                </div>
+
+                <p class="text-xs text-slate-600 leading-relaxed font-medium" data-i18n="c7_desc">
+                  برنامج عالمي متكامل مصمم خصيصاً لأبناء الجاليات في أمريكا، بريطانيا، كندا، فرنسا، ألمانيا ودول العالم؛ يتضمن نطق الحروف الأبجدية ومخارج الأصوات، محادثات يومية حية (التعارف، المدرسة، العائلة)، قراءة القرآن الكريم ونور البيان، وتدريب ثنائي اللغة بالصوت والصورة.
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1 text-[11px] font-bold text-slate-700">
+                  <div class="flex items-center gap-1.5 text-emerald-700">
+                    <i class="fa-solid fa-circle-check text-xs"></i>
+                    <span data-i18n="c7_feat1">مخارج الحروف ونور البيان</span>
+                  </div>
+                  <div class="flex items-center gap-1.5 text-emerald-700">
+                    <i class="fa-solid fa-circle-check text-xs"></i>
+                    <span data-i18n="c7_feat2">محادثات واقعية للمغتربين</span>
+                  </div>
+                  <div class="flex items-center gap-1.5 text-emerald-700">
+                    <i class="fa-solid fa-circle-check text-xs"></i>
+                    <span data-i18n="c7_feat3">معلمات مجازات لغات</span>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3 pt-3 border-t border-slate-100">
+                  <button onclick="openPaymentModal('7. كورس اللغة العربية لغير الناطقين بها (Arabic for Non-Native Speakers)')" class="btn-brand-green px-5 py-2.5 text-xs font-black rounded-xl flex items-center justify-center gap-1.5 shadow-md">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span data-i18n="c7_enroll_btn">حجز واشتراك الكورس الآن ($30)</span>
+                  </button>
+                  <button onclick="openBookingModal('7. كورس اللغة العربية لغير الناطقين بها (Arabic for Non-Native Speakers)')" class="btn-pill-subtle px-4 py-2.5 text-xs font-bold rounded-xl">
+                    <span data-i18n="c7_trial_btn">حجز حصة تجريبية دولية مجانية 🎁</span>
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -2495,6 +2614,7 @@
             <option value="تربية دينية إسلامية">📖 تربية دينية إسلامية</option>
             <option value="دراسات إسلامية">🕋 دراسات إسلامية</option>
             <option value="القرآن الكريم وأحكام التجويد">🕌 القرآن الكريم وأحكام التجويد</option>
+            <option value="7. كورس اللغة العربية لغير الناطقين بها (Arabic for Non-Native Speakers)">🌍 كورس اللغة العربية لغير الناطقين بها (Arabic for Non-Native Speakers)</option>
             <option value="كورس تحسين الخط العربي بالقلم العادي">✍️ كورس تحسين الخط العربي بالقلم العادي (عرض الشهر المجاني)</option>
           </select>
         </div>
@@ -2550,6 +2670,7 @@
             <option value="4. كورس النحو من الصفر إلى الاحتراف" data-price-eg="350 جنيه للدورة" data-price-sa="95 ريال للدورة">4. 📐 كورس النحو من الصفر للاحتراف</option>
             <option value="5. تحفيظ القرآن الكريم وتجويده" data-price-eg="300 جنيه شهرياً" data-price-sa="80 ريال شهرياً">5. 🕌 تحفيظ القرآن الكريم وتجويده</option>
             <option value="6. كورس تحسين الخط العربي بالقلم العادي" data-price-eg="350 جنيه للدورة" data-price-sa="90 ريال للدورة">6. ✍️ كورس تحسين الخط العربي</option>
+            <option value="7. كورس اللغة العربية لغير الناطقين بها (Arabic for Non-Native Speakers)" data-price-eg="400 جنيه للدورة" data-price-sa="110 ريال للدورة ($30)">7. 🌍 كورس العربية لغير الناطقين بها (Non-Native)</option>
           </select>
         </div>
 
