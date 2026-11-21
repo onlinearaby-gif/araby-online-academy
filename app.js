@@ -1164,7 +1164,7 @@ const DEFAULT_VIDEOS = [
     category: '📐 كورس النحو من الصفر إلى الاحتراف',
     url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
-    description: 'درس نموذجي وتطبيقي ممتع يشرح عمل كان وأخواتها وضبط الاسم والخبر مع تدريبات تفاعلية.'
+    description: 'شرح تطبيقي ممتع مع مس فرح القاضي (خبرة 13 سنة في التدريس) يوضح عمل كان وأخواتها وضبط الاسم والخبر مع تدريبات عملية.'
   },
   {
     id: 'vid_2',
@@ -1187,7 +1187,7 @@ const DEFAULT_VIDEOS = [
 function getVideos() {
   try {
     const raw = localStorage.getItem('araby_videos');
-    if (!raw) {
+    if (!raw || !raw.includes('فرح')) {
       localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
       return DEFAULT_VIDEOS;
     }
@@ -1371,7 +1371,7 @@ const DEFAULT_REVIEWS = [
     rating: 5,
     course: 'منهج لغتي وكورس النحو',
     grade: 'الصف الرابع الابتدائي',
-    content: 'ما شاء الله تبارك الله، أسلوب الشرح ممتع جداً والتفاعل مع المعلمة جعل ابني ينتظر الحصة بكل شغف وارتفعت درجاته في اختبارات لغتي بشكل ممتاز.'
+    content: 'ما شاء الله تبارك الله، أسلوب مس فرح ممتع جداً وخبرتها 13 سنة واضحة في تيسير القواعد. ابني أصبح ينتظر الحصة بكل شغف وارتفعت درجاته في لغتي بشكل ممتاز.'
   },
   {
     id: 'rev_2',
@@ -1380,7 +1380,7 @@ const DEFAULT_REVIEWS = [
     rating: 5,
     course: 'كورس تحسين الخط العربي والإملاء',
     grade: 'الصف السادس الابتدائي',
-    content: 'كورس الخط العربي أحدث فارقاً مذهلاً في شكل خط ابنتي ووضوحه في كراسة الواجبات والامتحانات. المعلم صبور ومتابع دقيق لكل تفصيلة.'
+    content: 'كورس الخط العربي وتأسيس الإملاء مع مس فرح أحدث فارقاً مذهلاً في شكل خط ابنتي ووضوحه في كراسة الواجبات والامتحانات. صبورة ومتابعة دقيقة لكل تفصيلة.'
   },
   {
     id: 'rev_3',
@@ -1389,14 +1389,14 @@ const DEFAULT_REVIEWS = [
     rating: 5,
     course: 'تأسيس النحو والقراءة',
     grade: 'الصف الأول الإعدادي',
-    content: 'أفضل استثمار لتعليم اللغة العربية عن بُعد. المنصة احترافية وتجمع بين تبسيط القواعد والتشجيع المستمر الذي يعطي ثقة كبيرة للطالب.'
+    content: 'أفضل استثمار لتعليم اللغة العربية عن بُعد. مس فرح القاضي معلمة قديرة ومتمكنة، والمنصة تجمع بين تبسيط القواعد والتشجيع المستمر الذي يعطي ثقة كبيرة للطالب.'
   }
 ];
 
 function getReviews() {
   try {
     const raw = localStorage.getItem('araby_reviews');
-    if (!raw) {
+    if (!raw || !raw.includes('فرح')) {
       localStorage.setItem('araby_reviews', JSON.stringify(DEFAULT_REVIEWS));
       return DEFAULT_REVIEWS;
     }
