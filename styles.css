@@ -247,87 +247,115 @@ body {
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* ==================== DARK MODE ENHANCEMENTS ==================== */
+/* ==================== DARK MODE COMPREHENSIVE OVERRIDES ==================== */
 html.dark {
   color-scheme: dark;
 }
 
+html.dark,
 html.dark body {
-  background-color: #0B0F19 !important;
+  background-color: #070B14 !important;
   color: #F8FAFC !important;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.08) 0%, transparent 25%),
-    radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.08) 0%, transparent 25%),
-    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.06) 0%, transparent 35%) !important;
+    radial-gradient(circle at 10% 20%, rgba(249, 115, 22, 0.12) 0%, transparent 25%),
+    radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.12) 0%, transparent 25%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 35%) !important;
+}
+
+/* Neutralize all light gradients in dark mode */
+html.dark [class*="bg-gradient-to-b"],
+html.dark [class*="bg-gradient-to-r"],
+html.dark [class*="bg-gradient-to-l"],
+html.dark [class*="bg-gradient-to-br"],
+html.dark [class*="from-amber-50"],
+html.dark [class*="from-purple-50"],
+html.dark [class*="from-orange-50"],
+html.dark [class*="from-blue-50"],
+html.dark [class*="from-emerald-50"],
+html.dark [class*="from-slate-50"],
+html.dark [class*="from-white"],
+html.dark [class*="via-white"],
+html.dark [class*="to-slate-50"],
+html.dark [class*="to-amber-50"],
+html.dark [class*="to-teal-50"],
+html.dark [class*="to-white"] {
+  background-image: none !important;
+  background-color: #0D1322 !important;
 }
 
 html.dark header {
-  background-color: rgba(11, 15, 25, 0.95) !important;
-  border-color: rgba(255, 255, 255, 0.09) !important;
+  background-color: rgba(13, 19, 34, 0.96) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-html.dark .modern-card {
-  background-color: #131B2E !important;
-  border-color: rgba(255, 255, 255, 0.09) !important;
+html.dark section {
+  background-color: #070B14 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+html.dark .modern-card,
+html.dark .speech-bubble,
+html.dark [class*="rounded-3xl"][class*="bg-white"],
+html.dark [class*="rounded-2xl"][class*="bg-white"],
+html.dark [class*="rounded-xl"][class*="bg-white"],
+html.dark div.bg-white {
+  background-color: #111A2E !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
   color: #F8FAFC !important;
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
 }
 
-html.dark .bg-white {
-  background-color: #131B2E !important;
-}
-
-html.dark .bg-slate-50 {
-  background-color: #0F172A !important;
-}
-
+html.dark .bg-slate-50,
 html.dark .bg-slate-100 {
-  background-color: #1E293B !important;
+  background-color: #17223B !important;
 }
 
-html.dark .text-slate-900 {
+html.dark [class*="bg-purple-100"],
+html.dark [class*="bg-orange-100"],
+html.dark [class*="bg-emerald-50"],
+html.dark [class*="bg-amber-50"],
+html.dark [class*="bg-purple-50"],
+html.dark [class*="bg-blue-50"] {
+  background-color: #1A253D !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
   color: #F8FAFC !important;
 }
 
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark .text-slate-900,
 html.dark .text-slate-800 {
-  color: #E2E8F0 !important;
+  color: #F8FAFC !important;
 }
 
-html.dark .text-slate-700 {
+html.dark .text-slate-700,
+html.dark .text-slate-600 {
   color: #CBD5E1 !important;
 }
 
-html.dark .text-slate-600 {
-  color: #94A3B8 !important;
-}
-
-html.dark .text-slate-500 {
-  color: #94A3B8 !important;
-}
-
+html.dark .text-slate-500,
 html.dark .text-slate-400 {
-  color: #64748B !important;
+  color: #94A3B8 !important;
 }
 
 html.dark .border-slate-200,
 html.dark .border-slate-200\/80,
-html.dark .border-slate-200\/60 {
-  border-color: rgba(255, 255, 255, 0.09) !important;
-}
-
+html.dark .border-slate-200\/60,
 html.dark .border-slate-100 {
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
 }
 
 html.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]),
 html.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
-  border-color: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.07) !important;
 }
 
 html.dark input,
 html.dark select,
 html.dark textarea {
-  background-color: #1E293B !important;
+  background-color: #17223B !important;
   color: #F8FAFC !important;
   border-color: #334155 !important;
 }
@@ -338,14 +366,32 @@ html.dark .corner-arrow-btn {
 }
 
 html.dark .btn-pill-subtle {
-  background-color: #1E293B !important;
+  background-color: #17223B !important;
   border-color: #334155 !important;
   color: #E2E8F0 !important;
 }
 
 html.dark .btn-pill-subtle:hover {
-  background-color: #334155 !important;
+  background-color: #243454 !important;
   color: #FFFFFF !important;
+}
+
+html.dark #themeToggleBtn {
+  background-color: #17223B !important;
+  border-color: #334155 !important;
+  color: #FBBF24 !important;
+}
+
+html.dark #langSwitchContainer {
+  background-color: #17223B !important;
+  border-color: #334155 !important;
+}
+
+/* Modal dark mode */
+html.dark .fixed .bg-white {
+  background-color: #0E1626 !important;
+  color: #F8FAFC !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
 /* LTR Direction Font Tweaks */
