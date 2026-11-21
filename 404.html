@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>أكاديمية عربي أونلاين</title>
+  <script>
+    // If user attempted to visit /admin or /dashboard, redirect them cleanly to index.html with hash
+    var path = window.location.pathname.toLowerCase();
+    var base = '/araby-online-academy/';
+    if (window.location.hostname.includes('vercel.app') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      base = '/';
+    }
+
+    if (path.includes('admin')) {
+      window.location.replace(base + '#admin');
+    } else if (path.includes('student') || path.includes('dashboard')) {
+      window.location.replace(base + '#dashboard');
+    } else {
+      window.location.replace(base);
+    }
+  </script>
+</head>
+<body style="font-family: system-ui, sans-serif; text-align: center; padding-top: 60px; background: #FAF9F5; color: #1E293B;">
+  <p>جاري تحويلك إلى الصفحة المطلوبة...</p>
+</body>
+</html>
