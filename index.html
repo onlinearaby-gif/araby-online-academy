@@ -129,43 +129,21 @@
         <!-- Actions -->
         <div class="flex items-center gap-2 sm:gap-2.5">
           <!-- Dark / Light Mode Switcher -->
-          <button onclick="toggleTheme()" id="themeToggleBtn" class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition border border-slate-200" title="تبديل الوضع الليلي / الفاتح">
+          <button onclick="toggleTheme()" id="themeToggleBtn" class="px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center gap-1.5 transition border border-slate-300 font-bold text-xs shadow-xs cursor-pointer" title="تبديل الوضع الليلي / النهاري">
             <i id="themeToggleIcon" class="fa-solid fa-moon text-xs text-indigo-600"></i>
+            <span id="themeToggleText" class="text-xs font-bold">الوضع الليلي</span>
           </button>
 
-          <!-- Multilingual Language Selector -->
-          <div class="relative">
-            <button onclick="toggleLangDropdown(event)" id="langSelectBtn" class="px-2.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
-              <span id="currentLangFlag">🇪🇬</span>
-              <span id="currentLangLabel">العربية</span>
-              <i class="fa-solid fa-chevron-down text-[9px] text-slate-400"></i>
+          <!-- Direct Arabic / English Switcher -->
+          <div id="langSwitchContainer" class="flex items-center bg-slate-100 p-0.5 rounded-full border border-slate-300 text-xs font-black shadow-xs">
+            <button id="langBtnAr" onclick="changeLanguage('ar')" class="px-2.5 py-1 rounded-full transition-all duration-200 bg-orange-500 text-white shadow-xs flex items-center gap-1 cursor-pointer" title="اللغة العربية">
+              <span>🇪🇬</span>
+              <span class="hidden sm:inline">عربي</span>
             </button>
-            <div id="langDropdownMenu" class="hidden absolute top-full mt-2 left-0 sm:right-0 z-50 w-48 bg-white rounded-2xl shadow-xl border border-slate-200 py-1.5 text-xs font-bold divide-y divide-slate-100 animate-fadeIn">
-              <button onclick="changeLanguage('ar')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
-                <span>🇪🇬 العربية (AR)</span>
-                <i class="fa-solid fa-check text-emerald-500 text-[11px]" id="check-ar"></i>
-              </button>
-              <button onclick="changeLanguage('en')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
-                <span>🇬🇧 English (EN)</span>
-                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-en"></i>
-              </button>
-              <button onclick="changeLanguage('fr')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
-                <span>🇫🇷 Français (FR)</span>
-                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-fr"></i>
-              </button>
-              <button onclick="changeLanguage('de')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
-                <span>🇩🇪 Deutsch (DE)</span>
-                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-de"></i>
-              </button>
-              <button onclick="changeLanguage('tr')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
-                <span>🇹🇷 Türkçe (TR)</span>
-                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-tr"></i>
-              </button>
-              <button onclick="changeLanguage('id')" class="w-full px-3.5 py-2 text-right hover:bg-slate-50 flex items-center justify-between text-slate-800">
-                <span>🇮🇩 Indonesia (ID)</span>
-                <i class="fa-solid fa-check text-emerald-500 text-[11px] hidden" id="check-id"></i>
-              </button>
-            </div>
+            <button id="langBtnEn" onclick="changeLanguage('en')" class="px-2.5 py-1 rounded-full transition-all duration-200 text-slate-700 hover:text-slate-900 flex items-center gap-1 cursor-pointer" title="English">
+              <span>🇬🇧</span>
+              <span>EN</span>
+            </button>
           </div>
 
           <!-- Student Portal Switcher -->
@@ -219,31 +197,31 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
           <!-- RIGHT COLUMN: Headlines & Actions -->
-          <div class="lg:col-span-7 space-y-6 text-right">
+          <div class="lg:col-span-7 space-y-6 text-start">
             
             <!-- Comic Speech Bubble -->
             <div>
               <div class="speech-bubble">
                 <i class="fa-solid fa-rocket text-amber-300"></i>
-                <span>يلا نصنع بطل جديد في لغتنا الجميلة! 🚀</span>
+                <span data-i18n="hero_bubble">يلا نصنع بطل جديد في لغتنا الجميلة! 🚀</span>
               </div>
             </div>
 
             <!-- Greeting & Crown -->
             <div class="space-y-1">
               <div class="flex items-center gap-2 text-slate-500 text-base font-bold">
-                <span>أهلاً بكم في صرح التميز</span>
+                <span data-i18n="hero_greeting">أهلاً بكم في صرح التميز</span>
                 <span class="doodle-crown">👑</span>
               </div>
 
               <!-- Main Hero Title -->
               <h1 class="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 tracking-tight leading-none">
-                عربي <span class="squiggly-underline text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500">أونلاين</span>
+                <span data-i18n="hero_title_araby">عربي</span> <span class="squiggly-underline text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500" data-i18n="hero_title_online">أونلاين</span>
               </h1>
             </div>
 
             <!-- Subtitle Tagline -->
-            <p class="text-sm sm:text-base text-slate-600 font-medium max-w-xl leading-relaxed">
+            <p data-i18n="hero_desc" class="text-sm sm:text-base text-slate-600 font-medium max-w-xl leading-relaxed">
               منصة تعليمية تفاعلية مبهجة تجمع بين متعة التعلم والمنهجية المدرسية المعتمدة للمناهج المصرية والسعودية، مع برامج التأسيس الشامل والنحو من الصفر، وتحفيظ القرآن وفنون الخط العربي.
             </p>
 
@@ -251,18 +229,18 @@
             <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
               <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-900 font-black border border-purple-200 shadow-xs">
                 <i class="fa-solid fa-award text-purple-600"></i>
-                <span>إشراف: مس فرح القاضي (خبرة 13 سنة) ⭐</span>
+                <span data-i18n="hero_badge_teacher">إشراف: مس فرح القاضي (خبرة 13 سنة) ⭐</span>
               </span>
               <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 font-bold border border-orange-200">
                 <i class="fa-solid fa-graduation-cap text-orange-600"></i>
-                <span>مناهج مصر والسعودية</span>
+                <span data-i18n="hero_badge_curricula">مناهج مصر والسعودية</span>
               </span>
               <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                <span>140+ طالب متفاعل الآن</span>
+                <span data-i18n="hero_badge_students">140+ طالب متفاعل الآن</span>
               </span>
               <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
-                <span>⭐ 4.9/5 تقييم أولياء الأمور</span>
+                <span data-i18n="hero_badge_rating">⭐ 4.9/5 تقييم أولياء الأمور</span>
               </span>
             </div>
 
@@ -270,24 +248,24 @@
             <div class="flex flex-wrap items-center gap-4 pt-3">
               <button onclick="openBookingModal()" class="btn-brand-green text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
                 <i class="fa-solid fa-play text-xs"></i>
-                <span>احجز حصة تجريبية مجانية 🎁</span>
+                <span data-i18n="hero_btn_trial">احجز حصة تجريبية مجانية 🎁</span>
               </button>
 
               <a href="#services" class="btn-pill-subtle text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
-                <span>تصفح الكورسات الـ 6</span>
+                <span data-i18n="hero_btn_courses">تصفح الكورسات المعتمدة</span>
                 <i class="fa-solid fa-arrow-up-right-from-square text-xs text-orange-500"></i>
               </a>
 
               <button onclick="openPaymentModal()" class="btn-brand-orange text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>الاشتراك المباشر</span>
+                <span data-i18n="hero_btn_enroll">الاشتراك المباشر</span>
               </button>
             </div>
 
             <!-- Scroll Down Indicator -->
             <div class="pt-4 flex items-center gap-2 text-xs font-bold text-slate-400">
               <i class="fa-solid fa-arrow-down animate-bounce text-orange-500"></i>
-              <span>اكتشف باقات الكورسات وسبورة الخط بالأسفل</span>
+              <span data-i18n="hero_scroll_hint">اكتشف باقات الكورسات وسبورة الخط بالأسفل</span>
             </div>
 
           </div>
@@ -442,15 +420,15 @@
               <!-- Header with title & corner arrow -->
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-slate-900 group-hover:text-orange-600 transition">شرح منهج اللغة العربية</h3>
-                  <p class="text-xs text-orange-600 font-bold">الابتدائي والإعدادي (المنهج الوزاري)</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-orange-600 transition" data-i18n="c1_title">شرح منهج اللغة العربية</h3>
+                  <p class="text-xs text-orange-600 font-bold" data-i18n="c1_sub">الابتدائي والإعدادي (المنهج الوزاري)</p>
                 </div>
                 <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-500 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="c1_desc">
                 نصوص، قراءة متحررة، تعبير كتابي، قصة، وتربية دينية إسلامية، مع تدريبات امتحانات المحافظات وبنوك الأسئلة.
               </p>
 
@@ -463,10 +441,10 @@
             <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
               <button onclick="openPaymentModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="btn-brand-orange w-full py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>حجز واشتراك الكورس الآن</span>
+                <span data-i18n="btn_enroll_now">حجز واشتراك الكورس الآن</span>
               </button>
               <button onclick="openBookingModal('1. شرح منهج اللغة العربية (المنهج المصري)')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
-                حجز حصة تجريبية مجانية 🎁
+                <span data-i18n="btn_free_trial">حجز حصة تجريبية مجانية 🎁</span>
               </button>
             </div>
           </div>
@@ -491,15 +469,15 @@
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-slate-900 group-hover:text-emerald-600 transition">شرح منهج لغتي</h3>
-                  <p class="text-xs text-emerald-600 font-bold">لغتي الجميلة والخالدة والدراسات الإسلامية</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-emerald-600 transition" data-i18n="c2_title">شرح منهج لغتي (المنهج السعودي)</h3>
+                  <p class="text-xs text-emerald-600 font-bold" data-i18n="c2_sub">لغتي الجميلة والخالدة والدراسات الإسلامية</p>
                 </div>
                 <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-500 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="c2_desc">
                 شرح دقيق وفق معايير وزارة التعليم السعودية، مع تدريبات منصة مدرستي والاستعداد لاختبارات نافس والمعيارية.
               </p>
 
@@ -512,10 +490,10 @@
             <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
               <button onclick="openPaymentModal('2. شرح منهج لغتي (المنهج السعودي)')" class="btn-brand-green w-full py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>حجز واشتراك الكورس الآن</span>
+                <span data-i18n="btn_enroll_now">حجز واشتراك الكورس الآن</span>
               </button>
               <button onclick="openBookingModal('2. شرح منهج لغتي (المنهج السعودي)')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
-                حجز حصة تجريبية مجانية 🎁
+                <span data-i18n="btn_free_trial">حجز حصة تجريبية مجانية 🎁</span>
               </button>
             </div>
           </div>
@@ -540,15 +518,15 @@
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-slate-900 group-hover:text-amber-600 transition">كورسات التأسيس الشامل</h3>
-                  <p class="text-xs text-amber-600 font-bold">تعليم القراءة والكتابة والإملاء من الصفر</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-amber-600 transition" data-i18n="c3_title">كورس تأسيس القراءة والكتابة (نور البيان)</h3>
+                  <p class="text-xs text-amber-600 font-bold" data-i18n="c3_sub">من عمر 4 سنوات ولصعوبات التعلم</p>
                 </div>
                 <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-500 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="c3_desc">
                 خطة مرنة للتخلص من الضعف الإملائي والقرائي؛ إتقان الحركات والمدود، التنوين والشدة، وقواعد كتابة الهمزات والتاءات.
               </p>
 
@@ -561,10 +539,10 @@
             <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
               <button onclick="openPaymentModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="w-full py-2.5 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>حجز واشتراك الكورس الآن</span>
+                <span data-i18n="btn_enroll_now">حجز واشتراك الكورس الآن</span>
               </button>
               <button onclick="openBookingModal('3. كورس تأسيس القراءة والكتابة والإملاء')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
-                حجز تقييم مستوى مجاني 🎁
+                <span data-i18n="btn_free_trial">حجز تقييم مستوى مجاني 🎁</span>
               </button>
             </div>
           </div>
@@ -589,15 +567,15 @@
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-slate-900 group-hover:text-blue-600 transition">النحو من الصفر للاحتراف</h3>
-                  <p class="text-xs text-blue-600 font-bold">شرح وتبسيط مس فرح القاضي (خبرة 13 سنة في التدريس)</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-blue-600 transition" data-i18n="c4_title">كورس النحو والإعراب الشامل</h3>
+                  <p class="text-xs text-blue-600 font-bold" data-i18n="c4_sub">تأسيس النحو من الصفر حتى الإتقان • إشراف مس فرح القاضي (خبرة 13 سنة)</p>
                 </div>
                 <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-500 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="c4_desc">
                 فهم أركان الجملة، المبتدأ والخبر، الأفعال، المنصوبات، والمجرورات بأسلوب تدريبي تفاعلي يزيل خوف النحو تماماً.
               </p>
 
@@ -610,10 +588,10 @@
             <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
               <button onclick="openPaymentModal('4. كورس النحو من الصفر إلى الاحتراف')" class="btn-brand-blue w-full py-2.5 text-xs font-bold rounded-xl flex items-center justify-center gap-1.5">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>حجز واشتراك الكورس الآن</span>
+                <span data-i18n="btn_enroll_now">حجز واشتراك الكورس الآن</span>
               </button>
               <button onclick="openBookingModal('4. كورس النحو من الصفر إلى الاحتراف')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
-                حجز حصة تجريبية مجانية 🎁
+                <span data-i18n="btn_free_trial">حجز حصة تجريبية مجانية 🎁</span>
               </button>
             </div>
           </div>
@@ -638,15 +616,15 @@
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-slate-900 group-hover:text-rose-600 transition">تحفيظ القرآن الكريم وتجويده</h3>
-                  <p class="text-xs text-rose-600 font-bold">حلقات فردية ومجموعات صغيرة للأطفال</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-rose-600 transition" data-i18n="c5_title">تحفيظ القرآن الكريم وأحكام التجويد</h3>
+                  <p class="text-xs text-rose-600 font-bold" data-i18n="c5_sub">حلقات فردية ومجموعات صغيرة للأطفال</p>
                 </div>
                 <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-500 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="c5_desc">
                 حفظ متقن وضبط مخارج الحروف وأحكام التجويد وتفسير قصص الآيات وغرس الآداب النبوية بإشراف معلمين مجازين.
               </p>
 
@@ -659,10 +637,10 @@
             <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
               <button onclick="openPaymentModal('5. تحفيظ القرآن الكريم وتجويده')" class="w-full py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>حجز واشتراك الحلقة الآن</span>
+                <span data-i18n="btn_enroll_now">حجز واشتراك الحلقة الآن</span>
               </button>
               <button onclick="openBookingModal('5. تحفيظ القرآن الكريم وتجويده')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
-                حجز جلسة تلاوة مجانية 🎁
+                <span data-i18n="btn_free_trial">حجز جلسة تلاوة مجانية 🎁</span>
               </button>
             </div>
           </div>
@@ -687,15 +665,15 @@
 
               <div class="flex items-start justify-between gap-3 mb-2">
                 <div>
-                  <h3 class="text-base font-black text-slate-900 group-hover:text-purple-600 transition">تحسين الخط العربي بالقلم العادي</h3>
-                  <p class="text-xs text-purple-600 font-bold">بالقلم الجاف وفنون الرقعة والنسخ</p>
+                  <h3 class="text-base font-black text-slate-900 group-hover:text-purple-600 transition" data-i18n="c6_title">كورس تحسين الخط العربي بالقلم العادي</h3>
+                  <p class="text-xs text-purple-600 font-bold" data-i18n="c6_sub">خطي الرقعة والنسخ لجميع الأعمار</p>
                 </div>
                 <div class="corner-arrow-btn shrink-0">
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </div>
               </div>
 
-              <p class="text-xs text-slate-500 leading-relaxed">
+              <p class="text-xs text-slate-500 leading-relaxed" data-i18n="c6_desc">
                 علاج الخط الرديء وغير المقروء في الامتحانات؛ تدريب عملي على مسكة القلم وتناسق الحروف مع تصحيح فردي أسبوعي.
               </p>
 
@@ -708,10 +686,10 @@
             <div class="space-y-2 pt-4 mt-4 border-t border-slate-100">
               <button onclick="openPaymentModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs transition flex items-center justify-center gap-1.5 shadow-md">
                 <i class="fa-solid fa-credit-card"></i>
-                <span>حجز واشتراك الكورس الآن</span>
+                <span data-i18n="btn_enroll_now">حجز واشتراك الكورس الآن</span>
               </button>
               <button onclick="openBookingModal('6. كورس تحسين الخط العربي بالقلم العادي')" class="btn-pill-subtle w-full py-2 text-xs font-bold rounded-xl">
-                حجز ورشة تجريبية مجانية 🎁
+                <span data-i18n="btn_free_trial">حجز ورشة تجريبية مجانية 🎁</span>
               </button>
             </div>
           </div>
