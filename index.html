@@ -49,11 +49,120 @@
     }
   </script>
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <!-- Custom CSS with cache busting -->
+  <link rel="stylesheet" href="styles.css?v=20261122_01">
+
+  <!-- Guaranteed Inline Dark Mode & LTR Styles (Zero Cache Dependency) -->
+  <style id="araby-theme-overrides">
+    html.dark {
+      color-scheme: dark;
+    }
+    html.dark,
+    html.dark body {
+      background-color: #070B14 !important;
+      color: #F8FAFC !important;
+    }
+    html.dark [class*="bg-gradient-to-b"],
+    html.dark [class*="bg-gradient-to-r"],
+    html.dark [class*="bg-gradient-to-l"],
+    html.dark [class*="bg-gradient-to-br"],
+    html.dark [class*="from-amber-50"],
+    html.dark [class*="from-purple-50"],
+    html.dark [class*="from-orange-50"],
+    html.dark [class*="from-blue-50"],
+    html.dark [class*="from-emerald-50"],
+    html.dark [class*="from-slate-50"],
+    html.dark [class*="from-white"],
+    html.dark [class*="via-white"],
+    html.dark [class*="to-slate-50"],
+    html.dark [class*="to-amber-50"],
+    html.dark [class*="to-teal-50"],
+    html.dark [class*="to-white"] {
+      background-image: none !important;
+      background-color: #0D1322 !important;
+    }
+    html.dark header {
+      background-color: rgba(13, 19, 34, 0.96) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    html.dark section {
+      background-color: #070B14 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    html.dark .modern-card,
+    html.dark .speech-bubble,
+    html.dark [class*="rounded-3xl"][class*="bg-white"],
+    html.dark [class*="rounded-2xl"][class*="bg-white"],
+    html.dark [class*="rounded-xl"][class*="bg-white"],
+    html.dark div.bg-white {
+      background-color: #111A2E !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      color: #F8FAFC !important;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5) !important;
+    }
+    html.dark .bg-slate-50,
+    html.dark .bg-slate-100 {
+      background-color: #17223B !important;
+    }
+    html.dark h1, html.dark h2, html.dark h3, html.dark h4,
+    html.dark .text-slate-900, html.dark .text-slate-800 {
+      color: #F8FAFC !important;
+    }
+    html.dark .text-slate-700, html.dark .text-slate-600 {
+      color: #CBD5E1 !important;
+    }
+    html.dark .text-slate-500, html.dark .text-slate-400 {
+      color: #94A3B8 !important;
+    }
+    html.dark .border-slate-200,
+    html.dark .border-slate-200\/80,
+    html.dark .border-slate-200\/60,
+    html.dark .border-slate-100 {
+      border-color: rgba(255, 255, 255, 0.09) !important;
+    }
+    html.dark input, html.dark select, html.dark textarea {
+      background-color: #17223B !important;
+      color: #F8FAFC !important;
+      border-color: #334155 !important;
+    }
+    html.dark #themeToggleBtn {
+      background-color: #17223B !important;
+      border-color: #334155 !important;
+      color: #FBBF24 !important;
+    }
+    html.dark #langSwitchContainer {
+      background-color: #17223B !important;
+      border-color: #334155 !important;
+    }
+    html.dark .fixed .bg-white {
+      background-color: #0E1626 !important;
+      color: #F8FAFC !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+    html[dir="ltr"] body {
+      font-family: 'Tajawal', 'Cairo', system-ui, -apple-system, sans-serif;
+    }
+  </style>
 
   <!-- Supabase JS Client v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Immediate Theme & Language Initializer Script (Runs before body renders) -->
+  <script>
+    (function() {
+      try {
+        var t = localStorage.getItem('araby_theme');
+        if (t === 'dark' || (!t && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+        var l = localStorage.getItem('araby_lang');
+        if (l === 'en') {
+          document.documentElement.setAttribute('dir', 'ltr');
+          document.documentElement.setAttribute('lang', 'en');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans antialiased selection:bg-orange-500/20 selection:text-orange-700">
 
@@ -3033,7 +3142,52 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
-  <script src="app.js"></script>
+  <!-- JavaScript with cache-busting -->
+  <script src="app.js?v=20261122_02"></script>
+
+  <!-- Visual Toast & Event Binding Fallback -->
+  <script>
+    // Visual Notification Toast
+    function showMiniToast(msg) {
+      var old = document.getElementById('arabyMiniToast');
+      if (old) old.remove();
+      var toast = document.createElement('div');
+      toast.id = 'arabyMiniToast';
+      toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-2.5 rounded-full bg-slate-900/95 text-white font-black text-xs shadow-2xl border border-white/20 flex items-center gap-2 pointer-events-none transition-all duration-300';
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(function() {
+        if (toast && toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 2500);
+    }
+
+    // Attach listeners directly as fail-safe backup
+    document.addEventListener('DOMContentLoaded', function() {
+      var themeBtn = document.getElementById('themeToggleBtn');
+      if (themeBtn) {
+        themeBtn.onclick = function() {
+          if (typeof toggleTheme === 'function') toggleTheme();
+          var isDark = document.documentElement.classList.contains('dark');
+          showMiniToast(isDark ? 'تم تفعيل الوضع الليلي 🌙' : 'تم تفعيل الوضع النهاري ☀️');
+        };
+      }
+
+      var btnAr = document.getElementById('langBtnAr');
+      if (btnAr) {
+        btnAr.onclick = function() {
+          if (typeof changeLanguage === 'function') changeLanguage('ar');
+          showMiniToast('تم التبديل إلى اللغة العربية 🇪🇬');
+        };
+      }
+
+      var btnEn = document.getElementById('langBtnEn');
+      if (btnEn) {
+        btnEn.onclick = function() {
+          if (typeof changeLanguage === 'function') changeLanguage('en');
+          showMiniToast('Language switched to English 🇬🇧');
+        };
+      }
+    });
+  </script>
 </body>
 </html>
