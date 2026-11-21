@@ -1800,8 +1800,6 @@ function getCourses() {
   localStorage.setItem('araby_courses', JSON.stringify(DEFAULT_COURSES));
   return DEFAULT_COURSES;
 }
-  return DEFAULT_COURSES;
-}
 
 function saveCourses(courses) {
   localStorage.setItem('araby_courses', JSON.stringify(courses));
