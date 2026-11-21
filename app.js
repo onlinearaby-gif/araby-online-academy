@@ -51,6 +51,9 @@ function showSection(view) {
     if (adminView) adminView.classList.remove('hidden');
     if (portalBtnText) portalBtnText.textContent = 'العودة للرئيسية';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    switchAdminTab('students');
+    loadAdminStudents();
+    loadAdminBookings();
   } else {
     if (dashboardView) dashboardView.classList.add('hidden');
     if (adminView) adminView.classList.add('hidden');
@@ -782,7 +785,7 @@ function handleAdminLogout() {
 }
 
 function switchAdminTab(tabKey) {
-  const tabs = ['security', 'courses', 'watermark', 'bookings', 'payments'];
+  const tabs = ['students', 'videos', 'reviews', 'bookings', 'courses', 'settings', 'watermark', 'payments'];
   tabs.forEach(t => {
     const btn = document.getElementById(`admin-tab-${t}`);
     const view = document.getElementById(`admin-view-${t}`);
@@ -795,7 +798,13 @@ function switchAdminTab(tabKey) {
     }
   });
 
-  if (tabKey === 'courses') {
+  if (tabKey === 'students') {
+    loadAdminStudents();
+  } else if (tabKey === 'videos') {
+    renderAdminVideos();
+  } else if (tabKey === 'reviews') {
+    renderAdminReviews();
+  } else if (tabKey === 'courses') {
     renderAdminCourses();
   } else if (tabKey === 'watermark') {
     loadWatermarkSettingsIntoUI();
@@ -804,6 +813,716 @@ function switchAdminTab(tabKey) {
   } else if (tabKey === 'payments') {
     loadAdminPayments();
   }
+}
+
+// --- Admin Top Stats Counter ---
+function updateAdminStats(studentsCount, bookingsCount) {
+  const statStudents = document.getElementById('adminStatStudents');
+  const statVideos = document.getElementById('adminStatVideos');
+  const statReviews = document.getElementById('adminStatReviews');
+  const statBookings = document.getElementById('adminStatBookings');
+
+  if (statStudents && studentsCount !== undefined) statStudents.textContent = studentsCount;
+  if (statVideos) statVideos.textContent = getVideos().length;
+  if (statReviews) statReviews.textContent = getReviews().length;
+  if (statBookings && bookingsCount !== undefined) statBookings.textContent = bookingsCount;
+}
+
+// ==================== STUDENTS MANAGEMENT (التحذير • الحذف • المراسلة) ====================
+function getStudentWarnings() {
+  try {
+    const raw = localStorage.getItem('araby_student_warnings');
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveStudentWarnings(warnings) {
+  localStorage.setItem('araby_student_warnings', JSON.stringify(warnings));
+}
+
+let allAdminStudentsCache = [];
+
+async function loadAdminStudents() {
+  const tbody = document.getElementById('adminStudentsTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400"><i class="fa-solid fa-spinner fa-spin ml-2"></i>جاري جلب بيانات الطلاب والحسابات...</td></tr>`;
+
+  let students = [];
+  const client = getSupabase();
+
+  if (client) {
+    try {
+      const { data, error } = await client
+        .from('bookings')
+        .select('*')
+        .order('id', { ascending: false });
+
+      if (!error && data) {
+        students = data.map(b => ({
+          id: b.id,
+          name: b.student_name || 'طالب مسجل',
+          grade: b.student_grade || 'غير محدد',
+          country: b.country || 'مصر 🇪🇬',
+          phone: b.parent_phone || '',
+          email: b.student_email || (b.student_name ? `${b.student_name.trim().replace(/\s+/g, '').toLowerCase()}@arabyonline.com` : 'student@arabyonline.com'),
+          curriculum: b.curriculum || 'المنهج الوزاري',
+          date: b.created_at || new Date().toISOString()
+        }));
+      }
+    } catch (e) {
+      console.warn('Error fetching students from Supabase:', e);
+    }
+  }
+
+  // Include locally saved student if not already present
+  const localStudentRaw = localStorage.getItem('araby_active_student');
+  if (localStudentRaw) {
+    try {
+      const ls = JSON.parse(localStudentRaw);
+      const exists = students.some(s => s.phone && ls.phone && s.phone.replace(/[^0-9]/g, '') === ls.phone.replace(/[^0-9]/g, ''));
+      if (!exists && ls.name) {
+        students.unshift({
+          id: 'local_' + Date.now(),
+          name: ls.name,
+          grade: ls.grade || 'الصف الخامس الابتدائي',
+          country: ls.country || 'السعودية 🇸🇦',
+          phone: ls.phone || '0551234567',
+          email: ls.email || `${ls.name.replace(/\s+/g, '').toLowerCase()}@arabyonline.com`,
+          curriculum: ls.curriculum || 'منهج لغتي والتأسيس',
+          date: new Date().toISOString()
+        });
+      }
+    } catch (e) {}
+  }
+
+  // Default demonstration students if database is empty so Admin can immediately test actions
+  if (students.length === 0) {
+    students = [
+      {
+        id: 101,
+        name: 'أحمد محمود',
+        grade: 'الصف الأول الإعدادي',
+        country: 'مصر 🇪🇬',
+        phone: '01012345678',
+        email: 'ahmed.m@arabyonline.com',
+        curriculum: 'المنهج المصري والنحو',
+        date: new Date(Date.now() - 86400000 * 2).toISOString()
+      },
+      {
+        id: 102,
+        name: 'سارة عبد الله',
+        grade: 'الصف الرابع الابتدائي',
+        country: 'السعودية 🇸🇦',
+        phone: '0559876543',
+        email: 'sarah.a@arabyonline.com',
+        curriculum: 'منهج لغتي والخط',
+        date: new Date(Date.now() - 86400000).toISOString()
+      },
+      {
+        id: 103,
+        name: 'عمر فهد',
+        grade: 'الصف السادس الابتدائي',
+        country: 'الكويت 🇰🇼',
+        phone: '09651234567',
+        email: 'omar.fahad@arabyonline.com',
+        curriculum: 'كورس الخط والتأسيس',
+        date: new Date().toISOString()
+      }
+    ];
+  }
+
+  allAdminStudentsCache = students;
+  updateAdminStats(students.length, undefined);
+  renderAdminStudentsTable(students);
+}
+
+function renderAdminStudentsTable(students) {
+  const tbody = document.getElementById('adminStudentsTableBody');
+  if (!tbody) return;
+
+  if (!students || students.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">لا يوجد طلاب يطابقون البحث.</td></tr>`;
+    return;
+  }
+
+  const warnings = getStudentWarnings();
+
+  tbody.innerHTML = students.map((s, idx) => {
+    const studentKey = String(s.id || s.phone || idx);
+    const warning = warnings[studentKey] || warnings[s.phone];
+    const cleanPhone = (s.phone || '').replace(/[^0-9]/g, '');
+
+    const statusBadge = warning
+      ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300" title="${warning.reason || ''}">
+          <i class="fa-solid fa-triangle-exclamation"></i> تم توجيه إنذار
+        </span>`
+      : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+          <i class="fa-solid fa-circle-check"></i> حساب نشط
+        </span>`;
+
+    return `
+      <tr class="hover:bg-slate-50 transition border-b border-slate-100">
+        <td class="p-3 font-bold text-slate-400">${idx + 1}</td>
+        <td class="p-3">
+          <div class="font-bold text-slate-900">${s.name}</div>
+          <div class="text-[10px] text-slate-400">${s.curriculum || ''}</div>
+        </td>
+        <td class="p-3 text-slate-600 font-medium">${s.grade || '-'}</td>
+        <td class="p-3 font-semibold text-slate-800">${s.country || '-'}</td>
+        <td class="p-3 font-mono font-bold text-slate-800" dir="ltr">
+          <a href="https://wa.me/${cleanPhone}" target="_blank" class="text-emerald-600 hover:underline flex items-center gap-1">
+            <i class="fa-brands fa-whatsapp text-sm"></i>
+            <span>${s.phone || '-'}</span>
+          </a>
+        </td>
+        <td class="p-3 text-purple-700 font-mono text-[11px]" dir="ltr">
+          <a href="mailto:${s.email || ''}" class="hover:underline">${s.email || '-'}</a>
+        </td>
+        <td class="p-3">${statusBadge}</td>
+        <td class="p-3">
+          <div class="flex items-center justify-center gap-1.5 flex-nowrap">
+            <button onclick="openWarnModal('${s.id}', '${s.name.replace(/'/g, "\\'")}', '${s.phone}')" class="px-2.5 py-1 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 font-bold text-[11px] transition flex items-center gap-1" title="توجيه تحذير للطالب">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>تحذير</span>
+            </button>
+            <button onclick="openEmailModal('${s.name.replace(/'/g, "\\'")}', '${s.email}', '${s.phone}')" class="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 font-bold text-[11px] transition flex items-center gap-1" title="إرسال إيميل">
+              <i class="fa-solid fa-envelope"></i>
+              <span>إيميل</span>
+            </button>
+            <button onclick="deleteStudentAccount('${s.id}', '${s.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold text-[11px] transition flex items-center gap-1" title="حذف حساب الطالب نهائياً">
+              <i class="fa-solid fa-trash-can"></i>
+              <span>حذف</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function filterAdminStudents() {
+  const query = (document.getElementById('adminStudentSearchInput')?.value || '').trim().toLowerCase();
+  if (!query) {
+    renderAdminStudentsTable(allAdminStudentsCache);
+    return;
+  }
+  const filtered = allAdminStudentsCache.filter(s =>
+    (s.name && s.name.toLowerCase().includes(query)) ||
+    (s.phone && s.phone.includes(query)) ||
+    (s.country && s.country.toLowerCase().includes(query)) ||
+    (s.grade && s.grade.toLowerCase().includes(query)) ||
+    (s.email && s.email.toLowerCase().includes(query))
+  );
+  renderAdminStudentsTable(filtered);
+}
+
+// Student Action Modals
+function openWarnModal(id, name, phone) {
+  const modal = document.getElementById('adminWarnModal');
+  if (!modal) return;
+  document.getElementById('warnStudentId').value = id;
+  document.getElementById('warnStudentPhone').value = phone;
+  const nameEl = document.getElementById('warnModalStudentName');
+  if (nameEl) nameEl.textContent = `الطالب: ${name} (${phone})`;
+  const reasonInput = document.getElementById('warnReasonInput');
+  if (reasonInput) reasonInput.value = '';
+  modal.classList.remove('hidden');
+}
+
+function closeAdminWarnModal() {
+  const modal = document.getElementById('adminWarnModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function handleConfirmWarnStudent(e) {
+  e.preventDefault();
+  const id = document.getElementById('warnStudentId').value;
+  const phone = document.getElementById('warnStudentPhone').value;
+  const reason = (document.getElementById('warnReasonInput').value || '').trim();
+
+  if (!reason) {
+    alert('يرجى كتابة سبب التحذير أولاً');
+    return;
+  }
+
+  const warnings = getStudentWarnings();
+  warnings[id] = { reason, date: new Date().toISOString() };
+  if (phone) warnings[phone] = { reason, date: new Date().toISOString() };
+  saveStudentWarnings(warnings);
+
+  closeAdminWarnModal();
+  renderAdminStudentsTable(allAdminStudentsCache);
+  alert(`⚠️ تم تسجيل الإنذار على حساب الطالب بنجاح!\nالسبب: ${reason}`);
+}
+
+function sendWarningViaWhatsApp() {
+  const phone = (document.getElementById('warnStudentPhone').value || '').replace(/[^0-9]/g, '');
+  const reason = (document.getElementById('warnReasonInput').value || '').trim();
+  const nameEl = document.getElementById('warnModalStudentName')?.textContent || '';
+
+  if (!phone) {
+    alert('رقم هاتف الطالب أو ولي الأمر غير متوفر لإرسال واتساب');
+    return;
+  }
+
+  const text = encodeURIComponent(`السلام عليكم ورحمة الله وبركاته.\nتحية طيبة من إدارة أكاديمية عربي أونلاين 🎓\nبخصوص ${nameEl}:\nنحيطكم علماً بأنه تم توجيه إشعار وتنبيه هام:\n"${reason || 'يرجى الالتزام بالحصص والمتابعة المستمرة'}"\nشاكرين حرصكم وتواصلكم معنا دائماً.`);
+  window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+}
+
+function openEmailModal(name, email, phone) {
+  const modal = document.getElementById('adminEmailModal');
+  if (!modal) return;
+  document.getElementById('emailStudentTargetEmail').value = email || '';
+  document.getElementById('emailStudentTargetPhone').value = phone || '';
+  const infoEl = document.getElementById('emailModalStudentInfo');
+  if (infoEl) infoEl.textContent = `${name} • ${email || 'بدون إيميل مسجل'} (${phone || ''})`;
+  const bodyEl = document.getElementById('emailBodyInput');
+  if (bodyEl) bodyEl.value = `السلام عليكم ورحمة الله وبركاته يا ${name}،\nنتمنى لك دوام التفوق والنجاح في أكاديمية عربي أونلاين.\n\n`;
+  modal.classList.remove('hidden');
+}
+
+function closeAdminEmailModal() {
+  const modal = document.getElementById('adminEmailModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function handleSendStudentEmail(e) {
+  e.preventDefault();
+  const email = document.getElementById('emailStudentTargetEmail').value;
+  const subject = encodeURIComponent(document.getElementById('emailSubjectInput').value);
+  const body = encodeURIComponent(document.getElementById('emailBodyInput').value);
+
+  if (!email || !email.includes('@')) {
+    alert('لا يوجد بريد إلكتروني مسجل لهذا الطالب، يمكنك مراسلته فوراً عبر زر الواتساب.');
+    return;
+  }
+
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+  closeAdminEmailModal();
+}
+
+function sendEmailViaWhatsApp() {
+  const phone = (document.getElementById('emailStudentTargetPhone').value || '').replace(/[^0-9]/g, '');
+  const subject = document.getElementById('emailSubjectInput').value;
+  const body = document.getElementById('emailBodyInput').value;
+
+  if (!phone) {
+    alert('رقم واتساب غير متوفر');
+    return;
+  }
+
+  const msg = encodeURIComponent(`*${subject}*\n\n${body}`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+  closeAdminEmailModal();
+}
+
+async function deleteStudentAccount(id, name) {
+  if (!confirm(`هل أنت متأكد تماماً من حذف حساب الطالب "${name}" نهائياً من الأكاديمية وقاعدة البيانات؟\nلن يمكن التراجع عن هذا الإجراء.`)) {
+    return;
+  }
+
+  const client = getSupabase();
+  if (client && !String(id).startsWith('local_')) {
+    try {
+      const { error } = await client
+        .from('bookings')
+        .delete()
+        .eq('id', id);
+
+      if (error) {
+        console.warn('Supabase delete error:', error);
+      }
+    } catch (e) {
+      console.warn('Error deleting student:', e);
+    }
+  }
+
+  allAdminStudentsCache = allAdminStudentsCache.filter(s => String(s.id) !== String(id));
+  
+  const localStudentRaw = localStorage.getItem('araby_active_student');
+  if (localStudentRaw) {
+    try {
+      const ls = JSON.parse(localStudentRaw);
+      if (ls.name === name) {
+        localStorage.removeItem('araby_active_student');
+      }
+    } catch (e) {}
+  }
+
+  renderAdminStudentsTable(allAdminStudentsCache);
+  updateAdminStats(allAdminStudentsCache.length, undefined);
+  alert(`✅ تم حذف حساب الطالب "${name}" بنجاح.`);
+}
+
+// ==================== VIDEOS MANAGEMENT (فيديوهات الصفحة الرئيسية) ====================
+const DEFAULT_VIDEOS = [
+  {
+    id: 'vid_1',
+    title: 'شرح كان وأخواتها بطريقة الخرائط الذهنية المبسطة 📐',
+    category: '📐 كورس النحو من الصفر إلى الاحتراف',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
+    description: 'درس نموذجي وتطبيقي ممتع يشرح عمل كان وأخواتها وضبط الاسم والخبر مع تدريبات تفاعلية.'
+  },
+  {
+    id: 'vid_2',
+    title: 'أسرار تحسين خط الرقعة بالقلم العادي للطلاب ✍️',
+    category: '✍️ كورس تحسين الخط العربي',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
+    description: 'قواعد ذهبية سهلة وسريعة لكتابة الحروف بخط الرقعة الأنيق لزيادة درجات الطالب في الامتحانات.'
+  },
+  {
+    id: 'vid_3',
+    title: 'قواعد القراءة السريعة والإملاء الصحيح دون أخطاء 🌱',
+    category: '🌱 تأسيس القراءة والكتابة والإملاء',
+    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
+    description: 'طريقة ذكية ومبتكرة للتفريق بين التاء المربوطة والمفتوحة وكتابة الهمزات المتطرفة بسهولة.'
+  }
+];
+
+function getVideos() {
+  try {
+    const raw = localStorage.getItem('araby_videos');
+    if (!raw) {
+      localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
+      return DEFAULT_VIDEOS;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    return DEFAULT_VIDEOS;
+  }
+}
+
+function saveVideos(videos) {
+  localStorage.setItem('araby_videos', JSON.stringify(videos));
+}
+
+function handleAdminAddVideo(e) {
+  e.preventDefault();
+  const title = (document.getElementById('videoFormTitle').value || '').trim();
+  const category = document.getElementById('videoFormCategory').value;
+  const url = (document.getElementById('videoFormUrl').value || '').trim();
+  const thumbnail = (document.getElementById('videoFormThumbnail').value || '').trim();
+  const description = (document.getElementById('videoFormDescription').value || '').trim();
+
+  if (!title || !url) {
+    alert('يرجى ملء عنوان الفيديو والرابط');
+    return;
+  }
+
+  const videos = getVideos();
+  const newVideo = {
+    id: 'vid_' + Date.now(),
+    title,
+    category,
+    url,
+    thumbnail: thumbnail || 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
+    description: description || 'فيديو تعليمي متميز من أكاديمية عربي أونلاين'
+  };
+
+  videos.unshift(newVideo);
+  saveVideos(videos);
+
+  e.target.reset();
+  renderAdminVideos();
+  renderLandingVideos();
+  updateAdminStats(undefined, undefined);
+  alert('🎉 تم نشر الفيديو بنجاح! أصبح معروضاً للطلاب في الصفحة الرئيسية.');
+}
+
+function deleteAdminVideo(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا الفيديو من المنصة؟')) return;
+  let videos = getVideos();
+  videos = videos.filter(v => v.id !== id);
+  saveVideos(videos);
+  renderAdminVideos();
+  renderLandingVideos();
+  updateAdminStats(undefined, undefined);
+}
+
+function renderAdminVideos() {
+  const container = document.getElementById('adminVideosListContainer');
+  if (!container) return;
+  const videos = getVideos();
+
+  if (videos.length === 0) {
+    container.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400">لا توجد فيديوهات مضافة بعد. أضف أول فيديو من النموذج أعلاه.</div>`;
+    return;
+  }
+
+  container.innerHTML = videos.map(v => `
+    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between gap-3 hover:shadow-xs transition">
+      <div class="flex items-start gap-3">
+        <div class="w-24 h-16 rounded-xl overflow-hidden bg-slate-200 shrink-0 relative group">
+          <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover">
+          <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-base">
+            <i class="fa-solid fa-play"></i>
+          </div>
+        </div>
+        <div class="flex-1 min-w-0">
+          <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-700 mb-1">${v.category}</span>
+          <h5 class="font-bold text-xs text-slate-900 truncate">${v.title}</h5>
+          <p class="text-[11px] text-slate-500 line-clamp-2 mt-0.5">${v.description}</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+        <button onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}')" class="text-xs font-bold text-purple-600 hover:text-purple-800 flex items-center gap-1">
+          <i class="fa-solid fa-play text-[10px]"></i> معاينة المشغل
+        </button>
+        <button onclick="deleteAdminVideo('${v.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1">
+          <i class="fa-solid fa-trash-can"></i> حذف
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderLandingVideos() {
+  const container = document.getElementById('landingVideosContainer');
+  if (!container) return;
+  const videos = getVideos();
+
+  container.innerHTML = videos.map(v => `
+    <div class="group bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-md hover:border-purple-300 transition duration-300 flex flex-col">
+      <div class="relative w-full aspect-video bg-slate-900 overflow-hidden cursor-pointer" onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}')">
+        <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 flex items-center justify-center">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-purple-600/90 text-white flex items-center justify-center text-lg sm:text-xl shadow-lg group-hover:scale-110 group-hover:bg-purple-600 transition">
+            <i class="fa-solid fa-play ml-1"></i>
+          </div>
+        </div>
+        <div class="absolute top-3 right-3">
+          <span class="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[11px] font-bold border border-white/20">
+            ${v.category}
+          </span>
+        </div>
+      </div>
+      <div class="p-5 flex-1 flex flex-col justify-between">
+        <div>
+          <h3 class="text-sm sm:text-base font-black text-slate-900 mb-1.5 group-hover:text-purple-600 transition">${v.title}</h3>
+          <p class="text-xs text-slate-500 line-clamp-2">${v.description}</p>
+        </div>
+        <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between">
+          <button onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}')" class="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center gap-1.5">
+            <span>شاهد الحصة مجاناً</span>
+            <i class="fa-solid fa-arrow-left text-[11px]"></i>
+          </button>
+          <button onclick="openBookingModal()" class="px-3 py-1 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-bold transition">
+            احجز تجربة
+          </button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function parseVideoEmbedUrl(rawUrl) {
+  if (!rawUrl) return '';
+  const trimmed = rawUrl.trim();
+  const ytWatchMatch = trimmed.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+  if (ytWatchMatch && ytWatchMatch[1]) {
+    return `https://www.youtube.com/embed/${ytWatchMatch[1]}?autoplay=1&rel=0`;
+  }
+  return trimmed;
+}
+
+function openVideoPlayerModal(url, title, desc) {
+  const modal = document.getElementById('videoPlayerModal');
+  const container = document.getElementById('videoPlayerContainer');
+  const titleEl = document.getElementById('videoPlayerTitle');
+  const descEl = document.getElementById('videoPlayerDesc');
+  if (!modal || !container) return;
+
+  if (titleEl) titleEl.textContent = title || 'مشغل الفيديو';
+  if (descEl) descEl.textContent = desc || '';
+
+  const embedUrl = parseVideoEmbedUrl(url);
+
+  if (embedUrl.includes('youtube.com/embed')) {
+    container.innerHTML = `
+      <iframe src="${embedUrl}" title="${title}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    `;
+  } else {
+    container.innerHTML = `
+      <video src="${embedUrl}" controls autoplay class="w-full h-full object-contain bg-black"></video>
+    `;
+  }
+
+  modal.classList.remove('hidden');
+}
+
+function closeVideoPlayerModal() {
+  const modal = document.getElementById('videoPlayerModal');
+  const container = document.getElementById('videoPlayerContainer');
+  if (container) container.innerHTML = '';
+  if (modal) modal.classList.add('hidden');
+}
+
+// ==================== REVIEWS MANAGEMENT (آراء وتقييمات الطلاب) ====================
+const DEFAULT_REVIEWS = [
+  {
+    id: 'rev_1',
+    author: 'أم عبد الله',
+    country: '🇸🇦 السعودية - الرياض',
+    rating: 5,
+    course: 'منهج لغتي وكورس النحو',
+    grade: 'الصف الرابع الابتدائي',
+    content: 'ما شاء الله تبارك الله، أسلوب الشرح ممتع جداً والتفاعل مع المعلمة جعل ابني ينتظر الحصة بكل شغف وارتفعت درجاته في اختبارات لغتي بشكل ممتاز.'
+  },
+  {
+    id: 'rev_2',
+    author: 'م. طارق الزهراني',
+    country: '🇰🇼 الكويت',
+    rating: 5,
+    course: 'كورس تحسين الخط العربي والإملاء',
+    grade: 'الصف السادس الابتدائي',
+    content: 'كورس الخط العربي أحدث فارقاً مذهلاً في شكل خط ابنتي ووضوحه في كراسة الواجبات والامتحانات. المعلم صبور ومتابع دقيق لكل تفصيلة.'
+  },
+  {
+    id: 'rev_3',
+    author: 'د. سارة المنصوري',
+    country: '🇦🇪 الإمارات - دبي',
+    rating: 5,
+    course: 'تأسيس النحو والقراءة',
+    grade: 'الصف الأول الإعدادي',
+    content: 'أفضل استثمار لتعليم اللغة العربية عن بُعد. المنصة احترافية وتجمع بين تبسيط القواعد والتشجيع المستمر الذي يعطي ثقة كبيرة للطالب.'
+  }
+];
+
+function getReviews() {
+  try {
+    const raw = localStorage.getItem('araby_reviews');
+    if (!raw) {
+      localStorage.setItem('araby_reviews', JSON.stringify(DEFAULT_REVIEWS));
+      return DEFAULT_REVIEWS;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    return DEFAULT_REVIEWS;
+  }
+}
+
+function saveReviews(reviews) {
+  localStorage.setItem('araby_reviews', JSON.stringify(reviews));
+}
+
+function handleAdminAddReview(e) {
+  e.preventDefault();
+  const author = (document.getElementById('reviewFormAuthor').value || '').trim();
+  const country = (document.getElementById('reviewFormCountry').value || '').trim();
+  const rating = parseInt(document.getElementById('reviewFormRating').value) || 5;
+  const course = (document.getElementById('reviewFormCourse').value || '').trim();
+  const grade = (document.getElementById('reviewFormGrade').value || '').trim();
+  const content = (document.getElementById('reviewFormContent').value || '').trim();
+
+  if (!author || !content) {
+    alert('يرجى ملء اسم صاحب التقييم ونصه');
+    return;
+  }
+
+  const reviews = getReviews();
+  const newReview = {
+    id: 'rev_' + Date.now(),
+    author,
+    country: country || 'أولياء الأمور',
+    rating,
+    course: course || 'اللغة العربية',
+    grade: grade || 'المرحلة الابتدائية',
+    content
+  };
+
+  reviews.unshift(newReview);
+  saveReviews(reviews);
+
+  e.target.reset();
+  renderAdminReviews();
+  renderLandingReviews();
+  updateAdminStats(undefined, undefined);
+  alert('🎉 تم إضافة الرأي بنجاح ويظهر الآن في الصفحة الرئيسية!');
+}
+
+function deleteAdminReview(id) {
+  if (!confirm('هل أنت متأكد من حذف هذا الريفيو؟')) return;
+  let reviews = getReviews();
+  reviews = reviews.filter(r => r.id !== id);
+  saveReviews(reviews);
+  renderAdminReviews();
+  renderLandingReviews();
+  updateAdminStats(undefined, undefined);
+}
+
+function renderAdminReviews() {
+  const container = document.getElementById('adminReviewsListContainer');
+  if (!container) return;
+  const reviews = getReviews();
+
+  if (reviews.length === 0) {
+    container.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400">لا توجد آراء أو ريفيوهات مسجلة بعد.</div>`;
+    return;
+  }
+
+  container.innerHTML = reviews.map(r => {
+    const stars = '⭐'.repeat(r.rating || 5);
+    return `
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between gap-3 hover:shadow-xs transition">
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <h5 class="font-bold text-xs text-slate-900">${r.author}</h5>
+            <span class="text-xs">${stars}</span>
+          </div>
+          <div class="flex items-center gap-2 text-[10px] text-slate-400 mb-2">
+            <span>${r.country}</span>
+            <span>•</span>
+            <span class="text-amber-700 font-semibold">${r.course || ''}</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed bg-white p-3 rounded-xl border border-slate-100">
+            "${r.content}"
+          </p>
+        </div>
+        <div class="flex items-center justify-end pt-2 border-t border-slate-200/80">
+          <button onclick="deleteAdminReview('${r.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-trash-can"></i> حذف التقييم
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderLandingReviews() {
+  const container = document.getElementById('landingReviewsContainer');
+  if (!container) return;
+  const reviews = getReviews();
+
+  container.innerHTML = reviews.map(r => {
+    const stars = '⭐'.repeat(r.rating || 5);
+    return `
+      <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:shadow-md hover:border-amber-300 transition duration-300 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-amber-500 tracking-wider">${stars}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">${r.country}</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
+            "${r.content}"
+          </p>
+        </div>
+        <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-700 font-black text-xs flex items-center justify-center shrink-0">
+            ${(r.author || 'ط').charAt(0)}
+          </div>
+          <div class="min-w-0">
+            <h4 class="font-bold text-xs text-slate-900 truncate">${r.author}</h4>
+            <p class="text-[10px] text-slate-400 truncate">${r.course || 'أكاديمية عربي أونلاين'} ${r.grade ? `(${r.grade})` : ''}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
 async function loadAdminBookings() {
@@ -824,6 +1543,8 @@ async function loadAdminBookings() {
       .order('id', { ascending: false });
 
     if (error) throw error;
+
+    updateAdminStats(undefined, data ? data.length : 0);
 
     if (!data || data.length === 0) {
       tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-400">لا توجد أي طلبات حجز مسجلة حتى الآن.</td></tr>`;
@@ -871,6 +1592,8 @@ async function loadAdminPayments() {
       .order('id', { ascending: false });
 
     if (error) throw error;
+
+    updateAdminStats(undefined, data ? data.length : 0);
 
     if (!data || data.length === 0) {
       tbody.innerHTML = `<tr><td colspan="8" class="p-4 text-center text-slate-400">لا توجد أي طلبات دفع مسجلة حتى الآن.</td></tr>`;
@@ -1452,5 +2175,9 @@ document.addEventListener('DOMContentLoaded', () => {
   checkUrlHash();
   renderAdminCourses();
   renderLandingCourses();
+  renderLandingVideos();
+  renderLandingReviews();
+  renderAdminVideos();
+  renderAdminReviews();
   loadWatermarkSettingsIntoUI();
 });
