@@ -558,7 +558,7 @@ function updateCoursePrice() {
 }
 
 // Security: Check for fake / suspicious receipt screenshots
-function handlePaymentSubmit(e) {
+async function handlePaymentSubmit(e) {
   e.preventDefault();
   const course = document.getElementById('payCourseSelect').value;
   const price = document.getElementById('displayPriceTag').textContent;
