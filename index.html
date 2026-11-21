@@ -823,6 +823,32 @@
       </div>
     </section>
 
+    <!-- ==================== FEATURED STUDENT VIDEOS (شروحات وفيديوهات تفاعلية للطلاب) ==================== -->
+    <section id="featured-videos" class="py-14 border-t border-slate-200 bg-white relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-3 border-b border-slate-100">
+          <div>
+            <div class="flex items-center gap-2 text-logo-purple text-xs font-black mb-1">
+              <i class="fa-solid fa-circle-play text-red-500"></i>
+              <span>فيديوهات وشروحات حصرية للطلاب</span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-slate-900">
+              شروحات وفيديوهات تفاعلية للطلاب 🎥
+            </h3>
+          </div>
+          <p class="text-xs text-slate-500 font-semibold max-w-sm">
+            شاهد نماذج من الحصص التفاعلية وطريقة الشرح المبتكرة مع معلمي الأكاديمية
+          </p>
+        </div>
+
+        <div id="landingVideosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Populated by JavaScript from Admin Uploads -->
+        </div>
+
+      </div>
+    </section>
+
     <!-- ==================== CALLIGRAPHY STUDIO (سبورة الخط العربي التفاعلية) ==================== -->
     <section id="calligraphy" class="py-14 border-t border-slate-200 bg-slate-50 relative">
       <div class="max-w-5xl mx-auto px-4 sm:px-6">
@@ -906,6 +932,29 @@
             </button>
           </div>
 
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== REVIEWS & TESTIMONIALS (آراء وتقييمات أولياء الأمور والطلاب) ==================== -->
+    <section id="testimonials" class="py-14 border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center max-w-xl mx-auto mb-10">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-amber-100 text-amber-800 font-black text-xs border border-amber-300 mb-2.5 shadow-xs">
+            ⭐ تجارب حقيقية نفخر بها
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
+            ماذا يقول أولياء الأمور والطلاب عنا؟
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-500 font-medium">
+            شهادات نعتز بها من مختلف دول العالم (مصر، السعودية، الكويت، الإمارات، أمريكا، وأوروبا)
+          </p>
+        </div>
+
+        <div id="landingReviewsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Populated by JavaScript from Admin Reviews -->
         </div>
 
       </div>
@@ -1465,32 +1514,260 @@
         </div>
       </div>
 
-      <!-- Admin Panel Tabs -->
+      <!-- Admin Quick Stats Summary Strip -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg font-bold shrink-0">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div>
+            <span class="text-[11px] text-slate-400 font-bold block">إجمالي الطلاب</span>
+            <strong id="adminStatStudents" class="text-xl font-black text-slate-900">0</strong>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg font-bold shrink-0">
+            <i class="fa-solid fa-video"></i>
+          </div>
+          <div>
+            <span class="text-[11px] text-slate-400 font-bold block">فيديوهات المنصة</span>
+            <strong id="adminStatVideos" class="text-xl font-black text-slate-900">0</strong>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg font-bold shrink-0">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <span class="text-[11px] text-slate-400 font-bold block">الآراء والريفيوهات</span>
+            <strong id="adminStatReviews" class="text-xl font-black text-slate-900">0</strong>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-lg font-bold shrink-0">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div>
+            <span class="text-[11px] text-slate-400 font-bold block">طلبات الحجز</span>
+            <strong id="adminStatBookings" class="text-xl font-black text-slate-900">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Clean & Distraction-Free Tabs -->
       <div class="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
-        <button onclick="switchAdminTab('security')" id="admin-tab-security" class="admin-tab active px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-key text-logo-purple"></i>
-          <span>إعدادات الحساب وتغيير كلمة المرور</span>
+        <button onclick="switchAdminTab('students')" id="admin-tab-students" class="admin-tab active px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-user-graduate text-emerald-600"></i>
+          <span>إدارة الطلاب (تحذير • حذف • إيميل)</span>
         </button>
-        <button onclick="switchAdminTab('courses')" id="admin-tab-courses" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-folder-plus text-logo-orange"></i>
-          <span>إدارة وإضافة الكورسات والصور</span>
+        <button onclick="switchAdminTab('videos')" id="admin-tab-videos" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-circle-play text-purple-600"></i>
+          <span>فيديوهات الصفحة الرئيسية</span>
         </button>
-        <button onclick="switchAdminTab('watermark')" id="admin-tab-watermark" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-shield-halved text-logo-blue"></i>
-          <span>العلامة المائية وقفل تسريب الفيديوهات 🔒</span>
+        <button onclick="switchAdminTab('reviews')" id="admin-tab-reviews" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-star text-amber-500"></i>
+          <span>آراء وريفيوهات الطلاب</span>
         </button>
-        <button onclick="switchAdminTab('bookings')" id="admin-tab-bookings" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-calendar-check text-logo-green"></i>
-          <span>حجوزات الحصص التجريبية (Supabase)</span>
+        <button onclick="switchAdminTab('bookings')" id="admin-tab-bookings" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-credit-card text-blue-600"></i>
+          <span>الحجوزات والمدفوعات</span>
         </button>
-        <button onclick="switchAdminTab('payments')" id="admin-tab-payments" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
-          <i class="fa-solid fa-credit-card text-logo-red"></i>
-          <span>طلبات الدفع والاشتراك (Supabase)</span>
+        <button onclick="switchAdminTab('courses')" id="admin-tab-courses" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-book-open text-orange-500"></i>
+          <span>الكورسات والأسعار</span>
+        </button>
+        <button onclick="switchAdminTab('settings')" id="admin-tab-settings" class="admin-tab px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-gear text-slate-600"></i>
+          <span>إعدادات الحساب والأمان</span>
         </button>
       </div>
 
-      <!-- TAB 1: ADMIN ACCOUNT & SECURITY SETTINGS (تغيير الايميل والباسورد) -->
-      <div id="admin-view-security" class="admin-view space-y-5">
+      <!-- ==================== TAB 1: STUDENTS MANAGEMENT ==================== -->
+      <div id="admin-view-students" class="admin-view space-y-4">
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div>
+              <h4 class="font-black text-sm text-slate-900 flex items-center gap-2">
+                <i class="fa-solid fa-user-graduate text-emerald-600"></i>
+                <span>سجل الطلاب والحسابات المسجلة</span>
+              </h4>
+              <p class="text-[11px] text-slate-400">يمكنك هنا توجيه إنذار لطالب، مراسلته عبر الإيميل، أو حذف حسابه نهائياً</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text" id="adminStudentSearchInput" oninput="filterAdminStudents()" placeholder="🔍 ابحث بالاسم أو الهاتف أو الدولة..." class="px-3.5 py-1.5 rounded-xl border border-slate-300 text-xs focus:outline-none focus:border-purple-500 w-52 sm:w-64">
+              <button onclick="loadAdminStudents()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>تحديث</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Students Table Container -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-right text-xs">
+              <thead>
+                <tr class="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">
+                  <th class="p-3">#</th>
+                  <th class="p-3">اسم الطالب</th>
+                  <th class="p-3">الصف والمرحلة</th>
+                  <th class="p-3">الدولة</th>
+                  <th class="p-3">رقم الهاتف (واتساب)</th>
+                  <th class="p-3">البريد الإلكتروني</th>
+                  <th class="p-3">الحالة</th>
+                  <th class="p-3 text-center">الإجراءات والتحكم</th>
+                </tr>
+              </thead>
+              <tbody id="adminStudentsTableBody" class="divide-y divide-slate-100">
+                <tr>
+                  <td colspan="8" class="p-4 text-center text-slate-400">جاري تحميل بيانات الطلاب...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 2: VIDEOS MANAGEMENT ==================== -->
+      <div id="admin-view-videos" class="admin-view hidden space-y-5">
+        <!-- Add Video Form Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+            <div class="w-8 h-8 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-sm">
+              <i class="fa-solid fa-video"></i>
+            </div>
+            <div>
+              <h4 class="font-black text-sm text-slate-900">رفع وإضافة فيديو جديد للصفحة الرئيسية</h4>
+              <p class="text-[11px] text-slate-400">سيظهر الفيديو للطلاب في الصفحة الرئيسية مع مشغل تفاعلي</p>
+            </div>
+          </div>
+
+          <form onsubmit="handleAdminAddVideo(event)" class="space-y-3.5 text-xs font-semibold">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-700 mb-1">عنوان الفيديو أو الدرس *</label>
+                <input type="text" id="videoFormTitle" required placeholder="مثال: شرح كان وأخواتها بطريقة الخرائط الذهنية" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs">
+              </div>
+              <div>
+                <label class="block text-slate-700 mb-1">القسم أو الكورس *</label>
+                <select id="videoFormCategory" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs font-medium">
+                  <option value="📐 كورس النحو من الصفر إلى الاحتراف">📐 كورس النحو من الصفر إلى الاحتراف</option>
+                  <option value="🌱 تأسيس القراءة والكتابة والإملاء">🌱 تأسيس القراءة والكتابة والإملاء</option>
+                  <option value="🕌 تحفيظ القرآن الكريم وتجويده">🕌 تحفيظ القرآن الكريم وتجويده</option>
+                  <option value="✍️ كورس تحسين الخط العربي">✍️ كورس تحسين الخط العربي</option>
+                  <option value="📚 شرح المناهج الوزارية">📚 شرح المناهج الوزارية</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube أو رابط MP4 مباشر) *</label>
+                <input type="url" id="videoFormUrl" required placeholder="مثال: https://www.youtube.com/watch?v=... أو رابط مباشر" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+              </div>
+              <div>
+                <label class="block text-slate-700 mb-1">صورة الغلاف (Thumbnail) <span class="text-slate-400 font-normal">(اختياري)</span></label>
+                <input type="url" id="videoFormThumbnail" placeholder="رابط صورة الغلاف أو اتركها فارغة" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-700 mb-1">وصف مختصر للفيديو</label>
+              <textarea id="videoFormDescription" rows="2" placeholder="اكتب نبذة تشويقية عما سيتعلمه الطالب في هذا الفيديو..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs"></textarea>
+            </div>
+
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition flex items-center gap-2 shadow-xs">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>نشر الفيديو في الصفحة الرئيسية للطلاب 🚀</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Current Videos List Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <h4 class="font-black text-sm text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-purple-600"></i>
+            <span>الفيديوهات المعروضة حالياً على المنصة</span>
+          </h4>
+          <div id="adminVideosListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== TAB 3: REVIEWS & TESTIMONIALS ==================== -->
+      <div id="admin-view-reviews" class="admin-view hidden space-y-5">
+        <!-- Add Review Form Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
+            <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-sm">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div>
+              <h4 class="font-black text-sm text-slate-900">إضافة رأي أو ريفيو جديد للصفحة الرئيسية</h4>
+              <p class="text-[11px] text-slate-400">عرض تقييمات أولياء الأمور والطلاب لتعزيز الثقة في الأكاديمية</p>
+            </div>
+          </div>
+
+          <form onsubmit="handleAdminAddReview(event)" class="space-y-3.5 text-xs font-semibold">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label class="block text-slate-700 mb-1">اسم الطالب أو ولي الأمر *</label>
+                <input type="text" id="reviewFormAuthor" required placeholder="مثال: أم عبد الله أو د. خالد" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs">
+              </div>
+              <div>
+                <label class="block text-slate-700 mb-1">الدولة أو المدينة *</label>
+                <input type="text" id="reviewFormCountry" required placeholder="مثال: 🇸🇦 السعودية - الرياض" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs">
+              </div>
+              <div>
+                <label class="block text-slate-700 mb-1">التقييم بالنجوم *</label>
+                <select id="reviewFormRating" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs font-medium">
+                  <option value="5">⭐⭐⭐⭐⭐ (5 من 5 ممتاز جداً)</option>
+                  <option value="4">⭐⭐⭐⭐ (4 من 5 جيد جداً)</option>
+                  <option value="3">⭐⭐⭐ (3 من 5 جيد)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-slate-700 mb-1">الكورس المشترك فيه</label>
+                <input type="text" id="reviewFormCourse" placeholder="مثال: كورس النحو من الصفر وكورس الخط العربي" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs">
+              </div>
+              <div>
+                <label class="block text-slate-700 mb-1">الصف الدراسي</label>
+                <input type="text" id="reviewFormGrade" placeholder="مثال: الصف الرابع الابتدائي" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-slate-700 mb-1">نص التقييم / تجربة الطالب *</label>
+              <textarea id="reviewFormContent" rows="3" required placeholder="اكتب ما قاله ولي الأمر أو الطالب عن التجربة التعليمية..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs"></textarea>
+            </div>
+
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition flex items-center gap-2 shadow-xs">
+              <i class="fa-solid fa-plus-circle"></i>
+              <span>نشر الرأي في الصفحة الرئيسية ⭐</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Current Reviews List Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs space-y-4">
+          <h4 class="font-black text-sm text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-comments text-amber-500"></i>
+            <span>الآراء المنشورة حالياً على الصفحة الرئيسية</span>
+          </h4>
+          <div id="adminReviewsListContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 6: SETTINGS & SECURITY (تغيير الايميل والباسورد) -->
+      <div id="admin-view-settings" class="admin-view hidden space-y-5">
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           
@@ -1840,7 +2117,106 @@
     </div>
   </div>
 
-  <!-- ==================== FOOTER (MATCHING DIKSHANT'S LET'S MAKE SOMETHING DOPE SECTION) ==================== -->
+  <!-- ==================== ADMIN WARN STUDENT MODAL ==================== -->
+  <div id="adminWarnModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 border-2 border-amber-300 shadow-2xl relative animate-fadeIn text-slate-900 space-y-4">
+      <button onclick="closeAdminWarnModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl font-bold shrink-0">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-black text-slate-900">توجيه تحذير / إنذار رسمي للطالب</h3>
+          <p id="warnModalStudentName" class="text-xs text-amber-700 font-bold">طالب: -</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleConfirmWarnStudent(event)" class="space-y-3.5 text-xs font-semibold">
+        <input type="hidden" id="warnStudentId">
+        <input type="hidden" id="warnStudentPhone">
+        <div>
+          <label class="block text-slate-700 mb-1">سبب التحذير / الإنذار *</label>
+          <textarea id="warnReasonInput" required rows="3" placeholder="مثال: يرجى الالتزام بمواعيد الحصص التفاعلية، وإرسال الواجبات في موعدها لتجنب إيقاف الحساب." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs"></textarea>
+        </div>
+
+        <div class="flex flex-col gap-2 pt-2">
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>تأكيد تسجيل الإنذار على حساب الطالب ⚠️</span>
+          </button>
+          
+          <button type="button" onclick="sendWarningViaWhatsApp()" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>إرسال نص التحذير فوراً عبر واتساب ولي الأمر 📱</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== ADMIN EMAIL STUDENT MODAL ==================== -->
+  <div id="adminEmailModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 border-2 border-purple-200 shadow-2xl relative animate-fadeIn text-slate-900 space-y-4">
+      <button onclick="closeAdminEmailModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+        <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl font-bold shrink-0">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+        <div>
+          <h3 class="text-base font-black text-slate-900">إرسال بريد إلكتروني رسمي للطالب</h3>
+          <p id="emailModalStudentInfo" class="text-xs text-purple-700 font-mono font-bold" dir="ltr">student@example.com</p>
+        </div>
+      </div>
+
+      <form onsubmit="handleSendStudentEmail(event)" class="space-y-3 text-xs font-semibold">
+        <input type="hidden" id="emailStudentTargetEmail">
+        <input type="hidden" id="emailStudentTargetPhone">
+        <div>
+          <label class="block text-slate-700 mb-1">موضوع الرسالة (Subject) *</label>
+          <input type="text" id="emailSubjectInput" required value="إشعار هام من إدارة أكاديمية عربي أونلاين 🎓" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs">
+        </div>
+
+        <div>
+          <label class="block text-slate-700 mb-1">نص الرسالة *</label>
+          <textarea id="emailBodyInput" required rows="4" placeholder="اكتب نص الرسالة أو التعليمات للطالب وولي أمره..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs"></textarea>
+        </div>
+
+        <div class="flex flex-col gap-2 pt-2">
+          <button type="submit" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>إرسال عبر تطبيق البريد الإلكتروني 📧</span>
+          </button>
+          <button type="button" onclick="sendEmailViaWhatsApp()" class="w-full py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition flex items-center justify-center gap-2 shadow-xs">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span>إرسال نفس الرسالة عبر واتساب 📱</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== LANDING VIDEO PLAYER MODAL ==================== -->
+  <div id="videoPlayerModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 rounded-3xl max-w-3xl w-full p-4 border border-slate-700 shadow-2xl relative animate-fadeIn text-white space-y-3">
+      <button onclick="closeVideoPlayerModal()" class="absolute top-3 left-3 w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition z-20">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <h3 id="videoPlayerTitle" class="text-base font-black text-white pr-2 pt-1 truncate">مشغل الفيديو التفاعلي</h3>
+      
+      <div id="videoPlayerContainer" class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden flex items-center justify-center">
+        <!-- Embed or Video Tag inserted by JS -->
+      </div>
+      
+      <p id="videoPlayerDesc" class="text-xs text-slate-400 px-2 pb-1"></p>
+    </div>
+  </div>
   <footer class="bg-[#080B11] border-t border-slate-800/80 pt-16 pb-12 text-slate-400 text-xs relative overflow-hidden">
     <!-- Background Glow -->
     <div class="splash-purple -bottom-20 right-10"></div>
