@@ -313,7 +313,7 @@
         </a>
 
         <!-- Desktop Navigation: Focused on Parent Priorities -->
-        <nav class="hidden md:flex items-center gap-5 text-xs font-bold text-slate-700">
+        <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-700">
           <a href="#" onclick="showSection('landing')" class="text-orange-600 flex items-center gap-1 hover:text-orange-700 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
             <span data-i18n="nav_home">الرئيسية</span>
@@ -324,17 +324,9 @@
             <span class="text-amber-500">⭐⭐⭐⭐⭐</span>
           </a>
           <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_courses">الكورسات والمناهج</a>
-          <a href="javascript:void(0)" onclick="handleInteractiveClassesClick()" class="px-2.5 py-1 rounded-full bg-orange-50 hover:bg-orange-100 text-orange-700 font-black border border-orange-200 transition flex items-center gap-1 shadow-2xs">
+          <a href="javascript:void(0)" onclick="handleInteractiveClassesClick()" class="px-3 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100 text-orange-700 font-black border border-orange-200 transition flex items-center gap-1.5 shadow-2xs">
             <i class="fa-solid fa-headset text-xs"></i>
             <span>حصص تفاعلية 🎙️</span>
-          </a>
-          <a href="#featured-videos" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1.5">
-            <i class="fa-solid fa-circle-play text-red-500"></i>
-            <span data-i18n="nav_videos">الحصص والفيديوهات 🎥</span>
-          </a>
-          <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_about">عن مس فرح القاضي</a>
-          <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1">
-            <span data-i18n="nav_calligraphy">سبورة الخط ✍️</span>
           </a>
         </nav>
 
@@ -358,15 +350,8 @@
             </button>
           </div>
 
-          <!-- Interactive Live Classes Button (أيقونة الحصص التفاعلية) -->
-          <button onclick="handleInteractiveClassesClick()" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 transition cursor-pointer" title="الحصص التفاعلية المباشرة">
-            <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
-            <i class="fa-solid fa-headset text-xs"></i>
-            <span>حصص تفاعلية 🎙️</span>
-          </button>
-
           <!-- Essential Button 1: Unified Student & Parent Login Button -->
-          <button onclick="openLoginModal()" id="headerLoginBtn" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
+          <button onclick="openLoginModal()" id="headerLoginBtn" class="px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
             <i class="fa-solid fa-graduation-cap text-xs text-amber-300"></i>
             <span data-i18n="nav_login">دخول المنصة</span>
           </button>
@@ -382,12 +367,6 @@
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
-
-          <!-- Essential Button 2: Primary Free Trial Action for Parents -->
-          <button onclick="openBookingModal()" class="btn-brand-green px-4 py-2 text-xs font-black rounded-full shadow-xs flex items-center gap-1.5 cursor-pointer hover:scale-105 transition">
-            <i class="fa-solid fa-gift text-xs text-amber-300"></i>
-            <span data-i18n="nav_free_trial">🎁 حصة مجانية</span>
-          </button>
         </div>
 
       </div>
@@ -1383,94 +1362,6 @@
       </div>
     </section>
 
-    <!-- ==================== CALLIGRAPHY STUDIO (سبورة الخط العربي التفاعلية) ==================== -->
-    <section id="calligraphy" class="py-14 border-t border-slate-200 bg-slate-50 relative">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        
-        <div class="text-center max-w-lg mx-auto mb-8">
-          <span class="inline-block px-3 py-1 rounded-full bg-purple-100 text-purple-700 font-black text-xs border border-purple-200 mb-2">
-            تجربة تفاعلية مباشرة ✍️
-          </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
-            سبورة تدريب وتتبع الخط العربي
-          </h2>
-          <p class="text-xs text-slate-500">
-            جرّب كتابة وتتبع الحروف بألوان أقلام مستوحاة من شعار الأكاديمية:
-          </p>
-        </div>
-
-        <div class="modern-card p-5 sm:p-6 bg-white border-slate-200 shadow-md">
-          
-          <!-- Toolbar -->
-          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100">
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-slate-500">حرف التدريب:</span>
-              <div class="flex items-center gap-1.5">
-                <button onclick="setTraceLetter('ج')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">ج</button>
-                <button onclick="setTraceLetter('س')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">س</button>
-                <button onclick="setTraceLetter('ع')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">ع</button>
-                <button onclick="setTraceLetter('لا')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">لا</button>
-                <button onclick="setTraceLetter('')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition">صفحة بيضاء</button>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-3">
-              <div class="flex items-center gap-1.5">
-                <button onclick="setBrushColor('#FFFFFF')" class="w-6 h-6 rounded-full bg-slate-300 ring-2 ring-offset-2 ring-slate-400" title="أبيض ناصع"></button>
-                <button onclick="setBrushColor('#F97316')" class="w-6 h-6 rounded-full bg-logo-orange" title="برتقالي"></button>
-                <button onclick="setBrushColor('#EF4444')" class="w-6 h-6 rounded-full bg-logo-red" title="أحمر"></button>
-                <button onclick="setBrushColor('#10B981')" class="w-6 h-6 rounded-full bg-logo-green" title="أخضر"></button>
-                <button onclick="setBrushColor('#3B82F6')" class="w-6 h-6 rounded-full bg-logo-blue" title="أزرق"></button>
-                <button onclick="setBrushColor('#A855F7')" class="w-6 h-6 rounded-full bg-logo-purple" title="بنفسجي"></button>
-              </div>
-
-              <div class="h-4 w-px bg-slate-200"></div>
-
-              <button onclick="clearCanvas()" class="text-xs text-slate-500 hover:text-rose-600 font-bold flex items-center gap-1 px-2.5 py-1.5 rounded-xl hover:bg-slate-100 transition">
-                <i class="fa-solid fa-eraser"></i>
-                <span>مسح</span>
-              </button>
-
-              <button onclick="downloadDrawing()" class="btn-pill-subtle text-xs py-1.5 px-3 rounded-xl font-bold">
-                <i class="fa-solid fa-download text-emerald-600"></i>
-                <span>حفظ اللوحة</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Canvas Surface -->
-          <div class="relative bg-slate-900 rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden cursor-crosshair h-64 sm:h-72">
-            <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 border-b-2 border-red-500/20 pointer-events-none"></div>
-            <div class="absolute inset-x-0 top-1/4 border-b border-dashed border-blue-500/15 pointer-events-none"></div>
-            <div class="absolute inset-x-0 bottom-1/4 border-b border-dashed border-blue-500/15 pointer-events-none"></div>
-
-            <div id="canvasGuideText" class="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-slate-700 font-calligraphy text-8xl md:text-9xl">
-              ج
-            </div>
-
-            <canvas id="calligraphyCanvas" class="w-full h-full block touch-none"></canvas>
-          </div>
-
-          <!-- Bottom Gift Ribbon -->
-          <div class="mt-4 p-3.5 rounded-2xl bg-gradient-to-r from-purple-50 via-white to-amber-50 border border-purple-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-            <div class="flex items-center gap-2.5">
-              <span class="text-xl shrink-0">🎁</span>
-              <div>
-                <span class="font-black text-purple-700 block sm:inline">عرض الشهر الحصري:</span>
-                <span class="text-slate-600"> كورس تحسين الخط العربي متاح كهدية مجانية 100% مع أي كورس تشترك فيه الآن!</span>
-              </div>
-            </div>
-            <button onclick="openPaymentModal()" class="btn-brand-orange px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap shrink-0">
-              <span>احجز واستلم الهدية</span>
-              <i class="fa-solid fa-arrow-left"></i>
-            </button>
-          </div>
-
-        </div>
-
-      </div>
-    </section>
-
   </main>
 
   <!-- ==================== STUDENT DASHBOARD VIEW (لوحة الطالب الأكاديمية الاحترافية) ==================== -->
@@ -1827,6 +1718,84 @@
               <i class="fa-solid fa-play text-[10px]"></i>
               <span>مشاهدة الدرس 🔒</span>
             </button>
+          </div>
+        </div>
+
+        <!-- COURSE 4: Calligraphy Studio Course (مقرر: كورس تحسين الخط العربي) -->
+        <div id="portalCalligraphySection" class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden hover:border-purple-200 transition">
+          <div class="p-5 bg-gradient-to-l from-purple-50/80 via-white to-white border-b border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-black text-xl shadow-xs shrink-0">
+                ✍️
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <h4 class="font-black text-base text-slate-900">مقرر: كورس تحسين الخط العربي بالقلم العادي</h4>
+                  <span class="px-2 py-0.5 rounded-lg bg-emerald-50 text-logo-green text-[10px] font-black border border-emerald-200">
+                    هدية مجانية مفعلة ✅
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-0.5">سبورة تتبع الحروف التفاعلية • تدريب عملي بالقلم العادي وتحسين خط النسخ والرقعة</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <div class="text-right">
+                <span class="text-[10px] font-bold text-slate-400 block">نسبة الإتقان والتطبيق:</span>
+                <span class="text-sm font-black text-purple-700">100% متاح للتدريب</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-5 sm:p-6 space-y-4">
+            <!-- Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-500">حرف التدريب والتتبع:</span>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <button type="button" onclick="setTraceLetter('ج')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">ج</button>
+                  <button type="button" onclick="setTraceLetter('س')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">س</button>
+                  <button type="button" onclick="setTraceLetter('ع')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">ع</button>
+                  <button type="button" onclick="setTraceLetter('لا')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition">لا</button>
+                  <button type="button" onclick="setTraceLetter('')" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition">صفحة بيضاء</button>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5">
+                  <button type="button" onclick="setBrushColor('#FFFFFF')" class="w-6 h-6 rounded-full bg-slate-300 ring-2 ring-offset-2 ring-slate-400" title="أبيض ناصع"></button>
+                  <button type="button" onclick="setBrushColor('#F97316')" class="w-6 h-6 rounded-full bg-logo-orange" title="برتقالي"></button>
+                  <button type="button" onclick="setBrushColor('#EF4444')" class="w-6 h-6 rounded-full bg-logo-red" title="أحمر"></button>
+                  <button type="button" onclick="setBrushColor('#10B981')" class="w-6 h-6 rounded-full bg-logo-green" title="أخضر"></button>
+                  <button type="button" onclick="setBrushColor('#3B82F6')" class="w-6 h-6 rounded-full bg-logo-blue" title="أزرق"></button>
+                  <button type="button" onclick="setBrushColor('#A855F7')" class="w-6 h-6 rounded-full bg-logo-purple" title="بنفسجي"></button>
+                </div>
+
+                <div class="h-4 w-px bg-slate-200"></div>
+
+                <button type="button" onclick="clearCanvas()" class="text-xs text-slate-500 hover:text-rose-600 font-bold flex items-center gap-1 px-2.5 py-1.5 rounded-xl hover:bg-slate-100 transition">
+                  <i class="fa-solid fa-eraser"></i>
+                  <span>مسح</span>
+                </button>
+
+                <button type="button" onclick="downloadDrawing()" class="btn-pill-subtle text-xs py-1.5 px-3 rounded-xl font-bold">
+                  <i class="fa-solid fa-download text-emerald-600"></i>
+                  <span>حفظ اللوحة</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Canvas Surface -->
+            <div class="relative bg-slate-900 rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden cursor-crosshair h-64 sm:h-72">
+              <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 border-b-2 border-red-500/20 pointer-events-none"></div>
+              <div class="absolute inset-x-0 top-1/4 border-b border-dashed border-blue-500/15 pointer-events-none"></div>
+              <div class="absolute inset-x-0 bottom-1/4 border-b border-dashed border-blue-500/15 pointer-events-none"></div>
+
+              <div id="canvasGuideText" class="absolute inset-0 flex items-center justify-center pointer-events-none select-none text-slate-700 font-calligraphy text-8xl md:text-9xl">
+                ج
+              </div>
+
+              <canvas id="calligraphyCanvas" class="w-full h-full block touch-none"></canvas>
+            </div>
           </div>
         </div>
 
@@ -3782,7 +3751,7 @@
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_14"></script>
+  <script src="app.js?v=20261122_15"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
