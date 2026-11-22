@@ -1797,7 +1797,9 @@ function closeVideoPlayerModal() {
   currentPlayingVideo = null;
 }
 
-// ==================== REVIEWS MANAGEMENT (آراء وتقييمات الطلاب) ====================
+// ==================== REVIEWS MANAGEMENT (آراء وتقييمات الطلاب الموثقة من فيسبوك) ====================
+const OFFICIAL_FACEBOOK_PAGE_URL = "https://www.facebook.com/profile.php?id=61551716442236";
+
 const DEFAULT_REVIEWS = [
   {
     id: 'rev_1',
@@ -1806,6 +1808,7 @@ const DEFAULT_REVIEWS = [
     rating: 5,
     course: 'منهج لغتي وكورس النحو',
     grade: 'الصف الرابع الابتدائي',
+    facebookUrl: OFFICIAL_FACEBOOK_PAGE_URL,
     content: 'ما شاء الله تبارك الله، أسلوب مس فرح ممتع جداً وخبرتها 13 سنة واضحة في تيسير القواعد. ابني أصبح ينتظر الحصة بكل شغف وارتفعت درجاته في لغتي بشكل ممتاز.'
   },
   {
@@ -1815,6 +1818,7 @@ const DEFAULT_REVIEWS = [
     rating: 5,
     course: 'كورس تحسين الخط العربي والإملاء',
     grade: 'الصف السادس الابتدائي',
+    facebookUrl: OFFICIAL_FACEBOOK_PAGE_URL,
     content: 'كورس الخط العربي وتأسيس الإملاء مع مس فرح أحدث فارقاً مذهلاً في شكل خط ابنتي ووضوحه في كراسة الواجبات والامتحانات. صبورة ومتابعة دقيقة لكل تفصيلة.'
   },
   {
@@ -1824,6 +1828,7 @@ const DEFAULT_REVIEWS = [
     rating: 5,
     course: 'تأسيس النحو والقراءة',
     grade: 'الصف الأول الإعدادي',
+    facebookUrl: OFFICIAL_FACEBOOK_PAGE_URL,
     content: 'أفضل استثمار لتعليم اللغة العربية عن بُعد. مس فرح القاضي معلمة قديرة ومتمكنة، والمنصة تجمع بين تبسيط القواعد والتشجيع المستمر الذي يعطي ثقة كبيرة للطالب.'
   }
 ];
@@ -1831,7 +1836,7 @@ const DEFAULT_REVIEWS = [
 function getReviews() {
   try {
     const raw = localStorage.getItem('araby_reviews');
-    if (!raw || !raw.includes('فرح')) {
+    if (!raw || !raw.includes('فرح') || !raw.includes('facebook')) {
       localStorage.setItem('araby_reviews', JSON.stringify(DEFAULT_REVIEWS));
       return DEFAULT_REVIEWS;
     }
@@ -1853,6 +1858,8 @@ function handleAdminAddReview(e) {
   const course = (document.getElementById('reviewFormCourse').value || '').trim();
   const grade = (document.getElementById('reviewFormGrade').value || '').trim();
   const content = (document.getElementById('reviewFormContent').value || '').trim();
+  const fbUrlInput = document.getElementById('reviewFormFbUrl');
+  const facebookUrl = (fbUrlInput && fbUrlInput.value ? fbUrlInput.value.trim() : '') || OFFICIAL_FACEBOOK_PAGE_URL;
 
   if (!author || !content) {
     alert('يرجى ملء اسم صاحب التقييم ونصه');
@@ -1867,6 +1874,7 @@ function handleAdminAddReview(e) {
     rating,
     course: course || 'اللغة العربية',
     grade: grade || 'المرحلة الابتدائية',
+    facebookUrl,
     content
   };
 
@@ -1877,7 +1885,7 @@ function handleAdminAddReview(e) {
   renderAdminReviews();
   renderLandingReviews();
   updateAdminStats(undefined, undefined);
-  alert('🎉 تم إضافة الرأي بنجاح ويظهر الآن في الصفحة الرئيسية!');
+  alert('🎉 تم إضافة الرأي وربطه بفيسبوك بنجاح ويظهر الآن في الصفحة الرئيسية!');
 }
 
 function deleteAdminReview(id) {
@@ -1902,6 +1910,7 @@ function renderAdminReviews() {
 
   container.innerHTML = reviews.map(r => {
     const stars = '⭐'.repeat(r.rating || 5);
+    const fbUrl = r.facebookUrl || OFFICIAL_FACEBOOK_PAGE_URL;
     return `
       <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between gap-3 hover:shadow-xs transition">
         <div>
@@ -1918,8 +1927,11 @@ function renderAdminReviews() {
             "${r.content}"
           </p>
         </div>
-        <div class="flex items-center justify-end pt-2 border-t border-slate-200/80">
-          <button onclick="deleteAdminReview('${r.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1">
+        <div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+          <a href="${fbUrl}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1">
+            <i class="fa-brands fa-facebook"></i> معاينة الرابط على فيسبوك ↗️
+          </a>
+          <button onclick="deleteAdminReview('${r.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
             <i class="fa-solid fa-trash-can"></i> حذف التقييم
           </button>
         </div>
@@ -1935,25 +1947,42 @@ function renderLandingReviews() {
 
   container.innerHTML = reviews.map(r => {
     const stars = '⭐'.repeat(r.rating || 5);
+    const fbUrl = r.facebookUrl || OFFICIAL_FACEBOOK_PAGE_URL;
     return `
-      <div class="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:shadow-md hover:border-amber-300 transition duration-300 flex flex-col justify-between">
+      <div class="group bg-white rounded-3xl p-6 border-2 border-slate-200/90 shadow-xs hover:shadow-xl hover:border-blue-400 transition duration-300 flex flex-col justify-between relative">
         <div class="space-y-3">
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between gap-2">
             <span class="text-xs text-amber-500 tracking-wider">${stars}</span>
-            <span class="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">${r.country}</span>
+            <div class="flex items-center gap-1.5 flex-wrap justify-end">
+              <a href="${fbUrl}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] hover:text-[#166fe5] text-[10px] font-black border border-blue-200 transition" title="مشاهدة على فيسبوك">
+                <i class="fa-brands fa-facebook text-xs"></i>
+                <span>موثّق على فيسبوك 👍</span>
+              </a>
+              <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">${r.country}</span>
+            </div>
           </div>
-          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic">
-            "${r.content}"
-          </p>
+
+          <a href="${fbUrl}" target="_blank" rel="noopener noreferrer" class="block group-hover:text-slate-900 transition" title="اضغط لمشاهدة الرأي والصفحة على فيسبوك">
+            <p class="text-xs sm:text-sm text-slate-700 leading-relaxed italic line-clamp-4">
+              "${r.content}"
+            </p>
+          </a>
         </div>
-        <div class="pt-4 mt-4 border-t border-slate-100 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-700 font-black text-xs flex items-center justify-center shrink-0">
-            ${(r.author || 'ط').charAt(0)}
+
+        <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-black text-xs flex items-center justify-center shrink-0 shadow-xs">
+              ${(r.author || 'ط').charAt(0)}
+            </div>
+            <div class="min-w-0">
+              <h4 class="font-bold text-xs text-slate-900 truncate">${r.author}</h4>
+              <p class="text-[10px] text-slate-400 truncate">${r.course || 'أكاديمية عربي أونلاين'} ${r.grade ? `(${r.grade})` : ''}</p>
+            </div>
           </div>
-          <div class="min-w-0">
-            <h4 class="font-bold text-xs text-slate-900 truncate">${r.author}</h4>
-            <p class="text-[10px] text-slate-400 truncate">${r.course || 'أكاديمية عربي أونلاين'} ${r.grade ? `(${r.grade})` : ''}</p>
-          </div>
+          
+          <a href="${fbUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-xl bg-blue-50 hover:bg-[#1877F2] text-[#1877F2] hover:text-white text-[11px] font-black transition flex items-center gap-1 shrink-0 shadow-2xs">
+            <span>تصفح على فيسبوك ↗️</span>
+          </a>
         </div>
       </div>
     `;
