@@ -221,21 +221,25 @@
           </div>
         </a>
 
-        <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-6 text-xs font-bold text-slate-700">
-          <a href="#" onclick="showSection('landing')" class="text-orange-600 flex items-center gap-1.5 hover:text-orange-700 transition">
+        <!-- Desktop Navigation: Focused on Parent Priorities -->
+        <nav class="hidden md:flex items-center gap-5 text-xs font-bold text-slate-700">
+          <a href="#" onclick="showSection('landing')" class="text-orange-600 flex items-center gap-1 hover:text-orange-700 transition">
             <span class="w-1.5 h-1.5 rounded-full bg-orange-500"></span>
             <span data-i18n="nav_home">الرئيسية</span>
           </a>
-          <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_courses">الكورسات المعتمدة</a>
-          <a href="#skills" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_tracks">المسارات التعليمية</a>
+          <a href="#testimonials" onclick="showSection('landing')" class="px-3 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] font-black border border-blue-200 transition flex items-center gap-1.5 shadow-2xs">
+            <i class="fa-brands fa-facebook text-xs"></i>
+            <span>آراء أولياء الأمور</span>
+            <span class="text-amber-500">⭐⭐⭐⭐⭐</span>
+          </a>
+          <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_courses">الكورسات والمناهج</a>
+          <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_about">عن مس فرح القاضي</a>
           <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1">
             <span data-i18n="nav_calligraphy">سبورة الخط ✍️</span>
           </a>
-          <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_about">عن الأكاديمية</a>
         </nav>
 
-        <!-- Actions -->
+        <!-- Actions: Clean, Uncluttered & Filtered for Parent Needs -->
         <div class="flex items-center gap-2 sm:gap-2.5">
           <!-- Dark / Light Mode Switcher -->
           <button onclick="toggleTheme()" id="themeToggleBtn" class="px-2.5 sm:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center gap-1.5 transition border border-slate-300 font-bold text-xs shadow-xs cursor-pointer" title="تبديل الوضع الليلي / النهاري">
@@ -255,39 +259,28 @@
             </button>
           </div>
 
-          <!-- Student Portal Switcher -->
-          <button onclick="togglePortalMode()" id="portalToggleBtn" class="px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 font-bold text-xs flex items-center gap-1.5 transition">
-            <i class="fa-solid fa-graduation-cap text-orange-500"></i>
-            <span id="portalToggleText" data-i18n="nav_portal">لوحة الطالب</span>
+          <!-- Essential Button 1: Unified Student & Parent Login Button -->
+          <button onclick="openLoginModal()" id="headerLoginBtn" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
+            <i class="fa-solid fa-graduation-cap text-xs text-amber-300"></i>
+            <span data-i18n="nav_login">دخول المنصة</span>
           </button>
 
-          <!-- Free Trial Button -->
-          <button onclick="openBookingModal()" class="hidden lg:inline-flex btn-brand-green px-3.5 py-1.5 text-xs font-bold rounded-full">
-            <span data-i18n="nav_free_trial">🎁 حصة مجانية</span>
-          </button>
-
-          <!-- Sleek Login Button -->
-          <button onclick="openLoginModal()" id="headerLoginBtn" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition">
-            <i class="fa-solid fa-arrow-right-to-bracket text-xs text-amber-300"></i>
-            <span data-i18n="nav_login">تسجيل الدخول</span>
-          </button>
-
-          <!-- Logged-in User Chip (Hidden initially, shown upon student login) -->
+          <!-- Logged-in User Chip (Shown only upon login) -->
           <div id="headerUserChip" class="hidden items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full shadow-xs">
             <div class="w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-black">
               🎓
             </div>
-            <span id="headerUserName" class="text-xs font-black text-emerald-800">يوسف أحمد</span>
+            <span id="headerUserName" class="text-xs font-black text-emerald-800">طالب مسجل</span>
             <button onclick="showSection('dashboard')" class="text-xs text-orange-600 hover:underline font-bold mr-1">مقرراتي</button>
             <button onclick="handleStudentLogout()" class="text-xs text-rose-500 hover:text-rose-600 font-bold mr-1" title="تسجيل خروج">
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
 
-          <!-- Direct Payment CTA -->
-          <button onclick="openPaymentModal()" class="btn-brand-orange px-3.5 sm:px-4 py-2 text-xs font-bold rounded-full">
-            <i class="fa-solid fa-credit-card"></i>
-            <span data-i18n="nav_subscribe">حجز الكورسات</span>
+          <!-- Essential Button 2: Primary Free Trial Action for Parents -->
+          <button onclick="openBookingModal()" class="btn-brand-green px-4 py-2 text-xs font-black rounded-full shadow-xs flex items-center gap-1.5 cursor-pointer hover:scale-105 transition">
+            <i class="fa-solid fa-gift text-xs text-amber-300"></i>
+            <span data-i18n="nav_free_trial">🎁 حصة مجانية</span>
           </button>
         </div>
 
@@ -348,27 +341,28 @@
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                 <span data-i18n="hero_badge_students">140+ طالب متفاعل الآن</span>
               </span>
-              <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold">
-                <span data-i18n="hero_badge_rating">⭐ 4.9/5 تقييم أولياء الأمور</span>
-              </span>
+              <a href="#testimonials" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 hover:bg-blue-100 border border-blue-200 text-[#1877F2] font-black text-xs shadow-xs transition group cursor-pointer" title="انقر لمشاهدة آراء أولياء الأمور الموثقة">
+                <i class="fa-brands fa-facebook text-sm group-hover:scale-110 transition-transform"></i>
+                <span>⭐ 4.9/5 آراء أولياء الأمور الموثقة على فيسبوك 👍</span>
+              </a>
             </div>
 
-            <!-- Buttons -->
-            <div class="flex flex-wrap items-center gap-4 pt-3">
-              <button onclick="openBookingModal()" class="btn-brand-green text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
-                <i class="fa-solid fa-play text-xs"></i>
+            <!-- Streamlined Parent Actions (Filtered & Uncluttered) -->
+            <div class="flex flex-wrap items-center gap-3 pt-3">
+              <button onclick="openBookingModal()" class="btn-brand-green text-sm sm:text-base font-black px-7 py-3.5 rounded-2xl flex items-center justify-center gap-2.5 shadow-lg hover:shadow-xl hover:scale-[1.02] transition cursor-pointer">
+                <i class="fa-solid fa-gift text-amber-300 text-base"></i>
                 <span data-i18n="hero_btn_trial">احجز حصة تجريبية مجانية 🎁</span>
               </button>
 
-              <a href="#services" class="btn-pill-subtle text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
-                <span data-i18n="hero_btn_courses">تصفح الكورسات المعتمدة</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-xs text-orange-500"></i>
+              <a href="#testimonials" class="px-6 py-3.5 rounded-2xl bg-blue-50 hover:bg-blue-100 text-[#1877F2] hover:text-[#166fe5] font-black border-2 border-blue-200 text-sm sm:text-base flex items-center justify-center gap-2 shadow-xs transition cursor-pointer">
+                <i class="fa-brands fa-facebook text-base"></i>
+                <span>شاهد آراء أولياء الأمور ⭐</span>
               </a>
 
-              <button onclick="openPaymentModal()" class="btn-brand-orange text-sm sm:text-base font-bold px-6 py-3.5 rounded-2xl flex items-center gap-2">
-                <i class="fa-solid fa-credit-card"></i>
-                <span data-i18n="hero_btn_enroll">الاشتراك المباشر</span>
-              </button>
+              <a href="https://wa.me/201080285458?text=السلام%20عليكم%2C%20أريد%20الاستفسار%20عن%20دروس%20أكاديمية%20عربي%20أونلاين" target="_blank" rel="noopener noreferrer" class="px-4 py-3 rounded-2xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold border border-emerald-300 text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer">
+                <i class="fa-brands fa-whatsapp text-emerald-600 text-base"></i>
+                <span>واتساب الأكاديمية (01080285458)</span>
+              </a>
             </div>
 
             <!-- Scroll Down Indicator -->
@@ -477,6 +471,152 @@
             </div>
 
           </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== REVIEWS & TESTIMONIALS (آراء وتقييمات أولياء الأمور والطلاب الموثقة من فيسبوك) ==================== -->
+    <section id="testimonials" class="py-14 border-y-2 border-amber-200/60 bg-gradient-to-b from-amber-50/50 via-white to-blue-50/40 relative">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        
+        <!-- Section Header -->
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] font-black text-xs mb-3 shadow-xs">
+            <i class="fa-brands fa-facebook text-sm"></i>
+            <span>آراء وتجارب حقيقية موثقة من صفحتنا الرسمية على فيسبوك 👍</span>
+          </div>
+          <h2 class="text-2xl sm:text-4xl font-black text-slate-900 mb-2">
+            ماذا يقول أولياء الأمور عن أكاديمية <span class="text-orange-600">عربي أونلاين</span>؟
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
+            شهادات نعتز بها موثقة من صفحتنا على فيسبوك لأولياء أمور من السعودية، مصر، الكويت، والإمارات مع مس فرح القاضي 🌟
+          </p>
+        </div>
+
+        <!-- Reviews Grid (Pre-rendered for Instant Loading & Syncing with JS) -->
+        <div id="landingReviewsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Review 1: KSA Parent -->
+          <div class="group bg-white rounded-3xl p-6 border-2 border-slate-200/90 shadow-sm hover:shadow-xl hover:border-blue-400 transition duration-300 flex flex-col justify-between relative">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs text-amber-500 tracking-wider">⭐⭐⭐⭐⭐</span>
+                <div class="flex items-center gap-1.5 flex-wrap justify-end">
+                  <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] hover:text-[#166fe5] text-[10px] font-black border border-blue-200 transition" title="مشاهدة على فيسبوك">
+                    <i class="fa-brands fa-facebook text-xs"></i>
+                    <span>موثّق على فيسبوك 👍</span>
+                  </a>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">🇸🇦 السعودية - الرياض</span>
+                </div>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
+                "ما شاء الله تبارك الله، أسلوب مس فرح ممتع جداً وخبرتها 13 سنة واضحة في تيسير القواعد. ابني أصبح ينتظر الحصة بكل شغف وارتفعت درجاته في لغتي بشكل ممتاز."
+              </p>
+            </div>
+            <div class="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 text-white flex items-center justify-center font-black text-xs shadow-xs">
+                  أم
+                </div>
+                <div>
+                  <h4 class="text-xs font-black text-slate-900">أم عبد الله</h4>
+                  <p class="text-[10px] text-slate-400 font-medium">منهج لغتي وكورس النحو • الصف الرابع الابتدائي</p>
+                </div>
+              </div>
+              <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="text-[#1877F2] hover:underline text-xs font-bold" title="عرض على فيسبوك">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Review 2: Kuwait Parent -->
+          <div class="group bg-white rounded-3xl p-6 border-2 border-slate-200/90 shadow-sm hover:shadow-xl hover:border-blue-400 transition duration-300 flex flex-col justify-between relative">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs text-amber-500 tracking-wider">⭐⭐⭐⭐⭐</span>
+                <div class="flex items-center gap-1.5 flex-wrap justify-end">
+                  <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] hover:text-[#166fe5] text-[10px] font-black border border-blue-200 transition" title="مشاهدة على فيسبوك">
+                    <i class="fa-brands fa-facebook text-xs"></i>
+                    <span>موثّق على فيسبوك 👍</span>
+                  </a>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">🇰🇼 الكويت</span>
+                </div>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
+                "كورس الخط العربي وتأسيس الإملاء مع مس فرح أحدث فارقاً مذهلاً في شكل خط ابنتي ووضوحه في كراسة الواجبات والامتحانات. صبورة ومتابعة دقيقة لكل تفصيلة."
+              </p>
+            </div>
+            <div class="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 text-white flex items-center justify-center font-black text-xs shadow-xs">
+                  م
+                </div>
+                <div>
+                  <h4 class="text-xs font-black text-slate-900">م. طارق الزهراني</h4>
+                  <p class="text-[10px] text-slate-400 font-medium">كورس تحسين الخط العربي والإملاء • الصف السادس الابتدائي</p>
+                </div>
+              </div>
+              <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="text-[#1877F2] hover:underline text-xs font-bold" title="عرض على فيسبوك">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Review 3: UAE Parent -->
+          <div class="group bg-white rounded-3xl p-6 border-2 border-slate-200/90 shadow-sm hover:shadow-xl hover:border-blue-400 transition duration-300 flex flex-col justify-between relative">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs text-amber-500 tracking-wider">⭐⭐⭐⭐⭐</span>
+                <div class="flex items-center gap-1.5 flex-wrap justify-end">
+                  <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] hover:text-[#166fe5] text-[10px] font-black border border-blue-200 transition" title="مشاهدة على فيسبوك">
+                    <i class="fa-brands fa-facebook text-xs"></i>
+                    <span>موثّق على فيسبوك 👍</span>
+                  </a>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold">🇦🇪 الإمارات - دبي</span>
+                </div>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
+                "أفضل استثمار لتعليم اللغة العربية عن بُعد. مس فرح القاضي معلمة قديرة ومتمكنة، والمنصة تجمع بين تبسيط القواعد والتشجيع المستمر الذي يعطي ثقة كبيرة للطالب."
+              </p>
+            </div>
+            <div class="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center font-black text-xs shadow-xs">
+                  د
+                </div>
+                <div>
+                  <h4 class="text-xs font-black text-slate-900">د. سارة المنصوري</h4>
+                  <p class="text-[10px] text-slate-400 font-medium">تأسيس النحو والقراءة • الصف الأول الإعدادي</p>
+                </div>
+              </div>
+              <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="text-[#1877F2] hover:underline text-xs font-bold" title="عرض على فيسبوك">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Official Facebook Reviews CTA Box -->
+        <div class="mt-8 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-right">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-white text-[#1877F2] flex items-center justify-center text-3xl shrink-0 shadow-lg">
+              <i class="fa-brands fa-facebook"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 justify-center md:justify-start">
+                <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-[11px] font-black backdrop-blur-xs">موثق رسمياً على فيسبوك 👍</span>
+                <span class="text-xs text-amber-300 font-bold">⭐⭐⭐⭐⭐ (تقييم 5/5)</span>
+              </div>
+              <h4 class="text-base sm:text-lg font-black mt-1">شاهدي آراء وتوصيات مئات أولياء الأمور والطلاب مباشرة على صفحتنا</h4>
+              <p class="text-xs text-blue-100 mt-0.5">اضغطي لتصفح تعليقات وتجارب المشتركين مع مس فرح القاضي بكل شفافية على فيسبوك</p>
+            </div>
+          </div>
+          <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="px-6 py-3.5 rounded-2xl bg-white hover:bg-amber-300 text-[#1877F2] hover:text-slate-900 font-black text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-lg transition shrink-0 cursor-pointer">
+            <i class="fa-brands fa-facebook text-lg"></i>
+            <span>تصفح كل الآراء على فيسبوك ↗️</span>
+          </a>
         </div>
 
       </div>
@@ -1171,50 +1311,6 @@
             </button>
           </div>
 
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ==================== REVIEWS & TESTIMONIALS (آراء وتقييمات أولياء الأمور والطلاب) ==================== -->
-    <section id="testimonials" class="py-14 border-t border-slate-200 bg-gradient-to-b from-slate-50 to-white relative">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        
-        <div class="text-center max-w-xl mx-auto mb-10">
-          <span class="inline-block px-3.5 py-1 rounded-full bg-amber-100 text-amber-800 font-black text-xs border border-amber-300 mb-2.5 shadow-xs">
-            ⭐ تجارب حقيقية نفخر بها
-          </span>
-          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 mb-2">
-            ماذا يقول أولياء الأمور والطلاب عنا؟
-          </h2>
-          <p class="text-xs sm:text-sm text-slate-500 font-medium">
-            شهادات نعتز بها موثقة من صفحتنا الرسمية على فيسبوك من مختلف الدول 🌍
-          </p>
-        </div>
-
-        <div id="landingReviewsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Populated by JavaScript from Admin Reviews with direct Facebook links -->
-        </div>
-
-        <!-- Official Facebook Reviews CTA Box -->
-        <div class="mt-10 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 border-2 border-blue-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-right">
-          <div class="flex items-center gap-3.5">
-            <div class="w-13 h-13 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
-              <i class="fa-brands fa-facebook"></i>
-            </div>
-            <div>
-              <div class="flex items-center gap-2 justify-center md:justify-start">
-                <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-black border border-blue-300">صفحة فيسبوك المعتمدة 👍</span>
-                <span class="text-xs text-amber-500 font-bold">⭐⭐⭐⭐⭐ (تقييم 5/5)</span>
-              </div>
-              <h4 class="text-sm sm:text-base font-black text-slate-900 mt-1">شاهدي آراء وتوصيات مئات أولياء الأمور والطلاب الحقيقية مباشرة على صفحتنا</h4>
-              <p class="text-xs text-slate-500 mt-0.5">يمكنكِ تصفح تعليقات وتجارب المشتركين مع مس فرح القاضي بكل شفافية</p>
-            </div>
-          </div>
-          <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl bg-[#1877F2] hover:bg-[#166fe5] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg transition shrink-0 cursor-pointer">
-            <i class="fa-brands fa-facebook text-lg"></i>
-            <span>تصفح كل الآراء على فيسبوك ↗️</span>
-          </a>
         </div>
 
       </div>
@@ -3298,7 +3394,7 @@
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_07"></script>
+  <script src="app.js?v=20261122_08"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
