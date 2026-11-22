@@ -1156,11 +1156,11 @@ async function deleteStudentAccount(id, name) {
   alert(`✅ تم حذف حساب الطالب "${name}" بنجاح.`);
 }
 
-// ==================== VIDEOS MANAGEMENT (فيديوهات الصفحة الرئيسية) ====================
+// ==================== VIDEOS MANAGEMENT & SEQUENTIAL PROGRESSION (فيديوهات وحلقات المنصة المتسلسلة) ====================
 const DEFAULT_VIDEOS = [
   {
     id: 'vid_1',
-    title: 'شرح كان وأخواتها بطريقة الخرائط الذهنية المبسطة 📐',
+    title: 'الحلقة 1: شرح كان وأخواتها بطريقة الخرائط الذهنية المبسطة 📐',
     category: '📐 كورس النحو من الصفر إلى الاحتراف',
     url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
@@ -1168,7 +1168,7 @@ const DEFAULT_VIDEOS = [
   },
   {
     id: 'vid_2',
-    title: 'أسرار تحسين خط الرقعة بالقلم العادي للطلاب ✍️',
+    title: 'الحلقة 2: أسرار تحسين خط الرقعة بالقلم العادي للطلاب ✍️',
     category: '✍️ كورس تحسين الخط العربي',
     url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
@@ -1176,7 +1176,7 @@ const DEFAULT_VIDEOS = [
   },
   {
     id: 'vid_3',
-    title: 'قواعد القراءة السريعة والإملاء الصحيح دون أخطاء 🌱',
+    title: 'الحلقة 3: قواعد القراءة السريعة والإملاء الصحيح دون أخطاء 🌱',
     category: '🌱 تأسيس القراءة والكتابة والإملاء',
     url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
@@ -1201,37 +1201,135 @@ function saveVideos(videos) {
   localStorage.setItem('araby_videos', JSON.stringify(videos));
 }
 
+// Sequential Progression Logic
+function getCompletedEpisodes() {
+  try {
+    const raw = localStorage.getItem('araby_completed_episodes');
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCompletedEpisodes(completed) {
+  try {
+    localStorage.setItem('araby_completed_episodes', JSON.stringify(completed));
+  } catch (e) {}
+}
+
+function isEpisodeUnlocked(videoIndex, videos) {
+  if (videoIndex === 0) return true; // الحلقة الأولى دائماً متاحة للجميع
+  if (!videos || videoIndex >= videos.length) return false;
+  const completed = getCompletedEpisodes();
+  const prevVideo = videos[videoIndex - 1];
+  return prevVideo ? completed.includes(prevVideo.id) : false;
+}
+
+function isEpisodeCompleted(videoId) {
+  return getCompletedEpisodes().includes(videoId);
+}
+
+function alertEpisodeLocked(epNumber, prevTitle) {
+  const alertBox = document.createElement('div');
+  alertBox.className = "fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn";
+  alertBox.innerHTML = `
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 text-center shadow-2xl border-2 border-purple-200 space-y-4">
+      <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mx-auto shadow-inner">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <div>
+        <span class="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+          🔒 الحلقة رقم ${epNumber} مقفلة حالياً
+        </span>
+        <h3 class="text-base font-black text-slate-900 mt-2">يجب مشاهدة الدروس بالترتيب</h3>
+        <p class="text-xs text-slate-600 leading-relaxed mt-2 bg-slate-50 p-3 rounded-2xl border border-slate-200">
+          لفتح هذه الحلقة، يرجى أولاً إكمال مشاهدة:
+          <br><strong class="text-purple-700 font-black">"${prevTitle || 'الحلقة السابقة'}"</strong>
+          <br><span class="text-[11px] text-slate-400">النظام مصمم ليساعدك على فهم الدروس خطوة بخطوة 🎯</span>
+        </p>
+      </div>
+      <button onclick="this.closest('.fixed').remove()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs transition shadow-md cursor-pointer">
+        فهمت ذلك، سأشاهد الحلقة السابقة أولاً 👍
+      </button>
+    </div>
+  `;
+  document.body.appendChild(alertBox);
+}
+
+function resetVideosProgress() {
+  if (!confirm('هل تريد بالتأكيد إعادة ضبط مسار المشاهدة والبدء من الحلقة الأولى؟')) return;
+  localStorage.removeItem('araby_completed_episodes');
+  renderLandingVideos();
+  if (typeof showCustomToast === 'function') {
+    showCustomToast('🔄 تم إعادة ضبط التقدم! الحلقة الأولى مفتوحة وباقي الحلقات مقفلة بالترتيب.', 'info');
+  } else {
+    alert('🔄 تم إعادة ضبط التقدم! الحلقة الأولى مفتوحة وباقي الحلقات مقفلة بالترتيب.');
+  }
+}
+
+function downloadVideoDirectly(url, title) {
+  if (!url) return;
+  if (url.includes('youtube.com') || url.includes('youtu.be')) {
+    window.open(url, '_blank');
+    alert('📥 تم فتح رابط الحلقة في نافذة جديدة. يمكنك تنزيل الفيديو عبر زر الحفظ والتنزيل داخل يوتيوب للمشاهدة بدون إنترنت!');
+    return;
+  }
+  const a = document.createElement('a');
+  a.href = url;
+  const safeName = (title || 'araby-lesson').replace(/[^\w\u0600-\u06FF\s-]/gi, '').trim().replace(/\s+/g, '_');
+  a.download = `${safeName}.mp4`;
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  if (typeof showCustomToast === 'function') {
+    showCustomToast('📥 بدأ تحميل ملف الفيديو لجهازك بنجاح!', 'success');
+  }
+}
+
 function handleAdminAddVideo(e) {
   e.preventDefault();
   const title = (document.getElementById('videoFormTitle').value || '').trim();
   const category = document.getElementById('videoFormCategory').value;
-  const url = (document.getElementById('videoFormUrl').value || '').trim();
+  let url = (document.getElementById('videoFormUrl').value || '').trim();
+  const fileInput = document.getElementById('videoFormFile');
   const thumbnail = (document.getElementById('videoFormThumbnail').value || '').trim();
   const description = (document.getElementById('videoFormDescription').value || '').trim();
 
-  if (!title || !url) {
-    alert('يرجى ملء عنوان الفيديو والرابط');
+  const file = fileInput && fileInput.files && fileInput.files[0];
+
+  if (!title) {
+    alert('يرجى ملء عنوان الفيديو أو الدرس');
     return;
+  }
+
+  if (!url && !file) {
+    alert('يرجى إدخال رابط الفيديو أو اختيار ملف فيديو من جهازك');
+    return;
+  }
+
+  if (file && !url) {
+    url = URL.createObjectURL(file);
   }
 
   const videos = getVideos();
   const newVideo = {
     id: 'vid_' + Date.now(),
-    title,
+    title: title.startsWith('الحلقة') ? title : `الحلقة ${videos.length + 1}: ${title}`,
     category,
     url,
     thumbnail: thumbnail || 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
-    description: description || 'فيديو تعليمي متميز من أكاديمية عربي أونلاين'
+    description: description || 'فيديو تعليمي متميز من أكاديمية عربي أونلاين بإشراف مس فرح القاضي'
   };
 
-  videos.unshift(newVideo);
+  videos.push(newVideo);
   saveVideos(videos);
 
   e.target.reset();
   renderAdminVideos();
   renderLandingVideos();
   updateAdminStats(undefined, undefined);
-  alert('🎉 تم نشر الفيديو بنجاح! أصبح معروضاً للطلاب في الصفحة الرئيسية.');
+  alert('🎉 تم نشر الفيديو بنجاح كحلقة جديدة في المسار المتسلسل للطلاب!');
 }
 
 function deleteAdminVideo(id) {
@@ -1254,7 +1352,7 @@ function renderAdminVideos() {
     return;
   }
 
-  container.innerHTML = videos.map(v => `
+  container.innerHTML = videos.map((v, idx) => `
     <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between gap-3 hover:shadow-xs transition">
       <div class="flex items-start gap-3">
         <div class="w-24 h-16 rounded-xl overflow-hidden bg-slate-200 shrink-0 relative group">
@@ -1264,15 +1362,23 @@ function renderAdminVideos() {
           </div>
         </div>
         <div class="flex-1 min-w-0">
-          <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-700 mb-1">${v.category}</span>
+          <div class="flex items-center gap-1.5 mb-1">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-100 text-purple-700">ترتيب ${idx + 1}</span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700 truncate">${v.category}</span>
+          </div>
           <h5 class="font-bold text-xs text-slate-900 truncate">${v.title}</h5>
           <p class="text-[11px] text-slate-500 line-clamp-2 mt-0.5">${v.description}</p>
         </div>
       </div>
       <div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
-        <button onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}')" class="text-xs font-bold text-purple-600 hover:text-purple-800 flex items-center gap-1">
-          <i class="fa-solid fa-play text-[10px]"></i> معاينة المشغل
-        </button>
+        <div class="flex items-center gap-2">
+          <button onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}', '${v.id}', ${idx})" class="text-xs font-bold text-purple-600 hover:text-purple-800 flex items-center gap-1">
+            <i class="fa-solid fa-play text-[10px]"></i> معاينة المشغل
+          </button>
+          <button onclick="downloadVideoDirectly('${v.url}', '${v.title.replace(/'/g, "\\'")}')" class="text-xs font-bold text-slate-600 hover:text-slate-800 flex items-center gap-1">
+            <i class="fa-solid fa-download text-[10px]"></i> تحميل
+          </button>
+        </div>
         <button onclick="deleteAdminVideo('${v.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1">
           <i class="fa-solid fa-trash-can"></i> حذف
         </button>
@@ -1285,39 +1391,123 @@ function renderLandingVideos() {
   const container = document.getElementById('landingVideosContainer');
   if (!container) return;
   const videos = getVideos();
+  const completed = getCompletedEpisodes();
 
-  container.innerHTML = videos.map(v => `
-    <div class="group bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-md hover:border-purple-300 transition duration-300 flex flex-col">
-      <div class="relative w-full aspect-video bg-slate-900 overflow-hidden cursor-pointer" onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}')">
-        <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 flex items-center justify-center">
-          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-purple-600/90 text-white flex items-center justify-center text-lg sm:text-xl shadow-lg group-hover:scale-110 group-hover:bg-purple-600 transition">
-            <i class="fa-solid fa-play ml-1"></i>
+  // Update Progress Tracker
+  const progressBarFill = document.getElementById('videoProgressBarFill');
+  const progressCountText = document.getElementById('videoProgressCountText');
+  const progressPercentText = document.getElementById('videoProgressPercentText');
+
+  const totalVideos = videos.length;
+  const completedCount = videos.filter(v => completed.includes(v.id)).length;
+  const percent = totalVideos > 0 ? Math.round((completedCount / totalVideos) * 100) : 0;
+
+  if (progressBarFill) progressBarFill.style.width = `${percent}%`;
+  if (progressCountText) progressCountText.textContent = `${completedCount} من ${totalVideos} مكتملة 🎓`;
+  if (progressPercentText) progressPercentText.textContent = `${percent}%`;
+
+  container.innerHTML = videos.map((v, index) => {
+    const epNumber = index + 1;
+    const isUnlocked = isEpisodeUnlocked(index, videos);
+    const isDone = completed.includes(v.id);
+    const safeTitle = v.title.replace(/'/g, "\\'");
+    const safeDesc = (v.description || '').replace(/'/g, "\\'");
+    const prevTitle = index > 0 ? videos[index - 1].title.replace(/'/g, "\\'") : '';
+
+    if (!isUnlocked) {
+      // LOCKED CARD
+      return `
+        <div class="group bg-slate-100/90 rounded-3xl border-2 border-dashed border-slate-300 overflow-hidden shadow-xs opacity-85 hover:opacity-100 transition duration-300 flex flex-col relative select-none">
+          <div class="relative w-full aspect-video bg-slate-800 overflow-hidden cursor-pointer" onclick="alertEpisodeLocked(${epNumber}, '${prevTitle}')">
+            <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover filter grayscale contrast-75 brightness-75">
+            <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px] flex flex-col items-center justify-center text-white text-center p-3">
+              <div class="w-12 h-12 rounded-full bg-slate-900/90 text-amber-400 border-2 border-amber-400/50 flex items-center justify-center text-xl shadow-lg mb-2 group-hover:scale-110 transition">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <span class="text-xs font-black text-amber-300 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-500/40">
+                🔒 الحلقة ${epNumber} مقفلة
+              </span>
+              <p class="text-[11px] text-slate-300 mt-1.5 max-w-[210px] leading-tight">
+                يجب إنهاء الحلقة ${epNumber - 1} أولاً لفتح هذا الدرس
+              </p>
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="px-2.5 py-1 rounded-full bg-slate-900/90 text-slate-400 text-[10px] font-bold border border-slate-700">
+                الحلقة ${epNumber}
+              </span>
+            </div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between bg-white/70">
+            <div>
+              <div class="flex items-center gap-2 mb-1.5">
+                <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-slate-200 text-slate-600">درس مقفل 🔒</span>
+                <span class="text-[10px] text-slate-400 font-bold truncate">${v.category}</span>
+              </div>
+              <h3 class="text-sm font-black text-slate-700 mb-1 line-clamp-1">${v.title}</h3>
+              <p class="text-xs text-slate-400 line-clamp-2">${v.description}</p>
+            </div>
+            <div class="pt-4 mt-3 border-t border-slate-200 flex items-center justify-between">
+              <button onclick="alertEpisodeLocked(${epNumber}, '${prevTitle}')" class="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-lock text-[10px]"></i>
+                <span>مقفلة (أكمل السابقة أولاً)</span>
+              </button>
+              <span class="text-[11px] text-amber-700 font-black bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200">
+                خطوة ${epNumber}
+              </span>
+            </div>
           </div>
         </div>
-        <div class="absolute top-3 right-3">
-          <span class="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-xs text-white text-[11px] font-bold border border-white/20">
-            ${v.category}
-          </span>
+      `;
+    }
+
+    // UNLOCKED CARD
+    return `
+      <div class="group bg-white rounded-3xl border ${isDone ? 'border-emerald-300 shadow-emerald-50' : 'border-purple-200/90'} overflow-hidden shadow-xs hover:shadow-lg hover:border-purple-400 transition duration-300 flex flex-col relative">
+        <div class="relative w-full aspect-video bg-slate-900 overflow-hidden cursor-pointer" onclick="openVideoPlayerModal('${v.url}', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})">
+          <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 flex items-center justify-center">
+            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full ${isDone ? 'bg-emerald-600/90 hover:bg-emerald-600' : 'bg-purple-600/90 hover:bg-purple-600'} text-white flex items-center justify-center text-lg sm:text-xl shadow-lg group-hover:scale-110 transition">
+              <i class="fa-solid ${isDone ? 'fa-rotate-right' : 'fa-play'} ml-1"></i>
+            </div>
+          </div>
+          <div class="absolute top-3 right-3 flex items-center gap-1.5">
+            <span class="px-2.5 py-1 rounded-full bg-purple-700 text-white text-[11px] font-black border border-purple-400/40 shadow-xs">
+              الحلقة ${epNumber} 🔓
+            </span>
+            ${isDone ? '<span class="px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-black shadow-xs flex items-center gap-1"><i class="fa-solid fa-check"></i> مكتملة</span>' : ''}
+          </div>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${isDone ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-purple-50 text-purple-700 border border-purple-200'}">
+                ${isDone ? '✅ تم إنجاز الحلقة' : '▶️ جاهزة للمشاهدة الآن'}
+              </span>
+              <span class="text-[11px] text-slate-500 font-bold truncate">${v.category}</span>
+            </div>
+            <h3 class="text-sm sm:text-base font-black text-slate-900 mb-1.5 group-hover:text-purple-600 transition">${v.title}</h3>
+            <p class="text-xs text-slate-500 line-clamp-2">${v.description}</p>
+          </div>
+          <div class="pt-4 mt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+            <button onclick="openVideoPlayerModal('${v.url}', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})" class="text-xs font-black ${isDone ? 'text-emerald-700 hover:text-emerald-800' : 'text-purple-600 hover:text-purple-700'} flex items-center gap-1.5">
+              <i class="fa-solid fa-play text-[11px]"></i>
+              <span>${isDone ? 'إعادة مشاهدة الدرس' : 'شاهد الحصة الآن'}</span>
+            </button>
+            <div class="flex items-center gap-1.5">
+              <!-- Direct Download Button -->
+              <button onclick="downloadVideoDirectly('${v.url}', '${safeTitle}')" title="تحميل الفيديو لجهازك للمشاهدة بدون إنترنت" class="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+                <i class="fa-solid fa-download text-[11px]"></i>
+                <span>تحميل 📥</span>
+              </button>
+              <button onclick="openBookingModal()" class="px-2.5 py-1.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-bold transition">
+                حجز تجربة
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="p-5 flex-1 flex flex-col justify-between">
-        <div>
-          <h3 class="text-sm sm:text-base font-black text-slate-900 mb-1.5 group-hover:text-purple-600 transition">${v.title}</h3>
-          <p class="text-xs text-slate-500 line-clamp-2">${v.description}</p>
-        </div>
-        <div class="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between">
-          <button onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}')" class="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center gap-1.5">
-            <span>شاهد الحصة مجاناً</span>
-            <i class="fa-solid fa-arrow-left text-[11px]"></i>
-          </button>
-          <button onclick="openBookingModal()" class="px-3 py-1 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-600 text-xs font-bold transition">
-            احجز تجربة
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function parseVideoEmbedUrl(rawUrl) {
@@ -1330,29 +1520,183 @@ function parseVideoEmbedUrl(rawUrl) {
   return trimmed;
 }
 
-function openVideoPlayerModal(url, title, desc) {
+let currentPlayingVideo = null;
+
+function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
+  const videos = getVideos();
+  if (typeof videoIndex !== 'number' && videoId) {
+    videoIndex = videos.findIndex(v => v.id === videoId);
+  }
+  if (typeof videoIndex !== 'number' || videoIndex < 0) {
+    videoIndex = 0;
+  }
+
+  // Check locking constraint
+  if (!isEpisodeUnlocked(videoIndex, videos)) {
+    const prevTitle = videoIndex > 0 ? videos[videoIndex - 1].title : '';
+    alertEpisodeLocked(videoIndex + 1, prevTitle);
+    return;
+  }
+
+  const currentVid = videos[videoIndex] || { id: videoId || 'vid_' + videoIndex, url, title, description: desc };
+  const effectiveUrl = url || currentVid.url;
+  const effectiveTitle = title || currentVid.title;
+  const effectiveDesc = desc || currentVid.description;
+  const effectiveId = videoId || currentVid.id;
+
+  currentPlayingVideo = {
+    url: effectiveUrl,
+    title: effectiveTitle,
+    desc: effectiveDesc,
+    videoId: effectiveId,
+    videoIndex: videoIndex
+  };
+
   const modal = document.getElementById('videoPlayerModal');
   const container = document.getElementById('videoPlayerContainer');
   const titleEl = document.getElementById('videoPlayerTitle');
   const descEl = document.getElementById('videoPlayerDesc');
+  const badgeEl = document.getElementById('videoPlayerEpisodeBadge');
+  const downloadBtn = document.getElementById('videoPlayerDownloadBtn');
+  const completeBtn = document.getElementById('videoPlayerCompleteBtn');
+  const nextBtn = document.getElementById('videoPlayerNextBtn');
+
   if (!modal || !container) return;
 
-  if (titleEl) titleEl.textContent = title || 'مشغل الفيديو';
-  if (descEl) descEl.textContent = desc || '';
+  if (titleEl) titleEl.textContent = effectiveTitle;
+  if (descEl) descEl.textContent = effectiveDesc;
+  if (badgeEl) badgeEl.textContent = `الحلقة ${videoIndex + 1} 🔓`;
 
-  const embedUrl = parseVideoEmbedUrl(url);
+  // Download Button Setup
+  if (downloadBtn) {
+    downloadBtn.setAttribute('href', effectiveUrl);
+    const safeTitle = (effectiveTitle || 'araby-lesson').replace(/[^\w\u0600-\u06FF\s-]/gi, '').trim().replace(/\s+/g, '_');
+    downloadBtn.setAttribute('download', `${safeTitle}.mp4`);
+    downloadBtn.onclick = function(e) {
+      if (effectiveUrl.includes('youtube.com') || effectiveUrl.includes('youtu.be')) {
+        e.preventDefault();
+        window.open(effectiveUrl, '_blank');
+        alert('📥 تم فتح رابط الفيديو. يمكنك تنزيل الفيديو عبر زر الحفظ والتنزيل داخل يوتيوب للمشاهدة بدون إنترنت!');
+      }
+    };
+  }
+
+  // Completion Button Setup
+  const isDone = isEpisodeCompleted(effectiveId);
+  if (completeBtn) {
+    if (isDone) {
+      completeBtn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-300"></i><span>تم إكمال هذه الحلقة مسبقاً ✅</span>`;
+      completeBtn.className = "px-3.5 py-2 rounded-xl bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold text-xs flex items-center gap-2 transition cursor-pointer";
+    } else {
+      completeBtn.innerHTML = `<i class="fa-solid fa-circle-check"></i><span>أكملت مشاهدة هذه الحلقة (فتح التالية 🔓)</span>`;
+      completeBtn.className = "px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-2 transition shadow-md cursor-pointer";
+    }
+  }
+
+  // Next Episode Button Setup
+  const hasNext = videoIndex + 1 < videos.length;
+  if (nextBtn) {
+    if (hasNext && isDone) {
+      nextBtn.classList.remove('hidden');
+      nextBtn.classList.add('flex');
+      nextBtn.innerHTML = `<span>الحلقة التالية (${videoIndex + 2})</span> <i class="fa-solid fa-arrow-left"></i>`;
+    } else {
+      nextBtn.classList.add('hidden');
+      nextBtn.classList.remove('flex');
+    }
+  }
+
+  const embedUrl = parseVideoEmbedUrl(effectiveUrl);
 
   if (embedUrl.includes('youtube.com/embed')) {
     container.innerHTML = `
-      <iframe src="${embedUrl}" title="${title}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe src="${embedUrl}" title="${effectiveTitle}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     `;
   } else {
     container.innerHTML = `
-      <video src="${embedUrl}" controls autoplay class="w-full h-full object-contain bg-black"></video>
+      <video id="arabyActiveLessonVideoTag" src="${embedUrl}" controls autoplay controlsList="nodownload_disabled" class="w-full h-full object-contain bg-black"></video>
     `;
+    const videoTag = document.getElementById('arabyActiveLessonVideoTag');
+    if (videoTag) {
+      videoTag.onended = function() {
+        handleCurrentVideoCompleted(true);
+      };
+    }
   }
 
   modal.classList.remove('hidden');
+}
+
+function handleCurrentVideoCompleted(isAutoEnded = false) {
+  if (!currentPlayingVideo) return;
+  const { videoId, videoIndex, title } = currentPlayingVideo;
+  const videos = getVideos();
+  const nextVideo = videoIndex + 1 < videos.length ? videos[videoIndex + 1] : null;
+
+  const completed = getCompletedEpisodes();
+  if (!completed.includes(videoId)) {
+    completed.push(videoId);
+    saveCompletedEpisodes(completed);
+  }
+
+  // Update complete button
+  const completeBtn = document.getElementById('videoPlayerCompleteBtn');
+  if (completeBtn) {
+    completeBtn.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-300"></i><span>تم إكمال هذه الحلقة بنجاح ✅</span>`;
+    completeBtn.className = "px-3.5 py-2 rounded-xl bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-2 transition";
+  }
+
+  // Reveal next episode button
+  const nextBtn = document.getElementById('videoPlayerNextBtn');
+  if (nextBtn && nextVideo) {
+    nextBtn.classList.remove('hidden');
+    nextBtn.classList.add('flex');
+    nextBtn.innerHTML = `<span>الانتقال للحلقة ${videoIndex + 2} 🔓</span> <i class="fa-solid fa-arrow-left"></i>`;
+  }
+
+  renderLandingVideos();
+
+  if (nextVideo) {
+    const notifyBox = document.createElement('div');
+    notifyBox.className = "fixed inset-0 z-[110] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn";
+    notifyBox.innerHTML = `
+      <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center shadow-2xl border-2 border-emerald-400 space-y-4">
+        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mx-auto shadow-md animate-bounce">
+          🎉
+        </div>
+        <div>
+          <span class="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+            أحسنت ومبارك! 🎓
+          </span>
+          <h3 class="text-base font-black text-slate-900 mt-2">أكملت الحلقة ${videoIndex + 1} بنجاح</h3>
+          <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+            تم فتح <strong class="text-purple-700">الحلقة ${videoIndex + 2}: "${nextVideo.title}"</strong> وأصبحت متاحة لك الآن للمشاهدة والتحميل!
+          </p>
+        </div>
+        <div class="flex flex-col gap-2 pt-1">
+          <button onclick="this.closest('.fixed').remove(); playNextEpisode();" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-xs transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <span>ابدأ مشاهدة الحلقة ${videoIndex + 2} فوراً 🚀</span>
+          </button>
+          <button onclick="this.closest('.fixed').remove();" class="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer">
+            البقاء في المشغل الحالي
+          </button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(notifyBox);
+  } else {
+    alert(`🏆 مبارك! أكملت بنجاح جميع الحلقات المتاحة في الأكاديمية! يمكنك دائماً مراجعتها أو تحميلها.`);
+  }
+}
+
+function playNextEpisode() {
+  if (!currentPlayingVideo) return;
+  const videos = getVideos();
+  const nextIndex = currentPlayingVideo.videoIndex + 1;
+  if (nextIndex < videos.length) {
+    const nextV = videos[nextIndex];
+    openVideoPlayerModal(nextV.url, nextV.title, nextV.description, nextV.id, nextIndex);
+  }
 }
 
 function closeVideoPlayerModal() {
@@ -1360,6 +1704,7 @@ function closeVideoPlayerModal() {
   const container = document.getElementById('videoPlayerContainer');
   if (container) container.innerHTML = '';
   if (modal) modal.classList.add('hidden');
+  currentPlayingVideo = null;
 }
 
 // ==================== REVIEWS MANAGEMENT (آراء وتقييمات الطلاب) ====================
@@ -2145,14 +2490,13 @@ window.addEventListener('keydown', (e) => {
   const isPrintScreen = e.key === 'PrintScreen' || e.keyCode === 44;
   const isSnip = (e.shiftKey && (e.metaKey || e.ctrlKey) && (e.key === 'S' || e.key === 's' || e.key === '4' || e.key === '3'));
   const isDevTools = (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'C' || e.key === 'c')) || e.key === 'F12';
-  const isPrintOrSave = (e.ctrlKey && (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U'));
 
   if (isPrintScreen || isSnip) {
     e.preventDefault();
     triggerScreenRecordingLock('تم اكتشاف اختصار تصوير الشاشة (PrintScreen / Snipping Tool)!');
-  } else if ((isDevTools || isPrintOrSave) && isSecureVideoModalOpen) {
+  } else if (isDevTools && isSecureVideoModalOpen) {
     e.preventDefault();
-    triggerScreenRecordingLock('تم اكتشاف محاولة حفظ أو فحص محتوى الفيديو!');
+    triggerScreenRecordingLock('تم اكتشاف محاولة فحص محتوى المحاضرة!');
   }
 });
 
