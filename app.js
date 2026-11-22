@@ -42,7 +42,7 @@ function showSection(view) {
   if (view === 'dashboard') {
     const activeUser = sessionStorage.getItem('araby_student_user') || localStorage.getItem('araby_active_student');
     if (!activeUser) {
-      openLoginModal();
+      openRequireRegistrationModal('لوحة الطالب والحصص التفاعلية 🎓');
       return;
     }
     if (landingView) landingView.classList.add('hidden');
@@ -442,14 +442,6 @@ function handleStudentLoginSubmit(e) {
     alert(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم التحقق من هويتك كطالب مسجل وفتح لوحة الطالب بنجاح.`);
   }
 }
-  showSection('dashboard');
-
-  if (typeof showMiniToast === 'function') {
-    showMiniToast(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم تسجيل دخولك بنجاح.`);
-  } else {
-    alert(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم التحقق من هويتك كطالب مسجل وفتح لوحة الطالب بنجاح.`);
-  }
-}
 
 function handleQuickDemoLogin() {
   const demoStudent = DEFAULT_REGISTERED_STUDENTS[0]; // 'أحمد محمود عبد الرحمن'
@@ -645,7 +637,7 @@ function setDashboardProfile(key) {
 }
 
 function switchPortalTab(tabKey) {
-  const tabs = ['partitions', 'schedule', 'homework', 'certificate'];
+  const tabs = ['schedule', 'partitions', 'homework', 'certificate'];
   tabs.forEach(t => {
     const btn = document.getElementById(`portal-tab-${t}`);
     const view = document.getElementById(`portal-view-${t}`);
@@ -657,6 +649,131 @@ function switchPortalTab(tabKey) {
       if (view) view.classList.add('hidden');
     }
   });
+}
+
+// --- Interactive Classes & Gated Access Management ---
+function isStudentLoggedIn() {
+  const sessionUser = sessionStorage.getItem('araby_student_user');
+  const localStudent = localStorage.getItem('araby_active_student');
+  return !!(sessionUser || localStudent);
+}
+
+function handleInteractiveClassesClick() {
+  if (isStudentLoggedIn()) {
+    showSection('dashboard');
+    switchPortalTab('schedule');
+    if (typeof showMiniToast === 'function') {
+      showMiniToast('مرحباً بك في قاعة الحصص التفاعلية المباشرة! 🎙️');
+    }
+  } else {
+    openRequireRegistrationModal('الحصص التفاعلية المباشرة 🎙️');
+  }
+}
+
+function openRequireRegistrationModal(featureTitle) {
+  const modal = document.getElementById('registrationRequiredModal');
+  const titleEl = document.getElementById('requireRegFeatureTitle');
+  if (titleEl && featureTitle) {
+    titleEl.textContent = featureTitle;
+  }
+  if (modal) {
+    modal.classList.remove('hidden');
+  }
+}
+
+function closeRequireRegistrationModal() {
+  const modal = document.getElementById('registrationRequiredModal');
+  if (modal) {
+    modal.classList.add('hidden');
+  }
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Interactive Classroom Virtual Room Handlers
+function raiseHandInLiveClass() {
+  const banner = document.getElementById('classHandRaiseBanner');
+  if (banner) {
+    banner.classList.remove('hidden');
+    setTimeout(() => {
+      if (banner) banner.classList.add('hidden');
+    }, 4500);
+  }
+  if (typeof showMiniToast === 'function') {
+    showMiniToast('✋ تم رفع يدك وإشعار مس فرح القاضي للمشاركة الصوتية!');
+  }
+}
+
+function sendLiveClassChat() {
+  const input = document.getElementById('liveClassChatInput');
+  const chatBox = document.getElementById('liveClassChatMessages');
+  if (!input || !chatBox) return;
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  let studentName = 'طالب مسجل';
+  try {
+    const currentStudent = JSON.parse(localStorage.getItem('araby_active_student') || '{}');
+    if (currentStudent && currentStudent.name) studentName = currentStudent.name;
+  } catch (e) {}
+
+  const userMsgEl = document.createElement('div');
+  userMsgEl.className = 'bg-orange-50 border border-orange-200 rounded-xl p-2.5 text-right';
+  userMsgEl.innerHTML = `<span class="font-bold text-orange-950 block mb-0.5 text-xs">${studentName} 🎓:</span><p class="text-slate-800 text-xs">${escapeHtml(msg)}</p>`;
+  chatBox.appendChild(userMsgEl);
+  input.value = '';
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Cheerful automated feedback from teacher Farah
+  setTimeout(() => {
+    const teacherResponses = [
+      'أحسنت يا بطل! إجابة ممتازة وتركيز رائع 🌟',
+      'بارك الله فيك، مشاركة ذكية وموفقة جداً! 👏',
+      'سؤال رائع! سنقوم بشرحه بالتفصيل في الشريحة القادمة ✨',
+      'ممتاز جداً! هكذا يكون التفاعل في لغتنا العربية الجميلة 🎯'
+    ];
+    const randResp = teacherResponses[Math.floor(Math.random() * teacherResponses.length)];
+    const teacherMsgEl = document.createElement('div');
+    teacherMsgEl.className = 'bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 text-right';
+    teacherMsgEl.innerHTML = `<span class="font-bold text-emerald-900 block mb-0.5 text-xs">مس فرح القاضي (المعلمة) 👩‍🏫:</span><p class="text-slate-800 text-xs">${randResp}</p>`;
+    chatBox.appendChild(teacherMsgEl);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }, 1200);
+}
+
+function toggleClassMic() {
+  const btn = document.getElementById('btnClassMic');
+  if (!btn) return;
+  const isMuted = btn.classList.contains('bg-rose-500');
+  if (isMuted) {
+    btn.className = 'px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center gap-1.5 transition text-xs';
+    btn.innerHTML = '<i class="fa-solid fa-microphone text-emerald-400"></i><span>المايك مفتوح</span>';
+    if (typeof showMiniToast === 'function') showMiniToast('🎤 تم فتح المايك');
+  } else {
+    btn.className = 'px-3 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold flex items-center justify-center gap-1.5 transition text-xs';
+    btn.innerHTML = '<i class="fa-solid fa-microphone-slash"></i><span>المايك مكتوم</span>';
+    if (typeof showMiniToast === 'function') showMiniToast('🔇 تم كتم المايك');
+  }
+}
+
+function toggleClassCam() {
+  const btn = document.getElementById('btnClassCam');
+  if (!btn) return;
+  const isOff = btn.classList.contains('bg-rose-500');
+  if (isOff) {
+    btn.className = 'px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold flex items-center justify-center gap-1.5 transition text-xs';
+    btn.innerHTML = '<i class="fa-solid fa-video text-blue-400"></i><span>الكاميرا تعمل</span>';
+    if (typeof showMiniToast === 'function') showMiniToast('📹 تم تشغيل الكاميرا');
+  } else {
+    btn.className = 'px-3 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-bold flex items-center justify-center gap-1.5 transition text-xs';
+    btn.innerHTML = '<i class="fa-solid fa-video-slash"></i><span>الكاميرا مغلقة</span>';
+    if (typeof showMiniToast === 'function') showMiniToast('📷 تم إيقاف الكاميرا');
+  }
 }
 
 function triggerUploadHomework(title) {
