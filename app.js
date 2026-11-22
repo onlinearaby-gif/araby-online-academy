@@ -649,6 +649,10 @@ function switchPortalTab(tabKey) {
       if (view) view.classList.add('hidden');
     }
   });
+
+  if (tabKey === 'partitions' && typeof resizeCanvas === 'function') {
+    setTimeout(resizeCanvas, 80);
+  }
 }
 
 // --- Interactive Classes & Gated Access Management ---
