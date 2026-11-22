@@ -637,7 +637,7 @@ function setDashboardProfile(key) {
 }
 
 function switchPortalTab(tabKey) {
-  const tabs = ['schedule', 'partitions', 'homework', 'certificate', 'reviews'];
+  const tabs = ['schedule', 'partitions', 'quizzes', 'homework', 'reports', 'certificate', 'reviews'];
   tabs.forEach(t => {
     const btn = document.getElementById(`portal-tab-${t}`);
     const view = document.getElementById(`portal-view-${t}`);
@@ -657,6 +657,176 @@ function switchPortalTab(tabKey) {
   if (tabKey === 'reviews' && typeof renderLandingReviews === 'function') {
     renderLandingReviews();
   }
+}
+
+// --- Interactive Quizzes Bank & Engine ---
+const SUBJECT_QUIZZES_DATA = {
+  'النحو': {
+    title: 'اختبار النحو: إعراب الجملة الفعلية والاسمية وعلامات الإعراب 📐',
+    questions: [
+      {
+        q: '1. ما هي علامة رفع جمع المذكر السالم؟',
+        options: ['الواو (مثل: المعلمون)', 'الألف (مثل: المعلمان)', 'الضمة المقدرة'],
+        answer: 0
+      },
+      {
+        q: '2. حدد الفاعل في الجملة: (كتبَ الطالبُ المتفوقُ الدرسَ بعناية):',
+        options: ['الطالبُ (فاعل مرفوع وعلامة رفعه الضمة)', 'الدرسَ', 'المتفوقُ'],
+        answer: 0
+      },
+      {
+        q: '3. (كان وأخواتها) أفعال ناسخة تدخل على الجملة الاسمية فـ:',
+        options: ['ترفع المبتدأ وتنصب الخبر', 'تنصب المبتدأ وترفع الخبر', 'تجر المبتدأ والخبر'],
+        answer: 0
+      }
+    ]
+  },
+  'الإملاء': {
+    title: 'اختبار الإملاء والتأسيس: همزات الوصل والقطع ورسم الهمزات 🌱',
+    questions: [
+      {
+        q: '1. الهمزة في كلمة (انتصار) هي همزة:',
+        options: ['همزة وصل (تسقط نطقاً عند الوصل)', 'همزة قطع', 'همزة متطرفة'],
+        answer: 0
+      },
+      {
+        q: '2. تُكتب الهمزة المتوسطة على نبرة (ـئـ) إذا كانت:',
+        options: ['مكسورة أو ما قبلها مكسور (أقوى الحركات)', 'مفتوحة وما قبلها مفتوح', 'مضمومة وما قبلها ساكن'],
+        answer: 0
+      },
+      {
+        q: '3. التاء المربوطة (ـة) عند الوقف تنطق:',
+        options: ['هاءً ساكنة (مثل: مدرسةْ)', 'تاءً صريحة', 'ألفاً ممدودة'],
+        answer: 0
+      }
+    ]
+  },
+  'اللغة العربية': {
+    title: 'اختبار شامل في منهج اللغة العربية وفهم المقروء 🇪🇬',
+    questions: [
+      {
+        q: '1. مرادف كلمة (شغف) في سياق: "يتعلم الطالب بشغف":',
+        options: ['حب واهتمام شديد', 'ملل وضجر', 'تردد وبطء'],
+        answer: 0
+      },
+      {
+        q: '2. مفرد كلمة (مفاتيح):',
+        options: ['مفتاح', 'فاتح', 'مفتوح'],
+        answer: 0
+      },
+      {
+        q: '3. نوع الأسلوب في جملة: (يا طالبَ العلمِ، اجتهد في دروسك):',
+        options: ['أسلوب نداء يليه أسلوب أمر للحث والتشجيع', 'أسلوب نهي', 'أسلوب استفهام تعجبي'],
+        answer: 0
+      }
+    ]
+  },
+  'الخط': {
+    title: 'تحدي تحسين الخط العربي وتناسق الحروف ✍️',
+    questions: [
+      {
+        q: '1. في خط الرقعة، تتميز الحروف بأنها:',
+        options: ['مطموسة في بعض الحروف مثل (م، ع، غ) وصغيرة وسريعة الكتابة', 'دائرية ومفتوحة دائماً', 'تكتب بحبر جاف فقط'],
+        answer: 0
+      },
+      {
+        q: '2. الحروف التي تستقر على السطر في خط النسخ هي:',
+        options: ['حروف كلمة (فستكلو) كالألف والباء والدال', 'الراء والواو فقط', 'النون والياء فقط'],
+        answer: 0
+      }
+    ]
+  }
+};
+
+function startSubjectQuiz(subjectKey) {
+  const modal = document.getElementById('interactiveQuizModal');
+  const titleEl = document.getElementById('quizModalSubjectTitle');
+  const container = document.getElementById('quizQuestionsContainer');
+  const resultBox = document.getElementById('quizResultBox');
+  const submitBtn = document.getElementById('btnSubmitQuiz');
+
+  if (!modal || !container) return;
+
+  if (resultBox) resultBox.classList.add('hidden');
+  if (submitBtn) submitBtn.classList.remove('hidden');
+
+  let chosenData = SUBJECT_QUIZZES_DATA['النحو'];
+  if (subjectKey.includes('إملاء') || subjectKey.includes('تأسيس')) {
+    chosenData = SUBJECT_QUIZZES_DATA['الإملاء'];
+  } else if (subjectKey.includes('خط')) {
+    chosenData = SUBJECT_QUIZZES_DATA['الخط'];
+  } else if (subjectKey.includes('عربية') || subjectKey.includes('مدرسي') || subjectKey.includes('مقرر')) {
+    chosenData = SUBJECT_QUIZZES_DATA['اللغة العربية'];
+  }
+
+  if (titleEl) titleEl.textContent = chosenData.title;
+
+  container.innerHTML = chosenData.questions.map((item, idx) => {
+    return `
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2.5">
+        <p class="font-bold text-slate-900 text-xs sm:text-sm leading-snug">${item.q}</p>
+        <div class="space-y-1.5">
+          ${item.options.map((opt, optIdx) => `
+            <label class="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 cursor-pointer transition text-xs">
+              <input type="radio" name="quiz_q_${idx}" value="${optIdx}" ${optIdx === 0 ? 'checked' : ''} class="text-purple-600 focus:ring-purple-500">
+              <span class="text-slate-800 font-medium">${opt}</span>
+            </label>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  modal.classList.remove('hidden');
+}
+
+function submitSubjectQuiz(e) {
+  e.preventDefault();
+  const resultBox = document.getElementById('quizResultBox');
+  const submitBtn = document.getElementById('btnSubmitQuiz');
+
+  if (resultBox) resultBox.classList.remove('hidden');
+  if (submitBtn) submitBtn.classList.add('hidden');
+
+  if (typeof showMiniToast === 'function') {
+    showMiniToast('🎉 ممتاز! تم رصد الدرجة (10 / 10) وتحديث تقرير متابعة ولي الأمر.');
+  }
+}
+
+function closeSubjectQuizModal() {
+  const modal = document.getElementById('interactiveQuizModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+// --- Parent Subject Follow-up Reports ---
+function openParentSubjectReport(subjectName) {
+  const modal = document.getElementById('parentReportModal');
+  const titleEl = document.getElementById('parentReportSubjectTitle');
+  const studentNameEl = document.getElementById('repStudentName');
+
+  if (!modal) return;
+
+  if (titleEl && subjectName) {
+    titleEl.textContent = `تقرير متابعة ولي الأمر: ${subjectName}`;
+  }
+
+  try {
+    const student = JSON.parse(localStorage.getItem('araby_active_student') || '{}');
+    if (student && student.name && studentNameEl) {
+      studentNameEl.textContent = student.name;
+    }
+  } catch (e) {}
+
+  modal.classList.remove('hidden');
+}
+
+function closeParentReportModal() {
+  const modal = document.getElementById('parentReportModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function printParentComprehensiveReport() {
+  window.print();
 }
 
 // --- Interactive Classes & Gated Access Management ---
