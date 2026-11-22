@@ -40,6 +40,11 @@ function showSection(view) {
   currentView = view;
 
   if (view === 'dashboard') {
+    const activeUser = sessionStorage.getItem('araby_student_user') || localStorage.getItem('araby_active_student');
+    if (!activeUser) {
+      openLoginModal();
+      return;
+    }
     if (landingView) landingView.classList.add('hidden');
     if (adminView) adminView.classList.add('hidden');
     if (dashboardView) dashboardView.classList.remove('hidden');
@@ -76,15 +81,200 @@ function togglePortalMode() {
   }
 }
 
-// --- 1.5 Student & Parent Login Modal & Auth State ---
+// --- 1.5 Student & Parent Login Modal, Strict Auth & Tripartite Validation ---
 const loginModal = document.getElementById('loginModal');
 let currentLoginType = 'student'; // 'student' or 'parent'
 
+// Fixed Unified Student Password required for all academy students
+const FIXED_STUDENT_PASSWORD = "1n2m3m4m";
+
+// Default Registered Academy Students with Full Tripartite Names
+const DEFAULT_REGISTERED_STUDENTS = [
+  {
+    id: 101,
+    name: 'أحمد محمود عبد الرحمن',
+    phone: '01012345678',
+    email: 'ahmed.m@arabyonline.com',
+    grade: 'الصف الأول الإعدادي',
+    country: '🇪🇬 جمهورية مصر العربية',
+    subject: 'المنهج المصري والنحو والبلاغة',
+    avatar: 'أ'
+  },
+  {
+    id: 102,
+    name: 'سارة عبد الله القحطاني',
+    phone: '0559876543',
+    email: 'sarah.a@arabyonline.com',
+    grade: 'الصف الرابع الابتدائي',
+    country: '🇸🇦 المملكة العربية السعودية',
+    subject: 'منهج لغتي والخط العربي',
+    avatar: 'س'
+  },
+  {
+    id: 103,
+    name: 'عمر فهد المطيري',
+    phone: '09651234567',
+    email: 'omar.fahad@arabyonline.com',
+    grade: 'الصف السادس الابتدائي',
+    country: '🇰🇼 دولة الكويت',
+    subject: 'اللغة العربية وتحسين الخط',
+    avatar: 'ع'
+  },
+  {
+    id: 104,
+    name: 'يوسف إبراهيم المنصوري',
+    phone: '0501234567',
+    email: 'youssef.m@arabyonline.com',
+    grade: 'الصف الخامس الابتدائي',
+    country: '🇦🇪 دولة الإمارات',
+    subject: 'القراءة والكتابة والنحو',
+    avatar: 'ي'
+  },
+  {
+    id: 105,
+    name: 'مريم خالد الزهراني',
+    phone: '0541234567',
+    email: 'mariam.k@arabyonline.com',
+    grade: 'الصف الثالث الإعدادي',
+    country: '🇸🇦 المملكة العربية السعودية',
+    subject: 'التربية الإسلامية والدراسات القرآنية',
+    avatar: 'م'
+  }
+];
+
+// Helper: Normalize Arabic characters for robust comparison
+function normalizeArabic(str) {
+  if (!str) return '';
+  return str
+    .trim()
+    .replace(/[\u064B-\u065F\u0670]/g, '') // remove diacritics / tashkeel
+    .replace(/[إأآا]/g, 'ا')
+    .replace(/ة/g, 'ه')
+    .replace(/ى/g, 'ي')
+    .replace(/ؤ/g, 'و')
+    .replace(/ئ/g, 'ي')
+    .replace(/\s+/g, ' ')
+    .toLowerCase();
+}
+
+// Helper: Verify if a name is tripartite (at least 3 words)
+function isTripartiteName(name) {
+  if (!name) return false;
+  const words = name.trim().split(/\s+/).filter(w => w.length > 0);
+  return words.length >= 3;
+}
+
+// Helper: Get all registered academy students (defaults + stored enrollments + admin cache)
+function getAllRegisteredStudents() {
+  let list = [...DEFAULT_REGISTERED_STUDENTS];
+  
+  // Stored registrations from free trial / enrollment modal
+  try {
+    const stored = localStorage.getItem('araby_registered_students');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        parsed.forEach(p => {
+          if (p && p.name && !list.some(s => normalizeArabic(s.name) === normalizeArabic(p.name))) {
+            list.push(p);
+          }
+        });
+      }
+    }
+  } catch (e) {}
+
+  // Active student if stored
+  try {
+    const active = localStorage.getItem('araby_active_student');
+    if (active) {
+      const parsedActive = JSON.parse(active);
+      if (parsedActive && parsedActive.name && isTripartiteName(parsedActive.name)) {
+        if (!list.some(s => normalizeArabic(s.name) === normalizeArabic(parsedActive.name))) {
+          list.push(parsedActive);
+        }
+      }
+    }
+  } catch (e) {}
+
+  // Admin student cache if available
+  if (typeof allAdminStudentsCache !== 'undefined' && Array.isArray(allAdminStudentsCache)) {
+    allAdminStudentsCache.forEach(a => {
+      if (a && a.name && isTripartiteName(a.name) && !list.some(s => normalizeArabic(s.name) === normalizeArabic(a.name))) {
+        list.push({
+          name: a.name,
+          phone: a.phone || '',
+          email: a.email || '',
+          grade: a.grade || 'طالب بالأكاديمية',
+          country: a.country || 'عام',
+          subject: a.curriculum || 'اللغة العربية والقرآن',
+          avatar: a.name.charAt(0) || 'ط'
+        });
+      }
+    });
+  }
+
+  return list;
+}
+
+// Helper: Save newly enrolled student to registered list
+function saveRegisteredStudent(student) {
+  if (!student || !student.name) return;
+  try {
+    let list = [];
+    const stored = localStorage.getItem('araby_registered_students');
+    if (stored) {
+      list = JSON.parse(stored) || [];
+    }
+    const idx = list.findIndex(s => normalizeArabic(s.name) === normalizeArabic(student.name));
+    if (idx >= 0) {
+      list[idx] = student;
+    } else {
+      list.push(student);
+    }
+    localStorage.setItem('araby_registered_students', JSON.stringify(list));
+  } catch (e) {
+    console.error('Error saving registered student:', e);
+  }
+}
+
+function showStudentLoginError(msg) {
+  const box = document.getElementById('studentLoginErrorMsg');
+  const txt = document.getElementById('studentLoginErrorText');
+  if (box && txt) {
+    txt.innerHTML = msg;
+    box.classList.remove('hidden');
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    alert(msg.replace(/<[^>]+>/g, ''));
+  }
+}
+
+function clearStudentLoginError() {
+  const box = document.getElementById('studentLoginErrorMsg');
+  if (box) box.classList.add('hidden');
+}
+
+function autofillStudentLogin(name) {
+  clearStudentLoginError();
+  const idInput = document.getElementById('loginIdentifier');
+  const passInput = document.getElementById('loginPassword');
+  if (idInput) {
+    idInput.value = name;
+    idInput.classList.add('ring-2', 'ring-purple-400');
+    setTimeout(() => idInput.classList.remove('ring-2', 'ring-purple-400'), 1500);
+  }
+  if (passInput) {
+    passInput.value = FIXED_STUDENT_PASSWORD;
+  }
+}
+
 function openLoginModal() {
+  clearStudentLoginError();
   if (loginModal) loginModal.classList.remove('hidden');
 }
 
 function closeLoginModal() {
+  clearStudentLoginError();
   if (loginModal) loginModal.classList.add('hidden');
 }
 
@@ -96,6 +286,7 @@ if (loginModal) {
 
 function switchLoginType(type) {
   currentLoginType = type;
+  clearStudentLoginError();
   const tabStudent = document.getElementById('loginTabStudent');
   const tabParent = document.getElementById('loginTabParent');
   const idLabel = document.getElementById('loginIdLabel');
@@ -104,13 +295,13 @@ function switchLoginType(type) {
   if (type === 'student') {
     if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl bg-purple-600 text-white shadow-xs transition";
     if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition";
-    if (idLabel) idLabel.textContent = "اسم الطالب أو رقم ولي الأمر *";
-    if (idInput) idInput.placeholder = "مثال: يوسف أحمد أو 01080285458";
+    if (idLabel) idLabel.innerHTML = 'اسم الطالب ثلاثياً (كما هو مسجل في الأكاديمية) <span class="text-rose-500 font-bold">*</span>';
+    if (idInput) idInput.placeholder = "مثال: أحمد محمود عبد الرحمن";
   } else {
     if (tabParent) tabParent.className = "flex-1 py-2 rounded-xl bg-purple-600 text-white shadow-xs transition";
     if (tabStudent) tabStudent.className = "flex-1 py-2 rounded-xl text-slate-600 hover:text-slate-900 transition";
-    if (idLabel) idLabel.textContent = "رقم هاتف ولي الأمر المسجل *";
-    if (idInput) idInput.placeholder = "مثال: 01080285458";
+    if (idLabel) idLabel.innerHTML = 'رقم هاتف ولي الأمر المسجل أو اسم الطالب ثلاثياً <span class="text-rose-500 font-bold">*</span>';
+    if (idInput) idInput.placeholder = "مثال: 01080285458 أو أحمد محمود عبد الرحمن";
   }
 }
 
@@ -137,55 +328,97 @@ function updateDashboardWithStudent(studentData) {
 
 function handleStudentLoginSubmit(e) {
   e.preventDefault();
-  const id = (document.getElementById('loginIdentifier').value || '').trim();
+  clearStudentLoginError();
 
-  if (!id) {
-    alert('يرجى إدخال اسم الطالب أو رقم الهاتف.');
+  const idInput = document.getElementById('loginIdentifier');
+  const passInput = document.getElementById('loginPassword');
+  const id = (idInput ? idInput.value : '').trim();
+  const password = (passInput ? passInput.value : '').trim();
+
+  // 1. Strict Password Verification (Must match FIXED_STUDENT_PASSWORD "1n2m3m4m")
+  if (!password || password !== FIXED_STUDENT_PASSWORD) {
+    showStudentLoginError(`<strong>❌ كلمة المرور غير صحيحة!</strong><br>كلمة المرور الموحدة لجميع طلاب الأكاديمية هي: <code class="bg-rose-200/80 px-1.5 py-0.5 rounded font-black text-rose-950" dir="ltr">${FIXED_STUDENT_PASSWORD}</code> ولا يمكن الدخول بأي كلمة أخرى.`);
+    if (passInput) {
+      passInput.focus();
+      passInput.classList.add('border-rose-500');
+      setTimeout(() => passInput.classList.remove('border-rose-500'), 2500);
+    }
     return;
   }
 
-  // Retrieve saved profile or construct one
-  let studentData = null;
-  const savedStr = localStorage.getItem('araby_active_student');
-  if (savedStr) {
-    try {
-      studentData = JSON.parse(savedStr);
-    } catch (err) {}
+  // 2. Strict Tripartite Name Verification (Must be at least 3 words)
+  if (currentLoginType === 'student') {
+    if (!isTripartiteName(id)) {
+      showStudentLoginError(`<strong>❌ الاسم غير مكتمل!</strong><br>يجب كتابة اسم الطالب <strong>ثلاثياً بالكامل</strong> (3 كلمات على الأقل، مثل: <code>أحمد محمود عبد الرحمن</code>). غير مسموح بالاسم المفرد أو الثنائي.`);
+      if (idInput) {
+        idInput.focus();
+        idInput.classList.add('border-rose-500');
+        setTimeout(() => idInput.classList.remove('border-rose-500'), 2500);
+      }
+      return;
+    }
+  } else {
+    // Parent tab: accepts phone number (digits >= 8) or tripartite student name
+    const digitsOnly = id.replace(/[^0-9]/g, '');
+    if (digitsOnly.length < 8 && !isTripartiteName(id)) {
+      showStudentLoginError(`<strong>❌ بيانات غير صحيحة!</strong><br>يرجى إدخال رقم ولي الأمر المسجل (8 أرقام على الأقل) أو اسم الطالب ثلاثياً بالكامل.`);
+      if (idInput) idInput.focus();
+      return;
+    }
   }
 
-  if (!studentData || (studentData.name !== id && studentData.phone !== id)) {
-    studentData = {
-      name: isNaN(id) ? id : `طالب (${id})`,
-      email: id.includes('@') ? id : '',
-      phone: isNaN(id) ? '' : id,
-      country: '🇸🇦 المملكة العربية السعودية',
-      grade: 'الصف الخامس الابتدائي',
-      subject: 'اللغة العربية ومنهج لغتي',
-      avatar: (id.charAt(0) || 'ط').toUpperCase(),
-      joinedAt: new Date().toISOString()
-    };
-    localStorage.setItem('araby_active_student', JSON.stringify(studentData));
+  // 3. Registered Student Verification (Must exist in registered academy lists)
+  const allRegistered = getAllRegisteredStudents();
+  const normId = normalizeArabic(id);
+  const digitsId = id.replace(/[^0-9]/g, '');
+
+  let matchedStudent = allRegistered.find(student => {
+    const normName = normalizeArabic(student.name);
+    if (normName === normId) return true;
+    
+    // Check first 3 words match
+    const normWords = normName.split(' ');
+    const idWords = normId.split(' ');
+    if (idWords.length >= 3 && normWords.length >= 3) {
+      if (normWords.slice(0, 3).join(' ') === idWords.slice(0, 3).join(' ')) {
+        return true;
+      }
+    }
+
+    // Phone match for parent login
+    if (digitsId.length >= 8 && student.phone) {
+      const studentDigits = student.phone.replace(/[^0-9]/g, '');
+      if (studentDigits && (studentDigits === digitsId || studentDigits.endsWith(digitsId) || digitsId.endsWith(studentDigits))) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+
+  if (!matchedStudent) {
+    showStudentLoginError(`<strong>❌ الطالب غير مسجل!</strong><br>الاسم أو الرقم المدخل <em>(${id})</em> غير مقيد في كشوفات طلاب الأكاديمية.<br>الدخول متاح <strong>فقط للطلاب المسجلين مسبقاً</strong>. يمكنك التسجيل والاشتراك مجاناً عبر الضغط على الزر الأخضر بالأسفل.`);
+    if (idInput) idInput.focus();
+    return;
   }
 
-  sessionStorage.setItem('araby_student_user', studentData.name);
-  updateDashboardWithStudent(studentData);
+  // 4. Successful Authentication & Session Setup
+  localStorage.setItem('araby_active_student', JSON.stringify(matchedStudent));
+  sessionStorage.setItem('araby_student_user', matchedStudent.name);
+  updateDashboardWithStudent(matchedStudent);
   closeLoginModal();
   updateAuthHeader();
   showSection('dashboard');
-  alert(`أهلاً بك يا ${studentData.name}! 🎓 تم فتح لوحة الطالب بنجاح.`);
+
+  if (typeof showMiniToast === 'function') {
+    showMiniToast(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم تسجيل دخولك بنجاح.`);
+  } else {
+    alert(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم التحقق من هويتك كطالب مسجل وفتح لوحة الطالب بنجاح.`);
+  }
 }
 
 function handleQuickDemoLogin() {
-  const demoStudent = {
-    name: 'يوسف أحمد',
-    email: 'youssef@example.com',
-    phone: '01080285458',
-    country: '🇪🇬 جمهورية مصر العربية',
-    grade: 'الصف الخامس الابتدائي',
-    subject: 'اللغة العربية وكورس النحو',
-    avatar: 'ي',
-    joinedAt: new Date().toISOString()
-  };
+  const demoStudent = DEFAULT_REGISTERED_STUDENTS[0]; // 'أحمد محمود عبد الرحمن'
   localStorage.setItem('araby_active_student', JSON.stringify(demoStudent));
   sessionStorage.setItem('araby_student_user', demoStudent.name);
   updateDashboardWithStudent(demoStudent);
@@ -444,6 +677,18 @@ async function handleBookingForm(e) {
   const currEl = document.getElementById('modalCurriculum');
   const curriculum = currEl && currEl.value ? currEl.value : 'اللغة العربية والقرآن الكريم';
 
+  // Strict Tripartite Name Validation for newly enrolled students
+  if (!isTripartiteName(name)) {
+    alert('⚠️ تنبيه هام: يرجى كتابة اسم الطالب ثلاثياً بالكامل (3 كلمات على الأقل، مثل: أحمد محمود عبد الرحمن) لضمان اعتماد التسجيل وسهولة تسجيل الدخول بالباسورد الموحد (1n2m3m4m).');
+    const nEl = document.getElementById('modalStudentName');
+    if (nEl) {
+      nEl.focus();
+      nEl.classList.add('border-rose-500');
+      setTimeout(() => nEl.classList.remove('border-rose-500'), 2500);
+    }
+    return;
+  }
+
   // Construct structured Student Profile
   const studentData = {
     name: name,
@@ -456,9 +701,10 @@ async function handleBookingForm(e) {
     joinedAt: new Date().toISOString()
   };
 
-  // 1. Save locally for instant session persistence
+  // 1. Save locally for instant session persistence & registered list
   localStorage.setItem('araby_active_student', JSON.stringify(studentData));
   sessionStorage.setItem('araby_student_user', studentData.name);
+  saveRegisteredStudent(studentData);
 
   // 2. Save directly to Supabase Database
   const client = getSupabase();
@@ -992,27 +1238,27 @@ async function loadAdminStudents() {
     students = [
       {
         id: 101,
-        name: 'أحمد محمود',
+        name: 'أحمد محمود عبد الرحمن',
         grade: 'الصف الأول الإعدادي',
         country: 'مصر 🇪🇬',
         phone: '01012345678',
         email: 'ahmed.m@arabyonline.com',
-        curriculum: 'المنهج المصري والنحو',
+        curriculum: 'المنهج المصري والنحو والبلاغة',
         date: new Date(Date.now() - 86400000 * 2).toISOString()
       },
       {
         id: 102,
-        name: 'سارة عبد الله',
+        name: 'سارة عبد الله القحطاني',
         grade: 'الصف الرابع الابتدائي',
         country: 'السعودية 🇸🇦',
         phone: '0559876543',
         email: 'sarah.a@arabyonline.com',
-        curriculum: 'منهج لغتي والخط',
+        curriculum: 'منهج لغتي والخط العربي',
         date: new Date(Date.now() - 86400000).toISOString()
       },
       {
         id: 103,
-        name: 'عمر فهد',
+        name: 'عمر فهد المطيري',
         grade: 'الصف السادس الابتدائي',
         country: 'الكويت 🇰🇼',
         phone: '09651234567',
