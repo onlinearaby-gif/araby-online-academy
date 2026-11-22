@@ -324,6 +324,10 @@
             <span class="text-amber-500">⭐⭐⭐⭐⭐</span>
           </a>
           <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_courses">الكورسات والمناهج</a>
+          <a href="javascript:void(0)" onclick="handleInteractiveClassesClick()" class="px-2.5 py-1 rounded-full bg-orange-50 hover:bg-orange-100 text-orange-700 font-black border border-orange-200 transition flex items-center gap-1 shadow-2xs">
+            <i class="fa-solid fa-headset text-xs"></i>
+            <span>حصص تفاعلية 🎙️</span>
+          </a>
           <a href="#featured-videos" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1.5">
             <i class="fa-solid fa-circle-play text-red-500"></i>
             <span data-i18n="nav_videos">الحصص والفيديوهات 🎥</span>
@@ -353,6 +357,13 @@
               <span>EN</span>
             </button>
           </div>
+
+          <!-- Interactive Live Classes Button (أيقونة الحصص التفاعلية) -->
+          <button onclick="handleInteractiveClassesClick()" class="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs flex items-center gap-1.5 shadow-sm hover:scale-105 transition cursor-pointer" title="الحصص التفاعلية المباشرة">
+            <span class="w-2 h-2 rounded-full bg-emerald-300 animate-ping"></span>
+            <i class="fa-solid fa-headset text-xs"></i>
+            <span>حصص تفاعلية 🎙️</span>
+          </button>
 
           <!-- Essential Button 1: Unified Student & Parent Login Button -->
           <button onclick="openLoginModal()" id="headerLoginBtn" class="px-3.5 py-1.5 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
@@ -468,6 +479,11 @@
 
             <!-- Pill Badges Strip -->
             <div class="flex flex-wrap items-center gap-2 pt-1 text-xs">
+              <button onclick="handleInteractiveClassesClick()" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white font-black text-xs shadow-xs hover:scale-105 transition cursor-pointer" title="انقر لمعرفة تفاصيل الحصص التفاعلية">
+                <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+                <i class="fa-solid fa-headset text-white"></i>
+                <span>حصص تفاعلية مباشرة 🎙️</span>
+              </button>
               <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-900 font-black border border-purple-200 shadow-xs">
                 <i class="fa-solid fa-award text-purple-600"></i>
                 <span data-i18n="hero_badge_teacher">إشراف: مس فرح القاضي (خبرة 13 سنة) ⭐</span>
@@ -1609,26 +1625,26 @@
 
       <!-- Navigation Tabs for Student Portal -->
       <div class="bg-white p-2 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-2 overflow-x-auto">
-        <button onclick="switchPortalTab('partitions')" id="portal-tab-partitions" class="portal-tab active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-black flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-book-open text-logo-orange"></i>
-          <span>مقرراتي ومناهجي الدراسية</span>
+        <button onclick="switchPortalTab('schedule')" id="portal-tab-schedule" class="portal-tab active px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-black flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-headset text-logo-orange"></i>
+          <span>الحصص التفاعلية المباشرة 🎙️</span>
         </button>
-        <button onclick="switchPortalTab('schedule')" id="portal-tab-schedule" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
-          <i class="fa-solid fa-video text-logo-blue"></i>
-          <span>الحصص المباشرة والجدول الأسبوعي</span>
+        <button onclick="switchPortalTab('partitions')" id="portal-tab-partitions" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-book-open text-logo-blue"></i>
+          <span>مقرراتي ومناهجي الدراسية 📚</span>
         </button>
         <button onclick="switchPortalTab('homework')" id="portal-tab-homework" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-clipboard-check text-logo-green"></i>
-          <span>بنك الواجبات والتطبيقات</span>
+          <span>بنك الواجبات والتطبيقات 📝</span>
         </button>
         <button onclick="switchPortalTab('certificate')" id="portal-tab-certificate" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-certificate text-amber-500"></i>
-          <span>سجل الإنجاز والشهادة</span>
+          <span>سجل الإنجاز والشهادة 🏆</span>
         </button>
       </div>
 
       <!-- ==================== TAB 1: MY COURSES & TRACKS ==================== -->
-      <div id="portal-view-partitions" class="portal-view space-y-4">
+      <div id="portal-view-partitions" class="portal-view hidden space-y-4">
         
         <div class="flex items-center justify-between text-xs text-slate-500 font-bold px-1">
           <span>المقررات الدراسية النشطة للطالب (3 مقررات ومسارات مفعلة ✅)</span>
@@ -1817,14 +1833,132 @@
       </div>
 
       <!-- ==================== TAB 2: SCHEDULE & LIVE CLASSES ==================== -->
-      <div id="portal-view-schedule" class="portal-view hidden space-y-4">
+      <div id="portal-view-schedule" class="portal-view space-y-4">
         
+        <!-- Interactive Virtual Classroom Card -->
+        <div class="bg-slate-900 rounded-4xl p-5 sm:p-7 text-white border-2 border-orange-500/40 shadow-xl space-y-5 relative overflow-hidden">
+          <div class="absolute -top-12 -left-12 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <!-- Classroom Header -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-500 to-amber-500 flex items-center justify-center text-2xl shadow-md">
+                🎙️
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="text-xs font-black text-emerald-400 bg-emerald-950/80 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                    🔴 البث التفاعلي مباشر الآن
+                  </span>
+                  <span class="text-xs text-slate-400 hidden sm:inline">• جودة فائقة HD</span>
+                </div>
+                <h3 class="text-base sm:text-lg font-black text-white mt-1">
+                  قاعة الحصة التفاعلية المباشرة | إشراف مس فرح القاضي 👩‍🏫
+                </h3>
+              </div>
+            </div>
+
+            <!-- Big Direct Join Button -->
+            <a href="https://wa.me/201080285458?text=السلام%20عليكم%2C%20أريد%20رابط%20دخول%20الحصة%20التفاعلية%20المباشرة%20الآن" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg hover:scale-105 transition cursor-pointer">
+              <i class="fa-solid fa-video text-base"></i>
+              <span>دخول قاعة البث المباشر (Zoom / Meet HD) 🚀</span>
+            </a>
+          </div>
+
+          <!-- Classroom Screen & Live Interaction Controls -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+            
+            <!-- Video / Interactive Screen -->
+            <div class="lg:col-span-8 bg-slate-950 rounded-3xl border border-slate-800 overflow-hidden flex flex-col justify-between relative aspect-video sm:aspect-auto sm:min-h-[290px]">
+              
+              <!-- Screen Mock Content -->
+              <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center space-y-3 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
+                <div class="w-20 h-20 rounded-full border-4 border-orange-500/60 overflow-hidden shadow-2xl relative">
+                  <img src="assets/robot-mascot.jpg" alt="المعلمة مس فرح القاضي" class="w-full h-full object-cover">
+                  <span class="absolute bottom-1 right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-slate-900"></span>
+                </div>
+                <div>
+                  <h4 class="font-black text-white text-base">مس فرح القاضي (خبرة 13 سنة) 👩‍🏫</h4>
+                  <p class="text-xs text-orange-400 font-bold mt-0.5">شرح مباشر: مفاتيح إعراب الفاعل والمفعول به وتطبيقات النحو</p>
+                </div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-slate-300 text-[11px] font-mono">
+                  <i class="fa-solid fa-users text-emerald-400"></i>
+                  <span>18 طالباً متصلاً بالقاعة الآن</span>
+                </div>
+              </div>
+
+              <!-- Live Hand Raised Alert inside screen -->
+              <div id="liveHandRaisedAlert" class="hidden absolute top-4 left-4 right-4 z-20 p-3 bg-emerald-500/90 backdrop-blur-md rounded-2xl text-white font-black text-xs text-center shadow-lg animate-fadeIn flex items-center justify-center gap-2">
+                <span class="text-lg">✋</span>
+                <span>تم رفع يدك بنجاح! مس فرح القاضي تراكِ الآن وستتيح لكِ المايك للمشاركة.</span>
+              </div>
+
+              <!-- Bottom Interactive Classroom Control Strip -->
+              <div class="relative z-10 p-3.5 bg-slate-900/90 backdrop-blur-md border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <button id="btnToggleMic" onclick="toggleClassMic()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+                    <i id="micIconLive" class="fa-solid fa-microphone text-emerald-400"></i>
+                    <span id="micTextLive">المايكروفون (مفعل)</span>
+                  </button>
+                  <button id="btnToggleCam" onclick="toggleClassCam()" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+                    <i id="camIconLive" class="fa-solid fa-video text-emerald-400"></i>
+                    <span id="camTextLive">الكاميرا (مفعلة)</span>
+                  </button>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <!-- Raise Hand Button -->
+                  <button id="btnRaiseHandLive" onclick="raiseHandInLiveClass()" class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition flex items-center gap-1.5 shadow-md hover:scale-105 cursor-pointer">
+                    <span class="text-sm">✋</span>
+                    <span>رفع اليد للمشاركة</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Chat Column -->
+            <div class="lg:col-span-4 bg-slate-950 rounded-3xl border border-slate-800 p-3.5 flex flex-col justify-between h-[300px]">
+              <div>
+                <div class="flex items-center justify-between pb-2 border-b border-slate-800 mb-2">
+                  <span class="text-xs font-black text-orange-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>الشات التفاعلي المباشر</span>
+                  </span>
+                  <span class="text-[10px] text-slate-500">مباشر 🟢</span>
+                </div>
+
+                <!-- Chat Messages Scroll Container -->
+                <div id="liveClassChatMessages" class="space-y-2 overflow-y-auto max-h-[180px] text-xs pr-1">
+                  <div class="p-2 rounded-xl bg-purple-950/50 border border-purple-800/40 text-slate-200 text-[11px]">
+                    <strong class="text-purple-300">مس فرح القاضي 👩‍🏫:</strong>
+                    <span>أهلاً بكم يا أبطال عربي أونلاين! افتحوا الصفحة 14 لنبدأ التطبيق العملي.</span>
+                  </div>
+                  <div class="p-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 text-[11px]">
+                    <strong class="text-orange-400">سارة القحطاني 🇸🇦:</strong>
+                    <span>جاهزة يا مس فرح، الصوت والصورة واضحين جداً 👍</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chat Input Box -->
+              <form onsubmit="event.preventDefault(); sendLiveClassChat();" class="pt-2 border-t border-slate-800 flex items-center gap-1.5">
+                <input type="text" id="liveClassChatInput" placeholder="اكتب سؤالك أو إجابتك هنا..." class="flex-1 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-orange-500">
+                <button type="submit" class="w-8 h-8 rounded-xl bg-orange-500 hover:bg-orange-600 text-white flex items-center justify-center transition shrink-0 cursor-pointer">
+                  <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
         <!-- Live Now Banner -->
         <div class="bg-gradient-to-r from-orange-500 via-amber-500 to-logo-orange p-6 rounded-3xl text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div class="space-y-1">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-xs font-black">
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>الحصة التفاعلية المباشرة اليوم</span>
+              <span>الحصة التفاعلية المباشرة القادمة</span>
             </div>
             <h4 class="text-lg sm:text-xl font-black mt-2">كورس النحو: إعراب جمع المذكر والمؤنث وتطبيقات الإعراب</h4>
             <p class="text-xs text-white/90">المعلمة: مس فرح القاضي (خبرة 13 سنة) • اليوم الساعة 6:00 مساءً بتوقيت مصر (7:00 م مكة)</p>
@@ -2894,6 +3028,80 @@
     </div>
   </footer>
 
+  <!-- ==================== REGISTRATION REQUIRED MODAL (متاح بعد التسجيل) ==================== -->
+  <div id="registrationRequiredModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900 text-center">
+      
+      <button onclick="closeRequireRegistrationModal()" class="absolute top-4 left-4 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- Badge & Icon -->
+      <div class="relative w-20 h-20 mx-auto mb-4">
+        <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-orange-500 via-amber-500 to-yellow-400 text-white flex items-center justify-center text-3xl font-black shadow-lg shadow-orange-500/30">
+          🎙️
+        </div>
+        <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs shadow-md border-2 border-white">
+          🔒
+        </div>
+      </div>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-black mb-2">
+        <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+        <span>بوابة التعلم الذكي التفاعلي</span>
+      </div>
+
+      <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-2" id="requireRegFeatureTitle">الحصص التفاعلية المباشرة 🎙️</h3>
+      
+      <p class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-md mx-auto mb-6">
+        هذا القسم والمحتوى متاح بالكامل <strong>حصرياً للطلاب بعد التسجيل داخل أكاديمية عربي أونلاين</strong> لمتابعة الحصص التفاعلية مع مس فرح القاضي، الواجبات، والمناهج الخاصة بكل طالب!
+      </p>
+
+      <!-- Academy Benefits Box -->
+      <div class="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200/80 rounded-2xl p-4 mb-6 text-right space-y-2.5 text-xs">
+        <div class="font-black text-orange-950 mb-1 flex items-center gap-2">
+          <i class="fa-solid fa-crown text-amber-500"></i>
+          <span>ماذا يظهر لك فور تسجيل حسابك في الأكاديمية؟</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-700">
+          <span class="text-emerald-500 font-bold text-sm">✓</span>
+          <span><strong>قاعة الحصص التفاعلية المباشرة:</strong> رابط البث المباشر (Zoom / Meet) والتفاعل الصوتي ورفع اليد والشات.</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-700">
+          <span class="text-emerald-500 font-bold text-sm">✓</span>
+          <span><strong>مناهجك ومقرراتك:</strong> دروسك ومذكرات PDF المسجلة والمخصصة لمستواك الدراسي.</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-700">
+          <span class="text-emerald-500 font-bold text-sm">✓</span>
+          <span><strong>بنك الواجبات والمتابعة:</strong> تسليم التطبيقات وملاحظات مس فرح القاضي المستمرة.</span>
+        </div>
+        <div class="flex items-center gap-2 text-slate-700">
+          <span class="text-emerald-500 font-bold text-sm">✓</span>
+          <span><strong>لوحة شرف وشهادات تقدير معتمدة</strong> باسم الطالب فور إتمام كل مرحلة.</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2.5">
+        <button onclick="closeRequireRegistrationModal(); openBookingModal();" class="w-full py-3.5 px-5 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-black text-sm shadow-md hover:shadow-lg hover:scale-[1.01] transition flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-user-plus text-base"></i>
+          <span>تسجيل طالب جديد مجاناً 🎁 (واستلام كود المرور)</span>
+        </button>
+
+        <button onclick="closeRequireRegistrationModal(); openLoginModal();" class="w-full py-3 px-5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-right-to-bracket text-purple-400"></i>
+          <span>لدي حساب بالفعل • تسجيل دخول بالاسم الثلاثي والباسورد</span>
+        </button>
+
+        <a href="https://wa.me/201080285458?text=السلام%20عليكم%2C%20أريد%20الاستفسار%20عن%20الحصص%20التفاعلية%20في%20أكاديمية%20عربي%20أونلاين" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs text-emerald-700 hover:text-emerald-800 font-bold pt-2 transition">
+          <i class="fa-brands fa-whatsapp text-sm text-emerald-600"></i>
+          <span>أو تواصل مباشرة مع الإدارة عبر واتساب (01080285458)</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ==================== STUDENT & PARENT LOGIN MODAL ==================== -->
   <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900">
@@ -3560,8 +3768,21 @@
     </div>
   </div>
 
+  <!-- ==================== FLOATING INTERACTIVE CLASSES DOCK (أيقونة الحصص التفاعلية) ==================== -->
+  <div class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-2.5">
+    <button onclick="handleInteractiveClassesClick()" class="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 text-white font-black text-xs sm:text-sm shadow-2xl hover:shadow-orange-500/50 hover:scale-105 active:scale-95 transition-all cursor-pointer border-2 border-white/80 animate-bounce">
+      <span class="relative flex h-3 w-3">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
+      </span>
+      <i class="fa-solid fa-headset text-sm sm:text-base"></i>
+      <span>حصص تفاعلية 🎙️</span>
+      <span class="hidden sm:inline-block bg-white/20 text-[10px] px-2 py-0.5 rounded-full font-bold">بث مباشر</span>
+    </button>
+  </div>
+
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_12"></script>
+  <script src="app.js?v=20261122_14"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
