@@ -637,7 +637,7 @@ function setDashboardProfile(key) {
 }
 
 function switchPortalTab(tabKey) {
-  const tabs = ['schedule', 'partitions', 'homework', 'certificate'];
+  const tabs = ['schedule', 'partitions', 'homework', 'certificate', 'reviews'];
   tabs.forEach(t => {
     const btn = document.getElementById(`portal-tab-${t}`);
     const view = document.getElementById(`portal-view-${t}`);
@@ -652,6 +652,10 @@ function switchPortalTab(tabKey) {
 
   if (tabKey === 'partitions' && typeof resizeCanvas === 'function') {
     setTimeout(resizeCanvas, 80);
+  }
+
+  if (tabKey === 'reviews' && typeof renderLandingReviews === 'function') {
+    renderLandingReviews();
   }
 }
 
