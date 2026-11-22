@@ -233,6 +233,10 @@
             <span class="text-amber-500">⭐⭐⭐⭐⭐</span>
           </a>
           <a href="#services" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_courses">الكورسات والمناهج</a>
+          <a href="#featured-videos" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-play text-red-500"></i>
+            <span data-i18n="nav_videos">الحصص والفيديوهات 🎥</span>
+          </a>
           <a href="#about" onclick="showSection('landing')" class="hover:text-orange-600 transition" data-i18n="nav_about">عن مس فرح القاضي</a>
           <a href="#calligraphy" onclick="showSection('landing')" class="hover:text-purple-600 transition flex items-center gap-1">
             <span data-i18n="nav_calligraphy">سبورة الخط ✍️</span>
@@ -2065,13 +2069,40 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube أو رابط MP4 مباشر)</label>
+                <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube أو Google Drive أو رابط MP4 مباشر)</label>
                 <input type="url" id="videoFormUrl" placeholder="مثال: https://www.youtube.com/watch?v=... أو رابط مباشر" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
               </div>
               <div>
-                <label class="block text-slate-700 mb-1">أو رفع ملف فيديو من جهازك مباشرة 📤 <span class="text-purple-600 font-bold">(MP4 / WebM)</span></label>
-                <input type="file" id="videoFormFile" accept="video/mp4,video/webm,video/ogg" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-purple-50/50 hover:bg-purple-50 focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+                <label class="block text-slate-700 mb-1">أو رفع ملف فيديو من جهازك مباشرة 📤 <span class="text-purple-600 font-bold">(MP4 / WebM / MOV)</span></label>
+                <input type="file" id="videoFormFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" onchange="handleVideoFileChosen(event)" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-purple-50/50 hover:bg-purple-50 focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+
+                <!-- Instant Selected Video File Preview Box -->
+                <div id="videoFileSelectedInfo" class="hidden mt-2 p-3 bg-purple-50/90 rounded-2xl border border-purple-200 text-xs space-y-2">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2 text-purple-900 font-bold">
+                      <i class="fa-solid fa-file-video text-purple-600 text-base"></i>
+                      <span id="videoSelectedFileName" class="truncate max-w-[200px]">video.mp4</span>
+                    </div>
+                    <span id="videoSelectedFileSize" class="px-2 py-0.5 rounded-md bg-purple-200/80 text-purple-800 text-[10px] font-black">0 MB</span>
+                  </div>
+                  <div class="rounded-xl overflow-hidden bg-black aspect-video max-h-36 mx-auto border border-purple-200">
+                    <video id="videoFormLocalPreviewTag" controls playsinline class="w-full h-full object-contain"></video>
+                  </div>
+                  <p class="text-[10px] text-purple-700 font-semibold flex items-center gap-1">
+                    <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                    <span>جاهز للحفظ في النظام والتخزين المحلي للعرض فوراً</span>
+                  </p>
+                </div>
               </div>
+            </div>
+
+            <!-- Helpful Guidance Box -->
+            <div class="p-3 bg-purple-50/70 rounded-2xl border border-purple-200 text-xs text-purple-950 flex items-start gap-2">
+              <i class="fa-solid fa-lightbulb text-amber-500 text-base shrink-0 mt-0.5"></i>
+              <p class="text-[11px] leading-relaxed">
+                <strong>💡 خيارات إضافة الفيديو:</strong>
+                يمكنكِ رفع ملف الفيديو مباشرة من جهازك (يتم تخزينه في المتصفح بحجمه الكامل)، أو وضع رابط فيديو من <strong>YouTube</strong> (يمكن ضبطه "غير مدرج Unlisted") أو <strong>Google Drive</strong> ليعمل أيضاً لدى الطلاب على هواتفهم.
+              </p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2093,9 +2124,9 @@
               <textarea id="videoFormDescription" rows="2" placeholder="اكتب نبذة تشويقية عما سيتعلمه الطالب في هذا الفيديو..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs"></textarea>
             </div>
 
-            <button type="submit" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition flex items-center gap-2 shadow-xs">
+            <button type="submit" id="videoFormSubmitBtn" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs transition flex items-center gap-2 shadow-xs cursor-pointer">
               <i class="fa-solid fa-cloud-arrow-up"></i>
-              <span>نشر الفيديو في الصفحة الرئيسية للطلاب 🚀</span>
+              <span>نشر وحفظ الفيديو في المنصة 🚀</span>
             </button>
           </form>
         </div>
@@ -3439,7 +3470,7 @@
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_10"></script>
+  <script src="app.js?v=20261122_12"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
