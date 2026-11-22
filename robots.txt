@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://onlinearaby-gif.github.io/araby-online-academy/sitemap.xml
