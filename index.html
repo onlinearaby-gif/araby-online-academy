@@ -50,7 +50,7 @@
   </script>
 
   <!-- Custom CSS with cache busting -->
-  <link rel="stylesheet" href="styles.css?v=20261122_05">
+  <link rel="stylesheet" href="styles.css?v=20261122_06">
 
   <!-- Guaranteed Inline Dark Mode & LTR Styles (Zero Cache Dependency) -->
   <style id="araby-theme-overrides">
@@ -1188,12 +1188,33 @@
             ماذا يقول أولياء الأمور والطلاب عنا؟
           </h2>
           <p class="text-xs sm:text-sm text-slate-500 font-medium">
-            شهادات نعتز بها من مختلف دول العالم (مصر، السعودية، الكويت، الإمارات، أمريكا، وأوروبا)
+            شهادات نعتز بها موثقة من صفحتنا الرسمية على فيسبوك من مختلف الدول 🌍
           </p>
         </div>
 
         <div id="landingReviewsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Populated by JavaScript from Admin Reviews -->
+          <!-- Populated by JavaScript from Admin Reviews with direct Facebook links -->
+        </div>
+
+        <!-- Official Facebook Reviews CTA Box -->
+        <div class="mt-10 p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-blue-50 via-indigo-50 to-blue-50 border-2 border-blue-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-5 text-center md:text-right">
+          <div class="flex items-center gap-3.5">
+            <div class="w-13 h-13 rounded-2xl bg-[#1877F2] text-white flex items-center justify-center text-2xl shrink-0 shadow-md">
+              <i class="fa-brands fa-facebook"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 justify-center md:justify-start">
+                <span class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-black border border-blue-300">صفحة فيسبوك المعتمدة 👍</span>
+                <span class="text-xs text-amber-500 font-bold">⭐⭐⭐⭐⭐ (تقييم 5/5)</span>
+              </div>
+              <h4 class="text-sm sm:text-base font-black text-slate-900 mt-1">شاهدي آراء وتوصيات مئات أولياء الأمور والطلاب الحقيقية مباشرة على صفحتنا</h4>
+              <p class="text-xs text-slate-500 mt-0.5">يمكنكِ تصفح تعليقات وتجارب المشتركين مع مس فرح القاضي بكل شفافية</p>
+            </div>
+          </div>
+          <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="px-5 py-3 rounded-2xl bg-[#1877F2] hover:bg-[#166fe5] text-white font-black text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-md hover:shadow-lg transition shrink-0 cursor-pointer">
+            <i class="fa-brands fa-facebook text-lg"></i>
+            <span>تصفح كل الآراء على فيسبوك ↗️</span>
+          </a>
         </div>
 
       </div>
@@ -2000,6 +2021,11 @@
               <textarea id="reviewFormContent" rows="3" required placeholder="اكتب ما قاله ولي الأمر أو الطالب عن التجربة التعليمية..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs"></textarea>
             </div>
 
+            <div>
+              <label class="block text-slate-700 mb-1">رابط المنشور على فيسبوك <span class="text-slate-400 font-normal">(اختياري - يتم ربطه بصفحتكِ الرسمية تلقائياً إذا ترك فارغاً)</span></label>
+              <input type="url" id="reviewFormFbUrl" placeholder="https://www.facebook.com/profile.php?id=61551716442236" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs" dir="ltr">
+            </div>
+
             <button type="submit" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs transition flex items-center gap-2 shadow-xs">
               <i class="fa-solid fa-plus-circle"></i>
               <span>نشر الرأي في الصفحة الرئيسية ⭐</span>
@@ -2582,7 +2608,7 @@
 
         <div class="flex items-center gap-4 text-slate-400 text-sm">
           <a href="https://wa.me/201080285458" target="_blank" class="hover:text-emerald-400 transition" title="واتساب"><i class="fa-brands fa-whatsapp"></i></a>
-          <a href="#" class="hover:text-blue-400 transition" title="فيسبوك"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61551716442236" target="_blank" rel="noopener noreferrer" class="hover:text-blue-400 transition" title="صفحتنا على فيسبوك"><i class="fa-brands fa-facebook"></i></a>
           <a href="#" class="hover:text-pink-400 transition" title="انستجرام"><i class="fa-brands fa-instagram"></i></a>
           <a href="#" class="hover:text-rose-400 transition" title="يوتيوب"><i class="fa-brands fa-youtube"></i></a>
           <a href="#" class="hover:text-slate-200 transition" title="تيك توك"><i class="fa-brands fa-tiktok"></i></a>
@@ -3245,7 +3271,7 @@
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_05"></script>
+  <script src="app.js?v=20261122_06"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
