@@ -1971,6 +1971,7 @@
                   <th class="p-3">الصف والمرحلة</th>
                   <th class="p-3">الدولة</th>
                   <th class="p-3">رقم الهاتف (واتساب)</th>
+                  <th class="p-3">كلمة المرور الخاصة (كود الدخول)</th>
                   <th class="p-3">البريد الإلكتروني</th>
                   <th class="p-3">الحالة</th>
                   <th class="p-3 text-center">الإجراءات والتحكم</th>
@@ -2753,12 +2754,12 @@
         </button>
       </div>
 
-      <!-- Policy Banner: Registered Student & Tripartite Name & Fixed Password -->
+      <!-- Policy Banner: Registered Student & Tripartite Name & Individual Password -->
       <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 mb-3 text-[11px] text-amber-900 flex items-start gap-2.5 font-medium leading-relaxed">
         <span class="text-base shrink-0">🔒</span>
         <div>
           <strong class="text-amber-950 font-bold block mb-0.5">ضوابط دخول المنصة التعليمية:</strong>
-          <span>الدخول مسموح <strong>حصرياً للطلاب المسجلين بالاسم الثلاثي</strong> وكلمة المرور الموحدة للأكاديمية: <code class="bg-amber-200/80 px-1.5 py-0.5 rounded font-black text-amber-950 select-all" dir="ltr">1n2m3m4m</code></span>
+          <span>الدخول مسموح <strong>حصرياً للطلاب المقيدين بالاسم الثلاثي</strong> و<strong>كلمة المرور الخاصة بكل طالب</strong> والمُرسلة لكم من قِبل إدارة الأكاديمية لمتابعة مستواكم الدراسي.</span>
         </div>
       </div>
 
@@ -2779,11 +2780,11 @@
 
         <div>
           <div class="flex items-center justify-between mb-1">
-            <label class="block text-slate-700">كلمة المرور الموحدة للطالب <span class="text-rose-500 font-bold">*</span></label>
-            <span class="text-[10px] text-purple-700 font-bold bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">الكلمة الموحدة: 1n2m3m4m</span>
+            <label class="block text-slate-700">كلمة المرور الخاصة بالطالب <span class="text-rose-500 font-bold">*</span></label>
+            <span class="text-[10px] text-purple-700 font-bold bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">المرسلة من إدارة الأكاديمية</span>
           </div>
           <div class="relative">
-            <input type="password" id="loginPassword" required placeholder="1n2m3m4m" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9 font-mono" dir="ltr">
+            <input type="password" id="loginPassword" required placeholder="أدخل كلمة المرور الخاصة بك كما استلمتها" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-purple-500 text-xs pr-9 font-mono" dir="ltr">
             <i class="fa-solid fa-lock absolute right-3 top-3 text-slate-400"></i>
             <button type="button" onclick="togglePasswordVisibility('loginPassword', 'eyeIconLogin')" class="absolute left-3 top-2.5 text-slate-400 hover:text-slate-600">
               <i id="eyeIconLogin" class="fa-solid fa-eye text-xs"></i>
@@ -2793,11 +2794,11 @@
 
         <!-- Registered Demo Students Quick Select for Convenience -->
         <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] text-slate-600">
-          <span class="font-bold text-slate-700 block mb-1.5"><i class="fa-solid fa-user-check ml-1 text-purple-600"></i> تجربة سريعة كطالب مسجل (اضغط للتعبئة):</span>
+          <span class="font-bold text-slate-700 block mb-1.5"><i class="fa-solid fa-user-check ml-1 text-purple-600"></i> تجربة سريعة كطالب مسجل (تعبئة الاسم والباسورد الخاص به):</span>
           <div class="flex flex-wrap gap-1.5">
-            <button type="button" onclick="autofillStudentLogin('أحمد محمود عبد الرحمن')" class="px-2 py-1 bg-white hover:bg-purple-50 hover:text-purple-700 border border-slate-200 rounded-lg text-[10px] font-bold transition shadow-2xs">أحمد محمود عبد الرحمن 🇪🇬</button>
-            <button type="button" onclick="autofillStudentLogin('سارة عبد الله القحطاني')" class="px-2 py-1 bg-white hover:bg-purple-50 hover:text-purple-700 border border-slate-200 rounded-lg text-[10px] font-bold transition shadow-2xs">سارة عبد الله القحطاني 🇸🇦</button>
-            <button type="button" onclick="autofillStudentLogin('عمر فهد المطيري')" class="px-2 py-1 bg-white hover:bg-purple-50 hover:text-purple-700 border border-slate-200 rounded-lg text-[10px] font-bold transition shadow-2xs">عمر فهد المطيري 🇰🇼</button>
+            <button type="button" onclick="autofillStudentLogin('أحمد محمود عبد الرحمن')" class="px-2 py-1 bg-white hover:bg-purple-50 hover:text-purple-700 border border-slate-200 rounded-lg text-[10px] font-bold transition shadow-2xs">أحمد محمود (ahmed@2026) 🇪🇬</button>
+            <button type="button" onclick="autofillStudentLogin('سارة عبد الله القحطاني')" class="px-2 py-1 bg-white hover:bg-purple-50 hover:text-purple-700 border border-slate-200 rounded-lg text-[10px] font-bold transition shadow-2xs">سارة القحطاني (sarah@2026) 🇸🇦</button>
+            <button type="button" onclick="autofillStudentLogin('عمر فهد المطيري')" class="px-2 py-1 bg-white hover:bg-purple-50 hover:text-purple-700 border border-slate-200 rounded-lg text-[10px] font-bold transition shadow-2xs">عمر المطيري (omar@2026) 🇰🇼</button>
           </div>
         </div>
 
@@ -2855,7 +2856,7 @@
             <input type="text" id="modalStudentName" required placeholder="مثال: أحمد محمود عبد الرحمن" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-900 focus:outline-none focus:border-orange-500 text-xs pr-9">
             <i class="fa-solid fa-user absolute right-3 top-3 text-slate-400"></i>
           </div>
-          <span class="text-[10px] text-slate-400 mt-1 block">يُشترط الاسم ثلاثياً لحفظ السجل وتفعيل الدخول الموحد بكلمة مرور (1n2m3m4m)</span>
+          <span class="text-[10px] text-slate-400 mt-1 block">يُشترط الاسم ثلاثياً لاعتماد الحساب وإصدار كلمة مرور خاصة ومستقلة للطالب</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -3394,7 +3395,7 @@
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_08"></script>
+  <script src="app.js?v=20261122_09"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
