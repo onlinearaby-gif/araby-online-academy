@@ -85,14 +85,18 @@ function togglePortalMode() {
 const loginModal = document.getElementById('loginModal');
 let currentLoginType = 'student'; // 'student' or 'parent'
 
-// Fixed Unified Student Password required for all academy students
-const FIXED_STUDENT_PASSWORD = "1n2m3m4m";
+// Helper: Generate unique secure student password code (e.g. araby-8421)
+function generateStudentPassword(name) {
+  const randNum = Math.floor(1000 + Math.random() * 9000);
+  return `araby-${randNum}`;
+}
 
-// Default Registered Academy Students with Full Tripartite Names
+// Default Registered Academy Students with Full Tripartite Names and Individual Distinct Passwords
 const DEFAULT_REGISTERED_STUDENTS = [
   {
     id: 101,
     name: 'أحمد محمود عبد الرحمن',
+    password: 'ahmed@2026',
     phone: '01012345678',
     email: 'ahmed.m@arabyonline.com',
     grade: 'الصف الأول الإعدادي',
@@ -103,6 +107,7 @@ const DEFAULT_REGISTERED_STUDENTS = [
   {
     id: 102,
     name: 'سارة عبد الله القحطاني',
+    password: 'sarah@2026',
     phone: '0559876543',
     email: 'sarah.a@arabyonline.com',
     grade: 'الصف الرابع الابتدائي',
@@ -113,6 +118,7 @@ const DEFAULT_REGISTERED_STUDENTS = [
   {
     id: 103,
     name: 'عمر فهد المطيري',
+    password: 'omar@2026',
     phone: '09651234567',
     email: 'omar.fahad@arabyonline.com',
     grade: 'الصف السادس الابتدائي',
@@ -123,6 +129,7 @@ const DEFAULT_REGISTERED_STUDENTS = [
   {
     id: 104,
     name: 'يوسف إبراهيم المنصوري',
+    password: 'youssef@2026',
     phone: '0501234567',
     email: 'youssef.m@arabyonline.com',
     grade: 'الصف الخامس الابتدائي',
@@ -133,6 +140,7 @@ const DEFAULT_REGISTERED_STUDENTS = [
   {
     id: 105,
     name: 'مريم خالد الزهراني',
+    password: 'mariam@2026',
     phone: '0541234567',
     email: 'mariam.k@arabyonline.com',
     grade: 'الصف الثالث الإعدادي',
@@ -176,6 +184,7 @@ function getAllRegisteredStudents() {
       if (Array.isArray(parsed)) {
         parsed.forEach(p => {
           if (p && p.name && !list.some(s => normalizeArabic(s.name) === normalizeArabic(p.name))) {
+            if (!p.password) p.password = generateStudentPassword(p.name);
             list.push(p);
           }
         });
@@ -190,6 +199,7 @@ function getAllRegisteredStudents() {
       const parsedActive = JSON.parse(active);
       if (parsedActive && parsedActive.name && isTripartiteName(parsedActive.name)) {
         if (!list.some(s => normalizeArabic(s.name) === normalizeArabic(parsedActive.name))) {
+          if (!parsedActive.password) parsedActive.password = generateStudentPassword(parsedActive.name);
           list.push(parsedActive);
         }
       }
@@ -202,6 +212,7 @@ function getAllRegisteredStudents() {
       if (a && a.name && isTripartiteName(a.name) && !list.some(s => normalizeArabic(s.name) === normalizeArabic(a.name))) {
         list.push({
           name: a.name,
+          password: a.password || generateStudentPassword(a.name),
           phone: a.phone || '',
           email: a.email || '',
           grade: a.grade || 'طالب بالأكاديمية',
@@ -258,13 +269,16 @@ function autofillStudentLogin(name) {
   clearStudentLoginError();
   const idInput = document.getElementById('loginIdentifier');
   const passInput = document.getElementById('loginPassword');
+  const allStudents = getAllRegisteredStudents();
+  const student = allStudents.find(s => normalizeArabic(s.name) === normalizeArabic(name));
+
   if (idInput) {
     idInput.value = name;
     idInput.classList.add('ring-2', 'ring-purple-400');
     setTimeout(() => idInput.classList.remove('ring-2', 'ring-purple-400'), 1500);
   }
-  if (passInput) {
-    passInput.value = FIXED_STUDENT_PASSWORD;
+  if (passInput && student) {
+    passInput.value = student.password || '';
   }
 }
 
@@ -335,18 +349,7 @@ function handleStudentLoginSubmit(e) {
   const id = (idInput ? idInput.value : '').trim();
   const password = (passInput ? passInput.value : '').trim();
 
-  // 1. Strict Password Verification (Must match FIXED_STUDENT_PASSWORD "1n2m3m4m")
-  if (!password || password !== FIXED_STUDENT_PASSWORD) {
-    showStudentLoginError(`<strong>❌ كلمة المرور غير صحيحة!</strong><br>كلمة المرور الموحدة لجميع طلاب الأكاديمية هي: <code class="bg-rose-200/80 px-1.5 py-0.5 rounded font-black text-rose-950" dir="ltr">${FIXED_STUDENT_PASSWORD}</code> ولا يمكن الدخول بأي كلمة أخرى.`);
-    if (passInput) {
-      passInput.focus();
-      passInput.classList.add('border-rose-500');
-      setTimeout(() => passInput.classList.remove('border-rose-500'), 2500);
-    }
-    return;
-  }
-
-  // 2. Strict Tripartite Name Verification (Must be at least 3 words)
+  // 1. Strict Tripartite Name Verification (Must be at least 3 words for students)
   if (currentLoginType === 'student') {
     if (!isTripartiteName(id)) {
       showStudentLoginError(`<strong>❌ الاسم غير مكتمل!</strong><br>يجب كتابة اسم الطالب <strong>ثلاثياً بالكامل</strong> (3 كلمات على الأقل، مثل: <code>أحمد محمود عبد الرحمن</code>). غير مسموح بالاسم المفرد أو الثنائي.`);
@@ -365,6 +368,17 @@ function handleStudentLoginSubmit(e) {
       if (idInput) idInput.focus();
       return;
     }
+  }
+
+  // 2. Password Presence Verification
+  if (!password) {
+    showStudentLoginError(`<strong>❌ كلمة المرور مطلوبة!</strong><br>يرجى إدخال كلمة المرور الخاصة بالطالب والمُرسلة لكم من قِبل إدارة الأكاديمية.`);
+    if (passInput) {
+      passInput.focus();
+      passInput.classList.add('border-rose-500');
+      setTimeout(() => passInput.classList.remove('border-rose-500'), 2500);
+    }
+    return;
   }
 
   // 3. Registered Student Verification (Must exist in registered academy lists)
@@ -402,12 +416,32 @@ function handleStudentLoginSubmit(e) {
     return;
   }
 
-  // 4. Successful Authentication & Session Setup
+  // 4. Strict Individual Password Verification (Must match THIS student's assigned password)
+  const expectedPassword = matchedStudent.password || 'ahmed@2026';
+  if (password !== expectedPassword) {
+    showStudentLoginError(`<strong>❌ كلمة المرور غير صحيحة!</strong><br>كلمة المرور المدخلة غير صحيحة لحساب الطالب (<strong>${matchedStudent.name}</strong>).<br>يجب كتابة كلمة المرور الخاصة بكم والمُرسلة لكم حصرياً من قِبل إدارة الأكاديمية.<br><span class="block mt-2 text-[11px] text-slate-600 font-medium">للحصول على كلمة المرور أو في حال نسيانها، تواصل مع الإدارة عبر واتساب: <a href="https://wa.me/201080285458?text=${encodeURIComponent(`السلام عليكم ورحمة الله، أريد استلام كلمة المرور الخاصة بحساب الطالب: ${matchedStudent.name}`)}" target="_blank" class="underline text-emerald-700 font-bold">01080285458 💬</a></span>`);
+    if (passInput) {
+      passInput.focus();
+      passInput.classList.add('border-rose-500');
+      setTimeout(() => passInput.classList.remove('border-rose-500'), 2500);
+    }
+    return;
+  }
+
+  // 5. Successful Authentication & Session Setup
   localStorage.setItem('araby_active_student', JSON.stringify(matchedStudent));
   sessionStorage.setItem('araby_student_user', matchedStudent.name);
   updateDashboardWithStudent(matchedStudent);
   closeLoginModal();
   updateAuthHeader();
+  showSection('dashboard');
+
+  if (typeof showMiniToast === 'function') {
+    showMiniToast(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم التحقق من كلمة مرورك والدخول بنجاح.`);
+  } else {
+    alert(`أهلاً بك يا ${matchedStudent.name}! 🎓 تم التحقق من هويتك كطالب مسجل وفتح لوحة الطالب بنجاح.`);
+  }
+}
   showSection('dashboard');
 
   if (typeof showMiniToast === 'function') {
@@ -679,7 +713,7 @@ async function handleBookingForm(e) {
 
   // Strict Tripartite Name Validation for newly enrolled students
   if (!isTripartiteName(name)) {
-    alert('⚠️ تنبيه هام: يرجى كتابة اسم الطالب ثلاثياً بالكامل (3 كلمات على الأقل، مثل: أحمد محمود عبد الرحمن) لضمان اعتماد التسجيل وسهولة تسجيل الدخول بالباسورد الموحد (1n2m3m4m).');
+    alert('⚠️ تنبيه هام: يرجى كتابة اسم الطالب ثلاثياً بالكامل (3 كلمات على الأقل، مثل: أحمد محمود عبد الرحمن) لضمان اعتماد التسجيل وإصدار كلمة مرور خاصة به.');
     const nEl = document.getElementById('modalStudentName');
     if (nEl) {
       nEl.focus();
@@ -689,9 +723,13 @@ async function handleBookingForm(e) {
     return;
   }
 
+  // Issue unique individual password for this student
+  const studentPassword = generateStudentPassword(name);
+
   // Construct structured Student Profile
   const studentData = {
     name: name,
+    password: studentPassword,
     email: email,
     phone: phone,
     country: country,
@@ -713,7 +751,7 @@ async function handleBookingForm(e) {
       await client.from('bookings').insert([{
         student_name: name,
         student_grade: grade,
-        curriculum: `${curriculum} (الدولة: ${country})`,
+        curriculum: `${curriculum} (الدولة: ${country}) | كود: ${studentPassword}`,
         parent_phone: `${phone}${email ? ' | إيميل: ' + email : ''}`,
         status: 'new'
       }]);
@@ -728,14 +766,15 @@ async function handleBookingForm(e) {
   updateAuthHeader();
   showSection('dashboard');
 
-  // 4. Cheerful Confirmation Alert
-  alert(`🎉 مبروك يا ${name}!\nتم تسجيل بياناتك وتفعيل لوحة الطالب الخاصة بك بنجاح 🎓.\nالصف: ${grade}\nالمادة: ${curriculum}\nالدولة: ${country}`);
+  // 4. Cheerful Confirmation Alert with Student's Specific Password
+  alert(`🎉 مبروك يا ${name}!\nتم تسجيل بياناتك وحجز الحصة التجريبية بنجاح 🎓.\n\n🔑 كلمة المرور الخاصة بك للدخول للمنصة هي: ${studentPassword}\nيرجى حفظها لديك، كما تم إرسالها للإدارة للتواصل والمتابعة معك عبر واتساب.`);
 
   // 5. Open WhatsApp to confirm the appointment directly with academy admin/teacher
   const msg = 
 `السلام عليكم ورحمة الله وبركاته،
 تم تسجيل حساب جديد وحجز *حصة تجريبية مجانية* في *أكاديمية عربي أونلاين*:
 👤 *اسم الطالب:* ${name}
+🔑 *كلمة المرور الخاصة به:* ${studentPassword}
 🎒 *الصف الدراسي:* ${grade}
 📚 *المادة / القسم:* ${curriculum}
 🌍 *الدولة:* ${country}
@@ -1239,6 +1278,7 @@ async function loadAdminStudents() {
       {
         id: 101,
         name: 'أحمد محمود عبد الرحمن',
+        password: 'ahmed@2026',
         grade: 'الصف الأول الإعدادي',
         country: 'مصر 🇪🇬',
         phone: '01012345678',
@@ -1249,6 +1289,7 @@ async function loadAdminStudents() {
       {
         id: 102,
         name: 'سارة عبد الله القحطاني',
+        password: 'sarah@2026',
         grade: 'الصف الرابع الابتدائي',
         country: 'السعودية 🇸🇦',
         phone: '0559876543',
@@ -1259,6 +1300,7 @@ async function loadAdminStudents() {
       {
         id: 103,
         name: 'عمر فهد المطيري',
+        password: 'omar@2026',
         grade: 'الصف السادس الابتدائي',
         country: 'الكويت 🇰🇼',
         phone: '09651234567',
@@ -1267,6 +1309,13 @@ async function loadAdminStudents() {
         date: new Date().toISOString()
       }
     ];
+  } else {
+    // Ensure all students have passwords attached
+    const regStudents = getAllRegisteredStudents();
+    students.forEach(s => {
+      const match = regStudents.find(r => normalizeArabic(r.name) === normalizeArabic(s.name) || (s.phone && r.phone && r.phone.replace(/[^0-9]/g, '') === s.phone.replace(/[^0-9]/g, '')));
+      s.password = (match && match.password) || s.password || generateStudentPassword(s.name);
+    });
   }
 
   allAdminStudentsCache = students;
@@ -1279,7 +1328,7 @@ function renderAdminStudentsTable(students) {
   if (!tbody) return;
 
   if (!students || students.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">لا يوجد طلاب يطابقون البحث.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="9" class="p-6 text-center text-slate-400">لا يوجد طلاب يطابقون البحث.</td></tr>`;
     return;
   }
 
@@ -1289,6 +1338,7 @@ function renderAdminStudentsTable(students) {
     const studentKey = String(s.id || s.phone || idx);
     const warning = warnings[studentKey] || warnings[s.phone];
     const cleanPhone = (s.phone || '').replace(/[^0-9]/g, '');
+    const stPassword = s.password || 'ahmed@2026';
 
     const statusBadge = warning
       ? `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300" title="${warning.reason || ''}">
@@ -1297,6 +1347,8 @@ function renderAdminStudentsTable(students) {
       : `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
           <i class="fa-solid fa-circle-check"></i> حساب نشط
         </span>`;
+
+    const waPassMsg = encodeURIComponent(`السلام عليكم ورحمة الله وبركاته،\nمرحباً يا ${s.name} في أكاديمية عربي أونلاين 🎓.\nكلمة المرور الخاصة بك لدخول المنصة التعليمية ومتابعة دروسك هي: ${stPassword}\nرابط المنصة: https://onlinearaby-gif.github.io/araby-online-academy/\nبالتوفيق والتميز الدائم!`);
 
     return `
       <tr class="hover:bg-slate-50 transition border-b border-slate-100">
@@ -1312,6 +1364,15 @@ function renderAdminStudentsTable(students) {
             <i class="fa-brands fa-whatsapp text-sm"></i>
             <span>${s.phone || '-'}</span>
           </a>
+        </td>
+        <td class="p-3">
+          <div class="flex items-center gap-1.5 flex-nowrap" dir="ltr">
+            <code class="px-2 py-0.5 rounded bg-purple-100 text-purple-900 font-mono font-bold text-xs select-all">${stPassword}</code>
+            <a href="https://wa.me/${cleanPhone}?text=${waPassMsg}" target="_blank" rel="noopener noreferrer" class="px-2 py-0.5 rounded bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-[10px] font-bold flex items-center gap-1 transition" title="إرسال الباسورد عبر واتساب للطالب">
+              <i class="fa-brands fa-whatsapp text-xs text-emerald-600"></i>
+              <span>إرسال</span>
+            </a>
+          </div>
         </td>
         <td class="p-3 text-purple-700 font-mono text-[11px]" dir="ltr">
           <a href="mailto:${s.email || ''}" class="hover:underline">${s.email || '-'}</a>
