@@ -1554,6 +1554,125 @@ async function deleteStudentAccount(id, name) {
 }
 
 // ==================== VIDEOS MANAGEMENT & SEQUENTIAL PROGRESSION (فيديوهات وحلقات المنصة المتسلسلة) ====================
+const ARABY_VIDEO_DB_NAME = 'ArabyAcademyVideoStore';
+const ARABY_VIDEO_DB_VERSION = 1;
+const ARABY_VIDEO_STORE_NAME = 'videoBlobs';
+
+// Runtime in-memory map of active Blob Object URLs
+const runtimeVideoUrls = {};
+
+function openVideoDB() {
+  return new Promise((resolve) => {
+    if (!window.indexedDB) {
+      console.warn('IndexedDB not supported in this environment');
+      resolve(null);
+      return;
+    }
+    try {
+      const request = window.indexedDB.open(ARABY_VIDEO_DB_NAME, ARABY_VIDEO_DB_VERSION);
+      request.onupgradeneeded = function(e) {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(ARABY_VIDEO_STORE_NAME)) {
+          db.createObjectStore(ARABY_VIDEO_STORE_NAME, { keyPath: 'id' });
+        }
+      };
+      request.onsuccess = function(e) {
+        resolve(e.target.result);
+      };
+      request.onerror = function(e) {
+        console.error('IndexedDB open error:', e.target.error);
+        resolve(null);
+      };
+    } catch (err) {
+      console.error('IndexedDB init exception:', err);
+      resolve(null);
+    }
+  });
+}
+
+async function saveVideoBlobToDB(id, blob, name, type, size) {
+  try {
+    const db = await openVideoDB();
+    if (!db) return false;
+    return new Promise((resolve) => {
+      const tx = db.transaction(ARABY_VIDEO_STORE_NAME, 'readwrite');
+      const store = tx.objectStore(ARABY_VIDEO_STORE_NAME);
+      const record = {
+        id: id,
+        blob: blob,
+        name: name || 'video.mp4',
+        type: type || blob.type || 'video/mp4',
+        size: size || blob.size || 0,
+        savedAt: Date.now()
+      };
+      const req = store.put(record);
+      req.onsuccess = function() { resolve(true); };
+      req.onerror = function(err) {
+        console.error('IndexedDB put error:', err);
+        resolve(false);
+      };
+    });
+  } catch (err) {
+    console.error('saveVideoBlobToDB exception:', err);
+    return false;
+  }
+}
+
+async function getVideoBlobFromDB(id) {
+  try {
+    const db = await openVideoDB();
+    if (!db) return null;
+    return new Promise((resolve) => {
+      const tx = db.transaction(ARABY_VIDEO_STORE_NAME, 'readonly');
+      const store = tx.objectStore(ARABY_VIDEO_STORE_NAME);
+      const req = store.get(id);
+      req.onsuccess = function() {
+        if (req.result && req.result.blob) {
+          resolve(req.result.blob);
+        } else {
+          resolve(null);
+        }
+      };
+      req.onerror = function() { resolve(null); };
+    });
+  } catch (err) {
+    console.error('getVideoBlobFromDB exception:', err);
+    return null;
+  }
+}
+
+async function deleteVideoBlobFromDB(id) {
+  try {
+    const db = await openVideoDB();
+    if (!db) return false;
+    return new Promise((resolve) => {
+      const tx = db.transaction(ARABY_VIDEO_STORE_NAME, 'readwrite');
+      const store = tx.objectStore(ARABY_VIDEO_STORE_NAME);
+      const req = store.delete(id);
+      req.onsuccess = function() { resolve(true); };
+      req.onerror = function() { resolve(false); };
+    });
+  } catch (err) {
+    return false;
+  }
+}
+
+async function initLocalVideosStorage() {
+  try {
+    const videos = getVideos();
+    for (const v of videos) {
+      if (v.isLocalFile && !runtimeVideoUrls[v.id]) {
+        const blob = await getVideoBlobFromDB(v.id);
+        if (blob) {
+          runtimeVideoUrls[v.id] = URL.createObjectURL(blob);
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('initLocalVideosStorage warning:', e);
+  }
+}
+
 const DEFAULT_VIDEOS = [
   {
     id: 'vid_1',
@@ -1584,11 +1703,16 @@ const DEFAULT_VIDEOS = [
 function getVideos() {
   try {
     const raw = localStorage.getItem('araby_videos');
-    if (!raw || !raw.includes('فرح')) {
+    if (!raw) {
       localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
       return DEFAULT_VIDEOS;
     }
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
+      return DEFAULT_VIDEOS;
+    }
+    return parsed;
   } catch (e) {
     return DEFAULT_VIDEOS;
   }
@@ -1664,15 +1788,37 @@ function resetVideosProgress() {
   }
 }
 
-function downloadVideoDirectly(url, title) {
-  if (!url) return;
-  if (url.includes('youtube.com') || url.includes('youtu.be')) {
-    window.open(url, '_blank');
+async function downloadVideoDirectly(url, title, videoId) {
+  let effectiveUrl = url;
+  if (videoId) {
+    const videos = getVideos();
+    const vid = videos.find(v => v.id === videoId);
+    if (vid && vid.isLocalFile) {
+      if (runtimeVideoUrls[videoId]) {
+        effectiveUrl = runtimeVideoUrls[videoId];
+      } else {
+        const blob = await getVideoBlobFromDB(videoId);
+        if (blob) {
+          effectiveUrl = URL.createObjectURL(blob);
+          runtimeVideoUrls[videoId] = effectiveUrl;
+        }
+      }
+    }
+  }
+
+  if (!effectiveUrl) {
+    alert('رابط التحميل غير متاح حالياً.');
+    return;
+  }
+
+  if (effectiveUrl.includes('youtube.com') || effectiveUrl.includes('youtu.be')) {
+    window.open(effectiveUrl, '_blank');
     alert('📥 تم فتح رابط الحلقة في نافذة جديدة. يمكنك تنزيل الفيديو عبر زر الحفظ والتنزيل داخل يوتيوب للمشاهدة بدون إنترنت!');
     return;
   }
+
   const a = document.createElement('a');
-  a.href = url;
+  a.href = effectiveUrl;
   const safeName = (title || 'araby-lesson').replace(/[^\w\u0600-\u06FF\s-]/gi, '').trim().replace(/\s+/g, '_');
   a.download = `${safeName}.mp4`;
   a.target = '_blank';
@@ -1684,8 +1830,43 @@ function downloadVideoDirectly(url, title) {
   }
 }
 
-function handleAdminAddVideo(e) {
+function handleVideoFileChosen(e) {
+  const fileInput = e.target || document.getElementById('videoFormFile');
+  const file = fileInput && fileInput.files && fileInput.files[0];
+  const infoContainer = document.getElementById('videoFileSelectedInfo');
+  const previewVideo = document.getElementById('videoFormLocalPreviewTag');
+  const fileNameText = document.getElementById('videoSelectedFileName');
+  const fileSizeText = document.getElementById('videoSelectedFileSize');
+
+  if (!file) {
+    if (infoContainer) infoContainer.classList.add('hidden');
+    if (previewVideo) previewVideo.src = '';
+    return;
+  }
+
+  const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+  if (fileNameText) fileNameText.textContent = file.name;
+  if (fileSizeText) fileSizeText.textContent = `${sizeMb} MB`;
+
+  const tempUrl = URL.createObjectURL(file);
+  if (previewVideo) {
+    previewVideo.src = tempUrl;
+  }
+  if (infoContainer) infoContainer.classList.remove('hidden');
+
+  // Auto-fill title if empty
+  const titleInput = document.getElementById('videoFormTitle');
+  if (titleInput && !titleInput.value.trim()) {
+    const cleanName = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+    titleInput.value = cleanName;
+  }
+}
+
+async function handleAdminAddVideo(e) {
   e.preventDefault();
+  const submitBtn = e.target.querySelector('button[type="submit"]') || document.getElementById('videoFormSubmitBtn');
+  const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+
   const title = (document.getElementById('videoFormTitle').value || '').trim();
   const category = document.getElementById('videoFormCategory').value;
   let url = (document.getElementById('videoFormUrl').value || '').trim();
@@ -1701,42 +1882,95 @@ function handleAdminAddVideo(e) {
   }
 
   if (!url && !file) {
-    alert('يرجى إدخال رابط الفيديو أو اختيار ملف فيديو من جهازك');
+    alert('يرجى إدخال رابط الفيديو (يوتيوب أو جوجل درايف أو رابط مباشر) أو اختيار ملف فيديو من جهازك.');
     return;
   }
 
-  if (file && !url) {
-    url = URL.createObjectURL(file);
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>جاري حفظ ومعالجة الفيديو في النظام...</span>`;
   }
 
   const videos = getVideos();
+  const videoId = 'vid_' + Date.now();
+  let isLocal = false;
+  let fileName = '';
+  let fileSize = 0;
+  let effectiveUrl = url;
+
+  if (file) {
+    isLocal = true;
+    fileName = file.name;
+    fileSize = file.size;
+
+    // Save actual file blob to IndexedDB
+    await saveVideoBlobToDB(videoId, file, file.name, file.type, file.size);
+    const liveBlobUrl = URL.createObjectURL(file);
+    runtimeVideoUrls[videoId] = liveBlobUrl;
+    effectiveUrl = liveBlobUrl;
+  } else {
+    effectiveUrl = parseVideoEmbedUrl(url);
+  }
+
   const newVideo = {
-    id: 'vid_' + Date.now(),
+    id: videoId,
     title: title.startsWith('الحلقة') ? title : `الحلقة ${videos.length + 1}: ${title}`,
     category,
-    url,
-    thumbnail: thumbnail || 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
-    description: description || 'فيديو تعليمي متميز من أكاديمية عربي أونلاين بإشراف مس فرح القاضي'
+    url: isLocal ? '' : effectiveUrl,
+    isLocalFile: isLocal,
+    fileName: fileName,
+    fileSize: fileSize,
+    thumbnail: thumbnail || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
+    description: description || (isLocal 
+      ? `درس فيديو تفاعلي تم رفعه من جهاز الإدارة (${fileName}) بإشراف مس فرح القاضي` 
+      : 'فيديو تعليمي متميز من أكاديمية عربي أونلاين بإشراف مس فرح القاضي'),
+    createdAt: new Date().toLocaleDateString('ar-EG')
   };
 
   videos.push(newVideo);
   saveVideos(videos);
 
   e.target.reset();
+  const infoContainer = document.getElementById('videoFileSelectedInfo');
+  if (infoContainer) infoContainer.classList.add('hidden');
+  const previewVideo = document.getElementById('videoFormLocalPreviewTag');
+  if (previewVideo) previewVideo.src = '';
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = origBtnHtml;
+  }
+
   renderAdminVideos();
   renderLandingVideos();
   updateAdminStats(undefined, undefined);
-  alert('🎉 تم نشر الفيديو بنجاح كحلقة جديدة في المسار المتسلسل للطلاب!');
+
+  if (typeof showCustomToast === 'function') {
+    showCustomToast(`🎉 تم نشر وحفظ الفيديو "${newVideo.title}" بنجاح!`, 'success');
+  } else {
+    alert(`🎉 تم نشر وحفظ الفيديو "${newVideo.title}" بنجاح كحلقة جديدة في المنصة!`);
+  }
 }
 
-function deleteAdminVideo(id) {
-  if (!confirm('هل أنت متأكد من حذف هذا الفيديو من المنصة؟')) return;
+async function deleteAdminVideo(id) {
+  if (!confirm('هل أنتِ متأكدة من حذف هذا الفيديو من المنصة؟')) return;
   let videos = getVideos();
+  const target = videos.find(v => v.id === id);
+  if (target && target.isLocalFile) {
+    await deleteVideoBlobFromDB(id);
+    if (runtimeVideoUrls[id]) {
+      URL.revokeObjectURL(runtimeVideoUrls[id]);
+      delete runtimeVideoUrls[id];
+    }
+  }
   videos = videos.filter(v => v.id !== id);
   saveVideos(videos);
   renderAdminVideos();
   renderLandingVideos();
   updateAdminStats(undefined, undefined);
+  if (typeof showCustomToast === 'function') {
+    showCustomToast('🗑️ تم حذف الفيديو بنجاح', 'info');
+  }
 }
 
 function renderAdminVideos() {
@@ -1745,43 +1979,54 @@ function renderAdminVideos() {
   const videos = getVideos();
 
   if (videos.length === 0) {
-    container.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400">لا توجد فيديوهات مضافة بعد. أضف أول فيديو من النموذج أعلاه.</div>`;
+    container.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400">لا توجد فيديوهات مضافة بعد. أضيفي أول فيديو من النموذج أعلاه.</div>`;
     return;
   }
 
-  container.innerHTML = videos.map((v, idx) => `
-    <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col justify-between gap-3 hover:shadow-xs transition">
-      <div class="flex items-start gap-3">
-        <div class="w-24 h-16 rounded-xl overflow-hidden bg-slate-200 shrink-0 relative group">
-          <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-base">
-            <i class="fa-solid fa-play"></i>
+  container.innerHTML = videos.map((v, idx) => {
+    const isLocal = !!v.isLocalFile;
+    const sizeStr = v.fileSize ? ` • ${(v.fileSize / (1024 * 1024)).toFixed(1)} MB` : '';
+    const safeTitle = (v.title || '').replace(/'/g, "\\'");
+    const safeDesc = (v.description || '').replace(/'/g, "\\'");
+
+    return `
+      <div class="p-4 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between gap-3 hover:shadow-md hover:border-purple-300 transition duration-200">
+        <div class="flex items-start gap-3">
+          <div class="w-24 h-18 rounded-2xl overflow-hidden bg-slate-200 shrink-0 relative group shadow-xs cursor-pointer" onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})">
+            <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-base group-hover:bg-purple-900/60 transition">
+              <i class="fa-solid fa-play"></i>
+            </div>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-1.5 mb-1 flex-wrap">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-100 text-purple-700">ترتيب ${idx + 1}</span>
+              ${isLocal 
+                ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-100 text-amber-800 border border-amber-300">💾 ملف محلي${sizeStr}</span>`
+                : `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-100 text-blue-800 border border-blue-200">🌐 يوتيوب / سحابي</span>`
+              }
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700 truncate">${v.category}</span>
+            </div>
+            <h5 class="font-bold text-xs text-slate-900 truncate" title="${v.title}">${v.title}</h5>
+            <p class="text-[11px] text-slate-500 line-clamp-2 mt-0.5">${v.description}</p>
           </div>
         </div>
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-1.5 mb-1">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-100 text-purple-700">ترتيب ${idx + 1}</span>
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700 truncate">${v.category}</span>
+        <div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
+          <div class="flex items-center gap-2">
+            <button onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer">
+              <i class="fa-solid fa-play text-[10px]"></i> معاينة وتشغيل
+            </button>
+            <button onclick="downloadVideoDirectly('${v.url || ''}', '${safeTitle}', '${v.id}')" class="px-2.5 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold flex items-center gap-1 transition cursor-pointer" title="تحميل الفيديو للجهاز">
+              <i class="fa-solid fa-download text-[10px]"></i> تحميل
+            </button>
           </div>
-          <h5 class="font-bold text-xs text-slate-900 truncate">${v.title}</h5>
-          <p class="text-[11px] text-slate-500 line-clamp-2 mt-0.5">${v.description}</p>
-        </div>
-      </div>
-      <div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
-        <div class="flex items-center gap-2">
-          <button onclick="openVideoPlayerModal('${v.url}', '${v.title.replace(/'/g, "\\'")}', '${v.description.replace(/'/g, "\\'")}', '${v.id}', ${idx})" class="text-xs font-bold text-purple-600 hover:text-purple-800 flex items-center gap-1">
-            <i class="fa-solid fa-play text-[10px]"></i> معاينة المشغل
-          </button>
-          <button onclick="downloadVideoDirectly('${v.url}', '${v.title.replace(/'/g, "\\'")}')" class="text-xs font-bold text-slate-600 hover:text-slate-800 flex items-center gap-1">
-            <i class="fa-solid fa-download text-[10px]"></i> تحميل
+          <button onclick="deleteAdminVideo('${v.id}')" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+            <i class="fa-solid fa-trash-can"></i> حذف
           </button>
         </div>
-        <button onclick="deleteAdminVideo('${v.id}')" class="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition flex items-center gap-1">
-          <i class="fa-solid fa-trash-can"></i> حذف
-        </button>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function renderLandingVideos() {
@@ -1803,13 +2048,19 @@ function renderLandingVideos() {
   if (progressCountText) progressCountText.textContent = `${completedCount} من ${totalVideos} مكتملة 🎓`;
   if (progressPercentText) progressPercentText.textContent = `${percent}%`;
 
+  if (videos.length === 0) {
+    container.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400 bg-white rounded-3xl border border-slate-200">لا توجد شروحات متاحة حالياً. سيتم نشر الحصص قريباً!</div>`;
+    return;
+  }
+
   container.innerHTML = videos.map((v, index) => {
     const epNumber = index + 1;
     const isUnlocked = isEpisodeUnlocked(index, videos);
     const isDone = completed.includes(v.id);
-    const safeTitle = v.title.replace(/'/g, "\\'");
+    const safeTitle = (v.title || '').replace(/'/g, "\\'");
     const safeDesc = (v.description || '').replace(/'/g, "\\'");
-    const prevTitle = index > 0 ? videos[index - 1].title.replace(/'/g, "\\'") : '';
+    const prevTitle = index > 0 ? (videos[index - 1].title || '').replace(/'/g, "\\'") : '';
+    const isLocal = !!v.isLocalFile;
 
     if (!isUnlocked) {
       // LOCKED CARD
@@ -1860,7 +2111,7 @@ function renderLandingVideos() {
     // UNLOCKED CARD
     return `
       <div class="group bg-white rounded-3xl border ${isDone ? 'border-emerald-300 shadow-emerald-50' : 'border-purple-200/90'} overflow-hidden shadow-xs hover:shadow-lg hover:border-purple-400 transition duration-300 flex flex-col relative">
-        <div class="relative w-full aspect-video bg-slate-900 overflow-hidden cursor-pointer" onclick="openVideoPlayerModal('${v.url}', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})">
+        <div class="relative w-full aspect-video bg-slate-900 overflow-hidden cursor-pointer" onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})">
           <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
           <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20 flex items-center justify-center">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full ${isDone ? 'bg-emerald-600/90 hover:bg-emerald-600' : 'bg-purple-600/90 hover:bg-purple-600'} text-white flex items-center justify-center text-lg sm:text-xl shadow-lg group-hover:scale-110 transition">
@@ -1873,6 +2124,7 @@ function renderLandingVideos() {
             </span>
             ${isDone ? '<span class="px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-black shadow-xs flex items-center gap-1"><i class="fa-solid fa-check"></i> مكتملة</span>' : ''}
           </div>
+          ${isLocal ? '<span class="absolute bottom-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-xs text-amber-300 text-[10px] font-black flex items-center gap-1"><i class="fa-solid fa-hdd"></i> فيديو محلي</span>' : ''}
         </div>
         <div class="p-5 flex-1 flex flex-col justify-between">
           <div>
@@ -1886,13 +2138,12 @@ function renderLandingVideos() {
             <p class="text-xs text-slate-500 line-clamp-2">${v.description}</p>
           </div>
           <div class="pt-4 mt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
-            <button onclick="openVideoPlayerModal('${v.url}', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})" class="text-xs font-black ${isDone ? 'text-emerald-700 hover:text-emerald-800' : 'text-purple-600 hover:text-purple-700'} flex items-center gap-1.5">
+            <button onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})" class="text-xs font-black ${isDone ? 'text-emerald-700 hover:text-emerald-800' : 'text-purple-600 hover:text-purple-700'} flex items-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-play text-[11px]"></i>
               <span>${isDone ? 'إعادة مشاهدة الدرس' : 'شاهد الحصة الآن'}</span>
             </button>
             <div class="flex items-center gap-1.5">
-              <!-- Direct Download Button -->
-              <button onclick="downloadVideoDirectly('${v.url}', '${safeTitle}')" title="تحميل الفيديو لجهازك للمشاهدة بدون إنترنت" class="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+              <button onclick="downloadVideoDirectly('${v.url || ''}', '${safeTitle}', '${v.id}')" title="تحميل الفيديو لجهازك للمشاهدة بدون إنترنت" class="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
                 <i class="fa-solid fa-download text-[11px]"></i>
                 <span>تحميل 📥</span>
               </button>
@@ -1910,16 +2161,24 @@ function renderLandingVideos() {
 function parseVideoEmbedUrl(rawUrl) {
   if (!rawUrl) return '';
   const trimmed = rawUrl.trim();
-  const ytWatchMatch = trimmed.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-  if (ytWatchMatch && ytWatchMatch[1]) {
-    return `https://www.youtube.com/embed/${ytWatchMatch[1]}?autoplay=1&rel=0`;
+  const ytMatch = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytMatch && ytMatch[1]) {
+    return `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0`;
+  }
+  const gdriveMatch = trimmed.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/);
+  if (gdriveMatch && gdriveMatch[1]) {
+    return `https://drive.google.com/file/d/${gdriveMatch[1]}/preview`;
+  }
+  const vimeoMatch = trimmed.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch && vimeoMatch[1]) {
+    return `https://player.vimeo.com/video/${vimeoMatch[1]}?autoplay=1`;
   }
   return trimmed;
 }
 
 let currentPlayingVideo = null;
 
-function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
+async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
   const videos = getVideos();
   if (typeof videoIndex !== 'number' && videoId) {
     videoIndex = videos.findIndex(v => v.id === videoId);
@@ -1930,23 +2189,37 @@ function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
 
   // Check locking constraint
   if (!isEpisodeUnlocked(videoIndex, videos)) {
-    const prevTitle = videoIndex > 0 ? videos[videoIndex - 1].title : '';
+    const prevTitle = videoIndex > 0 ? (videos[videoIndex - 1].title || '') : '';
     alertEpisodeLocked(videoIndex + 1, prevTitle);
     return;
   }
 
-  const currentVid = videos[videoIndex] || { id: videoId || 'vid_' + videoIndex, url, title, description: desc };
-  const effectiveUrl = url || currentVid.url;
-  const effectiveTitle = title || currentVid.title;
-  const effectiveDesc = desc || currentVid.description;
-  const effectiveId = videoId || currentVid.id;
+  const currentVid = (videoId ? videos.find(v => v.id === videoId) : null) || videos[videoIndex] || { id: videoId || 'vid_' + videoIndex, url, title, description: desc };
+  let effectiveUrl = currentVid.url || url || '';
+  const effectiveTitle = currentVid.title || title || 'درس تفاعلي';
+  const effectiveDesc = currentVid.description || desc || '';
+  const effectiveId = currentVid.id || videoId;
+
+  // Retrieve blob if local file
+  if (currentVid.isLocalFile) {
+    if (runtimeVideoUrls[effectiveId]) {
+      effectiveUrl = runtimeVideoUrls[effectiveId];
+    } else {
+      const blob = await getVideoBlobFromDB(effectiveId);
+      if (blob) {
+        effectiveUrl = URL.createObjectURL(blob);
+        runtimeVideoUrls[effectiveId] = effectiveUrl;
+      }
+    }
+  }
 
   currentPlayingVideo = {
     url: effectiveUrl,
     title: effectiveTitle,
     desc: effectiveDesc,
     videoId: effectiveId,
-    videoIndex: videoIndex
+    videoIndex: videoIndex,
+    isLocalFile: !!currentVid.isLocalFile
   };
 
   const modal = document.getElementById('videoPlayerModal');
@@ -1966,15 +2239,9 @@ function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
 
   // Download Button Setup
   if (downloadBtn) {
-    downloadBtn.setAttribute('href', effectiveUrl);
-    const safeTitle = (effectiveTitle || 'araby-lesson').replace(/[^\w\u0600-\u06FF\s-]/gi, '').trim().replace(/\s+/g, '_');
-    downloadBtn.setAttribute('download', `${safeTitle}.mp4`);
     downloadBtn.onclick = function(e) {
-      if (effectiveUrl.includes('youtube.com') || effectiveUrl.includes('youtu.be')) {
-        e.preventDefault();
-        window.open(effectiveUrl, '_blank');
-        alert('📥 تم فتح رابط الفيديو. يمكنك تنزيل الفيديو عبر زر الحفظ والتنزيل داخل يوتيوب للمشاهدة بدون إنترنت!');
-      }
+      e.preventDefault();
+      downloadVideoDirectly(effectiveUrl, effectiveTitle, effectiveId);
     };
   }
 
@@ -2005,20 +2272,37 @@ function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
 
   const embedUrl = parseVideoEmbedUrl(effectiveUrl);
 
-  if (embedUrl.includes('youtube.com/embed')) {
+  if (embedUrl.includes('youtube.com/embed') || embedUrl.includes('drive.google.com/file') || embedUrl.includes('player.vimeo.com')) {
     container.innerHTML = `
       <iframe src="${embedUrl}" title="${effectiveTitle}" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     `;
-  } else {
+  } else if (effectiveUrl) {
     container.innerHTML = `
-      <video id="arabyActiveLessonVideoTag" src="${embedUrl}" controls autoplay controlsList="nodownload_disabled" class="w-full h-full object-contain bg-black"></video>
+      <video id="arabyActiveLessonVideoTag" src="${effectiveUrl}" controls autoplay playsinline controlsList="nodownload_disabled" class="w-full h-full object-contain bg-black"></video>
     `;
     const videoTag = document.getElementById('arabyActiveLessonVideoTag');
     if (videoTag) {
+      videoTag.onerror = function() {
+        container.innerHTML = `
+          <div class="p-6 text-center text-slate-300 space-y-3">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400 text-3xl"></i>
+            <h4 class="font-bold text-sm text-white">تعذر تشغيل ملف الفيديو</h4>
+            <p class="text-xs text-slate-400">إذا قمتِ برفع الفيديو من جهازك، يرجى إعادة اختياره وتحديثه لضمان حفظه في متصفحك بشكل سليم.</p>
+          </div>
+        `;
+      };
       videoTag.onended = function() {
         handleCurrentVideoCompleted(true);
       };
     }
+  } else {
+    container.innerHTML = `
+      <div class="p-6 text-center text-slate-300 space-y-3">
+        <i class="fa-solid fa-video-slash text-purple-400 text-3xl"></i>
+        <h4 class="font-bold text-sm text-white">ملف الفيديو قيد التجهيز</h4>
+        <p class="text-xs text-slate-400">الفيديو مسجل في المنصة كملف محلي. يمكنكِ معاينته وتحميله مباشرة.</p>
+      </div>
+    `;
   }
 
   modal.classList.remove('hidden');
@@ -3168,6 +3452,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateAuthHeader();
   updateAdminUI();
   checkUrlHash();
+  initLocalVideosStorage();
   renderAdminCourses();
   renderLandingCourses();
   renderLandingVideos();
