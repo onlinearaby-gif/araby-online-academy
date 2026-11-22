@@ -663,7 +663,7 @@ function handleCourseUploadSubmit(e) {
 
 // --- 7. Admin Authentication, Security Settings & Account Management ---
 const DEFAULT_ADMIN_EMAIL = "admin@arabyonline.com";
-const DEFAULT_ADMIN_PASS = "Araby@2026";
+const DEFAULT_ADMIN_PASS = "1n2m3m4m";
 
 function getAdminEmail() {
   return localStorage.getItem('araby_admin_email') || DEFAULT_ADMIN_EMAIL;
@@ -707,7 +707,7 @@ function openAdminLoginModal() {
   
   // Pre-fill with default credentials for user convenience
   if (emailInput && !emailInput.value) emailInput.value = 'admin@arabyonline.com';
-  if (passInput && !passInput.value) passInput.value = 'Araby@2026';
+  if (passInput && !passInput.value) passInput.value = '1n2m3m4m';
 
   if (adminLoginModal) adminLoginModal.classList.remove('hidden');
   if (emailInput) emailInput.focus();
@@ -729,24 +729,24 @@ function autoFillAdminLogin() {
   const emailInput = document.getElementById('loginAdminEmail');
   const passInput = document.getElementById('loginAdminPassword');
   if (emailInput) emailInput.value = 'admin@arabyonline.com';
-  if (passInput) passInput.value = 'Araby@2026';
+  if (passInput) passInput.value = '1n2m3m4m';
   const errEl = document.getElementById('loginErrorMessage');
   if (errEl) {
     errEl.classList.remove('hidden');
     errEl.className = "text-emerald-700 text-xs font-bold text-center bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 mb-2";
-    errEl.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> تم ملء بيانات الدخول المعتمدة! اضغطي الآن على زر الدخول بالأسفل.';
+    errEl.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> تم ملء بيانات الدخول المعتمدة (1n2m3m4m)! اضغطي الآن على زر الدخول بالأسفل.';
   }
 }
 
 function resetAdminCredentials() {
+  localStorage.setItem('araby_admin_pass', '1n2m3m4m');
   localStorage.removeItem('araby_admin_email');
-  localStorage.removeItem('araby_admin_pass');
   autoFillAdminLogin();
   const errEl = document.getElementById('loginErrorMessage');
   if (errEl) {
     errEl.classList.remove('hidden');
     errEl.className = "text-emerald-700 text-xs font-bold text-center bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 mb-2";
-    errEl.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> تم استعادة بيانات الدخول الافتراضية بنجاح: admin@arabyonline.com / Araby@2026';
+    errEl.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> تم استعادة بيانات الدخول الافتراضية بنجاح: admin@arabyonline.com / 1n2m3m4m';
   }
 }
 
@@ -812,6 +812,7 @@ function handleAdminLoginSubmit(e) {
 
   // Acceptable passwords:
   const validPasswords = [
+    '1n2m3m4m',
     'Araby@2026',
     'araby@2026',
     '123456',
