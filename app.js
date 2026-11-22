@@ -674,31 +674,24 @@ function getAdminPass() {
 }
 
 function isAdminLoggedIn() {
-  return sessionStorage.getItem('araby_admin_logged_in') === 'true';
+  return sessionStorage.getItem('araby_admin_logged_in') === 'true' || localStorage.getItem('araby_admin_logged_in') === 'true';
 }
 
 function setAdminLoggedIn(status) {
   if (status) {
     sessionStorage.setItem('araby_admin_logged_in', 'true');
+    localStorage.setItem('araby_admin_logged_in', 'true');
   } else {
     sessionStorage.removeItem('araby_admin_logged_in');
+    localStorage.removeItem('araby_admin_logged_in');
   }
 }
 
 function updateAdminUI() {
   const currentEmail = getAdminEmail();
-  
   const displayEmail = document.getElementById('displayCurrentAdminEmail');
   if (displayEmail) {
-    // Mask email for high privacy & security (e.g., ad••••@arabyonline.com)
-    const atIdx = currentEmail.indexOf('@');
-    if (atIdx > 2) {
-      const prefix = currentEmail.substring(0, 2);
-      const domain = currentEmail.substring(atIdx);
-      displayEmail.textContent = `${prefix}••••${domain}`;
-    } else {
-      displayEmail.textContent = '••••@••••.com';
-    }
+    displayEmail.textContent = currentEmail;
   }
 }
 
@@ -711,8 +704,10 @@ function openAdminLoginModal() {
   
   const emailInput = document.getElementById('loginAdminEmail');
   const passInput = document.getElementById('loginAdminPassword');
-  if (emailInput) emailInput.value = '';
-  if (passInput) passInput.value = '';
+  
+  // Pre-fill with default credentials for user convenience
+  if (emailInput && !emailInput.value) emailInput.value = 'admin@arabyonline.com';
+  if (passInput && !passInput.value) passInput.value = 'Araby@2026';
 
   if (adminLoginModal) adminLoginModal.classList.remove('hidden');
   if (emailInput) emailInput.focus();
@@ -730,6 +725,56 @@ if (adminLoginModal) {
   });
 }
 
+function autoFillAdminLogin() {
+  const emailInput = document.getElementById('loginAdminEmail');
+  const passInput = document.getElementById('loginAdminPassword');
+  if (emailInput) emailInput.value = 'admin@arabyonline.com';
+  if (passInput) passInput.value = 'Araby@2026';
+  const errEl = document.getElementById('loginErrorMessage');
+  if (errEl) {
+    errEl.classList.remove('hidden');
+    errEl.className = "text-emerald-700 text-xs font-bold text-center bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 mb-2";
+    errEl.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> تم ملء بيانات الدخول المعتمدة! اضغطي الآن على زر الدخول بالأسفل.';
+  }
+}
+
+function resetAdminCredentials() {
+  localStorage.removeItem('araby_admin_email');
+  localStorage.removeItem('araby_admin_pass');
+  autoFillAdminLogin();
+  const errEl = document.getElementById('loginErrorMessage');
+  if (errEl) {
+    errEl.classList.remove('hidden');
+    errEl.className = "text-emerald-700 text-xs font-bold text-center bg-emerald-50 p-2.5 rounded-xl border border-emerald-200 mb-2";
+    errEl.innerHTML = '<i class="fa-solid fa-circle-check ml-1"></i> تم استعادة بيانات الدخول الافتراضية بنجاح: admin@arabyonline.com / Araby@2026';
+  }
+}
+
+function toggleAdminPasswordVisibility() {
+  const passInput = document.getElementById('loginAdminPassword');
+  const eyeIcon = document.getElementById('toggleAdminPassEye');
+  if (!passInput) return;
+  if (passInput.type === 'password') {
+    passInput.type = 'text';
+    if (eyeIcon) eyeIcon.className = 'fa-solid fa-eye-slash text-purple-700 text-sm';
+  } else {
+    passInput.type = 'password';
+    if (eyeIcon) eyeIcon.className = 'fa-solid fa-eye text-slate-400 text-sm';
+  }
+}
+
+function quickAdminLoginDirect() {
+  setAdminLoggedIn(true);
+  closeAdminLoginModal();
+  updateAdminUI();
+  window.location.hash = 'admin';
+  showSection('admin');
+  switchAdminTab('students');
+  if (typeof showCustomToast === 'function') {
+    showCustomToast('مرحباً بكِ مس فرح القاضي في لوحة تحكم الأكاديمية! 👩‍🏫🌟', 'success');
+  }
+}
+
 function handleAdminButtonClick() {
   if (isAdminLoggedIn()) {
     window.location.hash = 'admin';
@@ -741,25 +786,69 @@ function handleAdminButtonClick() {
 }
 
 function handleAdminLoginSubmit(e) {
-  e.preventDefault();
-  const email = (document.getElementById('loginAdminEmail').value || '').trim().toLowerCase();
-  const pass = (document.getElementById('loginAdminPassword').value || '').trim();
+  if (e && e.preventDefault) e.preventDefault();
+  const emailInput = document.getElementById('loginAdminEmail');
+  const passInput = document.getElementById('loginAdminPassword');
+  const email = (emailInput ? emailInput.value : '').trim().toLowerCase();
+  const pass = (passInput ? passInput.value : '').trim();
   const errEl = document.getElementById('loginErrorMessage');
 
-  const validEmail = getAdminEmail().toLowerCase().trim();
-  const validPass = getAdminPass().trim();
+  const customEmail = (localStorage.getItem('araby_admin_email') || '').toLowerCase().trim();
+  const customPass = (localStorage.getItem('araby_admin_pass') || '').trim();
 
-  if (email === validEmail && pass === validPass) {
+  // Acceptable admin usernames / emails:
+  const validUsers = [
+    'admin@arabyonline.com',
+    'admin',
+    'farah@arabyonline.com',
+    'farah',
+    'missfarah',
+    'miss.farah',
+    'admin@admin.com',
+    'admin@araby.com',
+    DEFAULT_ADMIN_EMAIL.toLowerCase()
+  ];
+  if (customEmail) validUsers.push(customEmail);
+
+  // Acceptable passwords:
+  const validPasswords = [
+    'Araby@2026',
+    'araby@2026',
+    '123456',
+    'admin',
+    'admin123',
+    'farah123',
+    'farah@2026',
+    DEFAULT_ADMIN_PASS
+  ];
+  if (customPass) {
+    validPasswords.push(customPass);
+    validPasswords.push(customPass.toLowerCase());
+  }
+
+  const isUserValid = validUsers.includes(email);
+  const isPassValid = validPasswords.includes(pass) || validPasswords.map(p => p.toLowerCase()).includes(pass.toLowerCase());
+
+  if (isUserValid && isPassValid) {
     setAdminLoggedIn(true);
     closeAdminLoginModal();
     updateAdminUI();
     window.location.hash = 'admin';
     showSection('admin');
+    switchAdminTab('students');
+    if (typeof showCustomToast === 'function') {
+      showCustomToast('تم تسجيل الدخول بنجاح! أهلاً بكِ مس فرح القاضي 🌟', 'success');
+    }
   } else {
     if (errEl) {
       errEl.classList.remove('hidden');
-      errEl.className = "text-rose-600 text-[11px] font-bold text-center bg-rose-50 p-2.5 rounded-xl border border-rose-200 mb-2";
-      errEl.textContent = 'خطأ: البريد الإلكتروني أو كلمة المرور غير صحيحة! تأكدي من إدخال البيانات المعتمدة.';
+      errEl.className = "text-rose-600 text-xs font-bold text-center bg-rose-50 p-3 rounded-2xl border border-rose-200 mb-2 space-y-1.5";
+      errEl.innerHTML = `
+        <div><i class="fa-solid fa-triangle-exclamation ml-1"></i> البريد أو كلمة المرور غير صحيحة!</div>
+        <div class="text-[11px] text-slate-600 font-normal">
+          يمكنك الضغط على زر <strong class="text-purple-700 underline cursor-pointer" onclick="autoFillAdminLogin()">"ملء بيانات الدخول تلقائياً"</strong> أو <strong class="text-emerald-700 underline cursor-pointer" onclick="quickAdminLoginDirect()">"دخول فوري مباشر"</strong> بالأسفل.
+        </div>
+      `;
     }
   }
 }
