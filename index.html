@@ -1373,9 +1373,17 @@
           <i class="fa-solid fa-book-open text-logo-blue"></i>
           <span>مقرراتي ومناهجي الدراسية 📚</span>
         </button>
+        <button onclick="switchPortalTab('quizzes')" id="portal-tab-quizzes" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-bullseye text-purple-600"></i>
+          <span>الاختبارات التفاعلية 🎯</span>
+        </button>
         <button onclick="switchPortalTab('homework')" id="portal-tab-homework" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-clipboard-check text-logo-green"></i>
           <span>بنك الواجبات والتطبيقات 📝</span>
+        </button>
+        <button onclick="switchPortalTab('reports')" id="portal-tab-reports" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
+          <i class="fa-solid fa-chart-line text-orange-600"></i>
+          <span>تقارير متابعة ولي الأمر 📊</span>
         </button>
         <button onclick="switchPortalTab('certificate')" id="portal-tab-certificate" class="portal-tab px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 whitespace-nowrap">
           <i class="fa-solid fa-certificate text-amber-500"></i>
@@ -1484,6 +1492,66 @@
               </div>
             </div>
           </div>
+
+          <!-- Follow-up Section for Parent & Student in Course 1 -->
+          <div class="p-4 sm:p-5 bg-gradient-to-r from-orange-50/80 via-white to-amber-50/60 border-t border-orange-100 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="text-xs font-black text-orange-950 flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-pie text-orange-500"></i>
+                <span>المتابعة الأكاديمية لمقرر اللغة العربية (لولي الأمر والطالب):</span>
+              </span>
+              <span class="text-[11px] font-black text-emerald-700 bg-emerald-100/90 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                نسبة الإتقان: 96% ممتاز 🌟
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <!-- 1. الاختبار التفاعلي -->
+              <div class="bg-white p-3.5 rounded-2xl border border-orange-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-purple-700 font-black">🎯 الاختبار التفاعلي</span>
+                    <span class="text-emerald-600 font-black">10 / 10 ⭐</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">اختبار قياس الاستيعاب الفوري في القواعد والنصوص</p>
+                </div>
+                <button type="button" onclick="startSubjectQuiz('اللغة العربية والمنهج المدرسي')" class="w-full py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-bullseye"></i>
+                  <span>بدء الاختبار التفاعلي 🎯</span>
+                </button>
+              </div>
+
+              <!-- 2. الواجبات والتطبيقات -->
+              <div class="bg-white p-3.5 rounded-2xl border border-blue-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-blue-700 font-black">📝 الواجبات والتطبيقات</span>
+                    <span class="text-blue-600 font-black">تم التصحيح ✅</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">حل تدريبات الدرس 2 وملاحظة مس فرح القاضي</p>
+                </div>
+                <button type="button" onclick="triggerUploadHomework('تطبيق مقرر اللغة العربية')" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>تسليم الواجب المنزلي 📝</span>
+                </button>
+              </div>
+
+              <!-- 3. تقرير متابعة ولي الأمر -->
+              <div class="bg-white p-3.5 rounded-2xl border border-amber-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-amber-800 font-black">📊 تقرير ولي الأمر</span>
+                    <span class="text-orange-600 font-black">حضور 100% 👏</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">ملاحظات المعلمة وتفاصيل مستوى الطالب</p>
+                </div>
+                <button type="button" onclick="openParentSubjectReport('مقرر منهج اللغة العربية')" class="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-file-waveform"></i>
+                  <span>تقرير متابعة ولي الأمر 📊</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- COURSE 2: Nahw Course -->
@@ -1530,6 +1598,66 @@
               </div>
             </div>
           </div>
+
+          <!-- Follow-up Section for Parent & Student in Course 2 (Nahw) -->
+          <div class="p-4 sm:p-5 bg-gradient-to-r from-blue-50/80 via-white to-indigo-50/60 border-t border-blue-100 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="text-xs font-black text-blue-950 flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-pie text-blue-500"></i>
+                <span>المتابعة الأكاديمية لكورس النحو (لولي الأمر والطالب):</span>
+              </span>
+              <span class="text-[11px] font-black text-blue-700 bg-blue-100/90 px-2.5 py-0.5 rounded-full border border-blue-200">
+                نسبة الإتقان: 98% احترافي 🌟
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <!-- 1. الاختبار التفاعلي -->
+              <div class="bg-white p-3.5 rounded-2xl border border-blue-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-purple-700 font-black">🎯 الاختبار التفاعلي</span>
+                    <span class="text-emerald-600 font-black">10 / 10 ⭐</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">اختبار إعراب الجملة الاسمية والخبر وأنواعه</p>
+                </div>
+                <button type="button" onclick="startSubjectQuiz('كورس النحو من الصفر إلى الاحتراف')" class="w-full py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-bullseye"></i>
+                  <span>بدء اختبار النحو 🎯</span>
+                </button>
+              </div>
+
+              <!-- 2. الواجبات والتطبيقات -->
+              <div class="bg-white p-3.5 rounded-2xl border border-blue-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-blue-700 font-black">📝 الواجبات والتطبيقات</span>
+                    <span class="text-blue-600 font-black">تم التصحيح ✅</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">إعراب قطعة النحو وتعيين الفاعل والمفعول به</p>
+                </div>
+                <button type="button" onclick="triggerUploadHomework('تطبيق قطعة النحو')" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>تسليم واجب النحو 📝</span>
+                </button>
+              </div>
+
+              <!-- 3. تقرير متابعة ولي الأمر -->
+              <div class="bg-white p-3.5 rounded-2xl border border-amber-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-amber-800 font-black">📊 تقرير ولي الأمر</span>
+                    <span class="text-orange-600 font-black">حضور 100% 👏</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">إتقان مفاتيح الإعراب والملاحظات الفردية</p>
+                </div>
+                <button type="button" onclick="openParentSubjectReport('كورس النحو من الصفر')" class="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-file-waveform"></i>
+                  <span>تقرير متابعة النحو 📊</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- COURSE 3: Foundation Course -->
@@ -1571,6 +1699,66 @@
               <i class="fa-solid fa-play text-[10px]"></i>
               <span>مشاهدة الدرس 🔒</span>
             </button>
+          </div>
+
+          <!-- Follow-up Section for Parent & Student in Course 3 (Foundation) -->
+          <div class="p-4 sm:p-5 bg-gradient-to-r from-amber-50/80 via-white to-orange-50/60 border-t border-amber-100 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="text-xs font-black text-amber-950 flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-pie text-amber-600"></i>
+                <span>المتابعة الأكاديمية لكورس التأسيس والإملاء (لولي الأمر والطالب):</span>
+              </span>
+              <span class="text-[11px] font-black text-amber-800 bg-amber-100/90 px-2.5 py-0.5 rounded-full border border-amber-200">
+                نسبة الإتقان: 95% متفوق 🌟
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <!-- 1. الاختبار التفاعلي -->
+              <div class="bg-white p-3.5 rounded-2xl border border-amber-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-purple-700 font-black">🎯 الاختبار التفاعلي</span>
+                    <span class="text-emerald-600 font-black">10 / 10 ⭐</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">اختبار التمييز بين همزة الوصل والقطع ورسم الهمزات</p>
+                </div>
+                <button type="button" onclick="startSubjectQuiz('كورس التأسيس الشامل والإملاء')" class="w-full py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-bullseye"></i>
+                  <span>بدء اختبار الإملاء 🎯</span>
+                </button>
+              </div>
+
+              <!-- 2. الواجبات والتطبيقات -->
+              <div class="bg-white p-3.5 rounded-2xl border border-blue-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-blue-700 font-black">📝 الواجبات والتطبيقات</span>
+                    <span class="text-blue-600 font-black">تم التصحيح ✅</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">تطبيق كتابة 15 كلمة تشتمل على همزات متوسطة</p>
+                </div>
+                <button type="button" onclick="triggerUploadHomework('تطبيق الإملاء والهمزات')" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>تسليم واجب الإملاء 📝</span>
+                </button>
+              </div>
+
+              <!-- 3. تقرير متابعة ولي الأمر -->
+              <div class="bg-white p-3.5 rounded-2xl border border-amber-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-amber-800 font-black">📊 تقرير ولي الأمر</span>
+                    <span class="text-orange-600 font-black">حضور 100% 👏</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">مستوى القراءة وعلاج عيوب الإملاء الفردية</p>
+                </div>
+                <button type="button" onclick="openParentSubjectReport('كورس التأسيس الشامل')" class="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-file-waveform"></i>
+                  <span>تقرير متابعة التأسيس 📊</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1648,6 +1836,66 @@
               </div>
 
               <canvas id="calligraphyCanvas" class="w-full h-full block touch-none"></canvas>
+            </div>
+          </div>
+
+          <!-- Follow-up Section for Parent & Student in Course 4 (Calligraphy) -->
+          <div class="p-4 sm:p-5 bg-gradient-to-r from-purple-50/80 via-white to-pink-50/60 border-t border-purple-100 space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <span class="text-xs font-black text-purple-950 flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-pie text-purple-600"></i>
+                <span>المتابعة الأكاديمية لكورس تحسين الخط العربي (لولي الأمر والطالب):</span>
+              </span>
+              <span class="text-[11px] font-black text-purple-700 bg-purple-100/90 px-2.5 py-0.5 rounded-full border border-purple-200">
+                نسبة التحسن: 92% ملحوظ 🌟
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <!-- 1. الاختبار والتحدي التفاعلي -->
+              <div class="bg-white p-3.5 rounded-2xl border border-purple-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-purple-700 font-black">🎯 تحدي الخط التفاعلي</span>
+                    <span class="text-emerald-600 font-black">10 / 10 ⭐</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">تتبع الحروف وضبط أبعاد السطور والتشكيل</p>
+                </div>
+                <button type="button" onclick="startSubjectQuiz('كورس تحسين الخط العربي')" class="w-full py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-bullseye"></i>
+                  <span>بدء تحدي الخط 🎯</span>
+                </button>
+              </div>
+
+              <!-- 2. الواجبات والتطبيقات -->
+              <div class="bg-white p-3.5 rounded-2xl border border-blue-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-blue-700 font-black">📝 لوحة الواجب والخط</span>
+                    <span class="text-blue-600 font-black">تم التقييم ✅</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">رفع كراسة تحسين الخط أو حفظ لوحة السبورة</p>
+                </div>
+                <button type="button" onclick="triggerUploadHomework('كراسة تدريب الخط العربي')" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                  <span>رفع صورة الواجب 📝</span>
+                </button>
+              </div>
+
+              <!-- 3. تقرير متابعة ولي الأمر -->
+              <div class="bg-white p-3.5 rounded-2xl border border-amber-200/80 shadow-2xs flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between text-[11px] font-bold text-slate-500 mb-1">
+                    <span class="text-amber-800 font-black">📊 تقرير ولي الأمر</span>
+                    <span class="text-purple-600 font-black">تطور ممتاز ✍️</span>
+                  </div>
+                  <p class="text-[11px] font-medium text-slate-700 leading-snug">مقارنة خط الطالب قبل الكورس وبعده</p>
+                </div>
+                <button type="button" onclick="openParentSubjectReport('كورس تحسين الخط العربي')" class="w-full py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-[11px] transition shadow-xs flex items-center justify-center gap-1.5 cursor-pointer">
+                  <i class="fa-solid fa-file-waveform"></i>
+                  <span>تقرير تطور الخط 📊</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1836,6 +2084,87 @@
 
       </div>
 
+      <!-- ==================== TAB: INTERACTIVE QUIZZES ARENA (بنك الاختبارات التفاعلية) ==================== -->
+      <div id="portal-view-quizzes" class="portal-view hidden space-y-5">
+        
+        <!-- Header Banner -->
+        <div class="bg-gradient-to-r from-purple-700 via-indigo-700 to-purple-800 p-6 rounded-3xl text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+          <div class="space-y-1 text-center md:text-right">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-xs font-black">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>منصة التقييم الذكي والتصحيح الفوري 🎯</span>
+            </div>
+            <h4 class="text-xl sm:text-2xl font-black mt-2">بنك الاختبارات التفاعلية الشاملة</h4>
+            <p class="text-xs text-purple-200">اختبر فهمك واستيعابك فوراً مع تصحيح ذكي، مؤقت تفاعلي، وشهادة إنجاز مباشرة</p>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <div class="bg-white/10 backdrop-blur-xs border border-white/20 px-4 py-2.5 rounded-2xl text-center">
+              <span class="text-[10px] text-purple-200 block font-bold">الاختبارات المجتازة:</span>
+              <strong class="text-lg font-black text-amber-300">12 / 12 ✅</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quizzes Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          
+          <!-- Quiz 1: Nahw & Grammar -->
+          <div class="bg-white p-5 rounded-3xl border-2 border-purple-100 hover:border-purple-300 shadow-xs flex flex-col justify-between gap-4 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-lg bg-purple-50 text-purple-700 font-black text-[10px] border border-purple-200">
+                  📐 كورس النحو من الصفر
+                </span>
+                <span class="text-[11px] font-bold text-emerald-600">درجة سابقة: 10/10 🌟</span>
+              </div>
+              <h5 class="font-black text-sm text-slate-900 leading-snug">اختبار إعراب الجملة الفعلية والاسمية وعلامات الإعراب</h5>
+              <p class="text-xs text-slate-500">5 أسئلة اختيار من متعدد • مؤقت 5 دقائق • تصحيح وتغذية راجعة فورية من مس فرح القاضي</p>
+            </div>
+            <button onclick="startSubjectQuiz('كورس النحو من الصفر إلى الاحتراف')" class="w-full py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-play"></i>
+              <span>خوض الاختبار الآن 🎯</span>
+            </button>
+          </div>
+
+          <!-- Quiz 2: Egyptian Curriculum -->
+          <div class="bg-white p-5 rounded-3xl border-2 border-orange-100 hover:border-orange-300 shadow-xs flex flex-col justify-between gap-4 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-lg bg-orange-50 text-orange-700 font-black text-[10px] border border-orange-200">
+                  🇪🇬 منهج اللغة العربية
+                </span>
+                <span class="text-[11px] font-bold text-emerald-600">درجة سابقة: 10/10 🌟</span>
+              </div>
+              <h5 class="font-black text-sm text-slate-900 leading-snug">اختبار الوحدة الأولى: النصوص والقراءة المتحررة وكان وأخواتها</h5>
+              <p class="text-xs text-slate-500">تدريب مطابق لمواصفات امتحانات الوزارة وبنوك أسئلة المحافظات</p>
+            </div>
+            <button onclick="startSubjectQuiz('مقرر منهج اللغة العربية')" class="w-full py-2.5 rounded-2xl bg-orange-500 hover:bg-orange-600 text-white font-black text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-play"></i>
+              <span>خوض الاختبار الآن 🎯</span>
+            </button>
+          </div>
+
+          <!-- Quiz 3: Dictation & Foundation -->
+          <div class="bg-white p-5 rounded-3xl border-2 border-amber-100 hover:border-amber-300 shadow-xs flex flex-col justify-between gap-4 transition">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="px-2.5 py-0.5 rounded-lg bg-amber-50 text-amber-800 font-black text-[10px] border border-amber-200">
+                  🌱 التأسيس الشامل والإملاء
+                </span>
+                <span class="text-[11px] font-bold text-emerald-600">درجة سابقة: 10/10 🌟</span>
+              </div>
+              <h5 class="font-black text-sm text-slate-900 leading-snug">اختبار همزات الوصل والقطع والتاء المربوطة والمفتوحة</h5>
+              <p class="text-xs text-slate-500">اختبار سريع لمعالجة الأخطاء الإملائية الشائعة لدى الطلاب</p>
+            </div>
+            <button onclick="startSubjectQuiz('كورس التأسيس الشامل والإملاء')" class="w-full py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-play"></i>
+              <span>خوض الاختبار الآن 🎯</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
       <!-- ==================== TAB 3: HOMEWORK & ASSIGNMENTS ==================== -->
       <div id="portal-view-homework" class="portal-view hidden space-y-4">
         
@@ -1865,10 +2194,150 @@
             </div>
             <h5 class="font-black text-sm text-slate-900 leading-snug">كتابة 15 كلمة تشتمل على همزات متوسطة على الواو والياء والسطر</h5>
             <p class="text-xs text-slate-500">قم بحل التدريب في كشكول الواجب وتصويره أو حفظه PDF ورفعه هنا للمراجعة.</p>
-            <button onclick="triggerUploadHomework('تطبيق الإملاء رقم 2')" class="w-full py-2.5 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs transition shadow-xs flex items-center justify-center gap-2">
+            <button onclick="triggerUploadHomework('تطبيق الإملاء رقم 2')" class="w-full py-2.5 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs transition shadow-xs flex items-center justify-center gap-2 cursor-pointer">
               <i class="fa-solid fa-cloud-arrow-up"></i>
               <span>رفع ملف الحل الآن (PDF / صورة)</span>
             </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== TAB: PARENT FOLLOW-UP REPORTS (تقارير متابعة ولي الأمر الشاملة) ==================== -->
+      <div id="portal-view-reports" class="portal-view hidden space-y-6">
+        
+        <!-- Parent Report Header Card -->
+        <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-5">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center text-2xl font-black shrink-0">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h4 class="text-base sm:text-lg font-black text-slate-900">تقرير المتابعة والتقييم الأكاديمي لولي الأمر</h4>
+                <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">تقرير دوري معتمد 📋</span>
+              </div>
+              <p class="text-xs text-slate-500 mt-1">متابعة دقيقة لكل تفاصيل مستوى الطالب مع إشراف وملاحظات مس فرح القاضي (خبرة 13 سنة)</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="printParentComprehensiveReport()" class="px-4 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs transition flex items-center gap-2 cursor-pointer shadow-xs">
+              <i class="fa-solid fa-print text-amber-300"></i>
+              <span>طباعة التقرير PDF 🖨️</span>
+            </button>
+            <a href="https://wa.me/201080285458?text=السلام%20عليكم%2C%20أريد%20الاستفسار%20عن%20تقرير%20متابعة%20مستوى%20الطالب%20مع%20مس%20فرح" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition flex items-center gap-2 shadow-xs cursor-pointer">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              <span>محادثة مس فرح 💬</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 Quick Stats for Parents -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg font-bold shrink-0">
+              <i class="fa-solid fa-calendar-check"></i>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 font-bold block">نسبة الحضور بالحصص</span>
+              <strong class="text-xl font-black text-emerald-600">100% (كامل) 🟢</strong>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-lg font-bold shrink-0">
+              <i class="fa-solid fa-list-check"></i>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 font-bold block">إنجاز الواجبات</span>
+              <strong class="text-xl font-black text-slate-900">10 / 10 مكتمل ✅</strong>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-lg font-bold shrink-0">
+              <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 font-bold block">متوسط الاختبارات</span>
+              <strong class="text-xl font-black text-purple-700">98% ممتاز 🌟</strong>
+            </div>
+          </div>
+
+          <div class="bg-white p-4 rounded-3xl border border-slate-200 shadow-xs flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg font-bold shrink-0">
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-400 font-bold block">التفاعل والمشاركة</span>
+              <strong class="text-xl font-black text-amber-500">5 / 5 ⭐⭐⭐⭐⭐</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teacher's Personal Message to Parent -->
+        <div class="p-5 sm:p-6 rounded-3xl bg-gradient-to-r from-amber-50/90 via-orange-50/60 to-white border-2 border-amber-200/90 shadow-xs space-y-2 text-right">
+          <div class="flex items-center gap-2 text-amber-900 font-black text-xs sm:text-sm">
+            <span class="text-lg">👩‍🏫</span>
+            <span>رسالة وتقييم المعلمة (مس فرح القاضي) لولي الأمر:</span>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-700 leading-relaxed font-semibold">
+            "ما شاء الله تبارك الله، مستوى الطالب متميز وملتزم جداً بالحضور في مواعيد البث المباشر. استيعابه لمفاتيح الإعراب سريع، وإجاباته في التطبيقات الإملائية دقيقة. نوصي بالاستمرار على هذا النهج الرائع وتشجيعه المستمر."
+          </p>
+        </div>
+
+        <!-- Detailed Breakdown Table for All Subjects -->
+        <div class="bg-white rounded-3xl border border-slate-200 shadow-xs overflow-hidden">
+          <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+            <h5 class="font-black text-sm text-slate-900">سجل درجات ومتابعة المقررات بالتفصيل</h5>
+            <span class="text-xs font-bold text-slate-400">تحديث فوري وتلقائي</span>
+          </div>
+
+          <div class="divide-y divide-slate-100 text-xs">
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-base shrink-0">🇪🇬</span>
+                <div>
+                  <strong class="font-bold text-slate-900 block text-xs sm:text-sm">مقرر اللغة العربية والمنهج المدرسي</strong>
+                  <span class="text-slate-400 text-[11px]">حضور: 100% • الواجبات: 10/10 • الاختبار: 10/10</span>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-xl bg-emerald-50 text-emerald-700 font-black text-xs border border-emerald-200">ممتاز (98%)</span>
+            </div>
+
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-base shrink-0">📐</span>
+                <div>
+                  <strong class="font-bold text-slate-900 block text-xs sm:text-sm">كورس النحو من الصفر إلى الاحتراف</strong>
+                  <span class="text-slate-400 text-[11px]">حضور: 100% • إعراب الفاعل والمفعول به وأنواع الخبر</span>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-xl bg-blue-50 text-blue-700 font-black text-xs border border-blue-200">ممتاز (99%)</span>
+            </div>
+
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-base shrink-0">🌱</span>
+                <div>
+                  <strong class="font-bold text-slate-900 block text-xs sm:text-sm">كورس التأسيس الشامل والإملاء</strong>
+                  <span class="text-slate-400 text-[11px]">حضور: 100% • علاج الهمزات والمدود والتاءات</span>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-xl bg-amber-50 text-amber-800 font-black text-xs border border-amber-200">ممتاز (96%)</span>
+            </div>
+
+            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50 transition">
+              <div class="flex items-center gap-3">
+                <span class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-base shrink-0">✍️</span>
+                <div>
+                  <strong class="font-bold text-slate-900 block text-xs sm:text-sm">كورس تحسين الخط العربي بالقلم العادي</strong>
+                  <span class="text-slate-400 text-[11px]">تتبع الحروف • ضبط السطور وتناسق الحروف الهجائية</span>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-xl bg-purple-50 text-purple-700 font-black text-xs border border-purple-200">تحسن رائع (94%)</span>
+            </div>
           </div>
         </div>
 
@@ -2703,6 +3172,124 @@
 
     </div>
   </section>
+
+  <!-- ==================== INTERACTIVE QUIZ MODAL ==================== -->
+  <div id="interactiveQuizModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900">
+      
+      <button onclick="closeSubjectQuizModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 pb-4 border-b border-slate-100 mb-4">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center text-xl shadow-xs">
+          🎯
+        </div>
+        <div>
+          <span class="text-[10px] text-purple-700 font-bold bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200">اختبار تفاعلي فوري</span>
+          <h3 class="text-base sm:text-lg font-black text-slate-900 mt-0.5" id="quizModalSubjectTitle">اختبار النحو والإعراب</h3>
+        </div>
+      </div>
+
+      <!-- Quiz Form Container -->
+      <form id="activeQuizForm" onsubmit="submitSubjectQuiz(event)" class="space-y-4 text-xs font-semibold">
+        <div id="quizQuestionsContainer" class="space-y-4 max-h-[340px] overflow-y-auto pr-1">
+          <!-- Dynamically filled with interactive multiple choice questions -->
+        </div>
+
+        <!-- Result Box (Hidden by default, shown upon submit) -->
+        <div id="quizResultBox" class="hidden p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-2 border-emerald-300 text-right space-y-2 animate-fadeIn">
+          <div class="flex items-center justify-between">
+            <span class="font-black text-emerald-900 text-sm flex items-center gap-1.5">
+              <span>🎉 النتيجة والتقييم:</span>
+              <span id="quizScoreText" class="text-emerald-700 font-black">10 من 10 (ممتاز جداً 🌟)</span>
+            </span>
+            <span class="text-xs">🏆</span>
+          </div>
+          <p id="quizTeacherFeedback" class="text-xs text-slate-700 leading-relaxed font-medium">
+            "ما شاء الله يا بطل! إجاباتك نموذجية وتدل على فهم واستيعاب عميق للقواعد. تم تسجيل النتيجة في تقرير المتابعة الخاص بولي أمرك."
+          </p>
+        </div>
+
+        <div class="pt-2 flex items-center gap-2">
+          <button type="submit" id="btnSubmitQuiz" class="flex-1 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-xs sm:text-sm transition shadow-md flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-check-circle"></i>
+            <span>تسليم الإجابات واعتماد النتيجة 🎯</span>
+          </button>
+          <button type="button" onclick="closeSubjectQuizModal()" class="px-4 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer">
+            إغلاق
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ==================== PARENT SUBJECT REPORT MODAL ==================== -->
+  <div id="parentReportModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 border border-slate-200 shadow-2xl relative animate-fadeIn text-slate-900 text-right space-y-4">
+      
+      <button onclick="closeParentReportModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 pb-3 border-b border-slate-100">
+        <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-xl shadow-xs">
+          📊
+        </div>
+        <div>
+          <span class="text-[10px] text-amber-800 font-bold bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">تقرير متابعة معتمد</span>
+          <h3 class="text-base sm:text-lg font-black text-slate-900 mt-0.5" id="parentReportSubjectTitle">تقرير متابعة مقرر اللغة العربية</h3>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="text-slate-500 font-bold">اسم الطالب:</span>
+          <strong id="repStudentName" class="text-slate-900 font-black">أحمد محمود حسنين</strong>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-500 font-bold">المعلمة المشرفة:</span>
+          <strong class="text-slate-800">مس فرح القاضي (خبرة 13 سنة)</strong>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-500 font-bold">نسبة الحضور والالتزام:</span>
+          <span class="text-emerald-600 font-black">100% (حضور كامل) 🟢</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-500 font-bold">نتيجة الاختبار التفاعلي:</span>
+          <span class="text-purple-700 font-black">10 / 10 (ممتاز) 🌟</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-slate-500 font-bold">تسليم التطبيقات والواجبات:</span>
+          <span class="text-blue-600 font-black">10 / 10 (تم التصحيح والتقييم) ✅</span>
+        </div>
+      </div>
+
+      <!-- Teacher Note Box -->
+      <div class="p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200 text-xs text-amber-950 space-y-1">
+        <strong class="font-black block flex items-center gap-1">
+          <i class="fa-solid fa-message text-amber-600"></i>
+          <span>ملاحظة مس فرح القاضي لولي الأمر:</span>
+        </strong>
+        <p id="repTeacherComment" class="text-[11px] leading-relaxed text-slate-700 font-medium">
+          "ما شاء الله، الطالب سريع البديهة ومتفاعل في حصص البث المباشر. استيعابه ممتاز للقواعد وتطبيقه دقيق. يرجى الاستمرار في تشجيعه على التدريب اليومي."
+        </p>
+      </div>
+
+      <div class="pt-2 flex items-center gap-2">
+        <button onclick="window.print()" class="flex-1 py-2.5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-black text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs">
+          <i class="fa-solid fa-print text-amber-300"></i>
+          <span>طباعة التقرير PDF 🖨️</span>
+        </button>
+        <a id="repWhatsAppLink" href="https://wa.me/201080285458?text=السلام%20عليكم%2C%20أريد%20الاستفسار%20عن%20تقرير%20متابعة%20مستوى%20الطالب%20مع%20مس%20فرح" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs">
+          <i class="fa-brands fa-whatsapp"></i>
+          <span>محادثة مس فرح</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ==================== ADMIN LOGIN MODAL (بوابة تسجيل دخول الإدارة) ==================== -->
   <div id="adminLoginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
@@ -3734,7 +4321,7 @@
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_16"></script>
+  <script src="app.js?v=20261122_17"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
