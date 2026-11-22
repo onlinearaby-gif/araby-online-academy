@@ -84,7 +84,32 @@ body {
 
 @keyframes floatGentle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Continuous Animated Moving Slogan Marquee */
+@keyframes marqueeRTL {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+html[dir="ltr"] .animate-marquee-track {
+  animation: marqueeLTR 25s linear infinite;
+}
+
+@keyframes marqueeLTR {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeRTL 25s linear infinite;
+}
+
+.animate-marquee-track:hover {
+  animation-play-state: paused;
 }
 
 /* Squiggly Underline */
