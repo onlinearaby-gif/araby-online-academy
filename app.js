@@ -1255,17 +1255,24 @@ function getAdminPass() {
 }
 
 function isAdminLoggedIn() {
-  return sessionStorage.getItem('araby_admin_logged_in') === 'true' || localStorage.getItem('araby_admin_logged_in') === 'true';
+  return sessionStorage.getItem('araby_admin_logged_in') === 'true' || 
+         localStorage.getItem('araby_admin_logged_in') === 'true' || 
+         localStorage.getItem('araby_admin_logged') === 'true';
 }
 
 function setAdminLoggedIn(status) {
   if (status) {
     sessionStorage.setItem('araby_admin_logged_in', 'true');
     localStorage.setItem('araby_admin_logged_in', 'true');
+    localStorage.setItem('araby_admin_logged', 'true');
   } else {
     sessionStorage.removeItem('araby_admin_logged_in');
     localStorage.removeItem('araby_admin_logged_in');
+    localStorage.removeItem('araby_admin_logged');
   }
+  // تحديث فوري لكافة واجهات الدروس والفيديوهات
+  if (typeof renderCoursePartitionLessons === 'function') renderCoursePartitionLessons();
+  if (typeof renderLandingVideos === 'function') renderLandingVideos();
 }
 
 function updateAdminUI() {
@@ -2111,11 +2118,39 @@ function saveCompletedEpisodes(completed) {
 function isEpisodeUnlocked(videoIndex, videos) {
   if (videoIndex === 0) return true; // الحلقة الأولى دائماً متاحة للجميع
   if (!videos || videoIndex >= videos.length) return false;
-  // مسؤولة المنصة أو المعلمة يمكنها فتح ومعاينة كافة الحلقات دائماً
-  if (localStorage.getItem('araby_admin_logged') === 'true') return true;
+  // مسؤولة المنصة أو المعلمة يمكنها فتح ومعاينة كافة الحلقات دائماً بدون أي قيود
+  if (isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true') return true;
   const completed = getCompletedEpisodes();
   const prevVideo = videos[videoIndex - 1];
   return prevVideo ? completed.includes(prevVideo.id) : true;
+}
+
+function isVideoUnlockedForStudent(targetVid, allVideos) {
+  // مسؤولة المنصة تفتح أي فيديو مباشرة
+  if (isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true') return true;
+  if (!targetVid) return true;
+  if (!allVideos) allVideos = getVideos();
+
+  const c = targetVid.category || '';
+  const t = targetVid.title || '';
+  let courseVideos = [];
+  if (c.includes('الخط') || t.includes('الخط') || t.includes('خط') || t.includes('رقعة') || t.includes('نسخ')) {
+    courseVideos = allVideos.filter(v => (v.category || '').includes('الخط') || (v.title || '').includes('الخط') || (v.title || '').includes('خط') || (v.title || '').includes('رقعة') || (v.title || '').includes('نسخ'));
+  } else if (c.includes('النحو') || t.includes('النحو') || t.includes('إعراب') || t.includes('كان وأخواتها')) {
+    courseVideos = allVideos.filter(v => ((v.category || '').includes('النحو') || (v.title || '').includes('النحو') || (v.title || '').includes('إعراب') || (v.title || '').includes('كان وأخواتها')) && !(v.category || '').includes('الخط') && !(v.title || '').includes('الخط'));
+  } else if (c.includes('تأسيس') || c.includes('الإملاء') || c.includes('القراءة')) {
+    courseVideos = allVideos.filter(v => ((v.category || '').includes('تأسيس') || (v.category || '').includes('الإملاء') || (v.category || '').includes('القراءة')) && !(v.category || '').includes('الخط') && !(v.title || '').includes('الخط'));
+  } else {
+    courseVideos = allVideos.filter(v => (v.category || '') === c);
+  }
+
+  courseVideos.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true }));
+  const idx = courseVideos.findIndex(v => v.id === targetVid.id);
+  if (idx <= 0) return true; // الحلقة الأولى في المقرر مفتوحة دائماً
+
+  const prevVid = courseVideos[idx - 1];
+  const completed = getCompletedEpisodes();
+  return prevVid ? completed.includes(prevVid.id) : true;
 }
 
 function isEpisodeCompleted(videoId) {
@@ -2375,6 +2410,163 @@ async function deleteAdminVideo(id) {
   }
 }
 
+// دالة فتح نافذة تعديل بيانات الحصة وتصحيح الأخطاء
+function openEditVideoModal(videoId) {
+  const videos = getVideos();
+  const v = videos.find(item => item.id === videoId);
+  if (!v) {
+    alert('لم يتم العثور على بيانات هذا الدرس في المنصة!');
+    return;
+  }
+
+  const modal = document.getElementById('editVideoModal');
+  if (!modal) return;
+
+  const idInput = document.getElementById('editVideoId');
+  const titleInput = document.getElementById('editVideoTitle');
+  const catSelect = document.getElementById('editVideoCategory');
+  const urlInput = document.getElementById('editVideoUrl');
+  const fileNotice = document.getElementById('editVideoCurrentFileNotice');
+  const fileInput = document.getElementById('editVideoFile');
+  const thumbUrlInput = document.getElementById('editVideoThumbnailUrl');
+  const thumbBase64 = document.getElementById('editVideoThumbnailBase64');
+  const thumbImg = document.getElementById('editVideoThumbnailImg');
+  const descInput = document.getElementById('editVideoDescription');
+
+  if (idInput) idInput.value = v.id;
+  if (titleInput) titleInput.value = v.title || '';
+  if (catSelect) {
+    let matched = false;
+    for (let i = 0; i < catSelect.options.length; i++) {
+      if (catSelect.options[i].value === v.category || (v.category && catSelect.options[i].text.includes(v.category))) {
+        catSelect.selectedIndex = i;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched && v.category) {
+      catSelect.value = v.category;
+    }
+  }
+  if (urlInput) urlInput.value = v.isLocalFile ? '' : (v.url || '');
+  if (fileInput) fileInput.value = '';
+  if (fileNotice) {
+    if (v.isLocalFile) {
+      fileNotice.textContent = `📁 الملف الحالي المحفوظ: ${v.fileName || 'ملف فيديو من جهازك'} (يمكنكِ تركه كما هو أو اختيار ملف بديل)`;
+      fileNotice.classList.remove('hidden');
+    } else {
+      fileNotice.classList.add('hidden');
+    }
+  }
+  if (thumbBase64) thumbBase64.value = '';
+  if (thumbUrlInput) thumbUrlInput.value = v.thumbnail && v.thumbnail.startsWith('http') ? v.thumbnail : '';
+  if (thumbImg) thumbImg.src = v.thumbnail || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80';
+  if (descInput) descInput.value = v.description || '';
+
+  modal.classList.remove('hidden');
+}
+
+function closeEditVideoModal() {
+  const modal = document.getElementById('editVideoModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function handleEditThumbnailUrlChange(val) {
+  const thumbImg = document.getElementById('editVideoThumbnailImg');
+  if (thumbImg && val && val.trim().startsWith('http')) {
+    thumbImg.src = val.trim();
+  }
+}
+
+async function handleEditVideoSubmit(e) {
+  e.preventDefault();
+  const id = document.getElementById('editVideoId')?.value;
+  if (!id) return;
+
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const origHtml = submitBtn ? submitBtn.innerHTML : '';
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري حفظ وتحديث الحصة...';
+  }
+
+  const videos = getVideos();
+  const vidIndex = videos.findIndex(v => v.id === id);
+  if (vidIndex === -1) {
+    alert('لم يتم العثور على هذا الفيديو!');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origHtml;
+    }
+    return;
+  }
+
+  const target = videos[vidIndex];
+  const newTitle = (document.getElementById('editVideoTitle')?.value || '').trim();
+  const newCategory = document.getElementById('editVideoCategory')?.value || target.category;
+  const newUrl = (document.getElementById('editVideoUrl')?.value || '').trim();
+  const newDesc = (document.getElementById('editVideoDescription')?.value || '').trim();
+  const fileInput = document.getElementById('editVideoFile');
+  const newFile = fileInput && fileInput.files && fileInput.files[0];
+  const newThumbBase64 = (document.getElementById('editVideoThumbnailBase64')?.value || '').trim();
+  const newThumbUrl = (document.getElementById('editVideoThumbnailUrl')?.value || '').trim();
+
+  if (!newTitle) {
+    alert('يرجى كتابة عنوان الحصة');
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origHtml;
+    }
+    return;
+  }
+
+  target.title = newTitle;
+  target.category = newCategory;
+  target.description = newDesc;
+
+  // تحديث صورة الغلاف إذا تم تغييرها
+  if (newThumbBase64) {
+    target.thumbnail = newThumbBase64;
+  } else if (newThumbUrl) {
+    target.thumbnail = newThumbUrl;
+  }
+
+  // تحديث مصدر الفيديو إذا تم رفع ملف جديد أو تغيير الرابط
+  if (newFile) {
+    target.isLocalFile = true;
+    target.fileName = newFile.name;
+    target.fileSize = newFile.size;
+    target.url = '';
+    await saveVideoBlobToDB(id, newFile, newFile.name, newFile.type, newFile.size);
+    const liveBlob = URL.createObjectURL(newFile);
+    runtimeVideoUrls[id] = liveBlob;
+  } else if (newUrl) {
+    target.url = parseVideoEmbedUrl(newUrl);
+    if (target.isLocalFile && newUrl) {
+      target.isLocalFile = false;
+    }
+  }
+
+  saveVideos(videos);
+
+  closeEditVideoModal();
+  renderCoursePartitionLessons();
+  renderAdminVideos();
+  renderLandingVideos();
+  updateAdminStats(undefined, undefined);
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = origHtml;
+  }
+
+  if (typeof showCustomToast === 'function') {
+    showCustomToast(`✅ تم حفظ وتصحيح بيانات الحصة "${target.title}" بنجاح!`, 'success');
+  } else {
+    alert(`✅ تم حفظ وتصحيح بيانات الحصة "${target.title}" بنجاح!`);
+  }
+}
+
 function renderAdminVideos() {
   const container = document.getElementById('adminVideosListContainer');
   if (!container) return;
@@ -2413,10 +2605,13 @@ function renderAdminVideos() {
             <p class="text-[11px] text-slate-500 line-clamp-2 mt-0.5">${v.description}</p>
           </div>
         </div>
-        <div class="flex items-center justify-between pt-2 border-t border-slate-200/80">
-          <div class="flex items-center gap-2">
+        <div class="flex items-center justify-between pt-2 border-t border-slate-200/80 flex-wrap gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
             <button onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer">
               <i class="fa-solid fa-play text-[10px]"></i> معاينة وتشغيل
+            </button>
+            <button onclick="openEditVideoModal('${v.id}')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer" title="تعديل بيانات الحصة وتصحيح الأخطاء">
+              <i class="fa-solid fa-pen-to-square text-[10px]"></i> تعديل ✏️
             </button>
             <button onclick="downloadVideoDirectly('${v.url || ''}', '${safeTitle}', '${v.id}')" class="px-2.5 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold flex items-center gap-1 transition cursor-pointer" title="تحميل الفيديو للجهاز">
               <i class="fa-solid fa-download text-[10px]"></i> تحميل
@@ -2490,9 +2685,11 @@ function renderLandingVideos() {
     return;
   }
 
+  const isAdmin = isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true';
+
   container.innerHTML = videos.map((v, index) => {
     const epNumber = index + 1;
-    const isUnlocked = isEpisodeUnlocked(index, videos);
+    const isUnlocked = isAdmin || isEpisodeUnlocked(index, videos);
     const isDone = completed.includes(v.id);
     const safeTitle = (v.title || '').replace(/'/g, "\\'");
     const safeDesc = (v.description || '').replace(/'/g, "\\'");
@@ -2500,7 +2697,7 @@ function renderLandingVideos() {
     const isLocal = !!v.isLocalFile;
 
     if (!isUnlocked) {
-      // LOCKED CARD
+      // LOCKED CARD (فقط للطلاب والزوار حتى ينتهوا من الحلقات السابقة)
       return `
         <div class="group bg-slate-100/90 rounded-3xl border-2 border-dashed border-slate-300 overflow-hidden shadow-xs opacity-85 hover:opacity-100 transition duration-300 flex flex-col relative select-none">
           <div class="relative w-full aspect-video bg-slate-800 overflow-hidden cursor-pointer" onclick="alertEpisodeLocked(${epNumber}, '${prevTitle}')">
@@ -2545,7 +2742,7 @@ function renderLandingVideos() {
       `;
     }
 
-    // UNLOCKED CARD
+    // UNLOCKED CARD (مفتوحة للإدارة دائماً، وللطلاب عند إكمال التسلسل)
     return `
       <div class="group bg-white rounded-3xl border ${isDone ? 'border-emerald-300 shadow-emerald-50' : 'border-purple-200/90'} overflow-hidden shadow-xs hover:shadow-lg hover:border-purple-400 transition duration-300 flex flex-col relative">
         <div class="relative w-full aspect-video bg-slate-900 overflow-hidden cursor-pointer" onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${index})">
@@ -2555,10 +2752,11 @@ function renderLandingVideos() {
               <i class="fa-solid ${isDone ? 'fa-rotate-right' : 'fa-play'} ml-1"></i>
             </div>
           </div>
-          <div class="absolute top-3 right-3 flex items-center gap-1.5">
+          <div class="absolute top-3 right-3 flex items-center gap-1.5 flex-wrap">
             <span class="px-2.5 py-1 rounded-full bg-purple-700 text-white text-[11px] font-black border border-purple-400/40 shadow-xs">
               الحلقة ${epNumber} 🔓
             </span>
+            ${isAdmin ? '<span class="px-2 py-0.5 rounded-full bg-amber-500 text-white text-[10px] font-black shadow-xs flex items-center gap-1" title="متاح مباشرة بوضع الإدارة"><i class="fa-solid fa-crown text-[9px]"></i> إدارة</span>' : ''}
             ${isDone ? '<span class="px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-black shadow-xs flex items-center gap-1"><i class="fa-solid fa-check"></i> مكتملة</span>' : ''}
           </div>
           ${isLocal ? '<span class="absolute bottom-3 right-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-xs text-amber-300 text-[10px] font-black flex items-center gap-1"><i class="fa-solid fa-hdd"></i> فيديو محلي</span>' : ''}
@@ -2579,7 +2777,13 @@ function renderLandingVideos() {
               <i class="fa-solid fa-play text-[11px]"></i>
               <span>${isDone ? 'إعادة مشاهدة الدرس' : 'شاهد الحصة الآن'}</span>
             </button>
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              ${isAdmin ? `
+                <button onclick="openEditVideoModal('${v.id}')" title="تعديل وتصحيح بيانات الحصة" class="px-2.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-xs">
+                  <i class="fa-solid fa-pen-to-square text-[10px]"></i>
+                  <span>تعديل ✏️</span>
+                </button>
+              ` : ''}
               <button onclick="downloadVideoDirectly('${v.url || ''}', '${safeTitle}', '${v.id}')" title="تحميل الفيديو لجهازك للمشاهدة بدون إنترنت" class="px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1 cursor-pointer">
                 <i class="fa-solid fa-download text-[11px]"></i>
                 <span>تحميل 📥</span>
@@ -2617,6 +2821,8 @@ let currentPlayingVideo = null;
 
 async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
   const videos = getVideos();
+  const isAdmin = isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true';
+
   if (typeof videoIndex !== 'number' && videoId) {
     videoIndex = videos.findIndex(v => v.id === videoId);
   }
@@ -2624,14 +2830,19 @@ async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
     videoIndex = 0;
   }
 
-  // Check locking constraint
-  if (!isEpisodeUnlocked(videoIndex, videos)) {
-    const prevTitle = videoIndex > 0 ? (videos[videoIndex - 1].title || '') : '';
-    alertEpisodeLocked(videoIndex + 1, prevTitle);
-    return;
+  const currentVid = (videoId ? videos.find(v => v.id === videoId) : null) || videos[videoIndex] || { id: videoId || 'vid_' + videoIndex, url, title, description: desc };
+
+  // قيد المشاهدة المتسلسلة: مسؤولة المنصة / المعلمة تفتح أي فيديو مباشرة بدون أي حجب
+  // أما الطلاب والزوار فيلتزمون بالترتيب المتتابع
+  if (!isAdmin) {
+    const isUnlocked = isVideoUnlockedForStudent(currentVid, videos);
+    if (!isUnlocked) {
+      const prevTitle = videoIndex > 0 ? (videos[videoIndex - 1]?.title || '') : 'الحلقة السابقة';
+      alertEpisodeLocked(videoIndex + 1, prevTitle);
+      return;
+    }
   }
 
-  const currentVid = (videoId ? videos.find(v => v.id === videoId) : null) || videos[videoIndex] || { id: videoId || 'vid_' + videoIndex, url, title, description: desc };
   let effectiveUrl = currentVid.url || url || '';
   const effectiveTitle = currentVid.title || title || 'درس تفاعلي';
   const effectiveDesc = currentVid.description || desc || '';
@@ -2651,10 +2862,11 @@ async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
   }
 
   currentPlayingVideo = {
+    id: effectiveId,
+    videoId: effectiveId,
     url: effectiveUrl,
     title: effectiveTitle,
     desc: effectiveDesc,
-    videoId: effectiveId,
     videoIndex: videoIndex,
     isLocalFile: !!currentVid.isLocalFile
   };
@@ -2667,12 +2879,30 @@ async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
   const downloadBtn = document.getElementById('videoPlayerDownloadBtn');
   const completeBtn = document.getElementById('videoPlayerCompleteBtn');
   const nextBtn = document.getElementById('videoPlayerNextBtn');
+  const playerEditBtn = document.getElementById('playerEditLessonBtn');
 
   if (!modal || !container) return;
 
   if (titleEl) titleEl.textContent = effectiveTitle;
   if (descEl) descEl.textContent = effectiveDesc;
-  if (badgeEl) badgeEl.textContent = `الحلقة ${videoIndex + 1} 🔓`;
+  if (badgeEl) {
+    if (isAdmin) {
+      badgeEl.innerHTML = `<span class="text-amber-300 font-black"><i class="fa-solid fa-crown text-[10px]"></i> وضع الإدارة (حلقة ${videoIndex + 1})</span>`;
+    } else {
+      badgeEl.textContent = `الحلقة ${videoIndex + 1} 🔓`;
+    }
+  }
+
+  // زر التعديل المباشر للإدارة من داخل المشغل
+  if (playerEditBtn) {
+    if (isAdmin) {
+      playerEditBtn.classList.remove('hidden');
+      playerEditBtn.classList.add('flex');
+    } else {
+      playerEditBtn.classList.add('hidden');
+      playerEditBtn.classList.remove('flex');
+    }
+  }
 
   // Download Button Setup
   if (downloadBtn) {
