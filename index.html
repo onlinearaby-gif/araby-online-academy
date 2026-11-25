@@ -1204,6 +1204,25 @@
           </div>
         </div>
 
+        <!-- أزرار تصفية الفيديوهات حسب المقرر الدراسي (كل كورس على حدة) -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
+          <button type="button" onclick="filterLandingVideos('all')" id="btn-video-filter-all" class="video-filter-pill px-4 py-2 rounded-2xl bg-purple-600 text-white font-bold text-xs shrink-0 transition cursor-pointer shadow-xs">
+            جميع المقررات 📚
+          </button>
+          <button type="button" onclick="filterLandingVideos('الخط')" id="btn-video-filter-calligraphy" class="video-filter-pill px-4 py-2 rounded-2xl bg-white hover:bg-purple-50 text-slate-700 font-bold text-xs shrink-0 border border-slate-200 transition cursor-pointer">
+            ✍️ كورس تحسين الخط (3 حصص)
+          </button>
+          <button type="button" onclick="filterLandingVideos('النحو')" id="btn-video-filter-grammar" class="video-filter-pill px-4 py-2 rounded-2xl bg-white hover:bg-purple-50 text-slate-700 font-bold text-xs shrink-0 border border-slate-200 transition cursor-pointer">
+            📐 كورس النحو
+          </button>
+          <button type="button" onclick="filterLandingVideos('تأسيس')" id="btn-video-filter-foundation" class="video-filter-pill px-4 py-2 rounded-2xl bg-white hover:bg-purple-50 text-slate-700 font-bold text-xs shrink-0 border border-slate-200 transition cursor-pointer">
+            🌱 التأسيس والإملاء
+          </button>
+          <button type="button" onclick="filterLandingVideos('منهج')" id="btn-video-filter-curriculum" class="video-filter-pill px-4 py-2 rounded-2xl bg-white hover:bg-purple-50 text-slate-700 font-bold text-xs shrink-0 border border-slate-200 transition cursor-pointer">
+            🇪🇬 منهج اللغة العربية
+          </button>
+        </div>
+
         <div id="landingVideosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Populated by JavaScript from Admin Uploads -->
         </div>
@@ -1428,69 +1447,28 @@
             </div>
           </div>
 
-          <div class="divide-y divide-slate-100 text-xs font-semibold">
-            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-emerald-50 text-logo-green flex items-center justify-center text-xs shrink-0">
-                  <i class="fa-solid fa-check"></i>
+          <!-- حصص وفيديوهات مقرر منهج اللغة العربية (فيديوهات المنهج فقط) -->
+          <div class="p-4 sm:p-5 bg-gradient-to-b from-orange-50/40 via-white to-white border-b border-orange-100/80">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h5 class="font-black text-xs sm:text-sm text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-photo-film text-logo-orange"></i>
+                    <span>حصص وفيديوهات مقرر اللغة العربية 🇪🇬</span>
+                  </h5>
+                  <span id="curriculumLessonsCountBadge" class="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-black bg-orange-100 text-orange-800 border border-orange-200">
+                    0 حصة
+                  </span>
                 </div>
-                <div>
-                  <span class="font-black text-slate-800 text-xs sm:text-sm block">الدرس 1: علامات إعراب الفاعل والمفعول به بالتفصيل</span>
-                  <span class="text-[11px] text-slate-400">فيديو مسجل بجودة HD (38 دقيقة) • مذكرة تلخيص القواعد PDF</span>
-                </div>
+                <p class="text-[11px] text-slate-500 mt-0.5">فيديوهات وشروحات المنهج المدرسي الخاصة بهذا المقرر فقط بإشراف مس فرح القاضي</p>
               </div>
-              <div class="flex items-center gap-2 mr-11 sm:mr-0">
-                <button onclick="openSecureVideoPlayer('الدرس 1: علامات إعراب الفاعل والمفعول به', 'مقرر اللغة العربية')" class="px-3.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-logo-orange font-bold text-xs transition flex items-center gap-1.5">
-                  <i class="fa-solid fa-play text-[10px]"></i>
-                  <span>مشاهدة الدرس 🔒</span>
-                </button>
-                <button onclick="alert('جاري تحميل مذكرة الدرس بصيغة PDF...')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="تحميل مذكرة PDF">
-                  <i class="fa-solid fa-download"></i>
-                </button>
-              </div>
+              <button type="button" onclick="openAddCourseLessonModal('curriculum')" class="px-3.5 py-2 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition hover:scale-105 cursor-pointer">
+                <i class="fa-solid fa-plus-circle text-[11px]"></i>
+                <span>إضافة حصة للمنهج 🇪🇬</span>
+              </button>
             </div>
-
-            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition bg-orange-50/20">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-orange-100 text-logo-orange flex items-center justify-center text-xs shrink-0 animate-pulse">
-                  <i class="fa-solid fa-play"></i>
-                </div>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <span class="font-black text-slate-900 text-xs sm:text-sm block">الدرس 2: إعراب جمع المذكر السالم وجمع المؤنث السالم</span>
-                    <span class="px-2 py-0.5 rounded-full bg-orange-100 text-logo-orange text-[10px] font-bold">الدرس الحالي ▶️</span>
-                  </div>
-                  <span class="text-[11px] text-slate-400">فيديو مسجل بجودة HD (42 دقيقة) • تدريبات تفاعلية وواجب الدرس</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2 mr-11 sm:mr-0">
-                <button onclick="openSecureVideoPlayer('الدرس 2: إعراب جمع المذكر السالم والمؤنث السالم', 'مقرر اللغة العربية')" class="px-4 py-2 rounded-xl bg-logo-orange hover:bg-orange-600 text-white font-black text-xs transition flex items-center gap-1.5 shadow-xs">
-                  <i class="fa-solid fa-play text-[10px]"></i>
-                  <span>مشاهدة الآن 🔒</span>
-                </button>
-                <button onclick="alert('جاري تحميل ورقة عمل الدرس بصيغة PDF...')" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="تحميل ورقة العمل">
-                  <i class="fa-solid fa-file-pdf text-rose-500"></i>
-                </button>
-              </div>
-            </div>
-
-            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-slate-100 text-slate-400 flex items-center justify-center text-xs shrink-0">
-                  <i class="fa-solid fa-lock"></i>
-                </div>
-                <div>
-                  <span class="font-bold text-slate-700 text-xs sm:text-sm block">الدرس 3: كان وأخواتها وتطبيقات الجملة الاسمية</span>
-                  <span class="text-[11px] text-slate-400">فيديو مسجل بجودة HD (45 دقيقة) • متاح للمشاهدة فور إكمال الدرس الحالي</span>
-                </div>
-              </div>
-              <div class="flex items-center gap-2 mr-11 sm:mr-0">
-                <button onclick="openSecureVideoPlayer('الدرس 3: كان وأخواتها وتطبيقات الجملة الاسمية', 'مقرر اللغة العربية')" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
-                  <i class="fa-solid fa-play text-[10px]"></i>
-                  <span>مشاهدة الدرس 🔒</span>
-                </button>
-              </div>
-            </div>
+            <!-- قائمة حصص المنهج الديناميكية المنفصلة -->
+            <div id="curriculumLessonsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
           </div>
 
           <!-- Follow-up Section for Parent & Student in Course 1 -->
@@ -1579,24 +1557,28 @@
             </div>
           </div>
 
-          <div class="divide-y divide-slate-100 text-xs font-semibold">
-            <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/80 transition">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-blue-100 text-logo-blue flex items-center justify-center text-xs shrink-0">
-                  <i class="fa-solid fa-circle-play"></i>
+          <!-- حصص وفيديوهات كورس النحو من الصفر إلى الاحتراف (محاضرات النحو فقط) -->
+          <div class="p-4 sm:p-5 bg-gradient-to-b from-blue-50/40 via-white to-white border-b border-blue-100/80">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h5 class="font-black text-xs sm:text-sm text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-photo-film text-logo-blue"></i>
+                    <span>محاضرات وفيديوهات كورس النحو 📐</span>
+                  </h5>
+                  <span id="grammarLessonsCountBadge" class="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-black bg-blue-100 text-blue-800 border border-blue-200">
+                    0 محاضرة
+                  </span>
                 </div>
-                <div>
-                  <span class="font-black text-slate-800 text-xs sm:text-sm block">المحاضرة 4: مفاتيح إعراب المبتدأ والخبر وأنواع الخبر</span>
-                  <span class="text-[11px] text-slate-400">شرح تطبيقي بالخرائط الذهنية (40 دقيقة) • اختبار فوري</span>
-                </div>
+                <p class="text-[11px] text-slate-500 mt-0.5">محاضرات الخرائط الذهنية وشروحات النحو الخاصة بهذا الكورس فقط</p>
               </div>
-              <div class="flex items-center gap-2 mr-11 sm:mr-0">
-                <button onclick="openSecureVideoPlayer('المحاضرة 4: مفاتيح إعراب المبتدأ والخبر', 'كورس النحو من الصفر')" class="px-4 py-2 rounded-xl bg-blue-50 text-logo-blue hover:bg-blue-100 font-bold text-xs transition flex items-center gap-1.5">
-                  <i class="fa-solid fa-play text-[10px]"></i>
-                  <span>مشاهدة المحاضرة 🔒</span>
-                </button>
-              </div>
+              <button type="button" onclick="openAddCourseLessonModal('grammar')" class="px-3.5 py-2 rounded-xl bg-logo-blue hover:bg-blue-600 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition hover:scale-105 cursor-pointer">
+                <i class="fa-solid fa-plus-circle text-[11px]"></i>
+                <span>إضافة محاضرة للنحو 📐</span>
+              </button>
             </div>
+            <!-- قائمة محاضرات النحو الديناميكية المنفصلة -->
+            <div id="grammarLessonsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
           </div>
 
           <!-- Follow-up Section for Parent & Student in Course 2 (Nahw) -->
@@ -1685,20 +1667,28 @@
             </div>
           </div>
 
-          <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-semibold">
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-xs shrink-0">
-                <i class="fa-solid fa-pencil"></i>
-              </div>
+          <!-- حصص وفيديوهات كورس التأسيس الشامل والإملاء (فيديوهات التأسيس فقط) -->
+          <div class="p-4 sm:p-5 bg-gradient-to-b from-amber-50/40 via-white to-white border-b border-amber-100/80">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-3">
               <div>
-                <span class="font-black text-slate-800 text-xs sm:text-sm block">درس الإملاء: همزة الوصل والقطع ورسم الهمزات المتوسطة</span>
-                <span class="text-[11px] text-slate-400">ورقة تدريب مرنة مع قائمة الكلمات الأكثر شيوعاً في الأخطاء</span>
+                <div class="flex items-center gap-2">
+                  <h5 class="font-black text-xs sm:text-sm text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-photo-film text-amber-700"></i>
+                    <span>حصص وفيديوهات كورس التأسيس والإملاء 🌱</span>
+                  </h5>
+                  <span id="foundationLessonsCountBadge" class="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-200">
+                    0 حصة
+                  </span>
+                </div>
+                <p class="text-[11px] text-slate-500 mt-0.5">شروحات القراءة السريعة وعلاج الهمزات والتاءات الخاصة بهذا الكورس فقط</p>
               </div>
+              <button type="button" onclick="openAddCourseLessonModal('foundation')" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition hover:scale-105 cursor-pointer">
+                <i class="fa-solid fa-plus-circle text-[11px]"></i>
+                <span>إضافة حصة للتأسيس 🌱</span>
+              </button>
             </div>
-            <button onclick="openSecureVideoPlayer('درس الإملاء: همزة الوصل والقطع', 'كورس التأسيس والإملاء')" class="px-4 py-2 rounded-xl bg-amber-50 text-amber-800 hover:bg-amber-100 font-bold text-xs transition flex items-center gap-1.5 mr-11 sm:mr-0">
-              <i class="fa-solid fa-play text-[10px]"></i>
-              <span>مشاهدة الدرس 🔒</span>
-            </button>
+            <!-- قائمة حصص التأسيس الديناميكية المنفصلة -->
+            <div id="foundationLessonsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
           </div>
 
           <!-- Follow-up Section for Parent & Student in Course 3 (Foundation) -->
@@ -4359,36 +4349,47 @@
     </button>
   </div>
 
-  <!-- ==================== ADD CALLIGRAPHY LESSON MODAL (إضافة حصة لكورس الخط) ==================== -->
-  <div id="addCalligraphyLessonModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
+  <!-- ==================== ADD COURSE LESSON MODAL (إضافة حصة لأي مقرر أو مادة) ==================== -->
+  <div id="addCourseLessonModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
     <div class="relative bg-white w-full max-w-lg rounded-3xl p-6 sm:p-7 shadow-2xl border border-purple-200 text-right my-8">
       <!-- زر الإغلاق -->
-      <button type="button" onclick="closeAddCalligraphyLessonModal()" class="absolute top-5 left-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+      <button type="button" onclick="closeAddCourseLessonModal()" class="absolute top-5 left-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
         <i class="fa-solid fa-xmark text-sm"></i>
       </button>
 
       <div class="flex items-center gap-3 mb-5">
         <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-2xl shadow-inner">
-          ✍️
+          📚
         </div>
         <div>
-          <h3 class="font-black text-lg text-slate-900">إضافة حصة جديدة لكورس الخط العربي</h3>
-          <p class="text-xs text-slate-500 mt-0.5">أضيفي رابط الحصة أو ارفعي الفيديو مع صورة الغلاف من جهازك</p>
+          <h3 class="font-black text-lg text-slate-900">إضافة حصة جديدة للمقرر</h3>
+          <p class="text-xs text-slate-500 mt-0.5">ارفعي الفيديو أو ضعي رابطه مع صورة الغلاف المخصصة له</p>
         </div>
       </div>
 
-      <form id="quickCalligraphyForm" onsubmit="handleQuickCalligraphySubmit(event)" class="space-y-4">
+      <form id="quickCourseLessonForm" onsubmit="handleQuickCourseLessonSubmit(event)" class="space-y-4">
+        <!-- اختيار المقرر الدراسي -->
+        <div>
+          <label class="block text-xs font-black text-slate-800 mb-1.5">المقرر الدراسي *</label>
+          <select id="quickCourseLessonCategory" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs font-bold text-slate-800">
+            <option value="✍️ كورس تحسين الخط العربي">✍️ كورس تحسين الخط العربي</option>
+            <option value="📐 كورس النحو من الصفر إلى الاحتراف">📐 كورس النحو من الصفر إلى الاحتراف</option>
+            <option value="🌱 تأسيس القراءة والكتابة والإملاء">🌱 تأسيس القراءة والكتابة والإملاء</option>
+            <option value="🇪🇬 منهج اللغة العربية">🇪🇬 منهج اللغة العربية</option>
+          </select>
+        </div>
+
         <!-- عنوان الحصة -->
         <div>
           <label class="block text-xs font-black text-slate-800 mb-1.5">عنوان الحصة / الدرس *</label>
-          <input type="text" id="quickCalligraphyTitle" required placeholder="مثال: الدرس 1: قواعد خط الرقعة بالقلم العادي" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs">
+          <input type="text" id="quickCourseLessonTitle" required placeholder="مثال: الحصة 1: قواعد خط الرقعة بالقلم العادي" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs">
         </div>
 
         <!-- رابط أو ملف الفيديو -->
         <div class="space-y-2.5 p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100">
           <div>
             <label class="block text-xs font-black text-slate-800 mb-1">رابط الحصة (يوتيوب أو جوجل درايف أو رابط مباشر)</label>
-            <input type="url" id="quickCalligraphyUrl" placeholder="https://www.youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+            <input type="url" id="quickCourseLessonUrl" placeholder="https://www.youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
           </div>
 
           <div class="flex items-center gap-2">
@@ -4398,7 +4399,7 @@
           </div>
 
           <div>
-            <input type="file" id="quickCalligraphyFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+            <input type="file" id="quickCourseLessonFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
           </div>
         </div>
 
@@ -4408,11 +4409,11 @@
             <i class="fa-solid fa-image text-amber-600"></i>
             <span>صورة غلاف الحصة (اختاري صورة من جهازك أو هاتفك) 🖼️</span>
           </label>
-          <input type="file" id="quickCalligraphyImageFile" accept="image/*" onchange="handleThumbnailFileChosen(event, 'quickCalligraphyImagePreview', 'quickCalligraphyImageBase64')" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-amber-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white cursor-pointer">
-          <input type="hidden" id="quickCalligraphyImageBase64">
+          <input type="file" id="quickCourseLessonImageFile" accept="image/*" onchange="handleThumbnailFileChosen(event, 'quickCourseLessonImagePreview', 'quickCourseLessonImageBase64')" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-amber-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white cursor-pointer">
+          <input type="hidden" id="quickCourseLessonImageBase64">
 
           <!-- معاينة فورية للصورة -->
-          <div id="quickCalligraphyImagePreview" class="hidden flex items-center gap-3 p-2 bg-white rounded-xl border border-amber-200">
+          <div id="quickCourseLessonImagePreview" class="hidden flex items-center gap-3 p-2 bg-white rounded-xl border border-amber-200">
             <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
               <img src="" alt="معاينة الغلاف" class="w-full h-full object-cover">
             </div>
@@ -4421,27 +4422,27 @@
 
           <div>
             <label class="block text-[11px] font-semibold text-slate-500 mb-1">أو رابط صورة خارجي (اختياري)</label>
-            <input type="url" id="quickCalligraphyImageUrl" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+            <input type="url" id="quickCourseLessonImageUrl" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
           </div>
         </div>
 
         <!-- وصف الحصة -->
         <div>
           <label class="block text-xs font-black text-slate-800 mb-1.5">وصف الحصة أو ملاحظات مس فرح</label>
-          <textarea id="quickCalligraphyDesc" rows="2" placeholder="اكتبي نبذة توضيحية للطلاب وأولياء الأمور عن محتوى هذا الدرس..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs"></textarea>
+          <textarea id="quickCourseLessonDesc" rows="2" placeholder="اكتبي نبذة توضيحية للطلاب وأولياء الأمور عن محتوى هذا الدرس..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs"></textarea>
         </div>
 
         <!-- زر الحفظ والنشر -->
         <button type="submit" class="w-full py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
           <i class="fa-solid fa-cloud-arrow-up"></i>
-          <span>حفظ ونشر الحصة في كورس الخط الآن ✍️</span>
+          <span>حفظ ونشر الحصة في المقرر الآن 🚀</span>
         </button>
       </form>
     </div>
   </div>
 
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261125_19"></script>
+  <script src="app.js?v=20261125_20"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
