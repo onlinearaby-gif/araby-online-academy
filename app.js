@@ -2476,7 +2476,13 @@ function renderLandingVideos() {
   const percent = totalVideos > 0 ? Math.round((completedCount / totalVideos) * 100) : 0;
 
   if (progressBarFill) progressBarFill.style.width = `${percent}%`;
-  if (progressCountText) progressCountText.textContent = `${completedCount} من ${totalVideos} مكتملة 🎓`;
+  if (progressCountText) {
+    progressCountText.textContent = percent === 100 
+      ? 'اكتملت جميع الحصص 🎓' 
+      : percent > 0 
+        ? 'جاري التقدم والمتابعة 🌟' 
+        : 'مسار تعليمي متتابع 🎓';
+  }
   if (progressPercentText) progressPercentText.textContent = `${percent}%`;
 
   if (videos.length === 0) {
