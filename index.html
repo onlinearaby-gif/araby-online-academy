@@ -1787,6 +1787,35 @@
             </div>
           </div>
 
+          <!-- حصص وفيديوهات كورس الخط العربي (المرفوعة فقط مع إمكانية إضافة وتعديل الصور والروابط) -->
+          <div class="p-5 sm:p-6 bg-gradient-to-b from-purple-50/50 via-white to-white border-b border-purple-100/80">
+            <div class="flex items-center justify-between flex-wrap gap-3 mb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h5 class="font-black text-sm text-slate-900 flex items-center gap-2">
+                    <i class="fa-solid fa-photo-film text-purple-600"></i>
+                    <span>حصص وفيديوهات كورس تحسين الخط ✍️</span>
+                  </h5>
+                  <span id="calligraphyLessonsCountBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-purple-100 text-purple-700 border border-purple-200">
+                    0 حصة مضافة
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">تظهر هنا فقط الحصص والشروحات الحقيقية التي قمتِ برفعها، مع إمكانية تعديل صور الغلاف وفتح الروابط المباشرة في أي وقت.</p>
+              </div>
+
+              <!-- زر إضافة حصة لكورس الخط -->
+              <button type="button" onclick="openAddCalligraphyLessonModal()" class="px-4 py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs flex items-center gap-2 shadow-xs transition hover:scale-105 cursor-pointer">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span>إضافة حصة جديدة لكورس الخط ✍️</span>
+              </button>
+            </div>
+
+            <!-- قائمة الحصص الديناميكية لكورس الخط المرفوعة فقط -->
+            <div id="calligraphyLessonsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Rendered by renderCalligraphyLessons() -->
+            </div>
+          </div>
+
           <div class="p-5 sm:p-6 space-y-4">
             <!-- Toolbar -->
             <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100">
@@ -2752,9 +2781,19 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-slate-700 mb-1">صورة الغلاف (Thumbnail) <span class="text-slate-400 font-normal">(اختياري)</span></label>
-                <input type="url" id="videoFormThumbnail" placeholder="رابط صورة الغلاف أو اتركها فارغة" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+              <div class="space-y-2">
+                <label class="block text-slate-700 font-bold mb-1">صورة الغلاف (من جهازك أو رابط) 🖼️ <span class="text-slate-400 font-normal">(اختياري)</span></label>
+                <input type="file" id="videoFormThumbnailFile" accept="image/*" onchange="handleThumbnailFileChosen(event, 'videoFormThumbnailPreview', 'videoFormThumbnailBase64')" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-purple-50/50 hover:bg-purple-50 focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+                <input type="hidden" id="videoFormThumbnailBase64">
+                
+                <div id="videoFormThumbnailPreview" class="hidden flex items-center gap-3 p-2 bg-purple-50/80 rounded-xl border border-purple-200">
+                  <div class="w-16 h-12 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+                    <img src="" alt="معاينة الغلاف" class="w-full h-full object-cover">
+                  </div>
+                  <span class="text-[11px] font-bold text-emerald-700">✅ تم اختيار الصورة من جهازك!</span>
+                </div>
+
+                <input type="url" id="videoFormThumbnail" placeholder="أو ضعي رابط صورة مباشر من الإنترنت (اختياري)" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
               </div>
               <div>
                 <label class="block text-slate-700 mb-1">إمكانية التنزيل للطلاب</label>
@@ -4320,8 +4359,89 @@
     </button>
   </div>
 
+  <!-- ==================== ADD CALLIGRAPHY LESSON MODAL (إضافة حصة لكورس الخط) ==================== -->
+  <div id="addCalligraphyLessonModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
+    <div class="relative bg-white w-full max-w-lg rounded-3xl p-6 sm:p-7 shadow-2xl border border-purple-200 text-right my-8">
+      <!-- زر الإغلاق -->
+      <button type="button" onclick="closeAddCalligraphyLessonModal()" class="absolute top-5 left-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center text-2xl shadow-inner">
+          ✍️
+        </div>
+        <div>
+          <h3 class="font-black text-lg text-slate-900">إضافة حصة جديدة لكورس الخط العربي</h3>
+          <p class="text-xs text-slate-500 mt-0.5">أضيفي رابط الحصة أو ارفعي الفيديو مع صورة الغلاف من جهازك</p>
+        </div>
+      </div>
+
+      <form id="quickCalligraphyForm" onsubmit="handleQuickCalligraphySubmit(event)" class="space-y-4">
+        <!-- عنوان الحصة -->
+        <div>
+          <label class="block text-xs font-black text-slate-800 mb-1.5">عنوان الحصة / الدرس *</label>
+          <input type="text" id="quickCalligraphyTitle" required placeholder="مثال: الدرس 1: قواعد خط الرقعة بالقلم العادي" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs">
+        </div>
+
+        <!-- رابط أو ملف الفيديو -->
+        <div class="space-y-2.5 p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100">
+          <div>
+            <label class="block text-xs font-black text-slate-800 mb-1">رابط الحصة (يوتيوب أو جوجل درايف أو رابط مباشر)</label>
+            <input type="url" id="quickCalligraphyUrl" placeholder="https://www.youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="h-px bg-purple-200 flex-1"></div>
+            <span class="text-[11px] font-bold text-purple-600">أو رفع ملف فيديو من جهازك</span>
+            <div class="h-px bg-purple-200 flex-1"></div>
+          </div>
+
+          <div>
+            <input type="file" id="quickCalligraphyFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+          </div>
+        </div>
+
+        <!-- صورة الغلاف من الجهاز مباشرة -->
+        <div class="p-3.5 bg-amber-50/50 rounded-2xl border border-amber-200/80 space-y-2.5">
+          <label class="block text-xs font-black text-amber-950 flex items-center gap-1.5">
+            <i class="fa-solid fa-image text-amber-600"></i>
+            <span>صورة غلاف الحصة (اختاري صورة من جهازك أو هاتفك) 🖼️</span>
+          </label>
+          <input type="file" id="quickCalligraphyImageFile" accept="image/*" onchange="handleThumbnailFileChosen(event, 'quickCalligraphyImagePreview', 'quickCalligraphyImageBase64')" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-amber-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white cursor-pointer">
+          <input type="hidden" id="quickCalligraphyImageBase64">
+
+          <!-- معاينة فورية للصورة -->
+          <div id="quickCalligraphyImagePreview" class="hidden flex items-center gap-3 p-2 bg-white rounded-xl border border-amber-200">
+            <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
+              <img src="" alt="معاينة الغلاف" class="w-full h-full object-cover">
+            </div>
+            <span class="text-[11px] font-bold text-emerald-700">✅ تم اختيار الصورة من جهازك بنجاح!</span>
+          </div>
+
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-500 mb-1">أو رابط صورة خارجي (اختياري)</label>
+            <input type="url" id="quickCalligraphyImageUrl" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+          </div>
+        </div>
+
+        <!-- وصف الحصة -->
+        <div>
+          <label class="block text-xs font-black text-slate-800 mb-1.5">وصف الحصة أو ملاحظات مس فرح</label>
+          <textarea id="quickCalligraphyDesc" rows="2" placeholder="اكتبي نبذة توضيحية للطلاب وأولياء الأمور عن محتوى هذا الدرس..." class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs"></textarea>
+        </div>
+
+        <!-- زر الحفظ والنشر -->
+        <button type="submit" class="w-full py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>حفظ ونشر الحصة في كورس الخط الآن ✍️</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261122_17"></script>
+  <script src="app.js?v=20261125_19"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
