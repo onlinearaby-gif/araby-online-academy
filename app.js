@@ -650,8 +650,9 @@ function switchPortalTab(tabKey) {
     }
   });
 
-  if (tabKey === 'partitions' && typeof resizeCanvas === 'function') {
-    setTimeout(resizeCanvas, 80);
+  if (tabKey === 'partitions') {
+    if (typeof resizeCanvas === 'function') setTimeout(resizeCanvas, 80);
+    if (typeof renderCalligraphyLessons === 'function') renderCalligraphyLessons();
   }
 
   if (tabKey === 'reviews' && typeof renderLandingReviews === 'function') {
@@ -1968,48 +1969,30 @@ async function initLocalVideosStorage() {
   }
 }
 
-const DEFAULT_VIDEOS = [
-  {
-    id: 'vid_1',
-    title: 'الحلقة 1: شرح كان وأخواتها بطريقة الخرائط الذهنية المبسطة 📐',
-    category: '📐 كورس النحو من الصفر إلى الاحتراف',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
-    description: 'شرح تطبيقي ممتع مع مس فرح القاضي (خبرة 13 سنة في التدريس) يوضح عمل كان وأخواتها وضبط الاسم والخبر مع تدريبات عملية.'
-  },
-  {
-    id: 'vid_2',
-    title: 'الحلقة 2: أسرار تحسين خط الرقعة بالقلم العادي للطلاب ✍️',
-    category: '✍️ كورس تحسين الخط العربي',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
-    description: 'قواعد ذهبية سهلة وسريعة لكتابة الحروف بخط الرقعة الأنيق لزيادة درجات الطالب في الامتحانات.'
-  },
-  {
-    id: 'vid_3',
-    title: 'الحلقة 3: قواعد القراءة السريعة والإملاء الصحيح دون أخطاء 🌱',
-    category: '🌱 تأسيس القراءة والكتابة والإملاء',
-    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-    thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
-    description: 'طريقة ذكية ومبتكرة للتفريق بين التاء المربوطة والمفتوحة وكتابة الهمزات المتطرفة بسهولة.'
-  }
-];
+const DEFAULT_VIDEOS = [];
 
 function getVideos() {
   try {
     const raw = localStorage.getItem('araby_videos');
     if (!raw) {
-      localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
-      return DEFAULT_VIDEOS;
+      return [];
     }
     const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
-      return DEFAULT_VIDEOS;
+    if (!Array.isArray(parsed)) {
+      return [];
     }
-    return parsed;
+    // تنظيف وحذف أي فيديوهات تجريبية أو وهمية (مثل روابط ريك رول) لضمان ظهور حصص المعلمة فقط
+    const cleaned = parsed.filter(v => {
+      if (!v) return false;
+      if (typeof v.url === 'string' && v.url.includes('dQw4w9WgXcQ')) return false;
+      return true;
+    });
+    if (cleaned.length !== parsed.length) {
+      saveVideos(cleaned);
+    }
+    return cleaned;
   } catch (e) {
-    return DEFAULT_VIDEOS;
+    return [];
   }
 }
 
@@ -2036,9 +2019,11 @@ function saveCompletedEpisodes(completed) {
 function isEpisodeUnlocked(videoIndex, videos) {
   if (videoIndex === 0) return true; // الحلقة الأولى دائماً متاحة للجميع
   if (!videos || videoIndex >= videos.length) return false;
+  // مسؤولة المنصة أو المعلمة يمكنها فتح ومعاينة كافة الحلقات دائماً
+  if (localStorage.getItem('araby_admin_logged') === 'true') return true;
   const completed = getCompletedEpisodes();
   const prevVideo = videos[videoIndex - 1];
-  return prevVideo ? completed.includes(prevVideo.id) : false;
+  return prevVideo ? completed.includes(prevVideo.id) : true;
 }
 
 function isEpisodeCompleted(videoId) {
@@ -2125,6 +2110,28 @@ async function downloadVideoDirectly(url, title, videoId) {
   }
 }
 
+function handleThumbnailFileChosen(event, previewId, base64InputId) {
+  const file = event.target.files && event.target.files[0];
+  const previewContainer = document.getElementById(previewId);
+  const base64Input = document.getElementById(base64InputId);
+  if (!file) {
+    if (previewContainer) previewContainer.classList.add('hidden');
+    if (base64Input) base64Input.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    if (base64Input) base64Input.value = dataUrl;
+    if (previewContainer) {
+      const img = previewContainer.querySelector('img');
+      if (img) img.src = dataUrl;
+      previewContainer.classList.remove('hidden');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
 function handleVideoFileChosen(e) {
   const fileInput = e.target || document.getElementById('videoFormFile');
   const file = fileInput && fileInput.files && fileInput.files[0];
@@ -2166,7 +2173,9 @@ async function handleAdminAddVideo(e) {
   const category = document.getElementById('videoFormCategory').value;
   let url = (document.getElementById('videoFormUrl').value || '').trim();
   const fileInput = document.getElementById('videoFormFile');
-  const thumbnail = (document.getElementById('videoFormThumbnail').value || '').trim();
+  const thumbnailBase64 = (document.getElementById('videoFormThumbnailBase64')?.value || '').trim();
+  const thumbnailInput = (document.getElementById('videoFormThumbnail')?.value || '').trim();
+  const thumbnail = thumbnailBase64 || thumbnailInput || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80';
   const description = (document.getElementById('videoFormDescription').value || '').trim();
 
   const file = fileInput && fileInput.files && fileInput.files[0];
@@ -2215,7 +2224,7 @@ async function handleAdminAddVideo(e) {
     isLocalFile: isLocal,
     fileName: fileName,
     fileSize: fileSize,
-    thumbnail: thumbnail || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
+    thumbnail: thumbnail,
     description: description || (isLocal 
       ? `درس فيديو تفاعلي تم رفعه من جهاز الإدارة (${fileName}) بإشراف مس فرح القاضي` 
       : 'فيديو تعليمي متميز من أكاديمية عربي أونلاين بإشراف مس فرح القاضي'),
@@ -2230,6 +2239,10 @@ async function handleAdminAddVideo(e) {
   if (infoContainer) infoContainer.classList.add('hidden');
   const previewVideo = document.getElementById('videoFormLocalPreviewTag');
   if (previewVideo) previewVideo.src = '';
+  const thumbPreview = document.getElementById('videoFormThumbnailPreview');
+  if (thumbPreview) thumbPreview.classList.add('hidden');
+  const thumbBase64 = document.getElementById('videoFormThumbnailBase64');
+  if (thumbBase64) thumbBase64.value = '';
 
   if (submitBtn) {
     submitBtn.disabled = false;
@@ -2238,6 +2251,7 @@ async function handleAdminAddVideo(e) {
 
   renderAdminVideos();
   renderLandingVideos();
+  renderCalligraphyLessons();
   updateAdminStats(undefined, undefined);
 
   if (typeof showCustomToast === 'function') {
@@ -2262,6 +2276,7 @@ async function deleteAdminVideo(id) {
   saveVideos(videos);
   renderAdminVideos();
   renderLandingVideos();
+  renderCalligraphyLessons();
   updateAdminStats(undefined, undefined);
   if (typeof showCustomToast === 'function') {
     showCustomToast('🗑️ تم حذف الفيديو بنجاح', 'info');
@@ -2681,6 +2696,275 @@ function closeVideoPlayerModal() {
   if (container) container.innerHTML = '';
   if (modal) modal.classList.add('hidden');
   currentPlayingVideo = null;
+}
+
+// ==================== CALLIGRAPHY COURSE LESSONS & THUMBNAILS (حصص كورس الخط وصورها) ====================
+let currentChangeThumbnailVideoId = null;
+
+function changeLessonThumbnail(videoId) {
+  currentChangeThumbnailVideoId = videoId;
+  let hiddenInput = document.getElementById('lessonThumbnailHiddenInput');
+  if (!hiddenInput) {
+    hiddenInput = document.createElement('input');
+    hiddenInput.type = 'file';
+    hiddenInput.id = 'lessonThumbnailHiddenInput';
+    hiddenInput.accept = 'image/*';
+    hiddenInput.style.display = 'none';
+    hiddenInput.onchange = handleLessonThumbnailFileChange;
+    document.body.appendChild(hiddenInput);
+  }
+  hiddenInput.value = '';
+  hiddenInput.click();
+}
+
+function handleLessonThumbnailFileChange(e) {
+  const file = e.target.files && e.target.files[0];
+  if (!file || !currentChangeThumbnailVideoId) return;
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const base64Img = event.target.result;
+    const videos = getVideos();
+    const vid = videos.find(v => v.id === currentChangeThumbnailVideoId);
+    if (vid) {
+      vid.thumbnail = base64Img;
+      saveVideos(videos);
+      renderCalligraphyLessons();
+      renderLandingVideos();
+      renderAdminVideos();
+      if (typeof showCustomToast === 'function') {
+        showCustomToast('🖼️ تم حفظ وتحديث صورة غلاف الحصة بنجاح!', 'success');
+      } else {
+        alert('🖼️ تم حفظ وتحديث صورة غلاف الحصة بنجاح!');
+      }
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderCalligraphyLessons() {
+  const container = document.getElementById('calligraphyLessonsList');
+  const countBadge = document.getElementById('calligraphyLessonsCountBadge');
+  if (!container) return;
+
+  const allVideos = getVideos();
+  // تصفية حصص الخط العربي فقط المرفوعة من المعلمة
+  const calligraphyLessons = allVideos.filter(v => {
+    const cat = v.category || '';
+    const tit = v.title || '';
+    return cat.includes('الخط') || tit.includes('الخط') || tit.includes('خط') || tit.includes('رقعة') || tit.includes('نسخ');
+  });
+
+  if (countBadge) {
+    countBadge.textContent = `${calligraphyLessons.length} حصة مضافة ✍️`;
+  }
+
+  if (calligraphyLessons.length === 0) {
+    container.innerHTML = `
+      <div class="col-span-full p-8 text-center bg-white/95 rounded-3xl border-2 border-dashed border-purple-200 shadow-2xs">
+        <div class="w-16 h-16 mx-auto rounded-3xl bg-purple-100 text-purple-700 flex items-center justify-center text-3xl mb-3 shadow-inner">
+          ✍️
+        </div>
+        <h5 class="font-black text-slate-800 text-base mb-1.5">لم يتم إضافة أي حصة لكورس الخط بعد</h5>
+        <p class="text-xs text-slate-500 mb-4 max-w-md mx-auto leading-relaxed">
+          تم تنظيف كافة الروابط الافتراضية والوهمية. يمكنكِ الآن إضافة حصصكِ الحقيقية فقط بروابطها وصورها المباشرة.
+        </p>
+        <button type="button" onclick="openAddCalligraphyLessonModal()" class="px-5 py-2.5 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs inline-flex items-center gap-2 shadow-sm transition hover:scale-105 cursor-pointer">
+          <i class="fa-solid fa-plus-circle"></i>
+          <span>إضافة أول حصة لكورس الخط الآن ✍️</span>
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  container.innerHTML = calligraphyLessons.map((v, idx) => {
+    const isLocal = !!v.isLocalFile;
+    const safeTitle = (v.title || '').replace(/'/g, "\\'");
+    const safeDesc = (v.description || '').replace(/'/g, "\\'");
+    const rawUrl = v.url || '';
+    const hasExternalUrl = !isLocal && rawUrl && (rawUrl.startsWith('http://') || rawUrl.startsWith('https://'));
+
+    return `
+      <div class="bg-white rounded-3xl border border-purple-200/90 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+        <!-- غلاف الحصة -->
+        <div class="relative w-full aspect-video bg-slate-900 overflow-hidden">
+          <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
+          
+          <!-- الشارات -->
+          <div class="absolute top-2.5 right-2.5 flex items-center gap-1.5 flex-wrap">
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-900/90 text-purple-200 border border-purple-500/30">
+              حصة ${idx + 1}
+            </span>
+            ${isLocal 
+              ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/90 text-white">💾 ملف محلي</span>`
+              : `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-600/90 text-white">🔗 رابط سحابي</span>`
+            }
+          </div>
+
+          <!-- زر تغيير الصورة مباشرة من الجهاز -->
+          <button type="button" onclick="changeLessonThumbnail('${v.id}')" title="تغيير صورة هذه الحصة من جهازك أو هاتفك" class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-xl bg-slate-900/85 hover:bg-purple-600 text-white text-[11px] font-bold border border-white/20 backdrop-blur-xs flex items-center gap-1 transition shadow-sm cursor-pointer">
+            <i class="fa-solid fa-camera"></i>
+            <span>تغيير الصورة 🖼️</span>
+          </button>
+
+          <!-- زر تشغيل الحصة -->
+          <div onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="absolute inset-0 flex items-center justify-center cursor-pointer">
+            <div class="w-12 h-12 rounded-full bg-purple-600/90 text-white flex items-center justify-center text-lg shadow-lg group-hover:scale-115 transition">
+              <i class="fa-solid fa-play mr-0.5"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- بيانات الحصة -->
+        <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
+          <div>
+            <h5 class="font-black text-sm text-slate-900 line-clamp-2 mb-1.5" title="${v.title}">
+              ${v.title}
+            </h5>
+            <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+              ${v.description || 'شرح تطبيقي مميز لكورس تحسين الخط العربي بالقلم العادي مع مس فرح القاضي'}
+            </p>
+          </div>
+
+          <!-- أدوات التحكم والروابط -->
+          <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="flex-1 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs flex items-center justify-center gap-1.5 transition shadow-2xs cursor-pointer">
+                <i class="fa-solid fa-play text-[10px]"></i>
+                <span>مشاهدة الحصة 🎬</span>
+              </button>
+
+              ${hasExternalUrl ? `
+                <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs flex items-center gap-1 border border-blue-200 transition cursor-pointer" title="فتح الرابط الخارجي المباشر">
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                  <span>الرابط 🔗</span>
+                </a>
+              ` : ''}
+
+              <button type="button" onclick="downloadVideoDirectly('${v.url || ''}', '${safeTitle}', '${v.id}')" class="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition cursor-pointer" title="تحميل الحصة">
+                <i class="fa-solid fa-download text-[11px]"></i>
+              </button>
+
+              <button type="button" onclick="deleteAdminVideo('${v.id}')" class="px-2.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 text-xs font-bold transition cursor-pointer" title="حذف الحصة من الكورس">
+                <i class="fa-solid fa-trash-can text-[11px]"></i>
+              </button>
+            </div>
+
+            <button type="button" onclick="changeLessonThumbnail('${v.id}')" class="text-center text-[11px] font-bold text-purple-700 hover:text-purple-900 hover:underline flex items-center justify-center gap-1 py-1 cursor-pointer">
+              <i class="fa-solid fa-image text-purple-500"></i>
+              <span>رفع أو استبدال صورة غلاف هذه الحصة 🖼️</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openAddCalligraphyLessonModal() {
+  const modal = document.getElementById('addCalligraphyLessonModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    const titleInput = document.getElementById('quickCalligraphyTitle');
+    if (titleInput) titleInput.focus();
+  }
+}
+
+function closeAddCalligraphyLessonModal() {
+  const modal = document.getElementById('addCalligraphyLessonModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    const form = document.getElementById('quickCalligraphyForm');
+    if (form) form.reset();
+    const preview = document.getElementById('quickCalligraphyImagePreview');
+    if (preview) preview.classList.add('hidden');
+    const base64Input = document.getElementById('quickCalligraphyImageBase64');
+    if (base64Input) base64Input.value = '';
+  }
+}
+
+async function handleQuickCalligraphySubmit(e) {
+  e.preventDefault();
+  const submitBtn = e.target.querySelector('button[type="submit"]');
+  const origHtml = submitBtn ? submitBtn.innerHTML : '';
+
+  const title = (document.getElementById('quickCalligraphyTitle')?.value || '').trim();
+  const url = (document.getElementById('quickCalligraphyUrl')?.value || '').trim();
+  const fileInput = document.getElementById('quickCalligraphyFile');
+  const file = fileInput && fileInput.files && fileInput.files[0];
+  const imageBase64 = (document.getElementById('quickCalligraphyImageBase64')?.value || '').trim();
+  const imageUrl = (document.getElementById('quickCalligraphyImageUrl')?.value || '').trim();
+  const description = (document.getElementById('quickCalligraphyDesc')?.value || '').trim();
+
+  if (!title) {
+    alert('يرجى كتابة عنوان الحصة أو الدرس');
+    return;
+  }
+  if (!url && !file) {
+    alert('يرجى وضع رابط الحصة (يوتيوب أو جوجل درايف أو رابط مباشر) أو اختيار ملف فيديو من جهازك.');
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري حفظ الحصة...';
+  }
+
+  const videos = getVideos();
+  const videoId = 'vid_calligraphy_' + Date.now();
+  let isLocal = false;
+  let fileName = '';
+  let fileSize = 0;
+  let effectiveUrl = url;
+
+  if (file) {
+    isLocal = true;
+    fileName = file.name;
+    fileSize = file.size;
+    await saveVideoBlobToDB(videoId, file, file.name, file.type, file.size);
+    const liveBlobUrl = URL.createObjectURL(file);
+    runtimeVideoUrls[videoId] = liveBlobUrl;
+    effectiveUrl = liveBlobUrl;
+  } else {
+    effectiveUrl = parseVideoEmbedUrl(url);
+  }
+
+  const effectiveThumbnail = imageBase64 || imageUrl || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80';
+
+  const newLesson = {
+    id: videoId,
+    title: title.startsWith('الحلقة') || title.startsWith('الدرس') || title.startsWith('حصة') ? title : `حصة: ${title}`,
+    category: '✍️ كورس تحسين الخط العربي',
+    url: isLocal ? '' : effectiveUrl,
+    isLocalFile: isLocal,
+    fileName: fileName,
+    fileSize: fileSize,
+    thumbnail: effectiveThumbnail,
+    description: description || `شرح عملي وتطبيقي لكورس تحسين الخط العربي بالقلم العادي بإشراف مس فرح القاضي`,
+    createdAt: new Date().toLocaleDateString('ar-EG')
+  };
+
+  videos.push(newLesson);
+  saveVideos(videos);
+
+  closeAddCalligraphyLessonModal();
+  renderCalligraphyLessons();
+  renderAdminVideos();
+  renderLandingVideos();
+  updateAdminStats(undefined, undefined);
+
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = origHtml;
+  }
+
+  if (typeof showCustomToast === 'function') {
+    showCustomToast(`🎉 تم إضافة حصة "${newLesson.title}" إلى كورس الخط بنجاح!`, 'success');
+  } else {
+    alert(`🎉 تم إضافة حصة "${newLesson.title}" إلى كورس الخط بنجاح!`);
+  }
 }
 
 // ==================== REVIEWS MANAGEMENT (آراء وتقييمات الطلاب الموثقة من فيسبوك) ====================
@@ -3753,6 +4037,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLandingVideos();
   renderLandingReviews();
   renderAdminVideos();
+  renderCalligraphyLessons();
   renderAdminReviews();
   loadWatermarkSettingsIntoUI();
 });
