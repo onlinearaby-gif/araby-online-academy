@@ -2007,18 +2007,26 @@ async function initLocalVideosStorage() {
 }
 
 const DEFAULT_VIDEOS = [
-  // ✍️ كورس تحسين الخط العربي (الحصص الـ 3 المرفوعة مرتبة حصرياً هنا)
+  // ✍️ كورس تحسين الخط العربي (المقدمة أولاً ثم الحلقات 1، 2، 3)
   {
-    id: 'vid_calligraphy_1',
-    title: 'الحصة 1: أسرار وقواعد خط الرقعة بالقلم العادي وموازين الحروف ✍️',
+    id: 'vid_calligraphy_intro',
+    title: 'المقدمة: أسرار وأساسيات تحسين الخط العربي بالقلم العادي وتجهيز الأدوات ✍️',
     category: '✍️ كورس تحسين الخط العربي',
     url: 'https://www.youtube.com/watch?v=0kF5lX3z3B8',
     thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
+    description: 'المقدمة التمهيدية الشاملة لكورس تحسين الخط العربي بالقلم العادي مع مس فرح القاضي: ضبط زوايا مسكة القلم وقواعد الحروف ومقاييسها.'
+  },
+  {
+    id: 'vid_calligraphy_1',
+    title: 'الحلقة الأولى: أسرار وقواعد خط الرقعة بالقلم العادي وموازين الحروف ✍️',
+    category: '✍️ كورس تحسين الخط العربي',
+    url: 'https://www.youtube.com/watch?v=0kF5lX3z3B8',
+    thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
     description: 'شرح تطبيقي ممتع مع مس فرح القاضي يوضح ضبط زوايا القلم العادي وقواعد كتابة الحروف الهابطة والقائمة في خط الرقعة.'
   },
   {
     id: 'vid_calligraphy_2',
-    title: 'الحصة 2: أسرار تحسين خط النسخ المدرسي وضبط المسافات بين الكلمات ✍️',
+    title: 'الحلقة الثانية: أسرار تحسين خط النسخ المدرسي وضبط المسافات بين الكلمات ✍️',
     category: '✍️ كورس تحسين الخط العربي',
     url: 'https://www.youtube.com/watch?v=Xyq_O_2B48Y',
     thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
@@ -2026,33 +2034,51 @@ const DEFAULT_VIDEOS = [
   },
   {
     id: 'vid_calligraphy_3',
-    title: 'الحصة 3: تدريبات عملية وتطبيقات على كراسة الخط ونماذج الامتحانات ✍️',
+    title: 'الحلقة الثالثة: تدريبات عملية وتطبيقات على كراسة الخط ونماذج الامتحانات ✍️',
     category: '✍️ كورس تحسين الخط العربي',
     url: 'https://www.youtube.com/watch?v=oHg5SJYRHA0',
-    thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&auto=format&fit=crop&q=80',
     description: 'تطبيق عملي مباشر على فقرات ونصوص كاملة مع التوجيه والتصحيح الدقيق لتحقيق أعلى مستوى إتقان في الخط.'
   },
-  // 📐 كورس النحو من الصفر إلى الاحتراف
+
+  // 📐 كورس النحو من الصفر إلى الاحتراف (المقدمة أولاً ثم الحلقات)
   {
-    id: 'vid_nahw_1',
-    title: 'المحاضرة 1: شرح كان وأخواتها بطريقة الخرائط الذهنية المبسطة 📐',
+    id: 'vid_nahw_intro',
+    title: 'المقدمة: خريطة طريق كورس النحو وفهم قواعد الإعراب من الصفر 📐',
     category: '📐 كورس النحو من الصفر إلى الاحتراف',
     url: 'https://www.youtube.com/watch?v=9No-FiEInLA',
     thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
-    description: 'شرح تطبيقي مع مس فرح القاضي (خبرة 13 سنة في التدريس) يوضح عمل كان وأخواتها وضبط الاسم والخبر.'
+    description: 'المقدمة والمدخل الشامل لتعلم النحو والإعراب بسهولة ويسر مع مس فرح القاضي (13 سنة خبرة في التدريس).'
+  },
+  {
+    id: 'vid_nahw_1',
+    title: 'الحلقة الأولى: شرح كان وأخواتها بطريقة الخرائط الذهنية المبسطة 📐',
+    category: '📐 كورس النحو من الصفر إلى الاحتراف',
+    url: 'https://www.youtube.com/watch?v=9No-FiEInLA',
+    thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
+    description: 'شرح تطبيقي مع مس فرح القاضي يوضح عمل كان وأخواتها وضبط الاسم والخبر.'
   },
   {
     id: 'vid_nahw_2',
-    title: 'المحاضرة 2: مفاتيح إعراب المبتدأ والخبر وأنواع الخبر بالتفصيل 📐',
+    title: 'الحلقة الثانية: مفاتيح إعراب المبتدأ والخبر وأنواع الخبر بالتفصيل 📐',
     category: '📐 كورس النحو من الصفر إلى الاحتراف',
     url: 'https://www.youtube.com/watch?v=kXYiU_JCYtU',
     thumbnail: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&auto=format&fit=crop&q=80',
     description: 'كيفية تحديد المبتدأ والخبر في الجمل المعقدة وإعراب الخبر المفرد والجملة وشبه الجملة بسهولة.'
   },
-  // 🌱 كورس التأسيس الشامل والإملاء
+
+  // 🌱 كورس التأسيس الشامل والإملاء (المقدمة أولاً ثم الحلقات)
+  {
+    id: 'vid_found_intro',
+    title: 'المقدمة: تمهيد أساسيات التأسيس والقراءة السليمة ومخارج الحروف 🌱',
+    category: '🌱 تأسيس القراءة والكتابة والإملاء',
+    url: 'https://www.youtube.com/watch?v=eVtxfEOU624',
+    thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
+    description: 'مدخل التأسيس الشامل للأطفال والطلاب لإتقان القراءة والكتابة بطلاقة وثقة مع مس فرح.'
+  },
   {
     id: 'vid_found_1',
-    title: 'الدرس 1: قواعد رسم الهمزات والتفريق بين همزة الوصل والقطع 🌱',
+    title: 'الحلقة الأولى: قواعد رسم الهمزات والتفريق بين همزة الوصل والقطع 🌱',
     category: '🌱 تأسيس القراءة والكتابة والإملاء',
     url: 'https://www.youtube.com/watch?v=eVtxfEOU624',
     thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80',
@@ -2060,78 +2086,149 @@ const DEFAULT_VIDEOS = [
   },
   {
     id: 'vid_found_2',
-    title: 'الدرس 2: التفرقة الحاسمة بين التاء المربوطة والمفتوحة والهاء 🌱',
+    title: 'الحلقة الثانية: التفرقة الحاسمة بين التاء المربوطة والمفتوحة والهاء 🌱',
     category: '🌱 تأسيس القراءة والكتابة والإملاء',
     url: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
-    thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80',
     description: 'قاعدة سحرية وسريعة تمكن الطالب من كتابة التاء المربوطة والهاء دون تردد في أي كلمة إملائية.'
   },
-  // 🇪🇬 مقرر منهج اللغة العربية
+
+  // 🇪🇬 مقرر منهج اللغة العربية (المقدمة أولاً ثم الحلقات)
   {
-    id: 'vid_curr_1',
-    title: 'الدرس 1: علامات إعراب الفاعل والمفعول به بالتفصيل والتطبيق 🇪🇬',
+    id: 'vid_curr_intro',
+    title: 'المقدمة: دليل دراسة منهج اللغة العربية وأساليب التفوق الدراسي 🇪🇬',
     category: '🇪🇬 منهج اللغة العربية',
     url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
     thumbnail: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&auto=format&fit=crop&q=80',
+    description: 'مقدمة توجيهية للطلاب وأولياء الأمور لتنظيم المذاكرة وتحقيق الدرجات النهائية في اللغة العربية.'
+  },
+  {
+    id: 'vid_curr_1',
+    title: 'الحلقة الأولى: علامات إعراب الفاعل والمفعول به بالتفصيل والتطبيق 🇪🇬',
+    category: '🇪🇬 منهج اللغة العربية',
+    url: 'https://www.youtube.com/watch?v=fJ9rUzIMcZQ',
+    thumbnail: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&auto=format&fit=crop&q=80',
     description: 'شرح المنهج المدرسي مع حل تدريبات الكتاب المدرسي ونماذج امتحانات الإدارات التعليمية.'
   },
   {
     id: 'vid_curr_2',
-    title: 'الدرس 2: إعراب جمع المذكر السالم وجمع المؤنث السالم وجمع التكسير 🇪🇬',
+    title: 'الحلقة الثانية: إعراب جمع المذكر السالم وجمع المؤنث السالم وجمع التكسير 🇪🇬',
     category: '🇪🇬 منهج اللغة العربية',
     url: 'https://www.youtube.com/watch?v=3JZ_D3ELwOQ',
-    thumbnail: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&auto=format&fit=crop&q=80',
+    thumbnail: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&auto=format&fit=crop&q=80',
     description: 'تدريب تفاعلي على استخراج الجموع وإعرابها في القطع النحوية مع مس فرح القاضي.'
   }
 ];
 
+// دالة تحديد ترتيب ورتبة الحصة بدقة: المقدمة أولاً دائماً (0) ثم الأولى (1) ثم الثانية (2)...
+function getLessonSortRank(v) {
+  if (!v) return 999;
+  const t = (v.title || '').toLowerCase();
+  const id = (v.id || '').toLowerCase();
+
+  // 0. المقدمة / التمهيد / المدخل تكون أولاً دائماً
+  if (t.includes('مقدمة') || t.includes('المقدمة') || t.includes('تمهيد') || t.includes('التمهيد') || t.includes('مدخل') || t.includes('المدخل') || id.includes('intro')) {
+    return 0;
+  }
+
+  // 1. الحلقة الأولى / الحصة الأولى / الدرس الأول
+  if (t.includes('الأولى') || t.includes('الاولى') || t.includes('حلقة 1') || t.includes('حصة 1') || t.includes('درس 1') || t.includes('محاضرة 1') || t.includes(' 1:') || t.includes(' 1 ') || t.includes('١') || id.endsWith('_1')) {
+    return 1;
+  }
+
+  // 2. الحلقة الثانية / الحصة الثانية / الدرس الثاني
+  if (t.includes('الثانية') || t.includes('التانية') || t.includes('حلقة 2') || t.includes('حصة 2') || t.includes('درس 2') || t.includes('محاضرة 2') || t.includes(' 2:') || t.includes(' 2 ') || t.includes('٢') || id.endsWith('_2')) {
+    return 2;
+  }
+
+  // 3. الحلقة الثالثة / الحصة الثالثة / الدرس الثالث
+  if (t.includes('الثالثة') || t.includes('التالتة') || t.includes('حلقة 3') || t.includes('حصة 3') || t.includes('درس 3') || t.includes('محاضرة 3') || t.includes(' 3:') || t.includes(' 3 ') || t.includes('٣') || id.endsWith('_3')) {
+    return 3;
+  }
+
+  // 4. الحلقة الرابعة
+  if (t.includes('الرابعة') || t.includes('4') || t.includes('٤') || id.endsWith('_4')) {
+    return 4;
+  }
+
+  // 5. الحلقة الخامسة
+  if (t.includes('الخامسة') || t.includes('5') || t.includes('٥') || id.endsWith('_5')) {
+    return 5;
+  }
+
+  const match = t.match(/(\d+)/);
+  if (match) return parseInt(match[1], 10);
+  return 100;
+}
+
+function sortCourseVideos(list) {
+  if (!Array.isArray(list)) return [];
+  return [...list].sort((a, b) => {
+    const rankA = getLessonSortRank(a);
+    const rankB = getLessonSortRank(b);
+    if (rankA !== rankB) return rankA - rankB;
+    return (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true });
+  });
+}
+
+function isIntroductionVideo(v) {
+  if (!v) return false;
+  const t = (v.title || '').toLowerCase();
+  return t.includes('مقدمة') || t.includes('المقدمة') || t.includes('تمهيد') || t.includes('التمهيد') || t.includes('مدخل') || t.includes('المدخل');
+}
+
 function getVideos() {
   try {
     const raw = localStorage.getItem('araby_videos');
-    if (!raw) {
-      localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
-      return DEFAULT_VIDEOS;
+    let videos = DEFAULT_VIDEOS;
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        videos = parsed;
+      }
     }
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed) || parsed.length === 0) {
-      localStorage.setItem('araby_videos', JSON.stringify(DEFAULT_VIDEOS));
-      return DEFAULT_VIDEOS;
-    }
-    // تنظيف وحذف أي فيديوهات تجريبية أو وهمية
-    let cleaned = parsed.filter(v => {
+
+    // تنظيف وحذف أي فيديوهات تجريبية غير مرغوبة
+    let cleaned = videos.filter(v => {
       if (!v) return false;
       if (typeof v.url === 'string' && v.url.includes('dQw4w9WgXcQ')) return false;
       return true;
     });
 
-    // التأكد من استقرار حصص الخط الثلاث المرتبة
-    const hasCalligraphy = cleaned.some(v => {
-      const c = v.category || '';
-      const t = v.title || '';
-      return c.includes('الخط') || t.includes('الخط');
+    // التأكد من وجود المقدمة لكل مقرر دراسي
+    const courseCategories = [
+      '✍️ كورس تحسين الخط العربي',
+      '📐 كورس النحو من الصفر إلى الاحتراف',
+      '🌱 تأسيس القراءة والكتابة والإملاء',
+      '🇪🇬 منهج اللغة العربية'
+    ];
+
+    courseCategories.forEach(cat => {
+      const catVideos = cleaned.filter(v => (v.category || '').includes(cat) || (cat.includes('الخط') && (v.category || '').includes('الخط')));
+      const hasIntro = catVideos.some(v => isIntroductionVideo(v));
+      if (!hasIntro) {
+        const defIntro = DEFAULT_VIDEOS.find(v => (v.category || '').includes(cat) && isIntroductionVideo(v));
+        if (defIntro) {
+          cleaned.unshift(defIntro);
+        }
+      }
     });
 
-    if (!hasCalligraphy) {
-      const defCalligraphy = DEFAULT_VIDEOS.filter(v => (v.category || '').includes('الخط'));
-      cleaned = [...defCalligraphy, ...cleaned];
-      saveVideos(cleaned);
-    } else if (cleaned.length !== parsed.length) {
-      saveVideos(cleaned);
-    }
-
+    // ترتيب صارم لكافة الفيديوهات: المقدمة أولاً ثم الحلقات 1، 2، 3
+    cleaned = sortCourseVideos(cleaned);
     return cleaned;
   } catch (e) {
-    return DEFAULT_VIDEOS;
+    return sortCourseVideos(DEFAULT_VIDEOS);
   }
 }
 
 function saveVideos(videos) {
   try {
-    localStorage.setItem('araby_videos', JSON.stringify(videos));
+    const sorted = sortCourseVideos(videos);
+    localStorage.setItem('araby_videos', JSON.stringify(sorted));
   } catch (err) {
     console.warn('LocalStorage quota limit reached, optimizing thumbnails...', err);
     try {
-      // إذا امتلأت مساحة التخزين، نقوم بضغط وتخفيف صور الغلاف حتى يتم الحفظ بنجاح تام
       const compact = videos.map(v => {
         const item = { ...v };
         if (item.thumbnail && item.thumbnail.length > 50000) {
@@ -2146,7 +2243,7 @@ function saveVideos(videos) {
   }
 }
 
-// Sequential Progression Logic
+// نظام المشاهدة المتسلسلة الصارم: لا يفتح إلا بالترتيب حرفاً بحرف
 function getCompletedEpisodes() {
   try {
     const raw = localStorage.getItem('araby_completed_episodes');
@@ -2162,49 +2259,74 @@ function saveCompletedEpisodes(completed) {
   } catch (e) {}
 }
 
+// التحقق من فتح الدرس: فقط الدرس الأول (المقدمة) متاح، وباقي الدروس مشروطة بإنهاء السابق تماماً
 function isEpisodeUnlocked(videoIndex, videos) {
-  if (videoIndex === 0) return true; // الحلقة الأولى دائماً متاحة للجميع
+  if (videoIndex === 0) return true; // فقط أول درس (المقدمة) متاح للبدء
   if (!videos || videoIndex >= videos.length) return false;
-  // مسؤولة المنصة أو المعلمة يمكنها فتح ومعاينة كافة الحلقات دائماً بدون أي قيود
-  if (isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true') return true;
+
   const completed = getCompletedEpisodes();
   const prevVideo = videos[videoIndex - 1];
-  return prevVideo ? completed.includes(prevVideo.id) : true;
+
+  // لازم يكون شاف وأكمل الدرس السابق تماماً
+  return prevVideo ? completed.includes(prevVideo.id) : false;
+}
+
+function filterAndSortCourseVideos(category, allVideos) {
+  if (!allVideos) allVideos = getVideos();
+  const c = category || '';
+  let filtered = [];
+  if (c.includes('الخط') || c.includes('خط') || c.includes('رقعة') || c.includes('نسخ')) {
+    filtered = allVideos.filter(v => {
+      const vc = v.category || '';
+      const vt = v.title || '';
+      return vc.includes('الخط') || vt.includes('الخط') || vt.includes('خط') || vt.includes('رقعة') || vt.includes('نسخ');
+    });
+  } else if (c.includes('النحو') || c.includes('إعراب') || c.includes('كان وأخواتها')) {
+    filtered = allVideos.filter(v => {
+      const vc = v.category || '';
+      const vt = v.title || '';
+      return (vc.includes('النحو') || vt.includes('النحو') || vt.includes('إعراب') || vt.includes('كان وأخواتها')) && !vc.includes('الخط') && !vt.includes('الخط');
+    });
+  } else if (c.includes('تأسيس') || c.includes('الإملاء') || c.includes('القراءة')) {
+    filtered = allVideos.filter(v => {
+      const vc = v.category || '';
+      const vt = v.title || '';
+      return (vc.includes('تأسيس') || vc.includes('الإملاء') || vc.includes('القراءة')) && !vc.includes('الخط') && !vt.includes('الخط');
+    });
+  } else {
+    filtered = allVideos.filter(v => (v.category || '') === c);
+  }
+
+  return sortCourseVideos(filtered);
+}
+
+function getPreviousVideoInCourse(targetVid, allVideos) {
+  if (!targetVid) return null;
+  if (!allVideos) allVideos = getVideos();
+  const courseVideos = filterAndSortCourseVideos(targetVid.category, allVideos);
+  const idx = courseVideos.findIndex(v => v.id === targetVid.id);
+  return idx > 0 ? courseVideos[idx - 1] : null;
 }
 
 function isVideoUnlockedForStudent(targetVid, allVideos) {
-  // مسؤولة المنصة تفتح أي فيديو مباشرة
-  if (isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true') return true;
   if (!targetVid) return true;
   if (!allVideos) allVideos = getVideos();
 
-  const c = targetVid.category || '';
-  const t = targetVid.title || '';
-  let courseVideos = [];
-  if (c.includes('الخط') || t.includes('الخط') || t.includes('خط') || t.includes('رقعة') || t.includes('نسخ')) {
-    courseVideos = allVideos.filter(v => (v.category || '').includes('الخط') || (v.title || '').includes('الخط') || (v.title || '').includes('خط') || (v.title || '').includes('رقعة') || (v.title || '').includes('نسخ'));
-  } else if (c.includes('النحو') || t.includes('النحو') || t.includes('إعراب') || t.includes('كان وأخواتها')) {
-    courseVideos = allVideos.filter(v => ((v.category || '').includes('النحو') || (v.title || '').includes('النحو') || (v.title || '').includes('إعراب') || (v.title || '').includes('كان وأخواتها')) && !(v.category || '').includes('الخط') && !(v.title || '').includes('الخط'));
-  } else if (c.includes('تأسيس') || c.includes('الإملاء') || c.includes('القراءة')) {
-    courseVideos = allVideos.filter(v => ((v.category || '').includes('تأسيس') || (v.category || '').includes('الإملاء') || (v.category || '').includes('القراءة')) && !(v.category || '').includes('الخط') && !(v.title || '').includes('الخط'));
-  } else {
-    courseVideos = allVideos.filter(v => (v.category || '') === c);
-  }
-
-  courseVideos.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true }));
+  const courseVideos = filterAndSortCourseVideos(targetVid.category, allVideos);
   const idx = courseVideos.findIndex(v => v.id === targetVid.id);
-  if (idx <= 0) return true; // الحلقة الأولى في المقرر مفتوحة دائماً
+  if (idx <= 0) return true; // فقط أول درس (المقدمة) متاح للبدء
 
   const prevVid = courseVideos[idx - 1];
   const completed = getCompletedEpisodes();
-  return prevVid ? completed.includes(prevVid.id) : true;
+  return prevVid ? completed.includes(prevVid.id) : false;
 }
 
 function isEpisodeCompleted(videoId) {
   return getCompletedEpisodes().includes(videoId);
 }
 
-function alertEpisodeLocked(epNumber, prevTitle) {
+function alertEpisodeLocked(epLabel, prevTitle, videoId) {
+  const isAdmin = isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true';
   const alertBox = document.createElement('div');
   alertBox.className = "fixed inset-0 z-[100] bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn";
   alertBox.innerHTML = `
@@ -2214,21 +2336,38 @@ function alertEpisodeLocked(epNumber, prevTitle) {
       </div>
       <div>
         <span class="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
-          🔒 الحلقة رقم ${epNumber} مقفلة حالياً
+          🔒 ${epLabel || 'هذا الدرس'} مقفل حالياً بالترتيب
         </span>
-        <h3 class="text-base font-black text-slate-900 mt-2">يجب مشاهدة الدروس بالترتيب</h3>
+        <h3 class="text-base font-black text-slate-900 mt-2">نظام المشاهدة المتسلسلة الصارم 🎓</h3>
         <p class="text-xs text-slate-600 leading-relaxed mt-2 bg-slate-50 p-3 rounded-2xl border border-slate-200">
-          لفتح هذه الحلقة، يرجى أولاً إكمال مشاهدة:
-          <br><strong class="text-purple-700 font-black">"${prevTitle || 'الحلقة السابقة'}"</strong>
-          <br><span class="text-[11px] text-slate-400">النظام مصمم ليساعدك على فهم الدروس خطوة بخطوة 🎯</span>
+          لا يمكن فتح هذا الدرس إلا بعد إكمال مشاهدة الدرس السابق حرفاً بحرف:
+          <br><strong class="text-purple-700 font-black">"${prevTitle || 'المقدمة / الدرس السابق'}"</strong>
+          <br><span class="text-[11px] text-slate-500 mt-1 block">الأكاديمية تلزم الطلاب بالترتيب لضمان الاستيعاب الكامل خطوة بخطوة 🌟</span>
         </p>
       </div>
-      <button onclick="this.closest('.fixed').remove()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs transition shadow-md cursor-pointer">
-        فهمت ذلك، سأشاهد الحلقة السابقة أولاً 👍
-      </button>
+
+      <div class="space-y-2">
+        <button onclick="this.closest('.fixed').remove()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-xs transition shadow-md cursor-pointer">
+          فهمت ذلك، سأشاهد السابق أولاً 👍
+        </button>
+        ${isAdmin && videoId ? `
+          <button onclick="this.closest('.fixed').remove(); openVideoPlayerModalDirect('${videoId}')" class="w-full py-2.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer border border-amber-300">
+            <i class="fa-solid fa-crown text-[11px] text-amber-600"></i>
+            <span>معاينة الإدارة المباشرة (فتح المعلمة) 🔓</span>
+          </button>
+        ` : ''}
+      </div>
     </div>
   `;
   document.body.appendChild(alertBox);
+}
+
+function openVideoPlayerModalDirect(videoId) {
+  const videos = getVideos();
+  const v = videos.find(item => item.id === videoId);
+  if (!v) return;
+  const idx = videos.indexOf(v);
+  openVideoPlayerModal(v.url, v.title, v.description, v.id, idx, true);
 }
 
 function resetVideosProgress() {
@@ -2846,10 +2985,11 @@ function renderLandingVideos() {
   const allVideos = getVideos();
   const completed = getCompletedEpisodes();
 
-  // تصفية الفيديوهات حسب المقرر المختار إذا وجد
-  const videos = activeLandingVideoFilter === 'all' 
+  // تصفية الفيديوهات حسب المقرر المختار إذا وجد وترتيبها ترتيباً تعليمياً صارماً (المقدمة أولاً ثم الحلقات 1، 2، 3)
+  const rawFiltered = activeLandingVideoFilter === 'all' 
     ? allVideos 
     : allVideos.filter(v => (v.category || '').includes(activeLandingVideoFilter) || (v.title || '').includes(activeLandingVideoFilter));
+  const videos = sortCourseVideos(rawFiltered);
 
   // Update Progress Tracker
   const progressBarFill = document.getElementById('videoProgressBarFill');
@@ -2878,53 +3018,62 @@ function renderLandingVideos() {
   const isAdmin = isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true';
 
   container.innerHTML = videos.map((v, index) => {
-    const epNumber = index + 1;
-    const isUnlocked = isAdmin || isEpisodeUnlocked(index, videos);
+    const courseVideos = filterAndSortCourseVideos(v.category, allVideos);
+    const lessonIdxInCourse = courseVideos.findIndex(item => item.id === v.id);
+    const isIntro = lessonIdxInCourse === 0 || isIntroductionVideo(v);
+    const displayLabel = isIntro 
+      ? 'المقدمة 🌟' 
+      : (lessonIdxInCourse === 1 ? 'الحلقة الأولى' : (lessonIdxInCourse === 2 ? 'الحلقة الثانية' : (lessonIdxInCourse === 3 ? 'الحلقة الثالثة' : `الحلقة ${lessonIdxInCourse}`)));
+
+    // قيد المشاهدة الصارم: فقط المقدمة مفتوحة، وكل حلقة تشترط إكمال سابقتها حرفاً بحرف
+    const isUnlocked = isAdmin || isVideoUnlockedForStudent(v, allVideos);
     const isDone = completed.includes(v.id);
     const safeTitle = (v.title || '').replace(/'/g, "\\'");
     const safeDesc = (v.description || '').replace(/'/g, "\\'");
-    const prevTitle = index > 0 ? (videos[index - 1].title || '').replace(/'/g, "\\'") : '';
+    const prevVid = getPreviousVideoInCourse(v, allVideos);
+    const prevTitle = prevVid ? (isIntroductionVideo(prevVid) ? 'المقدمة' : prevVid.title) : 'المقدمة';
+    const safePrevTitle = (prevTitle || '').replace(/'/g, "\\'");
     const isLocal = !!v.isLocalFile;
 
     if (!isUnlocked) {
-      // LOCKED CARD (فقط للطلاب والزوار حتى ينتهوا من الحلقات السابقة)
+      // LOCKED CARD (صارم للطلاب والزوار: مقفل تماماً حتى يشاهدوا السابق حرفاً بحرف)
       return `
-        <div class="group bg-slate-100/90 rounded-3xl border-2 border-dashed border-slate-300 overflow-hidden shadow-xs opacity-85 hover:opacity-100 transition duration-300 flex flex-col relative select-none">
-          <div class="relative w-full aspect-video bg-slate-800 overflow-hidden cursor-pointer" onclick="alertEpisodeLocked(${epNumber}, '${prevTitle}')">
+        <div class="group bg-slate-100/90 rounded-3xl border-2 border-dashed border-slate-300 overflow-hidden shadow-xs opacity-90 hover:opacity-100 transition duration-300 flex flex-col relative select-none">
+          <div class="relative w-full aspect-video bg-slate-800 overflow-hidden cursor-pointer" onclick="alertEpisodeLocked('${displayLabel}', '${safePrevTitle}', '${v.id}')">
             <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover filter grayscale contrast-75 brightness-75">
             <div class="absolute inset-0 bg-slate-950/75 backdrop-blur-[2px] flex flex-col items-center justify-center text-white text-center p-3">
               <div class="w-12 h-12 rounded-full bg-slate-900/90 text-amber-400 border-2 border-amber-400/50 flex items-center justify-center text-xl shadow-lg mb-2 group-hover:scale-110 transition">
                 <i class="fa-solid fa-lock"></i>
               </div>
               <span class="text-xs font-black text-amber-300 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-500/40">
-                🔒 الحلقة ${epNumber} مقفلة
+                🔒 ${displayLabel} مقفلة
               </span>
               <p class="text-[11px] text-slate-300 mt-1.5 max-w-[210px] leading-tight">
-                يجب إنهاء الحلقة ${epNumber - 1} أولاً لفتح هذا الدرس
+                يجب إنهاء "${safePrevTitle}" أولاً لفتح هذا الدرس حرفاً بحرف
               </p>
             </div>
             <div class="absolute top-3 right-3">
-              <span class="px-2.5 py-1 rounded-full bg-slate-900/90 text-slate-400 text-[10px] font-bold border border-slate-700">
-                الحلقة ${epNumber}
+              <span class="px-2.5 py-1 rounded-full bg-slate-900/90 text-amber-300 text-[10px] font-bold border border-amber-400/30">
+                ${displayLabel} 🔒
               </span>
             </div>
           </div>
           <div class="p-5 flex-1 flex flex-col justify-between bg-white/70">
             <div>
               <div class="flex items-center gap-2 mb-1.5">
-                <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-slate-200 text-slate-600">درس مقفل 🔒</span>
-                <span class="text-[10px] text-slate-400 font-bold truncate">${v.category}</span>
+                <span class="text-[10px] font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-300">درس مقفل بالترتيب 🔒</span>
+                <span class="text-[10px] text-slate-500 font-bold truncate">${v.category}</span>
               </div>
-              <h3 class="text-sm font-black text-slate-700 mb-1 line-clamp-1">${v.title}</h3>
+              <h3 class="text-sm font-black text-slate-800 mb-1 line-clamp-1">${v.title}</h3>
               <p class="text-xs text-slate-400 line-clamp-2">${v.description}</p>
             </div>
             <div class="pt-4 mt-3 border-t border-slate-200 flex items-center justify-between">
-              <button onclick="alertEpisodeLocked(${epNumber}, '${prevTitle}')" class="text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center gap-1.5 cursor-pointer">
+              <button onclick="alertEpisodeLocked('${displayLabel}', '${safePrevTitle}', '${v.id}')" class="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1.5 cursor-pointer">
                 <i class="fa-solid fa-lock text-[10px]"></i>
-                <span>مقفلة (أكمل السابقة أولاً)</span>
+                <span>مقفلة (شاهد "${safePrevTitle}" أولاً)</span>
               </button>
-              <span class="text-[11px] text-amber-700 font-black bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200">
-                خطوة ${epNumber}
+              <span class="text-[11px] text-slate-500 font-black bg-slate-100 px-2 py-0.5 rounded-lg border border-slate-200">
+                ${displayLabel}
               </span>
             </div>
           </div>
@@ -2944,7 +3093,7 @@ function renderLandingVideos() {
           </div>
           <div class="absolute top-3 right-3 flex items-center gap-1.5 flex-wrap">
             <span class="px-2.5 py-1 rounded-full bg-purple-700 text-white text-[11px] font-black border border-purple-400/40 shadow-xs">
-              الحلقة ${epNumber} 🔓
+              ${displayLabel} 🔓
             </span>
             ${isAdmin ? '<span class="px-2 py-0.5 rounded-full bg-amber-500 text-white text-[10px] font-black shadow-xs flex items-center gap-1" title="متاح مباشرة بوضع الإدارة"><i class="fa-solid fa-crown text-[9px]"></i> إدارة</span>' : ''}
             ${isDone ? '<span class="px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-black shadow-xs flex items-center gap-1"><i class="fa-solid fa-check"></i> مكتملة</span>' : ''}
@@ -3010,7 +3159,7 @@ function parseVideoEmbedUrl(rawUrl) {
 
 let currentPlayingVideo = null;
 
-async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
+async function openVideoPlayerModal(url, title, desc, videoId, videoIndex, bypassLock) {
   const videos = getVideos();
   const isAdmin = isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true';
 
@@ -3023,13 +3172,20 @@ async function openVideoPlayerModal(url, title, desc, videoId, videoIndex) {
 
   const currentVid = (videoId ? videos.find(v => v.id === videoId) : null) || videos[videoIndex] || { id: videoId || 'vid_' + videoIndex, url, title, description: desc };
 
-  // قيد المشاهدة المتسلسلة: مسؤولة المنصة / المعلمة تفتح أي فيديو مباشرة بدون أي حجب
-  // أما الطلاب والزوار فيلتزمون بالترتيب المتتابع
-  if (!isAdmin) {
+  // قيد المشاهدة المتسلسلة الصارم:
+  // مسؤولة المنصة / المعلمة تفتح أي فيديو مباشرة بدون أي حجب لتصحيح الأخطاء والمعاينة
+  // أما الطلاب والزوار فيلتزمون بالترتيب المتتابع حرفاً بحرف
+  if (!bypassLock && !isAdmin) {
     const isUnlocked = isVideoUnlockedForStudent(currentVid, videos);
     if (!isUnlocked) {
-      const prevTitle = videoIndex > 0 ? (videos[videoIndex - 1]?.title || '') : 'الحلقة السابقة';
-      alertEpisodeLocked(videoIndex + 1, prevTitle);
+      const prevVid = getPreviousVideoInCourse(currentVid, videos);
+      const prevTitle = prevVid ? (isIntroductionVideo(prevVid) ? 'المقدمة' : prevVid.title) : 'المقدمة';
+      const courseVideos = filterAndSortCourseVideos(currentVid.category, videos);
+      const lIdx = courseVideos.findIndex(x => x.id === currentVid.id);
+      const displayLabel = lIdx === 0 || isIntroductionVideo(currentVid) 
+        ? 'المقدمة 🌟' 
+        : (lIdx === 1 ? 'الحلقة الأولى' : (lIdx === 2 ? 'الحلقة الثانية' : (lIdx === 3 ? 'الحلقة الثالثة' : `الحلقة ${lIdx}`)));
+      alertEpisodeLocked(displayLabel, prevTitle, currentVid.id);
       return;
     }
   }
@@ -3304,49 +3460,83 @@ function renderLessonCardsHtml(lessons, themeColor, courseKey) {
     `;
   }
 
-  return lessons.map((v, idx) => {
+  const sortedLessons = sortCourseVideos(lessons);
+  const isAdmin = isAdminLoggedIn() || localStorage.getItem('araby_admin_logged') === 'true';
+  const completed = getCompletedEpisodes();
+  const allVideos = getVideos();
+
+  return sortedLessons.map((v, idx) => {
     const isLocal = !!v.isLocalFile;
     const safeTitle = (v.title || '').replace(/'/g, "\\'");
     const safeDesc = (v.description || '').replace(/'/g, "\\'");
     const rawUrl = v.url || '';
     const hasExternalUrl = !isLocal && rawUrl && (rawUrl.startsWith('http://') || rawUrl.startsWith('https://'));
-    const epNumber = idx + 1;
+    
+    // التسمية الصارمة: المقدمة أولاً ثم الحلقة الأولى ثم الثانية وهكذا
+    const isIntro = idx === 0 || isIntroductionVideo(v);
+    const displayLabel = isIntro 
+      ? 'المقدمة 🌟' 
+      : (idx === 1 ? 'الحلقة الأولى' : (idx === 2 ? 'الحلقة الثانية' : (idx === 3 ? 'الحلقة الثالثة' : `الحلقة ${idx}`)));
+    
+    // قيد المشاهدة الصارم: فقط المقدمة مفتوحة، وكل حلقة تتطلب إنهاء السابقة
+    const isUnlocked = isAdmin || isVideoUnlockedForStudent(v, allVideos);
+    const isDone = completed.includes(v.id);
+    const prevVid = idx > 0 ? sortedLessons[idx - 1] : null;
+    const prevTitle = prevVid ? (isIntroductionVideo(prevVid) ? 'المقدمة' : prevVid.title) : 'المقدمة';
+    const safePrevTitle = (prevTitle || '').replace(/'/g, "\\'");
 
     return `
-      <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+      <div class="bg-white rounded-2xl border ${isDone ? 'border-emerald-300' : (!isUnlocked ? 'border-dashed border-slate-300 bg-slate-50/80' : 'border-slate-200/90')} shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden group">
         <!-- غلاف الحصة -->
         <div class="relative w-full aspect-video bg-slate-900 overflow-hidden">
-          <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <img src="${v.thumbnail}" alt="${v.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 ${!isUnlocked && !isAdmin ? 'filter grayscale contrast-75 brightness-75' : ''}">
           <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent"></div>
 
           <!-- شارات الترتيب ونوع الفيديو -->
           <div class="absolute top-2 right-2 flex items-center gap-1.5 flex-wrap">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-slate-900/90 text-white border border-white/20">
-              حصة ${epNumber}
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-black ${isUnlocked ? 'bg-purple-700 text-white' : 'bg-slate-800 text-amber-300 border border-amber-400/40'}">
+              ${displayLabel} ${isUnlocked ? '🔓' : '🔒'}
             </span>
+            ${isAdmin ? `<span class="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-500 text-white shadow-xs">👑 إدارة</span>` : ''}
+            ${isDone ? `<span class="px-2 py-0.5 rounded-full text-[9px] font-black bg-emerald-600 text-white shadow-xs">✅ مكتملة</span>` : ''}
             ${isLocal 
-              ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-amber-500/90 text-white">💾 ملف محلي</span>`
-              : `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-blue-600/90 text-white">🔗 رابط سحابي</span>`
+              ? `<span class="px-2 py-0.5 rounded-full text-[9px] font-black bg-amber-500/90 text-white">💾 محلي</span>`
+              : `<span class="px-2 py-0.5 rounded-full text-[9px] font-black bg-blue-600/90 text-white">🔗 سحابي</span>`
             }
           </div>
 
-          <!-- زر تغيير الصورة من الجهاز مباشرة -->
-          <button type="button" onclick="changeLessonThumbnail('${v.id}')" title="تغيير صورة هذه الحصة من جهازك أو هاتفك" class="absolute top-2 left-2 px-2 py-1 rounded-lg bg-slate-900/85 hover:bg-purple-600 text-white text-[10px] font-bold border border-white/20 backdrop-blur-xs flex items-center gap-1 transition shadow-sm cursor-pointer">
+          <!-- زر تغيير الصورة من الجهاز مباشرة للمعلمة والإدارة -->
+          <button type="button" onclick="changeLessonThumbnail('${v.id}')" title="تغيير صورة هذه الحصة من جهازك أو هاتفك" class="absolute top-2 left-2 px-2 py-1 rounded-lg bg-slate-900/85 hover:bg-purple-600 text-white text-[10px] font-bold border border-white/20 backdrop-blur-xs flex items-center gap-1 transition shadow-sm cursor-pointer z-10">
             <i class="fa-solid fa-camera"></i>
             <span>تغيير الصورة 🖼️</span>
           </button>
 
           <!-- زر تشغيل الفيديو عند النقر على الصورة -->
-          <div onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="absolute inset-0 flex items-center justify-center cursor-pointer">
-            <div class="w-11 h-11 rounded-full bg-purple-600/90 text-white flex items-center justify-center text-base shadow-lg group-hover:scale-115 transition">
-              <i class="fa-solid fa-play mr-0.5"></i>
+          ${!isUnlocked && !isAdmin ? `
+            <div onclick="alertEpisodeLocked('${displayLabel}', '${safePrevTitle}', '${v.id}')" class="absolute inset-0 flex flex-col items-center justify-center cursor-pointer p-2 bg-slate-950/65 backdrop-blur-[1px]">
+              <div class="w-10 h-10 rounded-full bg-slate-900/90 text-amber-400 border border-amber-400/50 flex items-center justify-center text-sm shadow-lg mb-1">
+                <i class="fa-solid fa-lock"></i>
+              </div>
+              <span class="text-[10px] font-black text-amber-300 bg-black/60 px-2 py-0.5 rounded-md">مقفل (أكمل السابق أولاً)</span>
             </div>
-          </div>
+          ` : `
+            <div onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="absolute inset-0 flex items-center justify-center cursor-pointer">
+              <div class="w-11 h-11 rounded-full ${isDone ? 'bg-emerald-600/90' : 'bg-purple-600/90'} text-white flex items-center justify-center text-base shadow-lg group-hover:scale-115 transition">
+                <i class="fa-solid ${isDone ? 'fa-rotate-right' : 'fa-play'} mr-0.5"></i>
+              </div>
+            </div>
+          `}
         </div>
 
         <!-- تفاصيل الحصة -->
         <div class="p-3.5 flex-1 flex flex-col justify-between space-y-2.5">
           <div>
+            <div class="flex items-center gap-1.5 mb-1">
+              <span class="text-[10px] font-black px-2 py-0.5 rounded-md ${isUnlocked ? 'bg-purple-50 text-purple-700 border border-purple-200' : 'bg-slate-200 text-slate-600'}">
+                ${displayLabel}
+              </span>
+              ${!isUnlocked ? '<span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">🔒 مقفل</span>' : ''}
+            </div>
             <h5 class="font-black text-xs sm:text-sm text-slate-900 line-clamp-2 mb-1" title="${v.title}">
               ${v.title}
             </h5>
@@ -3356,16 +3546,28 @@ function renderLessonCardsHtml(lessons, themeColor, courseKey) {
           </div>
 
           <div class="pt-2.5 border-t border-slate-100 flex flex-col gap-1.5">
-            <div class="flex items-center gap-1.5">
-              <button type="button" onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="flex-1 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-black text-[11px] flex items-center justify-center gap-1 transition shadow-2xs cursor-pointer">
-                <i class="fa-solid fa-play text-[9px]"></i>
-                <span>مشاهدة 🎬</span>
+            <div class="flex items-center gap-1.5 flex-wrap">
+              ${!isUnlocked && !isAdmin ? `
+                <button type="button" onclick="alertEpisodeLocked('${displayLabel}', '${safePrevTitle}', '${v.id}')" class="flex-1 py-1.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-[11px] flex items-center justify-center gap-1 transition cursor-pointer">
+                  <i class="fa-solid fa-lock text-[10px]"></i>
+                  <span>مقفل 🔒</span>
+                </button>
+              ` : `
+                <button type="button" onclick="openVideoPlayerModal('', '${safeTitle}', '${safeDesc}', '${v.id}', ${idx})" class="flex-1 py-1.5 rounded-xl ${isDone ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-purple-600 hover:bg-purple-700'} text-white font-black text-[11px] flex items-center justify-center gap-1 transition shadow-2xs cursor-pointer">
+                  <i class="fa-solid fa-play text-[9px]"></i>
+                  <span>${isDone ? 'مراجعة 🎬' : 'مشاهدة 🎬'}</span>
+                </button>
+              `}
+
+              <!-- زر تعديل بيانات الحصة وتصحيح الأخطاء لمس فرح والإدارة -->
+              <button type="button" onclick="openEditVideoModal('${v.id}')" class="px-2.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-[11px] flex items-center gap-1 transition shadow-2xs cursor-pointer" title="تعديل وتصحيح أخطاء هذا الفيديو">
+                <i class="fa-solid fa-pen-to-square text-[9px]"></i>
+                <span>تعديل ✏️</span>
               </button>
 
               ${hasExternalUrl ? `
-                <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[11px] flex items-center gap-1 border border-blue-200 transition cursor-pointer" title="فتح الرابط المباشر">
+                <a href="${rawUrl}" target="_blank" rel="noopener noreferrer" class="px-2 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-[11px] flex items-center gap-1 border border-blue-200 transition cursor-pointer" title="فتح الرابط المباشر">
                   <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
-                  <span>الرابط 🔗</span>
                 </a>
               ` : ''}
 
@@ -3393,59 +3595,38 @@ function renderLessonCardsHtml(lessons, themeColor, courseKey) {
 function renderCoursePartitionLessons() {
   const allVideos = getVideos();
 
-  // 1. كورس تحسين الخط العربي (الحصص الـ 3 مرتبة حصرياً هنا)
+  // 1. كورس تحسين الخط العربي (المقدمة أولاً ثم الحلقات 1، 2، 3 مرتبة حصرياً هنا)
   const calligraphyContainer = document.getElementById('calligraphyLessonsList');
   const calligraphyBadge = document.getElementById('calligraphyLessonsCountBadge');
   if (calligraphyContainer) {
-    const calligraphyVideos = allVideos.filter(v => {
-      const c = v.category || '';
-      const t = v.title || '';
-      return c.includes('الخط') || t.includes('الخط') || t.includes('خط') || t.includes('رقعة') || t.includes('نسخ');
-    });
-    // ترتيب الحصص 1، 2، 3
-    calligraphyVideos.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true }));
+    const calligraphyVideos = filterAndSortCourseVideos('الخط', allVideos);
     if (calligraphyBadge) calligraphyBadge.textContent = `${calligraphyVideos.length} حصص مرتبة ✍️`;
     calligraphyContainer.innerHTML = renderLessonCardsHtml(calligraphyVideos, 'purple', 'calligraphy');
   }
 
-  // 2. كورس النحو من الصفر إلى الاحتراف (فيديوهات النحو حصرياً)
+  // 2. كورس النحو من الصفر إلى الاحتراف (المقدمة أولاً ثم محاضرات النحو حصرياً)
   const grammarContainer = document.getElementById('grammarLessonsList');
   const grammarBadge = document.getElementById('grammarLessonsCountBadge');
   if (grammarContainer) {
-    const grammarVideos = allVideos.filter(v => {
-      const c = v.category || '';
-      const t = v.title || '';
-      return (c.includes('النحو') || t.includes('النحو') || t.includes('إعراب') || t.includes('كان وأخواتها')) && !c.includes('الخط') && !t.includes('الخط');
-    });
-    grammarVideos.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true }));
+    const grammarVideos = filterAndSortCourseVideos('النحو', allVideos);
     if (grammarBadge) grammarBadge.textContent = `${grammarVideos.length} محاضرات 📐`;
     grammarContainer.innerHTML = renderLessonCardsHtml(grammarVideos, 'blue', 'grammar');
   }
 
-  // 3. كورس التأسيس الشامل والإملاء (فيديوهات التأسيس والإملاء حصرياً)
+  // 3. كورس التأسيس الشامل والإملاء (المقدمة أولاً ثم حصص التأسيس والإملاء حصرياً)
   const foundationContainer = document.getElementById('foundationLessonsList');
   const foundationBadge = document.getElementById('foundationLessonsCountBadge');
   if (foundationContainer) {
-    const foundationVideos = allVideos.filter(v => {
-      const c = v.category || '';
-      const t = v.title || '';
-      return (c.includes('تأسيس') || c.includes('الإملاء') || c.includes('القراءة') || t.includes('إملاء') || t.includes('همزة') || t.includes('تاء')) && !c.includes('الخط') && !t.includes('الخط');
-    });
-    foundationVideos.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true }));
+    const foundationVideos = filterAndSortCourseVideos('تأسيس', allVideos);
     if (foundationBadge) foundationBadge.textContent = `${foundationVideos.length} حصص 🌱`;
     foundationContainer.innerHTML = renderLessonCardsHtml(foundationVideos, 'amber', 'foundation');
   }
 
-  // 4. مقرر منهج اللغة العربية (فيديوهات المنهج المدرسي حصرياً)
+  // 4. مقرر منهج اللغة العربية (المقدمة أولاً ثم حصص المنهج المدرسي حصرياً)
   const curriculumContainer = document.getElementById('curriculumLessonsList');
   const curriculumBadge = document.getElementById('curriculumLessonsCountBadge');
   if (curriculumContainer) {
-    const curriculumVideos = allVideos.filter(v => {
-      const c = v.category || '';
-      const t = v.title || '';
-      return (c.includes('منهج') || c.includes('اللغة العربية') || t.includes('منهج') || t.includes('الفاعل والمفعول')) && !c.includes('الخط') && !c.includes('النحو') && !c.includes('تأسيس');
-    });
-    curriculumVideos.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'ar', { numeric: true }));
+    const curriculumVideos = filterAndSortCourseVideos('منهج', allVideos);
     if (curriculumBadge) curriculumBadge.textContent = `${curriculumVideos.length} حصص 🇪🇬`;
     curriculumContainer.innerHTML = renderLessonCardsHtml(curriculumVideos, 'orange', 'curriculum');
   }
