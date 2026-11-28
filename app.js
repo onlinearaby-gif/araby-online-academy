@@ -1235,11 +1235,41 @@ if (courseUploadModal) {
 
 function handleCourseUploadSubmit(e) {
   e.preventDefault();
-  const partition = document.getElementById('uploadPartitionSelect').value;
-  const title = document.getElementById('uploadLessonTitle').value;
+  const partition = document.getElementById('uploadPartitionSelect')?.value || '✍️ كورس تحسين الخط العربي';
+  const title = (document.getElementById('uploadLessonTitle')?.value || '').trim();
+  const url = (document.getElementById('uploadVideoUrl')?.value || '').trim();
+  const notes = (document.getElementById('uploadNotes')?.value || '').trim();
+
+  if (!title) {
+    alert('يرجى كتابة عنوان الدرس');
+    return;
+  }
+
+  const videos = getVideos();
+  const newLesson = {
+    id: 'vid_' + Date.now(),
+    title: title,
+    category: partition,
+    url: parseVideoEmbedUrl(url) || 'https://www.youtube.com/watch?v=0kF5lX3z3B8',
+    thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
+    description: notes || `شرح ومحتوى تعليمي في ${partition} بإشراف مس فرح القاضي`,
+    createdAt: new Date().toLocaleDateString('ar-EG')
+  };
+
+  videos.push(newLesson);
+  saveVideos(videos);
 
   closeCourseUploadModal();
-  alert(`تم بنجاح رفع ونشر الدرس الجديد:\n"${title}"\nداخل مقرر (${partition})! أصبح الدرس متاحاً الآن لجميع الطلاب المشتركين المعتمدين.`);
+  renderCoursePartitionLessons();
+  renderAdminVideos();
+  renderLandingVideos();
+  updateAdminStats(undefined, undefined);
+
+  if (typeof showCustomToast === 'function') {
+    showCustomToast(`🎉 تم نشر الدرس "${title}" بنجاح في ${partition}!`, 'success');
+  } else {
+    alert(`تم بنجاح رفع ونشر الدرس الجديد:\n"${title}"\nداخل مقرر (${partition})! أصبح الدرس متاحاً الآن لجميع الطلاب.`);
+  }
 }
 
 // --- 7. Admin Authentication, Security Settings & Account Management ---
@@ -2096,7 +2126,24 @@ function getVideos() {
 }
 
 function saveVideos(videos) {
-  localStorage.setItem('araby_videos', JSON.stringify(videos));
+  try {
+    localStorage.setItem('araby_videos', JSON.stringify(videos));
+  } catch (err) {
+    console.warn('LocalStorage quota limit reached, optimizing thumbnails...', err);
+    try {
+      // إذا امتلأت مساحة التخزين، نقوم بضغط وتخفيف صور الغلاف حتى يتم الحفظ بنجاح تام
+      const compact = videos.map(v => {
+        const item = { ...v };
+        if (item.thumbnail && item.thumbnail.length > 50000) {
+          item.thumbnail = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80';
+        }
+        return item;
+      });
+      localStorage.setItem('araby_videos', JSON.stringify(compact));
+    } catch (e2) {
+      console.error('saveVideos storage error:', e2);
+    }
+  }
 }
 
 // Sequential Progression Logic
@@ -2195,48 +2242,114 @@ function resetVideosProgress() {
   }
 }
 
+// تنظيف وإصلاح روابط الفيديوهات المدخلة تلقائياً
+function sanitizeVideoUrl(raw) {
+  if (!raw) return '';
+  let str = raw.trim();
+
+  // استخراج الرابط إذا وضعت المعلمة كود iframe كاملاً
+  const iframeMatch = str.match(/src=["']([^"']+)["']/i);
+  if (iframeMatch && iframeMatch[1]) {
+    str = iframeMatch[1].trim();
+  }
+
+  // حذف أي أقواس أو علامات تنصيص زائدة
+  str = str.replace(/^[<"']+|[>"']+$/g, '').trim();
+
+  // إضافة https:// تلقائياً إذا كان الرابط مكتوباً بدونها
+  if (!/^https?:\/\//i.test(str)) {
+    if (str.includes('youtube.com') || str.includes('youtu.be') || str.includes('drive.google.com') || str.includes('vimeo.com') || str.includes('.')) {
+      str = 'https://' + str;
+    }
+  }
+  return str;
+}
+
+// دالة توجيه تنزيل فيديوهات اليوتيوب بشكل احترافي وودي
+function openYoutubeDownloadGuidanceModal(title, watchUrl) {
+  const modal = document.getElementById('youtubeDownloadGuidanceModal');
+  const titleEl = document.getElementById('youtubeModalLessonTitle');
+  const watchBtn = document.getElementById('youtubeModalWatchBtn');
+  if (titleEl) titleEl.textContent = title || 'الدرس التفاعلي';
+  if (watchBtn) watchBtn.href = watchUrl || '#';
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeYoutubeDownloadGuidanceModal() {
+  const modal = document.getElementById('youtubeDownloadGuidanceModal');
+  if (modal) modal.classList.add('hidden');
+}
+
 async function downloadVideoDirectly(url, title, videoId) {
-  let effectiveUrl = url;
+  let effectiveUrl = url || '';
+  let isLocal = false;
+
   if (videoId) {
     const videos = getVideos();
     const vid = videos.find(v => v.id === videoId);
-    if (vid && vid.isLocalFile) {
-      if (runtimeVideoUrls[videoId]) {
-        effectiveUrl = runtimeVideoUrls[videoId];
-      } else {
-        const blob = await getVideoBlobFromDB(videoId);
-        if (blob) {
-          effectiveUrl = URL.createObjectURL(blob);
-          runtimeVideoUrls[videoId] = effectiveUrl;
+    if (vid) {
+      if (vid.isLocalFile) {
+        isLocal = true;
+        if (runtimeVideoUrls[videoId]) {
+          effectiveUrl = runtimeVideoUrls[videoId];
+        } else {
+          const blob = await getVideoBlobFromDB(videoId);
+          if (blob) {
+            effectiveUrl = URL.createObjectURL(blob);
+            runtimeVideoUrls[videoId] = effectiveUrl;
+          }
         }
+      } else if (!effectiveUrl && vid.url) {
+        effectiveUrl = vid.url;
       }
     }
   }
 
-  if (!effectiveUrl) {
-    alert('رابط التحميل غير متاح حالياً.');
+  // دعم التنزيل المباشر من Google Drive
+  const gdriveMatch = effectiveUrl.match(/drive\.google\.com\/(?:file\/d\/|open\?id=)([a-zA-Z0-9_-]+)/);
+  if (gdriveMatch && gdriveMatch[1]) {
+    const directDownloadLink = `https://drive.google.com/uc?export=download&id=${gdriveMatch[1]}`;
+    window.open(directDownloadLink, '_blank');
+    if (typeof showCustomToast === 'function') {
+      showCustomToast('📥 جاري تنزيل ملف الفيديو من Google Drive مباشرة...', 'success');
+    }
     return;
   }
 
+  // فيديوهات YouTube: فتح نافذة التوجيه الذكية
   if (effectiveUrl.includes('youtube.com') || effectiveUrl.includes('youtu.be')) {
-    window.open(effectiveUrl, '_blank');
-    alert('📥 تم فتح رابط الحلقة في نافذة جديدة. يمكنك تنزيل الفيديو عبر زر الحفظ والتنزيل داخل يوتيوب للمشاهدة بدون إنترنت!');
+    const ytMatch = effectiveUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+    const watchUrl = ytMatch ? `https://www.youtube.com/watch?v=${ytMatch[1]}` : effectiveUrl;
+    openYoutubeDownloadGuidanceModal(title, watchUrl);
     return;
   }
 
-  const a = document.createElement('a');
-  a.href = effectiveUrl;
-  const safeName = (title || 'araby-lesson').replace(/[^\w\u0600-\u06FF\s-]/gi, '').trim().replace(/\s+/g, '_');
-  a.download = `${safeName}.mp4`;
-  a.target = '_blank';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  if (typeof showCustomToast === 'function') {
-    showCustomToast('📥 بدأ تحميل ملف الفيديو لجهازك بنجاح!', 'success');
+  if (!effectiveUrl) {
+    alert(`💡 تنبيه تنزيل الحصة:\nالفيديو متاح للمشاهدة المباشرة داخل المنصة.\nلتنزيل ملف MP4 أوفلاين على جهازك، يمكنكِ رفع ملف الفيديو مباشرة من لوحة التحكم أو وضع رابط Google Drive!`);
+    return;
+  }
+
+  // تنزيل ملف الفيديو المباشر أو المحلي
+  try {
+    const a = document.createElement('a');
+    a.href = effectiveUrl;
+    const safeName = (title || 'araby-lesson').replace(/[^\w\u0600-\u06FF\s-]/gi, '').trim().replace(/\s+/g, '_');
+    a.download = `${safeName}.mp4`;
+    a.target = '_blank';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      if (a.parentNode) document.body.removeChild(a);
+    }, 150);
+    if (typeof showCustomToast === 'function') {
+      showCustomToast('📥 بدأ تنزيل ملف الفيديو لجهازك بنجاح!', 'success');
+    }
+  } catch (err) {
+    window.open(effectiveUrl, '_blank');
   }
 }
 
+// ضغط وتصغير صور الغلاف تلقائياً عبر Canvas لمنع أي امتلاء لمساحة التخزين
 function handleThumbnailFileChosen(event, previewId, base64InputId) {
   const file = event.target.files && event.target.files[0];
   const previewContainer = document.getElementById(previewId);
@@ -2246,17 +2359,83 @@ function handleThumbnailFileChosen(event, previewId, base64InputId) {
     if (base64Input) base64Input.value = '';
     return;
   }
+
   const reader = new FileReader();
   reader.onload = function(e) {
-    const dataUrl = e.target.result;
-    if (base64Input) base64Input.value = dataUrl;
-    if (previewContainer) {
-      const img = previewContainer.querySelector('img');
-      if (img) img.src = dataUrl;
-      previewContainer.classList.remove('hidden');
-    }
+    const rawData = e.target.result;
+    const img = new Image();
+    img.onload = function() {
+      try {
+        const maxWidth = 720;
+        const maxHeight = 450;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxWidth) {
+          h = Math.round((h * maxWidth) / w);
+          w = maxWidth;
+        }
+        if (h > maxHeight) {
+          w = Math.round((w * maxHeight) / h);
+          h = maxHeight;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        // ضغط فائق للصورة إلى 25-40 كيلوبايت فقط مع الحفاظ على وضوح الغلاف
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.72);
+
+        if (base64Input) base64Input.value = compressedDataUrl;
+        if (previewContainer) {
+          const imgEl = previewContainer.querySelector('img');
+          if (imgEl) imgEl.src = compressedDataUrl;
+          previewContainer.classList.remove('hidden');
+        }
+      } catch (err) {
+        if (base64Input) base64Input.value = rawData;
+        if (previewContainer) {
+          const imgEl = previewContainer.querySelector('img');
+          if (imgEl) imgEl.src = rawData;
+          previewContainer.classList.remove('hidden');
+        }
+      }
+    };
+    img.onerror = function() {
+      if (base64Input) base64Input.value = rawData;
+      if (previewContainer) previewContainer.classList.remove('hidden');
+    };
+    img.src = rawData;
   };
   reader.readAsDataURL(file);
+}
+
+// تفاعل فوري عند اختيار فيديو في نافذة إضافة الحصص السريعة
+function handleQuickVideoFileChosen(e) {
+  const fileInput = e.target || document.getElementById('quickCourseLessonFile');
+  const file = fileInput && fileInput.files && fileInput.files[0];
+  const infoEl = document.getElementById('quickCourseLessonFileInfo');
+  const titleInput = document.getElementById('quickCourseLessonTitle');
+
+  if (!file) {
+    if (infoEl) infoEl.classList.add('hidden');
+    return;
+  }
+
+  const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+  if (infoEl) {
+    infoEl.innerHTML = `
+      <div class="flex items-center justify-between text-xs font-bold text-purple-900 bg-purple-100/90 p-2.5 rounded-xl border border-purple-200">
+        <span class="truncate max-w-[220px]"><i class="fa-solid fa-file-video text-purple-700 ml-1"></i> ${file.name}</span>
+        <span class="px-2 py-0.5 rounded-md bg-purple-200 text-purple-800 text-[10px] font-black">${sizeMb} MB</span>
+      </div>
+    `;
+    infoEl.classList.remove('hidden');
+  }
+
+  if (titleInput && !titleInput.value.trim()) {
+    titleInput.value = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+  }
 }
 
 function handleVideoFileChosen(e) {
@@ -2296,95 +2475,105 @@ async function handleAdminAddVideo(e) {
   const submitBtn = e.target.querySelector('button[type="submit"]') || document.getElementById('videoFormSubmitBtn');
   const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
 
-  const title = (document.getElementById('videoFormTitle').value || '').trim();
-  const category = document.getElementById('videoFormCategory').value;
-  let url = (document.getElementById('videoFormUrl').value || '').trim();
-  const fileInput = document.getElementById('videoFormFile');
-  const thumbnailBase64 = (document.getElementById('videoFormThumbnailBase64')?.value || '').trim();
-  const thumbnailInput = (document.getElementById('videoFormThumbnail')?.value || '').trim();
-  const thumbnail = thumbnailBase64 || thumbnailInput || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80';
-  const description = (document.getElementById('videoFormDescription').value || '').trim();
+  try {
+    let title = (document.getElementById('videoFormTitle').value || '').trim();
+    const category = document.getElementById('videoFormCategory').value;
+    let url = (document.getElementById('videoFormUrl').value || '').trim();
+    const fileInput = document.getElementById('videoFormFile');
+    const thumbnailBase64 = (document.getElementById('videoFormThumbnailBase64')?.value || '').trim();
+    const thumbnailInput = (document.getElementById('videoFormThumbnail')?.value || '').trim();
+    const description = (document.getElementById('videoFormDescription').value || '').trim();
 
-  const file = fileInput && fileInput.files && fileInput.files[0];
+    const file = fileInput && fileInput.files && fileInput.files[0];
 
-  if (!title) {
-    alert('يرجى ملء عنوان الفيديو أو الدرس');
-    return;
-  }
+    // إذا كان العنوان فارغاً ولكن تم اختيار ملف فيديو، نولد العنوان تلقائياً من اسم الملف
+    if (!title && file) {
+      title = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+    }
 
-  if (!url && !file) {
-    alert('يرجى إدخال رابط الفيديو (يوتيوب أو جوجل درايف أو رابط مباشر) أو اختيار ملف فيديو من جهازك.');
-    return;
-  }
+    if (!title) {
+      alert('يرجى كتابة عنوان للفيديو أو الحصة حتى يظهر بوضوح للطلاب.');
+      return;
+    }
 
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>جاري حفظ ومعالجة الفيديو في النظام...</span>`;
-  }
+    if (!url && !file) {
+      alert('يرجى وضع رابط الفيديو (YouTube أو Google Drive أو رابط مباشر) أو اختيار ملف فيديو من جهازك.');
+      return;
+    }
 
-  const videos = getVideos();
-  const videoId = 'vid_' + Date.now();
-  let isLocal = false;
-  let fileName = '';
-  let fileSize = 0;
-  let effectiveUrl = url;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>جاري معالجة وحفظ الفيديو...</span>`;
+    }
 
-  if (file) {
-    isLocal = true;
-    fileName = file.name;
-    fileSize = file.size;
+    const videos = getVideos();
+    const videoId = 'vid_' + Date.now();
+    let isLocal = false;
+    let fileName = '';
+    let fileSize = 0;
+    let effectiveUrl = '';
 
-    // Save actual file blob to IndexedDB
-    await saveVideoBlobToDB(videoId, file, file.name, file.type, file.size);
-    const liveBlobUrl = URL.createObjectURL(file);
-    runtimeVideoUrls[videoId] = liveBlobUrl;
-    effectiveUrl = liveBlobUrl;
-  } else {
-    effectiveUrl = parseVideoEmbedUrl(url);
-  }
+    if (file) {
+      isLocal = true;
+      fileName = file.name;
+      fileSize = file.size;
 
-  const newVideo = {
-    id: videoId,
-    title: title.startsWith('الحلقة') ? title : `الحلقة ${videos.length + 1}: ${title}`,
-    category,
-    url: isLocal ? '' : effectiveUrl,
-    isLocalFile: isLocal,
-    fileName: fileName,
-    fileSize: fileSize,
-    thumbnail: thumbnail,
-    description: description || (isLocal 
-      ? `درس فيديو تفاعلي تم رفعه من جهاز الإدارة (${fileName}) بإشراف مس فرح القاضي` 
-      : 'فيديو تعليمي متميز من أكاديمية عربي أونلاين بإشراف مس فرح القاضي'),
-    createdAt: new Date().toLocaleDateString('ar-EG')
-  };
+      await saveVideoBlobToDB(videoId, file, file.name, file.type, file.size);
+      const liveBlobUrl = URL.createObjectURL(file);
+      runtimeVideoUrls[videoId] = liveBlobUrl;
+      effectiveUrl = liveBlobUrl;
+    } else {
+      effectiveUrl = parseVideoEmbedUrl(url);
+    }
 
-  videos.push(newVideo);
-  saveVideos(videos);
+    const thumbnail = thumbnailBase64 || sanitizeVideoUrl(thumbnailInput) || 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80';
 
-  e.target.reset();
-  const infoContainer = document.getElementById('videoFileSelectedInfo');
-  if (infoContainer) infoContainer.classList.add('hidden');
-  const previewVideo = document.getElementById('videoFormLocalPreviewTag');
-  if (previewVideo) previewVideo.src = '';
-  const thumbPreview = document.getElementById('videoFormThumbnailPreview');
-  if (thumbPreview) thumbPreview.classList.add('hidden');
-  const thumbBase64 = document.getElementById('videoFormThumbnailBase64');
-  if (thumbBase64) thumbBase64.value = '';
+    const newVideo = {
+      id: videoId,
+      title: title.startsWith('الحلقة') ? title : `الحلقة ${videos.length + 1}: ${title}`,
+      category,
+      url: isLocal ? '' : effectiveUrl,
+      isLocalFile: isLocal,
+      fileName: fileName,
+      fileSize: fileSize,
+      thumbnail: thumbnail,
+      description: description || (isLocal 
+        ? `درس فيديو تفاعلي تم رفعه من جهاز الإدارة (${fileName}) بإشراف مس فرح القاضي` 
+        : 'فيديو تعليمي متميز من أكاديمية عربي أونلاين بإشراف مس فرح القاضي'),
+      createdAt: new Date().toLocaleDateString('ar-EG')
+    };
 
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = origBtnHtml;
-  }
+    videos.push(newVideo);
+    saveVideos(videos);
 
-  renderAdminVideos();
-  renderLandingVideos();
-  renderCoursePartitionLessons();
-  updateAdminStats(undefined, undefined);
+    e.target.reset();
+    const infoContainer = document.getElementById('videoFileSelectedInfo');
+    if (infoContainer) infoContainer.classList.add('hidden');
+    const previewVideo = document.getElementById('videoFormLocalPreviewTag');
+    if (previewVideo) previewVideo.src = '';
+    const thumbPreview = document.getElementById('videoFormThumbnailPreview');
+    if (thumbPreview) thumbPreview.classList.add('hidden');
+    const thumbBase64 = document.getElementById('videoFormThumbnailBase64');
+    if (thumbBase64) thumbBase64.value = '';
 
-  if (typeof showCustomToast === 'function') {
-    showCustomToast(`🎉 تم نشر وحفظ الفيديو "${newVideo.title}" بنجاح!`, 'success');
-  } else {
-    alert(`🎉 تم نشر وحفظ الفيديو "${newVideo.title}" بنجاح كحلقة جديدة في المنصة!`);
+    renderAdminVideos();
+    renderLandingVideos();
+    renderCoursePartitionLessons();
+    updateAdminStats(undefined, undefined);
+
+    if (typeof showCustomToast === 'function') {
+      showCustomToast(`🎉 تم حفظ ونشر الفيديو "${newVideo.title}" بنجاح!`, 'success');
+    } else {
+      alert(`🎉 تم حفظ ونشر الفيديو "${newVideo.title}" بنجاح في المنصة!`);
+    }
+  } catch (err) {
+    console.error('handleAdminAddVideo error:', err);
+    alert('حدث خطأ أثناء معالجة وحفظ الفيديو، يرجى المحاولة مرة أخرى أو اختيار ملف صالح.');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origBtnHtml;
+    }
   }
 }
 
@@ -2490,80 +2679,81 @@ async function handleEditVideoSubmit(e) {
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري حفظ وتحديث الحصة...';
   }
 
-  const videos = getVideos();
-  const vidIndex = videos.findIndex(v => v.id === id);
-  if (vidIndex === -1) {
-    alert('لم يتم العثور على هذا الفيديو!');
+  try {
+    const videos = getVideos();
+    const vidIndex = videos.findIndex(v => v.id === id);
+    if (vidIndex === -1) {
+      alert('لم يتم العثور على هذا الفيديو!');
+      return;
+    }
+
+    const target = videos[vidIndex];
+    let newTitle = (document.getElementById('editVideoTitle')?.value || '').trim();
+    const newCategory = document.getElementById('editVideoCategory')?.value || target.category;
+    let newUrl = (document.getElementById('editVideoUrl')?.value || '').trim();
+    const newDesc = (document.getElementById('editVideoDescription')?.value || '').trim();
+    const fileInput = document.getElementById('editVideoFile');
+    const newFile = fileInput && fileInput.files && fileInput.files[0];
+    const newThumbBase64 = (document.getElementById('editVideoThumbnailBase64')?.value || '').trim();
+    const newThumbUrl = (document.getElementById('editVideoThumbnailUrl')?.value || '').trim();
+
+    if (!newTitle && newFile) {
+      newTitle = newFile.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+    }
+
+    if (!newTitle) {
+      alert('يرجى كتابة عنوان للحصة');
+      return;
+    }
+
+    target.title = newTitle;
+    target.category = newCategory;
+    target.description = newDesc;
+
+    // تحديث صورة الغلاف إذا تم تغييرها
+    if (newThumbBase64) {
+      target.thumbnail = newThumbBase64;
+    } else if (newThumbUrl) {
+      target.thumbnail = sanitizeVideoUrl(newThumbUrl);
+    }
+
+    // تحديث مصدر الفيديو إذا تم رفع ملف جديد أو تغيير الرابط
+    if (newFile) {
+      target.isLocalFile = true;
+      target.fileName = newFile.name;
+      target.fileSize = newFile.size;
+      target.url = '';
+      await saveVideoBlobToDB(id, newFile, newFile.name, newFile.type, newFile.size);
+      const liveBlob = URL.createObjectURL(newFile);
+      runtimeVideoUrls[id] = liveBlob;
+    } else if (newUrl) {
+      target.url = parseVideoEmbedUrl(newUrl);
+      if (target.isLocalFile && newUrl) {
+        target.isLocalFile = false;
+      }
+    }
+
+    saveVideos(videos);
+
+    closeEditVideoModal();
+    renderCoursePartitionLessons();
+    renderAdminVideos();
+    renderLandingVideos();
+    updateAdminStats(undefined, undefined);
+
+    if (typeof showCustomToast === 'function') {
+      showCustomToast(`✅ تم حفظ وتصحيح بيانات الحصة "${target.title}" بنجاح!`, 'success');
+    } else {
+      alert(`✅ تم حفظ وتصحيح بيانات الحصة "${target.title}" بنجاح!`);
+    }
+  } catch (err) {
+    console.error('handleEditVideoSubmit error:', err);
+    alert('حدث خطأ أثناء تعديل الحصة، يرجى المحاولة مرة أخرى.');
+  } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = origHtml;
     }
-    return;
-  }
-
-  const target = videos[vidIndex];
-  const newTitle = (document.getElementById('editVideoTitle')?.value || '').trim();
-  const newCategory = document.getElementById('editVideoCategory')?.value || target.category;
-  const newUrl = (document.getElementById('editVideoUrl')?.value || '').trim();
-  const newDesc = (document.getElementById('editVideoDescription')?.value || '').trim();
-  const fileInput = document.getElementById('editVideoFile');
-  const newFile = fileInput && fileInput.files && fileInput.files[0];
-  const newThumbBase64 = (document.getElementById('editVideoThumbnailBase64')?.value || '').trim();
-  const newThumbUrl = (document.getElementById('editVideoThumbnailUrl')?.value || '').trim();
-
-  if (!newTitle) {
-    alert('يرجى كتابة عنوان الحصة');
-    if (submitBtn) {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = origHtml;
-    }
-    return;
-  }
-
-  target.title = newTitle;
-  target.category = newCategory;
-  target.description = newDesc;
-
-  // تحديث صورة الغلاف إذا تم تغييرها
-  if (newThumbBase64) {
-    target.thumbnail = newThumbBase64;
-  } else if (newThumbUrl) {
-    target.thumbnail = newThumbUrl;
-  }
-
-  // تحديث مصدر الفيديو إذا تم رفع ملف جديد أو تغيير الرابط
-  if (newFile) {
-    target.isLocalFile = true;
-    target.fileName = newFile.name;
-    target.fileSize = newFile.size;
-    target.url = '';
-    await saveVideoBlobToDB(id, newFile, newFile.name, newFile.type, newFile.size);
-    const liveBlob = URL.createObjectURL(newFile);
-    runtimeVideoUrls[id] = liveBlob;
-  } else if (newUrl) {
-    target.url = parseVideoEmbedUrl(newUrl);
-    if (target.isLocalFile && newUrl) {
-      target.isLocalFile = false;
-    }
-  }
-
-  saveVideos(videos);
-
-  closeEditVideoModal();
-  renderCoursePartitionLessons();
-  renderAdminVideos();
-  renderLandingVideos();
-  updateAdminStats(undefined, undefined);
-
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = origHtml;
-  }
-
-  if (typeof showCustomToast === 'function') {
-    showCustomToast(`✅ تم حفظ وتصحيح بيانات الحصة "${target.title}" بنجاح!`, 'success');
-  } else {
-    alert(`✅ تم حفظ وتصحيح بيانات الحصة "${target.title}" بنجاح!`);
   }
 }
 
@@ -2801,7 +2991,8 @@ function renderLandingVideos() {
 
 function parseVideoEmbedUrl(rawUrl) {
   if (!rawUrl) return '';
-  const trimmed = rawUrl.trim();
+  const sanitized = sanitizeVideoUrl(rawUrl);
+  const trimmed = sanitized.trim();
   const ytMatch = trimmed.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   if (ytMatch && ytMatch[1]) {
     return `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=1&rel=0`;
@@ -3312,81 +3503,92 @@ async function handleQuickCourseLessonSubmit(e) {
   const submitBtn = e.target.querySelector('button[type="submit"]');
   const origHtml = submitBtn ? submitBtn.innerHTML : '';
 
-  const category = (document.getElementById('quickCourseLessonCategory')?.value || '✍️ كورس تحسين الخط العربي');
-  const title = (document.getElementById('quickCourseLessonTitle')?.value || '').trim();
-  const url = (document.getElementById('quickCourseLessonUrl')?.value || '').trim();
-  const fileInput = document.getElementById('quickCourseLessonFile');
-  const file = fileInput && fileInput.files && fileInput.files[0];
-  const imageBase64 = (document.getElementById('quickCourseLessonImageBase64')?.value || '').trim();
-  const imageUrl = (document.getElementById('quickCourseLessonImageUrl')?.value || '').trim();
-  const description = (document.getElementById('quickCourseLessonDesc')?.value || '').trim();
+  try {
+    const category = (document.getElementById('quickCourseLessonCategory')?.value || '✍️ كورس تحسين الخط العربي');
+    let title = (document.getElementById('quickCourseLessonTitle')?.value || '').trim();
+    let url = (document.getElementById('quickCourseLessonUrl')?.value || '').trim();
+    const fileInput = document.getElementById('quickCourseLessonFile');
+    const file = fileInput && fileInput.files && fileInput.files[0];
+    const imageBase64 = (document.getElementById('quickCourseLessonImageBase64')?.value || '').trim();
+    const imageUrl = (document.getElementById('quickCourseLessonImageUrl')?.value || '').trim();
+    const description = (document.getElementById('quickCourseLessonDesc')?.value || '').trim();
 
-  if (!title) {
-    alert('يرجى كتابة عنوان الحصة أو الدرس');
-    return;
-  }
-  if (!url && !file) {
-    alert('يرجى وضع رابط الحصة (يوتيوب أو جوجل درايف أو رابط مباشر) أو اختيار ملف فيديو من جهازك.');
-    return;
-  }
+    // إذا كان العنوان فارغاً ولكن تم اختيار ملف فيديو، نولد العنوان تلقائياً من اسم الملف
+    if (!title && file) {
+      title = file.name.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ');
+    }
 
-  if (submitBtn) {
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري حفظ ومعالجة الحصة...';
-  }
+    if (!title) {
+      alert('يرجى كتابة عنوان للحصة أو الدرس حتى يتعرف عليه الطلاب.');
+      return;
+    }
 
-  const videos = getVideos();
-  const videoId = 'vid_course_' + Date.now();
-  let isLocal = false;
-  let fileName = '';
-  let fileSize = 0;
-  let effectiveUrl = url;
+    if (!url && !file) {
+      alert('يرجى وضع رابط الحصة (YouTube أو Google Drive أو رابط مباشر) أو اختيار ملف فيديو من جهازك.');
+      return;
+    }
 
-  if (file) {
-    isLocal = true;
-    fileName = file.name;
-    fileSize = file.size;
-    await saveVideoBlobToDB(videoId, file, file.name, file.type, file.size);
-    const liveBlobUrl = URL.createObjectURL(file);
-    runtimeVideoUrls[videoId] = liveBlobUrl;
-    effectiveUrl = liveBlobUrl;
-  } else {
-    effectiveUrl = parseVideoEmbedUrl(url);
-  }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري حفظ ومعالجة الحصة...';
+    }
 
-  const effectiveThumbnail = imageBase64 || imageUrl || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80';
+    const videos = getVideos();
+    const videoId = 'vid_course_' + Date.now();
+    let isLocal = false;
+    let fileName = '';
+    let fileSize = 0;
+    let effectiveUrl = '';
 
-  const newLesson = {
-    id: videoId,
-    title: title,
-    category: category,
-    url: isLocal ? '' : effectiveUrl,
-    isLocalFile: isLocal,
-    fileName: fileName,
-    fileSize: fileSize,
-    thumbnail: effectiveThumbnail,
-    description: description || `شرح عملي ومباشر في ${category} بإشراف مس فرح القاضي`,
-    createdAt: new Date().toLocaleDateString('ar-EG')
-  };
+    if (file) {
+      isLocal = true;
+      fileName = file.name;
+      fileSize = file.size;
+      await saveVideoBlobToDB(videoId, file, file.name, file.type, file.size);
+      const liveBlobUrl = URL.createObjectURL(file);
+      runtimeVideoUrls[videoId] = liveBlobUrl;
+      effectiveUrl = liveBlobUrl;
+    } else {
+      effectiveUrl = parseVideoEmbedUrl(url);
+    }
 
-  videos.push(newLesson);
-  saveVideos(videos);
+    const effectiveThumbnail = imageBase64 || sanitizeVideoUrl(imageUrl) || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80';
 
-  closeAddCourseLessonModal();
-  renderCoursePartitionLessons();
-  renderAdminVideos();
-  renderLandingVideos();
-  updateAdminStats(undefined, undefined);
+    const newLesson = {
+      id: videoId,
+      title: title,
+      category: category,
+      url: isLocal ? '' : effectiveUrl,
+      isLocalFile: isLocal,
+      fileName: fileName,
+      fileSize: fileSize,
+      thumbnail: effectiveThumbnail,
+      description: description || `شرح عملي ومباشر في ${category} بإشراف مس فرح القاضي`,
+      createdAt: new Date().toLocaleDateString('ar-EG')
+    };
 
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = origHtml;
-  }
+    videos.push(newLesson);
+    saveVideos(videos);
 
-  if (typeof showCustomToast === 'function') {
-    showCustomToast(`🎉 تم إضافة حصة "${newLesson.title}" إلى ${category} بنجاح!`, 'success');
-  } else {
-    alert(`🎉 تم إضافة حصة "${newLesson.title}" إلى ${category} بنجاح!`);
+    closeAddCourseLessonModal();
+    renderCoursePartitionLessons();
+    renderAdminVideos();
+    renderLandingVideos();
+    updateAdminStats(undefined, undefined);
+
+    if (typeof showCustomToast === 'function') {
+      showCustomToast(`🎉 تم إضافة ونشر حصة "${newLesson.title}" بنجاح!`, 'success');
+    } else {
+      alert(`🎉 تم إضافة ونشر حصة "${newLesson.title}" بنجاح!`);
+    }
+  } catch (err) {
+    console.error('handleQuickCourseLessonSubmit error:', err);
+    alert('حدث خطأ أثناء معالجة وحفظ الحصة، يرجى المحاولة مرة أخرى أو اختيار ملف صالح.');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origHtml;
+    }
   }
 }
 
