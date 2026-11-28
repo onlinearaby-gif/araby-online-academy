@@ -2735,11 +2735,11 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube أو Google Drive أو رابط MP4 مباشر)</label>
-                <input type="url" id="videoFormUrl" placeholder="مثال: https://www.youtube.com/watch?v=... أو رابط مباشر" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+                <input type="text" id="videoFormUrl" placeholder="مثال: youtube.com/watch?v=... أو رابط مباشر" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs text-left" dir="ltr">
               </div>
               <div>
-                <label class="block text-slate-700 mb-1">أو رفع ملف فيديو من جهازك مباشرة 📤 <span class="text-purple-600 font-bold">(MP4 / WebM / MOV)</span></label>
-                <input type="file" id="videoFormFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" onchange="handleVideoFileChosen(event)" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-purple-50/50 hover:bg-purple-50 focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+                <label class="block text-slate-700 mb-1">أو رفع ملف فيديو من جهازك مباشرة 📤 <span class="text-purple-600 font-bold">(جميع الصيغ MP4 / WebM / MOV)</span></label>
+                <input type="file" id="videoFormFile" accept="video/*" onchange="handleVideoFileChosen(event)" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-purple-50/50 hover:bg-purple-50 focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
 
                 <!-- Instant Selected Video File Preview Box -->
                 <div id="videoFileSelectedInfo" class="hidden mt-2 p-3 bg-purple-50/90 rounded-2xl border border-purple-200 text-xs space-y-2">
@@ -2783,7 +2783,7 @@
                   <span class="text-[11px] font-bold text-emerald-700">✅ تم اختيار الصورة من جهازك!</span>
                 </div>
 
-                <input type="url" id="videoFormThumbnail" placeholder="أو ضعي رابط صورة مباشر من الإنترنت (اختياري)" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+                <input type="text" id="videoFormThumbnail" placeholder="أو ضعي رابط صورة مباشر من الإنترنت (اختياري)" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs text-left" dir="ltr">
               </div>
               <div>
                 <label class="block text-slate-700 mb-1">إمكانية التنزيل للطلاب</label>
@@ -4131,8 +4131,8 @@
         </div>
 
         <div>
-          <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube / Vimeo / Zoom Replay) *</label>
-          <input type="url" id="uploadVideoUrl" required placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs" dir="ltr">
+          <label class="block text-slate-700 mb-1">رابط الفيديو (YouTube أو Google Drive أو Zoom) <span class="text-slate-400 font-normal">(اختياري)</span></label>
+          <input type="text" id="uploadVideoUrl" placeholder="رابط يوتيوب أو زووم أو درايف..." class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs text-left" dir="ltr">
         </div>
 
         <div>
@@ -4393,7 +4393,7 @@
         <div class="space-y-2.5 p-3.5 bg-purple-50/50 rounded-2xl border border-purple-100">
           <div>
             <label class="block text-xs font-black text-slate-800 mb-1">رابط الحصة (يوتيوب أو جوجل درايف أو رابط مباشر)</label>
-            <input type="url" id="quickCourseLessonUrl" placeholder="https://www.youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+            <input type="text" id="quickCourseLessonUrl" placeholder="مثال: youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs text-left" dir="ltr">
           </div>
 
           <div class="flex items-center gap-2">
@@ -4403,7 +4403,8 @@
           </div>
 
           <div>
-            <input type="file" id="quickCourseLessonFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+            <input type="file" id="quickCourseLessonFile" accept="video/*" onchange="handleQuickVideoFileChosen(event)" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-purple-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-purple-600 file:text-white cursor-pointer">
+            <div id="quickCourseLessonFileInfo" class="hidden mt-2"></div>
           </div>
         </div>
 
@@ -4421,12 +4422,12 @@
             <div class="w-20 h-14 rounded-lg overflow-hidden bg-slate-100 border border-slate-200 shrink-0">
               <img src="" alt="معاينة الغلاف" class="w-full h-full object-cover">
             </div>
-            <span class="text-[11px] font-bold text-emerald-700">✅ تم اختيار الصورة من جهازك بنجاح!</span>
+            <span class="text-[11px] font-bold text-emerald-700">✅ تم اختيار الصورة من جهازك وضغطها بنجاح!</span>
           </div>
 
           <div>
             <label class="block text-[11px] font-semibold text-slate-500 mb-1">أو رابط صورة خارجي (اختياري)</label>
-            <input type="url" id="quickCourseLessonImageUrl" placeholder="https://..." class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+            <input type="text" id="quickCourseLessonImageUrl" placeholder="رابط صورة مباشر..." class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs text-left" dir="ltr">
           </div>
         </div>
 
@@ -4488,7 +4489,7 @@
         <div class="space-y-2.5 p-3.5 bg-amber-50/40 rounded-2xl border border-amber-200">
           <div>
             <label class="block text-xs font-black text-slate-800 mb-1">رابط الفيديو (يوتيوب أو جوجل درايف أو رابط مباشر)</label>
-            <input type="url" id="editVideoUrl" placeholder="https://www.youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs" dir="ltr">
+            <input type="text" id="editVideoUrl" placeholder="مثال: youtube.com/watch?v=... أو رابط درايف" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:border-amber-500 text-xs text-left" dir="ltr">
           </div>
 
           <div class="flex items-center gap-2">
@@ -4498,7 +4499,7 @@
           </div>
 
           <div>
-            <input type="file" id="editVideoFile" accept="video/mp4,video/webm,video/ogg,video/quicktime" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-amber-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white cursor-pointer">
+            <input type="file" id="editVideoFile" accept="video/*" class="w-full px-3 py-1.5 rounded-xl border border-dashed border-amber-300 bg-white focus:outline-none text-xs file:mr-2 file:py-1 file:px-2.5 file:rounded-lg file:border-0 file:text-[11px] file:font-bold file:bg-amber-600 file:text-white cursor-pointer">
             <p id="editVideoCurrentFileNotice" class="text-[11px] text-slate-500 mt-1 hidden"></p>
           </div>
         </div>
@@ -4522,7 +4523,7 @@
 
           <div>
             <label class="block text-[11px] font-semibold text-slate-500 mb-1">أو رابط صورة غلاف خارجي</label>
-            <input type="url" id="editVideoThumbnailUrl" placeholder="https://..." oninput="handleEditThumbnailUrlChange(this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs" dir="ltr">
+            <input type="text" id="editVideoThumbnailUrl" placeholder="رابط صورة مباشر..." oninput="handleEditThumbnailUrlChange(this.value)" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-purple-500 text-xs text-left" dir="ltr">
           </div>
         </div>
 
@@ -4546,8 +4547,52 @@
     </div>
   </div>
 
+  <!-- ==================== YOUTUBE DOWNLOAD GUIDANCE MODAL ==================== -->
+  <div id="youtubeDownloadGuidanceModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
+    <div class="relative bg-white w-full max-w-md rounded-3xl p-6 sm:p-7 shadow-2xl border-2 border-purple-300 text-right space-y-4">
+      <button type="button" onclick="closeYoutubeDownloadGuidanceModal()" class="absolute top-4 left-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition cursor-pointer">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center text-2xl shadow-inner shrink-0">
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+        <div>
+          <h4 class="font-black text-sm sm:text-base text-slate-900" id="youtubeModalLessonTitle">تنزيل ومتابعة الحصة</h4>
+          <span class="text-[11px] text-slate-500 font-bold">خيارات الحفظ والمشاهدة بدون إنترنت 📥</span>
+        </div>
+      </div>
+
+      <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 space-y-2 leading-relaxed">
+        <p class="font-bold text-slate-900 flex items-center gap-1.5">
+          <i class="fa-solid fa-circle-info text-purple-600"></i>
+          <span>كيف يتم التنزيل لهذا الدرس؟</span>
+        </p>
+        <p class="text-[11px] text-slate-600">
+          هذا الدرس مستضاف على <strong>YouTube</strong>. يوتيوب يتيح حفظ وتنزيل الفيديو للمشاهدة بدون إنترنت (Offline) مباشرة من خلال زر التنزيل داخل تطبيقه.
+        </p>
+      </div>
+
+      <div class="space-y-2">
+        <a id="youtubeModalWatchBtn" href="#" target="_blank" class="w-full py-3 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-black text-xs transition flex items-center justify-center gap-2 shadow-md cursor-pointer">
+          <i class="fa-solid fa-download"></i>
+          <span>فتح الحصة في YouTube للتنزيل 🚀</span>
+        </a>
+
+        <button type="button" onclick="closeYoutubeDownloadGuidanceModal()" class="w-full py-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition cursor-pointer">
+          إغلاق
+        </button>
+      </div>
+
+      <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 text-[11px] text-purple-900 leading-tight">
+        💡 <strong>نصيحة مس فرح:</strong> لتنزيل ملف الفيديو مباشرة كملف MP4 على جهاز الطالب بدون فتح يوتيوب، يمكنكِ رفع الفيديو كملف من جهازك أو وضع رابط Google Drive مباشر!
+      </div>
+    </div>
+  </div>
+
   <!-- JavaScript with cache-busting -->
-  <script src="app.js?v=20261125_22"></script>
+  <script src="app.js?v=20261125_23"></script>
 
   <!-- Visual Toast & Event Binding Fallback -->
   <script>
